@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace API_Server.Models
+namespace API_Server.Data
 {
     public class WatchedVideo
     {

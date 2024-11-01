@@ -1,6 +1,6 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-namespace API_Server.Models
+namespace API_Server.Data
 {
     public class Coop
     {
@@ -12,10 +12,10 @@ namespace API_Server.Models
         public string HostId { get; set; }
 
         [BsonElement("VideoId")]
-        public string VideoId { get; set; } 
+        public string VideoId { get; set; }
 
         [BsonElement("ParticipantId")]
-        public List<string> ParticipantId { get; set; }  
+        public List<string> ParticipantId { get; set; }
 
         [BsonElement("StartTime")]
         public DateTime StartTime { get; set; } = DateTime.UtcNow;

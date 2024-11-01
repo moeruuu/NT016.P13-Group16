@@ -1,9 +1,10 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-namespace API_Server.Models
+namespace API_Server.Data
 {
     public class Video
     {
+       
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string VideoId { get; set; }
@@ -18,11 +19,11 @@ namespace API_Server.Models
         public string Url { get; set; }
 
         [BsonElement("UploaderId")]
-        public string UploaderId { get; set; }  
+        public string UploaderId { get; set; }
         [BsonElement("UploadedDate")]
         public DateTime UploadedDate { get; set; } = DateTime.UtcNow;
 
         [BsonElement("Size")]
-        public long Size { get; set; }  
+        public long Size { get; set; }
     }
 }

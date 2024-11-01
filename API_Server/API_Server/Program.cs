@@ -1,4 +1,4 @@
-using API_Server.Models;
+using API_Server.Data;
 using MongoDB.Driver;
 var builder = WebApplication.CreateBuilder(args);
 
