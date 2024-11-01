@@ -6,6 +6,7 @@ namespace API_Server.Data
     {
         [BsonId]
         public ObjectId UserId { get; set; }
+
         [BsonElement("Fullname")]
         public string Fullname { get; set; }
         [BsonElement("Username")]
@@ -17,7 +18,9 @@ namespace API_Server.Data
         [BsonElement("Role")]
         public string Role { get; set; }
         [BsonElement("Profilepicture")]
-        public string Profilepicture;
+        public string Profilepicture { get; set; }
+        [BsonElement("Bio")]
+        public string Bio {  get; set; }
 
         [BsonElement("Token")]
         public string Token { get; set; }
