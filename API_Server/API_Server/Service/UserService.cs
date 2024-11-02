@@ -19,24 +19,29 @@ namespace API_Server.Service
             users = database.GetCollection<User>("Users");
         }
         public async Task<User> Register(UserSignUpDTOs SignupDTOs)
-        {
+        {   
             if (SignupDTOs.ConfirmPassword != SignupDTOs.Password)
             {
                 throw new Exception("Mật khẩu và mật khẩu xác nhận không đúng!");
             }
-            var filter = Builders<User>.Filter.Eq(u => u.Username, SignupDTOs.Username);
+            var filter = Builders<User>.Filter.Or(
+                    Builders<User>.Filter.Eq(u => u.Username, SignupDTOs.Username),
+                    Builders<User>.Filter.Eq(u => u.Email, SignupDTOs.Email));
             var existingUser = await users.Find(filter).FirstOrDefaultAsync();
             if (existingUser != null)
             {
-                throw new Exception("Tên tài khoản đã tồn tại");
+                throw new Exception("Tên tài khoản đã tồn tại.");
             }
 
             //Tạo đối tượng lưu dữ liệu
             var user = new User
             {
                 UserId = ObjectId.GenerateNewId(),
+                Fullname = SignupDTOs.Fullname,
                 Username = SignupDTOs.Username,
-                Password = HashPassword(SignupDTOs.Password)
+                Password = HashPassword(SignupDTOs.Password),
+                Email = SignupDTOs.Email,
+                Role = 1,
 
             };
 

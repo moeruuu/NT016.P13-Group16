@@ -14,9 +14,12 @@ namespace API_Server.Data
 
         [BsonElement("Password")]
         public string Password { get; set; }
+        [BsonElement("Email")]
+        public string Email { get; set; }
 
         [BsonElement("Role")]
-        public string Role { get; set; }
+        //0 là Admin, 1 là User
+        public int Role { get; set; } 
         [BsonElement("Profilepicture")]
         public string Profilepicture { get; set; }
         [BsonElement("Bio")]

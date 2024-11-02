@@ -8,10 +8,13 @@ namespace API_Server.DTOs
         [StringLength(150, ErrorMessage = "Họ tên không thể chứa quá 150 kí tự.")]
         public string Fullname { get; set; }
         [Required(ErrorMessage = "Vui lòng nhập tên tài khoản!")]
-        [RegularExpression("^a-zA-Z0-9{25}$", ErrorMessage = "Tên tài khoản không thể chứa quá 25 kí tự.")]
+        [RegularExpression("^[a-zA-Z0-9]{4,25}$", ErrorMessage = "Tên tài khoản không chứa kí tự đặt biệt và phải chứa ít nhất 4 kí tự hoặc tối đa 25 kí tự!")]
         public string Username { get; set; }
+        [Required(ErrorMessage = "Vui lòng nhập Email!")]
+        [RegularExpression(@"^[\w]{4,15}@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}", ErrorMessage = "Vui lòng nhập đúng định dạng Email!")]
+        public string Email { get; set; }
         [Required(ErrorMessage = "Vui lòng nhập mật khẩu!")]
-        [StringLength(20, ErrorMessage = "Mặt khẩu không thể chứa quá 20 kí tự.")]
+        [RegularExpression(@"^.{6,20}$", ErrorMessage = "Mật khẩu phải chứa ít nhất 6 kí tự hoặc tối đa 20 kí tự!")]
         public string Password { get; set; }
         [Required(ErrorMessage = "Vui lòng nhập xác nhận mật khẩu!")]
         public string ConfirmPassword { get; set; }
