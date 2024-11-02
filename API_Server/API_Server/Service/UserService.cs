@@ -9,14 +9,22 @@ using System.Security.Cryptography;
 using System.Text;
 using Microsoft.OpenApi.Writers;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using System.Collections.Concurrent;
 namespace API_Server.Service
 {
     public class UserService
     {
         private readonly IMongoCollection<User> users;
-        public UserService(IMongoDatabase database)
+        private readonly EmailService emailService;
+        //Dùng static để biến không thay đổi
+        private static string currentEmail;
+        private static string currentOTP;
+        //Lưu dữ liệu tạm thời
+        private static readonly ConcurrentDictionary<string, User> nguoidung = new ConcurrentDictionary<string, User>();
+        public UserService(IMongoDatabase database, EmailService emailService)
         {
             users = database.GetCollection<User>("Users");
+            this.emailService = emailService;
         }
         public async Task<User> Register(UserSignUpDTOs SignupDTOs)
         {   
@@ -33,6 +41,8 @@ namespace API_Server.Service
                 throw new Exception("Tên tài khoản đã tồn tại.");
             }
 
+            var otp = new Random().Next(0, 100000).ToString("D6");
+
             //Tạo đối tượng lưu dữ liệu
             var user = new User
             {
@@ -45,9 +55,14 @@ namespace API_Server.Service
 
             };
 
-            // Thêm người dùng mới vào collection
-            await users.InsertOneAsync(user);
+            //Lưu tạm user thui
+            nguoidung[SignupDTOs.Email] = user;
+            currentEmail = user.Email;
+            currentOTP = otp;
+
+            await SendOTPMail(currentEmail, otp);
             return user;
+           
         }
 
         public async Task<User> Login(UserLogInDTOs LoginDTOs)
@@ -101,6 +116,58 @@ namespace API_Server.Service
             return existUser;
         }
 
+        public async Task<User> CheckOTP(VerifyOTPDTOs otp)
+        {
+            if (String.IsNullOrEmpty(currentEmail))
+            {
+                throw new Exception("Email này chưa được dùng để đăng ký!");
+            }
+            var tempUser = nguoidung[currentEmail];
+
+            var Filter = Builders<User>.Filter.Eq(u=>u.Email, tempUser.Email);
+            var existingUser = await users.Find(Filter).FirstOrDefaultAsync();
+            if (existingUser != null)
+            {
+                throw new Exception("Email đã tồn tại!");
+            }
+            if (currentOTP != otp.OTP)
+            {
+                throw new Exception("Email không trùng khớp!");
+            }
+
+            var newUser = new User
+            {
+                UserId = tempUser.UserId,
+                Fullname = tempUser.Fullname,
+                Username = tempUser.Username,
+                Password = tempUser.Password,
+                Email = tempUser.Email,
+                Role = 1,
+            };
+            await users.InsertOneAsync(newUser);
+            /*nguoidung.TryRemove(currentEmail, out _);
+            currentEmail = null;
+            currentOTP = null;*/
+            return existingUser;
+        }
+        
+        private async Task SendOTPMail(string mail, string otpText)
+        {
+            var mailrequest = new EmailRequest();
+            mailrequest.Email = mail;
+            mailrequest.Subject = "CONFIRM YOUR EMAIL ON UITFLIX";
+            mailrequest.Body = BodyEmail(otpText);
+            await this.emailService.SendEmail(mailrequest);
+
+        }
+
+        public string BodyEmail(string otp)
+        {
+            //html viết mail 
+            //Đang thiết kế ảnh để làm email đẹp =)))))
+            string email = "Mã OTP: " + otp;
+            return email;
+        }
         public string HashPassword(string pass)
         {
             HashAlgorithm al = SHA256.Create();

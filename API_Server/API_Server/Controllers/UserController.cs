@@ -22,7 +22,7 @@ namespace API_Server.Controllers
             try
             {
                 var user = await userService.Register(signUpDTOs);
-                return Ok("Đăng ký thành công!");
+                return Ok("Đăng ký thành công! Vui lòng kiểm tra OTP.");
             }
             catch (Exception ex) 
             {
@@ -30,6 +30,18 @@ namespace API_Server.Controllers
             }
         }
 
-
+        [HttpPost ("Verify-OTP")]
+        public async Task<IActionResult> VerifyOTP([FromBody] VerifyOTPDTOs OTP)
+        {
+            try
+            {
+                var user = await userService.CheckOTP(OTP);
+                return Ok("Xác thực OTP thành công!");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Lỗi: {ex.Message}");  
+            }
+        }
     }
 }

@@ -1,4 +1,5 @@
 using API_Server.Data;
+using API_Server.Models;
 using API_Server.Service;
 using MongoDB.Driver;
 var builder = WebApplication.CreateBuilder(args);
@@ -13,15 +14,18 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
-
 builder.Services.AddSingleton<IMongoDatabase>(sp =>
 {
     var configuration = sp.GetRequiredService<IConfiguration>();
     var client = new MongoClient(configuration.GetSection("MongoDB:ConnectionString").Value);
     return client.GetDatabase("DOAN"); 
 });
+builder.Services.Configure<EmailSender>(builder.Configuration.GetSection("EmailSettings"));
 
 builder.Services.AddScoped<UserService>();
+//builder.Services.AddScoped<SendMail>();
+builder.Services.AddScoped<EmailService>();
+
 
 var app = builder.Build();
 
