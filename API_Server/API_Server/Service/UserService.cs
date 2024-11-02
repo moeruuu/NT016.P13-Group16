@@ -163,9 +163,97 @@ namespace API_Server.Service
 
         public string BodyEmail(string otp)
         {
-            //html viết mail 
-            //Đang thiết kế ảnh để làm email đẹp =)))))
-            string email = "Mã OTP: " + otp;
+            //html viết mail tại tôi ngựa 
+            string email = $@"
+            <!DOCTYPE html>
+            <html>
+            <head>
+            <style>
+            body {{
+              font-family: Arial, Helvetica, sans-serif;
+              background-color: #f4f4f4; 
+              margin: 0;
+              padding: 0;
+            }}
+
+            .container {{
+              background-color: #5f9ea0;
+              padding: 30px;
+              border-radius: 5px;
+              box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+              text-align: center; 
+              width: 400px;
+              position: relative;
+            }}
+
+            .header {{
+              background-color: #5f9ea0; 
+              padding: 20px; 
+              display: flex; 
+              flex-direction: column;
+              align-items: center; 
+              color: #fff; 
+              justify-content: space-between;
+            }}
+
+            .header img {{
+              margin-right: 10px;
+            }}
+            h1 {{
+              margin: 0; 
+              font-size: 24px;
+              color: #2c4386
+            }}
+            h2 {{
+              margin: 0;
+              font-size: 20px;
+              margin-bottom: 20px;
+            }}
+            .middle {{
+              background-color: #add8e6;
+              padding: 20px; 
+              border-radius: 5px; 
+            }}
+
+            p {{
+              margin-bottom: 10px;
+            }}
+
+            .one-time-password {{
+              font-weight: bold;
+              margin-bottom: 20px;
+              color: #445ca2;
+            }}
+            .huhu{{
+              color: #445ca2;
+            }}
+            .footer {{
+              margin-top: 20px;
+              font-size: 14px;
+              color: #fff;
+            }}
+            </style>
+            </head>
+            <body>
+              <div class='container'>
+                <div class='header'>
+                  <img src='https://i.imgur.com/DjYrvRL.png' alt='UITFLIX Logo' width='100'>
+                    <h2>NT106.P13</h2>
+                </div>
+                <div class='middle'>
+                  <h1>Welcome to UITFLIX,</h1>
+                  <p class='huhu'>Để có những phút giây vui vẻ xem phim với tụi tớ thì cậu hãy nhập OTP nhé!</p>
+                  <p class='one-time-password'>{otp}</p>
+                </div>
+                <div class='footer'>
+                  <p>Cảm ơn cậu đã trở thành thành viên của UITFLIX!</p>
+                  <p>Vui lòng không trả lời email này!</p>
+                </div>
+              </div>
+            </body>
+            </html>";
+
+
             return email;
         }
         public string HashPassword(string pass)
