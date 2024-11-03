@@ -23,8 +23,10 @@ namespace UITFLIX
             DrawCircular(Avatar);
             this.MaximizeBox = false;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            //Mở new videos ngay khi mở form
+            btnnewvideo_Click(btnnewvideo, EventArgs.Empty);
             //Test thử ava
-            LoadImageFromUrl(@"https://i.pinimg.com/564x/3e/bd/e6/3ebde6b7d20947201080705e62685a71.jpg");
+            LoadImageFromUrl(@"https://i.pinimg.com/564x/18/26/5d/18265df50a518f170e1bbef60351018b.jpg");
         }
 
         public struct RGBColors
@@ -173,6 +175,7 @@ namespace UITFLIX
             
         }
         //Lấy url để setava
+        //thực hiện các tác vụ liên quan đến giao tiếp HTTP
         private void LoadImageFromUrl(string imageUrl)
         {
             using (WebClient client = new WebClient())
