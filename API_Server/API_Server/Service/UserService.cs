@@ -81,15 +81,9 @@ namespace API_Server.Service
         }
 
 
-        public async Task<bool> UpdateInformation(string id, string name, string avatar, string bio)
+        public async Task<bool> UpdateInformation(string username, string name, string avatar, string bio)
         {
-            //Kiểm tra xem ID có hợp lệ không
-            if (!ObjectId.TryParse(id, out ObjectId objectId))
-            {
-                throw new ArgumentException("ID không hợp lệ.");
-            }
-
-            var filter = Builders<User>.Filter.Eq(u => u.UserId, objectId);
+            var filter = Builders<User>.Filter.Eq(u => u.Username, username);
 
             //Khởi tạo danh sách các cập nhật
             var updates = new List<UpdateDefinition<User>>();
@@ -192,6 +186,8 @@ namespace API_Server.Service
             currentOTP = null;*/
             return existingUser;
         }
+
+
         
         private async Task SendOTPMail(string mail, string otpText)
         {
