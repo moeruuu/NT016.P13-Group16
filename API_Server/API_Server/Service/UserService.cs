@@ -19,6 +19,7 @@ namespace API_Server.Service
         //Dùng static để biến không thay đổi
         private static string currentEmail;
         private static string currentOTP;
+        //private bool isSignUp = false;
         //Lưu dữ liệu tạm thời
         private static readonly ConcurrentDictionary<string, User> nguoidung = new ConcurrentDictionary<string, User>();
         public UserService(IMongoDatabase database, EmailService emailService)
@@ -79,25 +80,49 @@ namespace API_Server.Service
             return existingUser;
         }
 
-        public async Task<User> GetUser(string id)
-        {
-            return await users.Find(u => u.UserId.ToString() == id).FirstOrDefaultAsync();
-        }
 
         public async Task<bool> UpdateInformation(string id, string name, string avatar, string bio)
         {
-            var Filter = Builders<User>.Filter.Eq(u => u.UserId.ToString(), id);
-            var update = Builders<User>.Update
-                    .Set(u => u.Username, name)
-                    .Set(u => u.Profilepicture, avatar)
-                    .Set(u => u.Bio, bio);
+            //Kiểm tra xem ID có hợp lệ không
+            if (!ObjectId.TryParse(id, out ObjectId objectId))
+            {
+                throw new ArgumentException("ID không hợp lệ.");
+            }
 
-            var result = await users.UpdateOneAsync(Filter, update);
+            var filter = Builders<User>.Filter.Eq(u => u.UserId, objectId);
+
+            //Khởi tạo danh sách các cập nhật
+            var updates = new List<UpdateDefinition<User>>();
+
+            if (!string.IsNullOrEmpty(name))
+            {
+                updates.Add(Builders<User>.Update.Set(u => u.Fullname, name));
+            }
+            if (!string.IsNullOrEmpty(avatar))
+            {
+                updates.Add(Builders<User>.Update.Set(u => u.Profilepicture, avatar));
+            }
+            if (!string.IsNullOrEmpty(bio))
+            {
+                updates.Add(Builders<User>.Update.Set(u => u.Bio, bio));
+            }
+
+            //Nếu không có trường nào cần cập nhật
+            if (updates.Count == 0)
+            {
+                return false;
+            }
+
+            //Kết hợp các cập nhật lại với nhau
+            var updateDefinition = Builders<User>.Update.Combine(updates);
+
+            var result = await users.UpdateOneAsync(filter, updateDefinition);
 
             return result.ModifiedCount > 0;
         }
 
-        public async Task<User> ForgetPassword(ForgetPassDTOs forgetPassDTOs)
+
+        /*public async Task<User> ForgetPassword(ForgetPassDTOs forgetPassDTOs)
         {
             var Filter = Builders<User>.Filter.Eq(u => u.Username, forgetPassDTOs.Username);
             var existUser = await users.Find(Filter).FirstOrDefaultAsync();
@@ -114,6 +139,22 @@ namespace API_Server.Service
             await users.UpdateOneAsync(Filter, update);
 
             return existUser;
+        }*/
+
+        public async Task<bool> DeleteUser(string username)
+        {
+            /*var Filter = Builders<User>.Filter.Eq(u => u.Username, username);
+            var checkuser = await users.Find(Filter).FirstOrDefaultAsync();*/
+            var delete = await users.DeleteOneAsync(u=>u.Username == username);
+            if (delete.DeletedCount == 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+
         }
 
         public async Task<User> CheckOTP(VerifyOTPDTOs otp)
@@ -122,9 +163,10 @@ namespace API_Server.Service
             {
                 throw new Exception("Email này chưa được dùng để đăng ký!");
             }
+            //Lấy người dùng tạm ra nè
             var tempUser = nguoidung[currentEmail];
 
-            var Filter = Builders<User>.Filter.Eq(u=>u.Email, tempUser.Email);
+            var Filter = Builders<User>.Filter.Eq(u => u.Email, tempUser.Email);
             var existingUser = await users.Find(Filter).FirstOrDefaultAsync();
             if (existingUser != null)
             {

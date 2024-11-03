@@ -29,7 +29,8 @@ namespace API_Server.DTOs
         public string Password { get; set; }
     }
 
-    public class ForgetPassDTOs
+    /*public class ForgetPassDTOs
+
     {
         [Required(ErrorMessage = "Vui lòng nhập tên tài khoản!")]
         public string Username { get; set; }
@@ -38,8 +39,9 @@ namespace API_Server.DTOs
         [Required(ErrorMessage = "Vui lòng nhập xác nhận mật khẩu!")]
         public string ConfirmPassword { get; set;}
 
-    }
+    }*/
 
+    
 
 
 }

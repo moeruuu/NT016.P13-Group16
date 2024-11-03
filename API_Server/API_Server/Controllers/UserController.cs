@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using API_Server.Data;
 using API_Server.Service;
 using API_Server.DTOs;
+using API_Server.Models;
 
 namespace API_Server.Controllers
 {
@@ -16,31 +17,77 @@ namespace API_Server.Controllers
         {
             userService = _userService;
         }
-        [HttpPost ("Register")]
+        [HttpPost("Register")]
         public async Task<IActionResult> SignUp([FromBody] UserSignUpDTOs signUpDTOs)
         {
             try
             {
-                var user = await userService.Register(signUpDTOs);
+                var userSignUp = await userService.Register(signUpDTOs);
                 return Ok("Đăng ký thành công! Vui lòng kiểm tra OTP.");
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 return BadRequest($"Lỗi {ex.Message}");
             }
         }
 
-        [HttpPost ("Verify-OTP")]
+        [HttpPost("Verify-OTP")]
         public async Task<IActionResult> VerifyOTP([FromBody] VerifyOTPDTOs OTP)
         {
             try
             {
-                var user = await userService.CheckOTP(OTP);
+                var userOTP = await userService.CheckOTP(OTP);
                 return Ok("Xác thực OTP thành công!");
             }
             catch (Exception ex)
             {
-                return BadRequest($"Lỗi: {ex.Message}");  
+                return BadRequest($"Lỗi: {ex.Message}");
+            }
+        }
+
+        [HttpPost("LogIn")]
+        public async Task<IActionResult> LogIn([FromBody] UserLogInDTOs logInDTOs)
+        {
+            try
+            {
+                var userLogin = await userService.Login(logInDTOs);
+                return Ok("Đăng nhập thành công!");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Lỗi {ex.Message}");
+            }
+        }
+
+        [HttpPatch("Update-Information")]
+        public async Task<IActionResult> UpdateInformation(string id, [FromBody] UpdateUserRequest request)
+        {
+            if (string.IsNullOrEmpty(id) || request == null)
+            {
+                return BadRequest("Không có thông tin nào được cập nhập.");
+            }
+            var userUpdate = await userService.UpdateInformation(id, request.FullName, request.Avatar, request.Bio);
+            if (userUpdate)
+            {
+                return Ok("Cập nhập thông tin thành công.");
+            }
+            else
+            {
+                return BadRequest("Không tìm thấy thông tin.");
+            }
+        }
+
+        [HttpDelete("Username/{Username}")]
+        public async Task<IActionResult> DeleteUser(string Username)
+        {
+            var DeleteUser = await userService.DeleteUser(Username);
+            if (DeleteUser)
+            {
+                return Ok("Xóa người dùng thành công!");
+            }
+            else
+            {
+                return NotFound("Không tìm thấy người dùng");
             }
         }
     }
