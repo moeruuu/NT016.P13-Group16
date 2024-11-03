@@ -1,5 +1,6 @@
 ﻿using FontAwesome.Sharp;
 using System.Drawing.Drawing2D;
+using System.Net;
 using System.Windows.Forms;
 using UITFLIX.Models;
 namespace UITFLIX
@@ -10,7 +11,8 @@ namespace UITFLIX
         private Panel leftborderBtn;
         private bool MainVisible = true;
         private bool OtherVisible = false;
-
+        private OpenFileDialog openFileDialog = new OpenFileDialog();
+        string content;
         //List<Video> videos = GetUploadedVideos();
         public Home()
         {
@@ -21,6 +23,8 @@ namespace UITFLIX
             DrawCircular(Avatar);
             this.MaximizeBox = false;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            //Test thử ava
+            LoadImageFromUrl(@"https://i.pinimg.com/564x/3e/bd/e6/3ebde6b7d20947201080705e62685a71.jpg");
         }
 
         public struct RGBColors
@@ -96,6 +100,8 @@ namespace UITFLIX
             VisibleUpload(MainVisible);
             VisibleCoop(OtherVisible);
             VisibleTopPanel(OtherVisible);
+            filevideo.Text = "";
+            fileimage.Text = "";
         }
 
         private void btncoop_Click(object sender, EventArgs e)
@@ -120,8 +126,8 @@ namespace UITFLIX
         {
             btnchoosefile.Visible = Visible;
             btnchooseimage.Visible = Visible;
-            fileimage.Visible = Visible;
             filevideo.Visible = Visible;
+            fileimage.Visible = Visible;
             tbdescription.Visible = Visible;
             tbnamefilm.Visible = Visible;
             progressupload.Visible = Visible;
@@ -146,41 +152,92 @@ namespace UITFLIX
         //viết cho upload video
         private void btnchoosefile_Click(object sender, EventArgs e)
         {
-
+            openFileDialog.Filter = "Video Files|*.mp4;*.avi;*.mov;*.wmv;*.mkv;*.flv;*.webm";
+            openFileDialog.Title = "Select a Video File";
+            openFileDialog.ShowDialog();
+            string selectedfile = openFileDialog.FileName;
+            string getname = Path.GetFileNameWithoutExtension(selectedfile);
+            string getextensions = Path.GetExtension(selectedfile);
+            filevideo.Text = SetLabelText(getname) + getextensions;
         }
 
-        /*private void DisplayVideos(List<Video> videos)
+        private void btnchooseimage_Click(object sender, EventArgs e)
         {
-
-            PictureBox[] pictureBoxes = { picfilm1, picfilm2, picfilm3, picfilm4, picfilm5, picfilm6 };
-            Label[] titleLabels = { filmname1, filmname2, filmname3, filmname4, filmname5, filmname6 };
-            Label[] dateLabels = { event1, event2, event3, event4, event5, event6 };
-
-            //hiển thị số lượng PictureBox và Label phù hợp với số lượng video
-            for (int i = 0; i < pictureBoxes.Length; i++)
+            openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.gif;*.bmp;*.tiff;*.webp;*.svg";
+            openFileDialog.Title = "Select an Image File";
+            openFileDialog.ShowDialog();
+            string selectedfile = openFileDialog.FileName;
+            string getname  = Path.GetFileNameWithoutExtension(selectedfile);
+            string getextensions = Path.GetExtension(selectedfile);
+            fileimage.Text = SetLabelText(getname) + getextensions;
+            
+        }
+        //Lấy url để setava
+        private void LoadImageFromUrl(string imageUrl)
+        {
+            using (WebClient client = new WebClient())
             {
-                if (i < videos.Count)
+                try
                 {
-                    pictureBoxes[i].Visible = true;
-                    titleLabels[i].Visible = true;
-                    dateLabels[i].Visible = true;
-                    pictureBoxes[i].Image = Image.FromFile(videos[i].urlimage);
-                    titleLabels[i].Text = videos[i].Title;
-                    dateLabels[i].Text = videos[i].uploaddate.ToString();
+                    byte[] imageData = client.DownloadData(imageUrl);
+                    using (MemoryStream ms = new MemoryStream(imageData))
+                    {
+                        Avatar.Image = Image.FromStream(ms); 
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    pictureBoxes[i].Visible = false;
-                    titleLabels[i].Visible = false;
-                    dateLabels[i].Visible = false;
+                    MessageBox.Show("Lỗi tải ava: " + ex.Message);
                 }
             }
+        }
 
-        }*/
-
-        /*private List<Video> GetUploadedVideos()
+        //Hihi lấy tên tối đa =)))
+        private string SetLabelText(string text)
         {
+            int maxLength = 15;
+            if (text.Length > maxLength)
+            {
+                return text.Substring(0, maxLength) + "...";
+            }
+            else
+            {
+                return text;
+            }
+        }
 
-        }*/
-    }
+            /*private void DisplayVideos(List<Video> videos)
+            {
+
+                PictureBox[] pictureBoxes = { picfilm1, picfilm2, picfilm3, picfilm4, picfilm5, picfilm6 };
+                Label[] titleLabels = { filmname1, filmname2, filmname3, filmname4, filmname5, filmname6 };
+                Label[] dateLabels = { event1, event2, event3, event4, event5, event6 };
+
+                //hiển thị số lượng PictureBox và Label phù hợp với số lượng video
+                for (int i = 0; i < pictureBoxes.Length; i++)
+                {
+                    if (i < videos.Count)
+                    {
+                        pictureBoxes[i].Visible = true;
+                        titleLabels[i].Visible = true;
+                        dateLabels[i].Visible = true;
+                        pictureBoxes[i].Image = Image.FromFile(videos[i].urlimage);
+                        titleLabels[i].Text = videos[i].Title;
+                        dateLabels[i].Text = videos[i].uploaddate.ToString();
+                    }
+                    else
+                    {
+                        pictureBoxes[i].Visible = false;
+                        titleLabels[i].Visible = false;
+                        dateLabels[i].Visible = false;
+                    }
+                }
+
+            }*/
+
+            /*private List<Video> GetUploadedVideos()
+            {
+
+            }*/
+        }
 }

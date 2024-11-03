@@ -302,5 +302,16 @@ namespace API_Server.Service
             string hashstring = BitConverter.ToString(hashbyte).Replace("-", "");
             return hashstring;
         }
+        //Lấy user
+        public async Task<User> GetUserByUsername(string username)
+        {
+            var filter = Builders<User>.Filter.Eq(u => u.Username, username);
+            var existingUser = await users.Find(filter).FirstOrDefaultAsync();
+            if (existingUser == null)
+            {
+                throw new Exception("Không tìm thấy user");
+            }
+            return existingUser;
+        }
     }
 }

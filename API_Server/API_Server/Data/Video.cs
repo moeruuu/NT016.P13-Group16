@@ -6,8 +6,7 @@ namespace API_Server.Data
     {
        
         [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string VideoId { get; set; }
+        public ObjectId VideoId { get; set; }
 
         [BsonElement("Title")]
         public string Title { get; set; }
@@ -17,11 +16,12 @@ namespace API_Server.Data
 
         [BsonElement("Url")]
         public string Url { get; set; }
-
-        [BsonElement("UploaderId")]
-        public string UploaderId { get; set; }
+        [BsonElement("UrlImage")]
+        public string UrlImage { get; set; }
+        [BsonElement("Uploadername")]
+        public string Uploadername { get; set; }
         [BsonElement("UploadedDate")]
-        public DateTime UploadedDate { get; set; } = DateTime.UtcNow;
+        public DateTime UploadedDate { get; set; }
 
         [BsonElement("Size")]
         public long Size { get; set; }

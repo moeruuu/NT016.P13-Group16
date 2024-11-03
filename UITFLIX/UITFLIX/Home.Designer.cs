@@ -42,7 +42,7 @@
             searchtb = new RichTextBox();
             logo = new PictureBox();
             btnchoosefile = new Button();
-            filevideo = new Label();
+            fileimage = new Label();
             chat = new PictureBox();
             picfilm1 = new PictureBox();
             picfilm2 = new PictureBox();
@@ -73,7 +73,7 @@
             btnidroom = new Button();
             linkcreateroom = new LinkLabel();
             btnchooseimage = new Button();
-            fileimage = new Label();
+            filevideo = new Label();
             leftside.SuspendLayout();
             avatarpanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)Avatar).BeginInit();
@@ -239,6 +239,7 @@
             Avatar.Location = new Point(71, 12);
             Avatar.Name = "Avatar";
             Avatar.Size = new Size(140, 140);
+            Avatar.SizeMode = PictureBoxSizeMode.Zoom;
             Avatar.TabIndex = 2;
             Avatar.TabStop = false;
             // 
@@ -297,17 +298,17 @@
             btnchoosefile.Visible = false;
             btnchoosefile.Click += btnchoosefile_Click;
             // 
-            // filevideo
+            // fileimage
             // 
-            filevideo.AutoSize = true;
-            filevideo.Font = new Font("Cambria", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            filevideo.ForeColor = Color.MidnightBlue;
-            filevideo.Location = new Point(1044, 176);
-            filevideo.Name = "filevideo";
-            filevideo.Size = new Size(76, 28);
-            filevideo.TabIndex = 22;
-            filevideo.Text = "label1";
-            filevideo.Visible = false;
+            fileimage.AutoSize = true;
+            fileimage.Font = new Font("Cambria", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            fileimage.ForeColor = Color.MidnightBlue;
+            fileimage.Location = new Point(1044, 176);
+            fileimage.Name = "fileimage";
+            fileimage.Size = new Size(76, 28);
+            fileimage.TabIndex = 22;
+            fileimage.Text = "label1";
+            fileimage.Visible = false;
             // 
             // chat
             // 
@@ -648,18 +649,19 @@
             btnchooseimage.Text = "Chọn ảnh";
             btnchooseimage.UseVisualStyleBackColor = true;
             btnchooseimage.Visible = false;
+            btnchooseimage.Click += btnchooseimage_Click;
             // 
-            // fileimage
+            // filevideo
             // 
-            fileimage.AutoSize = true;
-            fileimage.Font = new Font("Cambria", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            fileimage.ForeColor = Color.MidnightBlue;
-            fileimage.Location = new Point(549, 177);
-            fileimage.Name = "fileimage";
-            fileimage.Size = new Size(76, 28);
-            fileimage.TabIndex = 34;
-            fileimage.Text = "label1";
-            fileimage.Visible = false;
+            filevideo.AutoSize = true;
+            filevideo.Font = new Font("Cambria", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            filevideo.ForeColor = Color.MidnightBlue;
+            filevideo.Location = new Point(549, 177);
+            filevideo.Name = "filevideo";
+            filevideo.Size = new Size(76, 28);
+            filevideo.TabIndex = 34;
+            filevideo.Text = "label1";
+            filevideo.Visible = false;
             // 
             // Home
             // 
@@ -667,11 +669,11 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightBlue;
             ClientSize = new Size(1342, 769);
-            Controls.Add(fileimage);
+            Controls.Add(filevideo);
             Controls.Add(btnchooseimage);
             Controls.Add(linkcreateroom);
             Controls.Add(btnchoosefile);
-            Controls.Add(filevideo);
+            Controls.Add(fileimage);
             Controls.Add(btnidroom);
             Controls.Add(idroom);
             Controls.Add(tbidroom);
@@ -756,7 +758,7 @@
         private Label event6;
         private Label filmname6;
         private Button btnchoosefile;
-        private Label filevideo;
+        private Label fileimage;
         private Label tenphim;
         private Label noidung;
         private TextBox tbnamefilm;
@@ -768,7 +770,7 @@
         private Button btnidroom;
         private LinkLabel linkcreateroom;
         private Button btnchooseimage;
-        private Label fileimage;
+        private Label filevideo;
         private LinkLabel Username;
     }
 }

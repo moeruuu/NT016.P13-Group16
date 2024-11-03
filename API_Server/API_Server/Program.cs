@@ -21,10 +21,15 @@ builder.Services.AddSingleton<IMongoDatabase>(sp =>
     return client.GetDatabase("DOAN"); 
 });
 builder.Services.Configure<EmailSender>(builder.Configuration.GetSection("EmailSettings"));
-
+builder.Services.AddScoped<FilmService>();
 builder.Services.AddScoped<UserService>();
-//builder.Services.AddScoped<SendMail>();
 builder.Services.AddScoped<EmailService>();
+
+/*builder.Services.AddScoped<IMongoCollection<Video>>(sp =>
+{
+    var database = sp.GetRequiredService<IMongoDatabase>();
+    return database.GetCollection<Video>("Videos"); 
+});*/
 
 
 var app = builder.Build();
