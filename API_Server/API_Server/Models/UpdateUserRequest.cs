@@ -7,6 +7,6 @@ namespace API_Server.Models
         
         public string FullName { get; set; }
         public string Bio {  get; set; }
-        public string Avatar {  get; set; }
+        public IFormFile Avatar {  get; set; }
     }
 }

@@ -292,6 +292,7 @@ namespace API_Server.Service
             </html>";
 
 
+
             return email;
         }
         public string HashPassword(string pass)

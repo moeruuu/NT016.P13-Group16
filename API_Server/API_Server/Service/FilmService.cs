@@ -10,21 +10,23 @@ namespace API_Server.Service
     {
         private readonly IMongoCollection<Video> videos;
         private readonly User user;
+        private readonly ImgurService imgurService;
         public FilmService(IMongoDatabase database)
         {
             videos = database.GetCollection<Video>("Videos");
         }
 
-        public async Task<Video> AddVideo(UploadVideoDTOs uploadVideo, string username)
+        public async Task<Video> AddVideo(UploadVideoDTOs uploadVideo, string username, IFormFile imagefilm)
         {
             //long size = await GetVideoSize(uploadVideo.Url);
+            var imageUrl = await imgurService.UploadImgurAsync(new ImageDTOs { file = imagefilm });
             var newvideo = new Video
             {
                 VideoId = ObjectId.GenerateNewId(),
                 Title = uploadVideo.Title,
                 Description = uploadVideo.Description,
                 Url = uploadVideo.Url,
-                //UrlImage = uploadVideo.UrlImage,
+                UrlImage = imageUrl,
                 Uploadername = username,
                 UploadedDate = DateTime.UtcNow,
                 Size = uploadVideo.Size,
