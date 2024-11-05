@@ -17,24 +17,24 @@ namespace API_Server.Service
 
         public async Task<Video> AddVideo(UploadVideoDTOs uploadVideo, string username)
         {
-            long size = await GetVideoSize(uploadVideo.Url);
+            //long size = await GetVideoSize(uploadVideo.Url);
             var newvideo = new Video
             {
                 VideoId = ObjectId.GenerateNewId(),
                 Title = uploadVideo.Title,
                 Description = uploadVideo.Description,
                 Url = uploadVideo.Url,
-                UrlImage = uploadVideo.UrlImage,
+                //UrlImage = uploadVideo.UrlImage,
                 Uploadername = username,
                 UploadedDate = DateTime.UtcNow,
-                Size = size
+                Size = uploadVideo.Size,
 
             };
             await videos.InsertOneAsync(newvideo);
             return newvideo;
         }
 
-        private async Task<long> GetVideoSize(string videoUrl)
+        /*private async Task<long> GetVideoSize(string videoUrl)
         {
             using (var httpClient = new HttpClient())
             {
@@ -53,7 +53,7 @@ namespace API_Server.Service
             }
             //Nếu ko lấy được thì return 0
             return 0;
-        }
+        }*/
 
         public async Task<List<Video>> SearchVideos(string title)
         {

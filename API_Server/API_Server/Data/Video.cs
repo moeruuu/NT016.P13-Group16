@@ -25,5 +25,9 @@ namespace API_Server.Data
 
         [BsonElement("Size")]
         public long Size { get; set; }
+        [BsonElement("CreateAt")]
+        public DateTime CreatAt { get; set; }
+        [BsonElement("Rating")]
+        public double Rating { get; set; }
     }
 }

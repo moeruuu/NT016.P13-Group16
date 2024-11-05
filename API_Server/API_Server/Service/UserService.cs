@@ -22,6 +22,7 @@ namespace API_Server.Service
         //private bool isSignUp = false;
         //Lưu dữ liệu tạm thời
         private static readonly ConcurrentDictionary<string, User> nguoidung = new ConcurrentDictionary<string, User>();
+        private readonly ImgurService imgurService;
         public UserService(IMongoDatabase database, EmailService emailService)
         {
             users = database.GetCollection<User>("Users");
@@ -81,33 +82,32 @@ namespace API_Server.Service
         }
 
 
-        public async Task<bool> UpdateInformation(string username, string name, string avatar, string bio)
+        public async Task<bool> UpdateInformation(string username, string name, IFormFile avatarFile, string bio)
         {
             var filter = Builders<User>.Filter.Eq(u => u.Username, username);
-
-            //Khởi tạo danh sách các cập nhật
+            //Tạo list để xem có bao nhiu thay đổi
             var updates = new List<UpdateDefinition<User>>();
 
             if (!string.IsNullOrEmpty(name))
             {
                 updates.Add(Builders<User>.Update.Set(u => u.Fullname, name));
             }
-            if (!string.IsNullOrEmpty(avatar))
+            //Thay đổi ava phải cần đường link
+            if (avatarFile != null && avatarFile.Length > 0)
             {
-                updates.Add(Builders<User>.Update.Set(u => u.Profilepicture, avatar));
+                var imageUrl = await imgurService.UploadImgurAsync(new ImageDTOs { file = avatarFile });
+                updates.Add(Builders<User>.Update.Set(u => u.Profilepicture, imageUrl));
             }
+
             if (!string.IsNullOrEmpty(bio))
             {
                 updates.Add(Builders<User>.Update.Set(u => u.Bio, bio));
             }
-
-            //Nếu không có trường nào cần cập nhật
             if (updates.Count == 0)
             {
                 return false;
             }
 
-            //Kết hợp các cập nhật lại với nhau
             var updateDefinition = Builders<User>.Update.Combine(updates);
 
             var result = await users.UpdateOneAsync(filter, updateDefinition);

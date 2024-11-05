@@ -24,6 +24,7 @@ builder.Services.Configure<EmailSender>(builder.Configuration.GetSection("EmailS
 builder.Services.AddScoped<FilmService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<EmailService>();
+builder.Services.AddScoped<ImgurService>();
 
 /*builder.Services.AddScoped<IMongoCollection<Video>>(sp =>
 {

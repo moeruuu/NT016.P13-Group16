@@ -10,12 +10,13 @@ namespace API_Server.DTOs
         public string Title { get; set; }
         [StringLength(250, ErrorMessage = "Giới thiệu không thể chứa quá 250 kí tự.")]
         public string Description { get; set; }
-        [Required(ErrorMessage = "Vui lòng chọn ảnh xem trước cho video!")]
-        [Url(ErrorMessage = "Đường dẫn ảnh không hợp lệ.")]
-        public string UrlImage { get; set; }
+       // [Required(ErrorMessage = "Vui lòng chọn ảnh xem trước cho video!")]
+       // [Url(ErrorMessage = "Đường dẫn ảnh không hợp lệ.")]
+        //public string UrlImage { get; set; }
         [Url(ErrorMessage = "Đường dẫn video không hợp lệ.")]
         [Required(ErrorMessage = "Vui lòng chọn video để update.")]
         public string Url { get; set; }
+        public long Size { get; set; }
 
     }
 }
