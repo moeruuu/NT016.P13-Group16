@@ -3,7 +3,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace API_Server.Data
 {
-    public class TokenData
+    public class Token
     {
         [BsonId]
         public ObjectId Id { get; set; }

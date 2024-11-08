@@ -32,8 +32,6 @@ namespace API_Server.Service
                     response.EnsureSuccessStatusCode();
                     var responseData = await response.Content.ReadAsStringAsync();
                     var json = JObject.Parse(responseData);
-                    //Lấy URL từ JSON trả về
-//ar json = JObject.Parse(responseData);
                     if (json["success"]?.Value<bool>() == true)
                     {
                         return json["data"]["link"].ToString();

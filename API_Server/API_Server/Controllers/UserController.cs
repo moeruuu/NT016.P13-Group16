@@ -4,6 +4,7 @@ using API_Server.Data;
 using API_Server.Service;
 using API_Server.DTOs;
 using API_Server.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API_Server.Controllers
 {
@@ -17,6 +18,8 @@ namespace API_Server.Controllers
         {
             userService = _userService;
         }
+
+        [AllowAnonymous]
         [HttpPost("Register")]
         public async Task<IActionResult> SignUp([FromBody] UserSignUpDTOs signUpDTOs)
         {
@@ -31,6 +34,7 @@ namespace API_Server.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpPost("Verify-OTP")]
         public async Task<IActionResult> VerifyOTP([FromBody] VerifyOTPDTOs OTP)
         {
@@ -45,6 +49,7 @@ namespace API_Server.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpPost("LogIn")]
         public async Task<IActionResult> LogIn([FromBody] UserLogInDTOs logInDTOs)
         {
