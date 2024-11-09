@@ -35,10 +35,14 @@ builder.Services.AddScoped<FilmService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<EmailService>();
 builder.Services.AddScoped<ImgurService>();
+builder.Services.AddScoped<JWTService>();
+builder.Services.AddScoped<MongoDbContext>();
+
+
 
 builder.Services.AddAuthorization();
 
-var JWTSettings = builder.Configuration.GetSection("JwtSettings").Get<JWT>();
+var JWTSettings = builder.Configuration.GetSection("JWT").Get<JWT>();
 builder.Services.AddSingleton<JWT>(JWTSettings);
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -81,7 +85,7 @@ public class MongoDbContext
 
     public MongoDbContext(IConfiguration configuration)
     {
-        var client = new MongoClient(configuration.GetConnectionString("ConnectionString"));
+        var client = new MongoClient(configuration.GetSection("MongoDB:ConnectionString").Value);
         _db = client.GetDatabase("DOAN");
     }
 

@@ -12,7 +12,8 @@ namespace UITFLIX
         private bool MainVisible = true;
         private bool OtherVisible = false;
         private OpenFileDialog openFileDialog = new OpenFileDialog();
-        string content;
+       // private string content;
+        private static long size;
         //List<Video> videos = GetUploadedVideos();
         public Home()
         {
@@ -158,6 +159,7 @@ namespace UITFLIX
             openFileDialog.Title = "Select a Video File";
             openFileDialog.ShowDialog();
             string selectedfile = openFileDialog.FileName;
+
             string getname = Path.GetFileNameWithoutExtension(selectedfile);
             string getextensions = Path.GetExtension(selectedfile);
             filevideo.Text = SetLabelText(getname) + getextensions;
@@ -165,12 +167,14 @@ namespace UITFLIX
 
         private void btnchooseimage_Click(object sender, EventArgs e)
         {
-            openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.gif;*.bmp;*.tiff;*.webp;*.svg";
+            openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;*.tiff;*.webp;*.svg";
             openFileDialog.Title = "Select an Image File";
             openFileDialog.ShowDialog();
             string selectedfile = openFileDialog.FileName;
             string getname  = Path.GetFileNameWithoutExtension(selectedfile);
             string getextensions = Path.GetExtension(selectedfile);
+            FileInfo info = new FileInfo(selectedfile);
+            size = info.Length;
             fileimage.Text = SetLabelText(getname) + getextensions;
             
         }

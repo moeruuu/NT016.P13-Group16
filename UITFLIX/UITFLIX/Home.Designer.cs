@@ -259,6 +259,7 @@
             // 
             pictureBox1.BackgroundImage = Properties.Resources.search;
             pictureBox1.BackgroundImageLayout = ImageLayout.Zoom;
+            pictureBox1.Cursor = Cursors.Hand;
             pictureBox1.Location = new Point(942, 51);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(50, 52);
@@ -287,6 +288,7 @@
             // 
             // btnchoosefile
             // 
+            btnchoosefile.Cursor = Cursors.Hand;
             btnchoosefile.Font = new Font("Cambria", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnchoosefile.ForeColor = Color.MidnightBlue;
             btnchoosefile.Location = new Point(334, 170);
@@ -314,6 +316,7 @@
             // 
             chat.BackgroundImage = Properties.Resources._5962463;
             chat.BackgroundImageLayout = ImageLayout.Zoom;
+            chat.Cursor = Cursors.Hand;
             chat.Location = new Point(1295, 739);
             chat.Name = "chat";
             chat.Size = new Size(47, 30);
@@ -571,6 +574,7 @@
             // 
             // btnuploadvideo
             // 
+            btnuploadvideo.Cursor = Cursors.Hand;
             btnuploadvideo.Font = new Font("Cambria", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnuploadvideo.ForeColor = Color.MidnightBlue;
             btnuploadvideo.Location = new Point(795, 597);
@@ -613,6 +617,7 @@
             // 
             // btnidroom
             // 
+            btnidroom.Cursor = Cursors.Hand;
             btnidroom.Font = new Font("Cambria", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnidroom.ForeColor = Color.MidnightBlue;
             btnidroom.Location = new Point(762, 408);
@@ -640,6 +645,7 @@
             // 
             // btnchooseimage
             // 
+            btnchooseimage.Cursor = Cursors.Hand;
             btnchooseimage.Font = new Font("Cambria", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnchooseimage.ForeColor = Color.MidnightBlue;
             btnchooseimage.Location = new Point(837, 169);

@@ -23,11 +23,15 @@ namespace API_Server.Service
         //Lưu dữ liệu tạm thời
         private static readonly ConcurrentDictionary<string, User> nguoidung = new ConcurrentDictionary<string, User>();
         private readonly ImgurService imgurService;
-        public UserService(IMongoDatabase database, EmailService emailService)
+        private readonly JWTService token;
+        public UserService(IMongoDatabase database, EmailService emailService, JWTService token, ImgurService imgurService)
         {
             users = database.GetCollection<User>("Users");
             this.emailService = emailService;
+            this.token = token;  
+            this.imgurService = imgurService;  
         }
+
         public async Task<User> Register(UserSignUpDTOs SignupDTOs)
         {   
             if (SignupDTOs.ConfirmPassword != SignupDTOs.Password)
@@ -71,13 +75,17 @@ namespace API_Server.Service
         {
             var filter = Builders<User>.Filter.Eq(u => u.Username, LoginDTOs.Username);
             var existingUser = await users.Find(filter).FirstOrDefaultAsync();
-
-            string hash = HashPassword(LoginDTOs.Password);
-
-            if (existingUser == null && hash != existingUser.Password)
+            if (existingUser == null)
             {
                 throw new Exception("Tên tài khoản hoặc mật khẩu không trùng khớp!");
             }
+            string hash = HashPassword(LoginDTOs.Password);
+            if (hash != existingUser.Password)
+            {
+                throw new Exception("Tên tài khoản hoặc mật khẩu không trùng khớp!");
+            }
+
+            existingUser.Token = token.GenerateAccessToken(existingUser);
             return existingUser;
         }
 

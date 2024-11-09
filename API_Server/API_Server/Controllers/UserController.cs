@@ -56,7 +56,17 @@ namespace API_Server.Controllers
             try
             {
                 var userLogin = await userService.Login(logInDTOs);
-                return Ok("Đăng nhập thành công!");
+                return Ok(new
+                {
+                    Token = userLogin.Token.Replace("Bearer",""),
+                    User = new
+                    {
+                        Username = userLogin.Username,
+                        Email = userLogin.Email,
+                        Profilepicture = userLogin.Profilepicture,
+                        Bio = userLogin.Bio,
+                    }
+                });
             }
             catch (Exception ex)
             {
