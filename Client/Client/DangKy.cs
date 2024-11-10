@@ -37,10 +37,7 @@ namespace Client
             DangNhap dangNhap = new DangNhap();
             dangNhap.Show();
         }
-        public bool checkfullname(string fullname)
-        {
-            return Regex.IsMatch(fullname, "^[a-zA-Z]{6,25}$");
-        }
+       
         public bool checkusername(string username)
         {
             return Regex.IsMatch(username, "^[a-zA-Z0-9]{4,15}$");
@@ -55,12 +52,12 @@ namespace Client
         }
         private async void btnSignUp_Click(object sender, EventArgs e)
         {
-            string fullname = txtUsername.Text;
-            string username = txtFullname.Text;
+            string fullname = txtFullname.Text;
+            string username = txtUsername.Text;
             string password = txtPassword.Text;
             string cfpassword = txtCFPassword.Text;
             string email = txtEmail.Text;
-            if (!checkfullname(fullname)) { MessageBox.Show("Vui lòng nhập họ tên người dùng từ 6 đến 20 ký tự, không dùng ký tự đặc biệt."); return; }
+           
             if (!checkusername(username)) { MessageBox.Show("Vui lòng nhập tên tài khoản từ 4 đến 15 ký tự, không dùng ký tự đặc biệt."); return; }
             if (!checkpass(password)) { MessageBox.Show("Vui lòng nhập tên tài khoản từ 6 đến 20 ký tự, không dùng ký tự đặc biệt."); return; }
             if (cfpassword != password) { MessageBox.Show("Mật khẩu không khớp"); return; }

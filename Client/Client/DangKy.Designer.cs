@@ -33,14 +33,14 @@
             label3 = new Label();
             label4 = new Label();
             label5 = new Label();
-            txtFullname = new TextBox();
+            txtUsername = new TextBox();
             txtPassword = new TextBox();
             txtEmail = new TextBox();
             txtCFPassword = new TextBox();
             btnSignUp = new Button();
             btnBack = new Button();
             btnExit = new Button();
-            txtUsername = new TextBox();
+            txtFullname = new TextBox();
             label6 = new Label();
             SuspendLayout();
             // 
@@ -99,12 +99,12 @@
             label5.TabIndex = 5;
             label5.Text = "Xác Nhận Mật Khẩu:";
             // 
-            // txtFullname
+            // txtUsername
             // 
-            txtFullname.Location = new Point(267, 100);
-            txtFullname.Name = "txtFullname";
-            txtFullname.Size = new Size(474, 31);
-            txtFullname.TabIndex = 6;
+            txtUsername.Location = new Point(267, 186);
+            txtUsername.Name = "txtUsername";
+            txtUsername.Size = new Size(474, 31);
+            txtUsername.TabIndex = 6;
             // 
             // txtPassword
             // 
@@ -168,12 +168,12 @@
             btnExit.UseVisualStyleBackColor = false;
             btnExit.Click += btnExit_Click;
             // 
-            // txtUsername
+            // txtFullname
             // 
-            txtUsername.Location = new Point(267, 186);
-            txtUsername.Name = "txtUsername";
-            txtUsername.Size = new Size(474, 31);
-            txtUsername.TabIndex = 14;
+            txtFullname.Location = new Point(267, 104);
+            txtFullname.Name = "txtFullname";
+            txtFullname.Size = new Size(474, 31);
+            txtFullname.TabIndex = 14;
             // 
             // label6
             // 
@@ -191,7 +191,7 @@
             AutoScaleMode = AutoScaleMode.None;
             BackColor = Color.LightBlue;
             ClientSize = new Size(814, 754);
-            Controls.Add(txtUsername);
+            Controls.Add(txtFullname);
             Controls.Add(label6);
             Controls.Add(btnExit);
             Controls.Add(btnBack);
@@ -199,7 +199,7 @@
             Controls.Add(txtCFPassword);
             Controls.Add(txtEmail);
             Controls.Add(txtPassword);
-            Controls.Add(txtFullname);
+            Controls.Add(txtUsername);
             Controls.Add(label5);
             Controls.Add(label4);
             Controls.Add(label3);
@@ -220,14 +220,14 @@
         private Label label3;
         private Label label4;
         private Label label5;
-        private TextBox txtFullname;
+        private TextBox txtUsername;
         private TextBox txtPassword;
         private TextBox txtEmail;
         private TextBox txtCFPassword;
         private Button btnSignUp;
         private Button btnBack;
         private Button btnExit;
-        private TextBox txtUsername;
+        private TextBox txtFullname;
         private Label label6;
     }
 }

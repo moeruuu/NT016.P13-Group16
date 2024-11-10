@@ -47,48 +47,48 @@ namespace Client
                 return;
             }
 
-            HashAlgorithm al = SHA256.Create();
-            byte[] inputbyte = Encoding.UTF8.GetBytes(password);
-            byte[] hashbyte = al.ComputeHash(inputbyte);
-            string hashedPassword = BitConverter.ToString(hashbyte).Replace("-", "");
-
-            try
+            using (SHA256 al = SHA256.Create())
             {
-                var client = new MongoClient("mongodb+srv://nt106-p13:hocltmkhongvui@clusteruyenthy.wttnb.mongodb.net/");
-                var database = client.GetDatabase("DOAN");
-                var collection = database.GetCollection<BsonDocument>("Users");
+                byte[] inputbyte = Encoding.UTF8.GetBytes(password);
+                byte[] hashbyte = al.ComputeHash(inputbyte);
+                string hashedPassword = BitConverter.ToString(hashbyte).Replace("-", "").ToLower();
 
-                //tìm kiếm người dùng 
-                var filter = Builders<BsonDocument>.Filter.Eq("username", username) &
-                             Builders<BsonDocument>.Filter.Eq("password", hashedPassword);
-                var userDocument = await collection.Find(filter).FirstOrDefaultAsync();
-                if (userDocument != null)
+                try
                 {
-                    // Chuyển đổi BsonDocument thành JSON và phân tích cú pháp thành đối tượng C#
-                    string jsonString = userDocument.ToJson();
-                    var user = JsonConvert.DeserializeObject<User>(jsonString);
+                    var client = new MongoClient("mongodb+srv://nt106-p13:hocltmkhongvui@clusteruyenthy.wttnb.mongodb.net/");
+                    var database = client.GetDatabase("DOAN");
+                    var collection = database.GetCollection<BsonDocument>("Users");
 
-                    MessageBox.Show($"Đăng nhập thành công!\n !", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    // mở form chính
-                    //
-                    //
+                    //tìm kiếm người dùng 
+                    var filter = Builders<BsonDocument>.Filter.Eq("username", username) &
+                                 Builders<BsonDocument>.Filter.Eq("password", hashedPassword);
+                    var userDocument = await collection.Find(filter).FirstOrDefaultAsync();
+                    if (userDocument != null)
+                    {
+                        // Chuyển đổi BsonDocument thành JSON và phân tích cú pháp thành đối tượng C#
+                        string jsonString = userDocument.ToJson();
+                        var user = JsonConvert.DeserializeObject<User>(jsonString);
 
+                        MessageBox.Show($"Đăng nhập thành công!\n !", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        // mở form chính
+                        Form1 form1 = new Form1();
+                        form1.ShowDialog();
 
-
+                    }
+                    else
+                    {
+                        MessageBox.Show("Tên đăng nhập hoặc mật khẩu không đúng!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    MessageBox.Show("Tên đăng nhập hoặc mật khẩu không đúng!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"Lỗi khi kết nối đến MongoDB: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Lỗi khi kết nối đến MongoDB: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void btnSignUp_Click(object sender, EventArgs e)
-        { 
+        {
             DangKy dangKy = new DangKy();
             dangKy.ShowDialog();
         }
@@ -98,7 +98,7 @@ namespace Client
             QuenMatKhau quenMatKhau = new QuenMatKhau();
             quenMatKhau.ShowDialog();
         }
-            
+
     }
 
 
