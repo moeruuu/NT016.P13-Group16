@@ -1,4 +1,4 @@
-using API_Server.Data;
+﻿using API_Server.Data;
 using API_Server.Models;
 using API_Server.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -58,6 +58,15 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidAudience = JWTSettings.Audience,
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JWTSettings.SecretKey)),
         };
+        options.Events = new JwtBearerEvents
+        {
+            OnChallenge = context =>
+            {
+                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                context.Response.ContentType = "application/json";
+                return context.Response.WriteAsync("{\"message\":\"Không thể xác thực người dùng.\"}");
+            }
+        };
     });
 
 var app = builder.Build();
@@ -73,6 +82,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+app.UseAuthentication();
 
 app.MapControllers();
 

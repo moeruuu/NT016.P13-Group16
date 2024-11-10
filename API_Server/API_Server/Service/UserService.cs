@@ -10,6 +10,8 @@ using System.Text;
 using Microsoft.OpenApi.Writers;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using System.Collections.Concurrent;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 namespace API_Server.Service
 {
     public class UserService
@@ -90,9 +92,9 @@ namespace API_Server.Service
         }
 
 
-        public async Task<bool> UpdateInformation(string username, string name, IFormFile avatarFile, string bio)
+        public async Task<bool> UpdateInformation(ObjectId userid, string name, IFormFile avatarFile, string bio)
         {
-            var filter = Builders<User>.Filter.Eq(u => u.Username, username);
+            var filter = Builders<User>.Filter.Eq(u => u.UserId, userid);
             //Tạo list để xem có bao nhiu thay đổi
             var updates = new List<UpdateDefinition<User>>();
 
@@ -142,12 +144,12 @@ namespace API_Server.Service
 
             return existUser;
         }*/
-
-        public async Task<bool> DeleteUser(string username)
+        
+        public async Task<bool> DeleteUser(ObjectId userid)
         {
             /*var Filter = Builders<User>.Filter.Eq(u => u.Username, username);
             var checkuser = await users.Find(Filter).FirstOrDefaultAsync();*/
-            var delete = await users.DeleteOneAsync(u=>u.Username == username);
+            var delete = await users.DeleteOneAsync(u=>u.UserId == userid);
             if (delete.DeletedCount == 0)
             {
                 return false;
@@ -312,9 +314,9 @@ namespace API_Server.Service
             return hashstring;
         }
         //Lấy user
-        public async Task<User> GetUserByUsername(string username)
+        public async Task<User> GetUserByID(ObjectId userid)
         {
-            var filter = Builders<User>.Filter.Eq(u => u.Username, username);
+            var filter = Builders<User>.Filter.Eq(u => u.UserId, userid);
             var existingUser = await users.Find(filter).FirstOrDefaultAsync();
             if (existingUser == null)
             {

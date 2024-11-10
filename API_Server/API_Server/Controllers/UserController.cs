@@ -5,6 +5,9 @@ using API_Server.Service;
 using API_Server.DTOs;
 using API_Server.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Security.Claims;
+using MongoDB.Bson;
 
 namespace API_Server.Controllers
 {
@@ -58,7 +61,8 @@ namespace API_Server.Controllers
                 var userLogin = await userService.Login(logInDTOs);
                 return Ok(new
                 {
-                    Token = userLogin.Token.Replace("Bearer",""),
+                    Access_token = userLogin.Token.Replace("Bearer",""),
+                    Token_type = "bearer",
                     User = new
                     {
                         Username = userLogin.Username,
@@ -74,17 +78,32 @@ namespace API_Server.Controllers
             }
         }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPatch("Update-Information")]
-        public async Task<IActionResult> UpdateInformation(string id, [FromBody] UpdateUserRequest request)
+        public async Task<IActionResult> UpdateInformation([FromBody] UpdateUserRequest request)
         {
-            if (string.IsNullOrEmpty(id) || request == null)
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId) || !ObjectId.TryParse(userId, out ObjectId UserId))
+            {
+                return Unauthorized("Không thể xác thực người dùng.");
+            }
+            if (request == null)
             {
                 return BadRequest("Không có thông tin nào được cập nhập.");
             }
-            var userUpdate = await userService.UpdateInformation(id, request.FullName, request.Avatar, request.Bio);
+            var userUpdate = await userService.UpdateInformation(UserId, request.FullName, request.Avatar, request.Bio);
             if (userUpdate)
             {
-                return Ok("Cập nhập thông tin thành công.");
+                var getuser = await userService.GetUserByID(UserId);
+                return Ok(new {
+                    User = new {
+                        UserId = getuser.UserId,
+                        Username = getuser.Username,
+                        Email = getuser.Email,
+                        Profilepicture = getuser.Profilepicture,
+                        Bio = getuser.Bio,
+                    }
+                });
             }
             else
             {
@@ -92,10 +111,47 @@ namespace API_Server.Controllers
             }
         }
 
-        [HttpDelete("Username/{Username}")]
-        public async Task<IActionResult> DeleteUser(string Username)
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet("GetInformation/me")]
+        public async Task<IActionResult> GetUser()
         {
-            var DeleteUser = await userService.DeleteUser(Username);
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId) || !ObjectId.TryParse(userId, out ObjectId UserId))
+            {
+                return Unauthorized("Không thể xác thực người dùng.");
+            }
+            try
+            {
+                var CurrentUser = await userService.GetUserByID(UserId);
+                return Ok(new
+                {
+                    User = new
+                    {
+                        UserId = CurrentUser.UserId,
+                        Username = CurrentUser.Username,
+                        Email = CurrentUser.Email,
+                        Profilepicture = CurrentUser.Profilepicture,
+                        Bio = CurrentUser.Bio,
+
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        [HttpDelete("UserID/{UserId}")]
+        public async Task<IActionResult> DeleteUser()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId) || !ObjectId.TryParse(userId, out ObjectId UserId))
+            {
+                return Unauthorized("Không thể xác thực người dùng.");
+            }
+            var DeleteUser = await userService.DeleteUser(UserId);
             if (DeleteUser)
             {
                 return Ok("Xóa người dùng thành công!");

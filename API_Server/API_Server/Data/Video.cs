@@ -18,15 +18,14 @@ namespace API_Server.Data
         public string Url { get; set; }
         [BsonElement("UrlImage")]
         public string UrlImage { get; set; }
-        [BsonElement("Uploadername")]
-        public string Uploadername { get; set; }
+        [BsonElement("UploaderID")]
+        public ObjectId UploaderID { get; set; }
         [BsonElement("UploadedDate")]
         public DateTime UploadedDate { get; set; }
 
         [BsonElement("Size")]
         public long Size { get; set; }
-        [BsonElement("CreateAt")]
-        public DateTime CreatAt { get; set; }
+
         [BsonElement("Rating")]
         public double Rating { get; set; }
     }

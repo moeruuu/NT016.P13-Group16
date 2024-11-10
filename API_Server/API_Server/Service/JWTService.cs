@@ -135,9 +135,9 @@ namespace API_Server.Service
             return false;
         }
 
-        public async Task<Token> GetCurrentTokenForUser(string username)
+        public async Task<Token> GetCurrentTokenForUser(ObjectId id)
         {
-            var filter = Builders<Token>.Filter.Eq(t => t.Username, username);
+            var filter = Builders<Token>.Filter.Eq(t => t.UserId, id);
             return await JWT.Find(filter).FirstOrDefaultAsync();
         }
     }

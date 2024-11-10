@@ -9,8 +9,8 @@ namespace API_Server.Data
         public ObjectId Id { get; set; }
         [BsonElement("RefreshToken")]
         public string RefreshToken { get; set; }
-        [BsonElement("Username")]
-        public string Username { get; set; }
+        [BsonElement("UserId")]
+        public ObjectId UserId { get; set; }
         [BsonElement("ExpiryTime")]
         public DateTime ExpiryTime { get; set; }
         [BsonElement("UsedToken")]

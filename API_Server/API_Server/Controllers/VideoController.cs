@@ -4,6 +4,10 @@ using API_Server.DTOs;
 using API_Server.Models;
 using API_Server.Service;
 using API_Server.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using MongoDB.Bson;
+using System.Security.Claims;
 
 namespace API_Server.Controllers
 {
@@ -12,22 +16,43 @@ namespace API_Server.Controllers
     public class VideoController : ControllerBase
     {
         private readonly FilmService filmService;
-        public VideoController(FilmService filmService)
+        private readonly UserService userService;
+        public VideoController(FilmService filmService, UserService user)
         {
             this.filmService = filmService;
+            userService = user;
         }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost("Upload")]
-        public async Task<IActionResult> UploadVideo([FromBody] UploadVideoDTOs uploadVideo)
+        public async Task<IActionResult> UploadVideo([FromBody] UploadVideoDTOs uploadVideo, IFormFile file)
         {
             try
             {
-                //var username = User.Identity.Name; Khi nào có JWT thì add vào
-                //var user = await GetUserByUsername(username); 
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userId) || !ObjectId.TryParse(userId, out ObjectId UserId))
+                {
+                    return Unauthorized("Không thể xác thực người dùng.");
+                }
+               // var user = await userService.GetUserByID(UserId);
 
-                //var addedVideo = await filmService.AddVideo(uploadVideo, user);
+                var addedVideo = await filmService.AddVideo(uploadVideo, UserId, file);
 
-                return Ok("Thêm video thành công."); 
+                return Ok(new
+                {
+                    Video = new
+                    {
+                        VideoId = addedVideo.VideoId,
+                        Title = addedVideo.Title,
+                        Description = addedVideo.Description,
+                        Url = addedVideo.Url,
+                        UrlImage = addedVideo.UrlImage,
+                        UploaderID = addedVideo.UploaderID,
+                        UploadedDate = addedVideo.UploadedDate,
+                        Size = addedVideo.Size,
+                        Rating = addedVideo.Rating,
+                    }
+                }); 
             }
             catch (Exception ex)
             {
@@ -35,9 +60,16 @@ namespace API_Server.Controllers
             }
         }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet("Search")]
         public async Task<ActionResult<List<Video>>> SearchVideos(string title)
         {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId) || !ObjectId.TryParse(userId, out ObjectId UserId))
+            {
+                return Unauthorized("Không thể xác thực người dùng.");
+            }
+
             if (string.IsNullOrWhiteSpace(title))
             {
                 return BadRequest("Vui lòng ghi tên phim tìm kiếm.");
@@ -52,9 +84,15 @@ namespace API_Server.Controllers
             return Ok(videos);
         }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         [HttpDelete("Delete-Video/{IDVideo}")]
         public async Task<IActionResult> DeleteVideo(string IDVideo)
         {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId) || !ObjectId.TryParse(userId, out ObjectId UserId))
+            {
+                return Unauthorized("Không thể xác thực người dùng.");
+            }
             var Delete = await filmService.DeleteVideo(IDVideo);
             if (Delete)
             {

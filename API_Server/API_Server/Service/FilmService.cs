@@ -16,7 +16,7 @@ namespace API_Server.Service
             videos = database.GetCollection<Video>("Videos");
         }
 
-        public async Task<Video> AddVideo(UploadVideoDTOs uploadVideo, string username, IFormFile imagefilm)
+        public async Task<Video> AddVideo(UploadVideoDTOs uploadVideo, ObjectId id, IFormFile imagefilm)
         {
             //long size = await GetVideoSize(uploadVideo.Url);
             var imageUrl = await imgurService.UploadImgurAsync(new ImageDTOs { file = imagefilm });
@@ -27,7 +27,7 @@ namespace API_Server.Service
                 Description = uploadVideo.Description,
                 Url = uploadVideo.Url,
                 UrlImage = imageUrl,
-                Uploadername = username,
+                UploaderID = id,
                 UploadedDate = DateTime.UtcNow,
                 Size = uploadVideo.Size,
 
