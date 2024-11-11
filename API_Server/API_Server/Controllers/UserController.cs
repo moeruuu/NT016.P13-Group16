@@ -16,6 +16,7 @@ namespace API_Server.Controllers
     public class UserController : ControllerBase
     {
         private readonly UserService userService;
+        private readonly JWTService jwtService;
 
         public UserController(UserService _userService)
         {
@@ -59,9 +60,11 @@ namespace API_Server.Controllers
             try
             {
                 var userLogin = await userService.Login(logInDTOs);
+                var token = jwtService.GenerateAccessToken(userLogin);
+                var refreshtoken = jwtService.GenerateRefreshToken();
                 return Ok(new
                 {
-                    Access_token = userLogin.Token.Replace("Bearer",""),
+                    Access_token = token,
                     Token_type = "bearer",
                     User = new
                     {

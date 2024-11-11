@@ -26,194 +26,321 @@
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-
         private void InitializeComponent()
         {
+            iconPictureBox1 = new FontAwesome.Sharp.IconPictureBox();
             txtFullname = new TextBox();
-            label6 = new Label();
-            btnBack = new Button();
-            btnSignUp = new Button();
-            txtCFPassword = new TextBox();
-            txtEmail = new TextBox();
+            panel1 = new Panel();
+            panel2 = new Panel();
             txtPassword = new TextBox();
+            panel3 = new Panel();
+            txtEmail = new TextBox();
+            panel4 = new Panel();
             txtUsername = new TextBox();
-            label5 = new Label();
-            label4 = new Label();
-            label3 = new Label();
+            panel5 = new Panel();
+            txtCFPassword = new TextBox();
+            iconPictureBox2 = new FontAwesome.Sharp.IconPictureBox();
+            iconPictureBox3 = new FontAwesome.Sharp.IconPictureBox();
+            iconPictureBox4 = new FontAwesome.Sharp.IconPictureBox();
+            iconPictureBox5 = new FontAwesome.Sharp.IconPictureBox();
+            iconPictureBox6 = new FontAwesome.Sharp.IconPictureBox();
+            btnsignup = new Button();
+            linklogin = new LinkLabel();
             label2 = new Label();
-            label1 = new Label();
+            lbwait = new Label();
+            ((System.ComponentModel.ISupportInitialize)iconPictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)iconPictureBox2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)iconPictureBox3).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)iconPictureBox4).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)iconPictureBox5).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)iconPictureBox6).BeginInit();
             SuspendLayout();
+            // 
+            // iconPictureBox1
+            // 
+            iconPictureBox1.BackColor = Color.LightBlue;
+            iconPictureBox1.BackgroundImage = Properties.Resources.UITFLIX;
+            iconPictureBox1.BackgroundImageLayout = ImageLayout.Stretch;
+            iconPictureBox1.ForeColor = SystemColors.ControlText;
+            iconPictureBox1.IconChar = FontAwesome.Sharp.IconChar.None;
+            iconPictureBox1.IconColor = SystemColors.ControlText;
+            iconPictureBox1.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            iconPictureBox1.IconSize = 80;
+            iconPictureBox1.Location = new Point(12, 12);
+            iconPictureBox1.Name = "iconPictureBox1";
+            iconPictureBox1.Size = new Size(80, 80);
+            iconPictureBox1.TabIndex = 0;
+            iconPictureBox1.TabStop = false;
             // 
             // txtFullname
             // 
-            txtFullname.Location = new Point(269, 97);
+            txtFullname.BackColor = Color.LightBlue;
+            txtFullname.BorderStyle = BorderStyle.None;
+            txtFullname.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtFullname.ForeColor = Color.CadetBlue;
+            txtFullname.Location = new Point(99, 140);
             txtFullname.Name = "txtFullname";
-            txtFullname.Size = new Size(474, 31);
-            txtFullname.TabIndex = 28;
+            txtFullname.Size = new Size(370, 24);
+            txtFullname.TabIndex = 1;
             // 
-            // label6
+            // panel1
             // 
-            label6.AutoSize = true;
-            label6.Font = new Font("Cambria", 11F, FontStyle.Bold);
-            label6.ForeColor = Color.FromArgb(0, 64, 64);
-            label6.Location = new Point(49, 98);
-            label6.Name = "label6";
-            label6.Size = new Size(182, 26);
-            label6.TabIndex = 27;
-            label6.Text = "Tên Người Dùng:";
+            panel1.BackColor = Color.Azure;
+            panel1.Location = new Point(41, 170);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(428, 1);
+            panel1.TabIndex = 2;
             // 
-            // btnBack
+            // panel2
             // 
-            btnBack.BackColor = Color.LightCyan;
-            btnBack.Font = new Font("Cambria", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnBack.ForeColor = Color.FromArgb(0, 64, 64);
-            btnBack.Location = new Point(524, 523);
-            btnBack.Name = "btnBack";
-            btnBack.Size = new Size(219, 62);
-            btnBack.TabIndex = 25;
-            btnBack.Text = "Quay Lại Trang Đăng Nhập";
-            btnBack.UseVisualStyleBackColor = false;
-            btnBack.Click += btnBack_Click;
-            // 
-            // btnSignUp
-            // 
-            btnSignUp.BackColor = Color.LightCyan;
-            btnSignUp.Font = new Font("Cambria", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnSignUp.ForeColor = Color.FromArgb(0, 64, 64);
-            btnSignUp.Location = new Point(269, 523);
-            btnSignUp.Name = "btnSignUp";
-            btnSignUp.Size = new Size(154, 62);
-            btnSignUp.TabIndex = 24;
-            btnSignUp.Text = "Đăng Ký ";
-            btnSignUp.UseVisualStyleBackColor = false;
-            btnSignUp.Click += btnSignUp_Click;
-            // 
-            // txtCFPassword
-            // 
-            txtCFPassword.Location = new Point(269, 362);
-            txtCFPassword.Name = "txtCFPassword";
-            txtCFPassword.PasswordChar = '*';
-            txtCFPassword.Size = new Size(474, 31);
-            txtCFPassword.TabIndex = 23;
-            // 
-            // txtEmail
-            // 
-            txtEmail.Location = new Point(269, 451);
-            txtEmail.Name = "txtEmail";
-            txtEmail.Size = new Size(474, 31);
-            txtEmail.TabIndex = 22;
+            panel2.BackColor = Color.Azure;
+            panel2.Location = new Point(41, 250);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(428, 1);
+            panel2.TabIndex = 4;
             // 
             // txtPassword
             // 
-            txtPassword.Location = new Point(269, 270);
+            txtPassword.BackColor = Color.LightBlue;
+            txtPassword.BorderStyle = BorderStyle.None;
+            txtPassword.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtPassword.ForeColor = Color.CadetBlue;
+            txtPassword.Location = new Point(99, 380);
             txtPassword.Name = "txtPassword";
-            txtPassword.PasswordChar = '*';
-            txtPassword.Size = new Size(474, 31);
-            txtPassword.TabIndex = 21;
+            txtPassword.Size = new Size(370, 24);
+            txtPassword.TabIndex = 3;
+            // 
+            // panel3
+            // 
+            panel3.BackColor = Color.Azure;
+            panel3.Location = new Point(41, 330);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(428, 1);
+            panel3.TabIndex = 4;
+            // 
+            // txtEmail
+            // 
+            txtEmail.BackColor = Color.LightBlue;
+            txtEmail.BorderStyle = BorderStyle.None;
+            txtEmail.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtEmail.ForeColor = Color.CadetBlue;
+            txtEmail.Location = new Point(99, 300);
+            txtEmail.Name = "txtEmail";
+            txtEmail.Size = new Size(370, 24);
+            txtEmail.TabIndex = 3;
+            // 
+            // panel4
+            // 
+            panel4.BackColor = Color.Azure;
+            panel4.Location = new Point(41, 410);
+            panel4.Name = "panel4";
+            panel4.Size = new Size(428, 1);
+            panel4.TabIndex = 4;
             // 
             // txtUsername
             // 
-            txtUsername.Location = new Point(269, 179);
+            txtUsername.BackColor = Color.LightBlue;
+            txtUsername.BorderStyle = BorderStyle.None;
+            txtUsername.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtUsername.ForeColor = Color.CadetBlue;
+            txtUsername.Location = new Point(99, 220);
             txtUsername.Name = "txtUsername";
-            txtUsername.Size = new Size(474, 31);
-            txtUsername.TabIndex = 20;
+            txtUsername.Size = new Size(370, 24);
+            txtUsername.TabIndex = 3;
             // 
-            // label5
+            // panel5
             // 
-            label5.AutoSize = true;
-            label5.Font = new Font("Cambria", 11F, FontStyle.Bold);
-            label5.ForeColor = Color.FromArgb(0, 64, 64);
-            label5.Location = new Point(49, 367);
-            label5.Name = "label5";
-            label5.Size = new Size(214, 26);
-            label5.TabIndex = 19;
-            label5.Text = "Xác Nhận Mật Khẩu:";
+            panel5.BackColor = Color.Azure;
+            panel5.Location = new Point(41, 490);
+            panel5.Name = "panel5";
+            panel5.Size = new Size(428, 1);
+            panel5.TabIndex = 6;
             // 
-            // label4
+            // txtCFPassword
             // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Cambria", 11F, FontStyle.Bold);
-            label4.ForeColor = Color.FromArgb(0, 64, 64);
-            label4.Location = new Point(49, 184);
-            label4.Name = "label4";
-            label4.Size = new Size(164, 26);
-            label4.TabIndex = 18;
-            label4.Text = "Tên Tài Khoản:";
+            txtCFPassword.BackColor = Color.LightBlue;
+            txtCFPassword.BorderStyle = BorderStyle.None;
+            txtCFPassword.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtCFPassword.ForeColor = Color.CadetBlue;
+            txtCFPassword.Location = new Point(99, 460);
+            txtCFPassword.Name = "txtCFPassword";
+            txtCFPassword.Size = new Size(370, 24);
+            txtCFPassword.TabIndex = 5;
             // 
-            // label3
+            // iconPictureBox2
             // 
-            label3.AutoSize = true;
-            label3.Font = new Font("Cambria", 11F, FontStyle.Bold);
-            label3.ForeColor = Color.FromArgb(0, 64, 64);
-            label3.Location = new Point(49, 275);
-            label3.Name = "label3";
-            label3.Size = new Size(115, 26);
-            label3.TabIndex = 17;
-            label3.Text = "Mật Khẩu:";
+            iconPictureBox2.BackColor = Color.LightBlue;
+            iconPictureBox2.IconChar = FontAwesome.Sharp.IconChar.Tag;
+            iconPictureBox2.IconColor = Color.White;
+            iconPictureBox2.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            iconPictureBox2.IconSize = 38;
+            iconPictureBox2.Location = new Point(41, 130);
+            iconPictureBox2.Name = "iconPictureBox2";
+            iconPictureBox2.Size = new Size(38, 38);
+            iconPictureBox2.TabIndex = 7;
+            iconPictureBox2.TabStop = false;
+            // 
+            // iconPictureBox3
+            // 
+            iconPictureBox3.BackColor = Color.LightBlue;
+            iconPictureBox3.IconChar = FontAwesome.Sharp.IconChar.User;
+            iconPictureBox3.IconColor = Color.White;
+            iconPictureBox3.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            iconPictureBox3.IconSize = 38;
+            iconPictureBox3.Location = new Point(41, 210);
+            iconPictureBox3.Name = "iconPictureBox3";
+            iconPictureBox3.Size = new Size(38, 38);
+            iconPictureBox3.TabIndex = 8;
+            iconPictureBox3.TabStop = false;
+            // 
+            // iconPictureBox4
+            // 
+            iconPictureBox4.BackColor = Color.LightBlue;
+            iconPictureBox4.IconChar = FontAwesome.Sharp.IconChar.Envelope;
+            iconPictureBox4.IconColor = Color.White;
+            iconPictureBox4.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            iconPictureBox4.IconSize = 38;
+            iconPictureBox4.Location = new Point(41, 290);
+            iconPictureBox4.Name = "iconPictureBox4";
+            iconPictureBox4.Size = new Size(38, 38);
+            iconPictureBox4.TabIndex = 9;
+            iconPictureBox4.TabStop = false;
+            // 
+            // iconPictureBox5
+            // 
+            iconPictureBox5.BackColor = Color.LightBlue;
+            iconPictureBox5.IconChar = FontAwesome.Sharp.IconChar.Lock;
+            iconPictureBox5.IconColor = Color.White;
+            iconPictureBox5.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            iconPictureBox5.IconSize = 38;
+            iconPictureBox5.Location = new Point(41, 370);
+            iconPictureBox5.Name = "iconPictureBox5";
+            iconPictureBox5.Size = new Size(38, 38);
+            iconPictureBox5.TabIndex = 10;
+            iconPictureBox5.TabStop = false;
+            // 
+            // iconPictureBox6
+            // 
+            iconPictureBox6.BackColor = Color.LightBlue;
+            iconPictureBox6.IconChar = FontAwesome.Sharp.IconChar.ShieldBlank;
+            iconPictureBox6.IconColor = Color.White;
+            iconPictureBox6.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            iconPictureBox6.IconSize = 38;
+            iconPictureBox6.Location = new Point(41, 450);
+            iconPictureBox6.Name = "iconPictureBox6";
+            iconPictureBox6.Size = new Size(38, 38);
+            iconPictureBox6.TabIndex = 11;
+            iconPictureBox6.TabStop = false;
+            // 
+            // btnsignup
+            // 
+            btnsignup.Font = new Font("Cambria", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnsignup.ForeColor = Color.CadetBlue;
+            btnsignup.Location = new Point(335, 523);
+            btnsignup.Name = "btnsignup";
+            btnsignup.Size = new Size(134, 37);
+            btnsignup.TabIndex = 13;
+            btnsignup.Text = "Đăng ký";
+            btnsignup.UseVisualStyleBackColor = true;
+            btnsignup.Click += btnsignup_Click;
+            // 
+            // linklogin
+            // 
+            linklogin.ActiveLinkColor = Color.SteelBlue;
+            linklogin.AutoSize = true;
+            linklogin.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            linklogin.LinkColor = Color.CadetBlue;
+            linklogin.Location = new Point(41, 528);
+            linklogin.Name = "linklogin";
+            linklogin.Size = new Size(226, 23);
+            linklogin.TabIndex = 14;
+            linklogin.TabStop = true;
+            linklogin.Text = "Already have an account?";
+            linklogin.LinkClicked += linklogin_LinkClicked;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Font = new Font("Cambria", 11F, FontStyle.Bold);
-            label2.ForeColor = Color.FromArgb(0, 64, 64);
-            label2.Location = new Point(49, 456);
+            label2.Font = new Font("Cambria", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label2.ForeColor = Color.CadetBlue;
+            label2.Location = new Point(99, 29);
             label2.Name = "label2";
-            label2.Size = new Size(77, 26);
-            label2.TabIndex = 16;
-            label2.Text = "Email:";
+            label2.Size = new Size(140, 37);
+            label2.TabIndex = 15;
+            label2.Text = "Register";
             // 
-            // label1
+            // lbwait
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Cascadia Code", 20F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.ForeColor = Color.FromArgb(0, 64, 64);
-            label1.Location = new Point(193, 2);
-            label1.Name = "label1";
-            label1.Size = new Size(413, 52);
-            label1.TabIndex = 15;
-            label1.Text = "Đăng Ký Tài Khoản";
+            lbwait.AutoSize = true;
+            lbwait.Font = new Font("Cambria", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lbwait.ForeColor = Color.LightSeaGreen;
+            lbwait.Location = new Point(160, 580);
+            lbwait.Name = "lbwait";
+            lbwait.Size = new Size(14, 21);
+            lbwait.TabIndex = 16;
+            lbwait.Text = " ";
             // 
             // SignUp
             // 
-            AutoScaleDimensions = new SizeF(11F, 23F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightBlue;
-            ClientSize = new Size(792, 698);
-            Controls.Add(txtFullname);
-            Controls.Add(label6);
-            Controls.Add(btnBack);
-            Controls.Add(btnSignUp);
-            Controls.Add(txtCFPassword);
-            Controls.Add(txtEmail);
-            Controls.Add(txtPassword);
-            Controls.Add(txtUsername);
-            Controls.Add(label5);
-            Controls.Add(label4);
-            Controls.Add(label3);
+            ClientSize = new Size(495, 625);
+            Controls.Add(lbwait);
             Controls.Add(label2);
-            Controls.Add(label1);
-            Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Controls.Add(linklogin);
+            Controls.Add(btnsignup);
+            Controls.Add(iconPictureBox6);
+            Controls.Add(iconPictureBox5);
+            Controls.Add(iconPictureBox4);
+            Controls.Add(iconPictureBox3);
+            Controls.Add(iconPictureBox2);
+            Controls.Add(panel5);
+            Controls.Add(txtCFPassword);
+            Controls.Add(panel4);
+            Controls.Add(txtUsername);
+            Controls.Add(panel3);
+            Controls.Add(txtEmail);
+            Controls.Add(panel2);
+            Controls.Add(txtPassword);
+            Controls.Add(panel1);
+            Controls.Add(txtFullname);
+            Controls.Add(iconPictureBox1);
+            FormBorderStyle = FormBorderStyle.None;
             Name = "SignUp";
-            StartPosition = FormStartPosition.CenterScreen;
             Text = "SignUp";
+            Load += SignUp_Load;
+            ((System.ComponentModel.ISupportInitialize)iconPictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)iconPictureBox2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)iconPictureBox3).EndInit();
+            ((System.ComponentModel.ISupportInitialize)iconPictureBox4).EndInit();
+            ((System.ComponentModel.ISupportInitialize)iconPictureBox5).EndInit();
+            ((System.ComponentModel.ISupportInitialize)iconPictureBox6).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
+        private FontAwesome.Sharp.IconPictureBox iconPictureBox1;
         private TextBox txtFullname;
-        private Label label6;
-        private Button btnBack;
-        private Button btnSignUp;
-        private TextBox txtCFPassword;
-        private TextBox txtEmail;
+        private Panel panel1;
+        private Panel panel2;
         private TextBox txtPassword;
+        private Panel panel3;
+        private TextBox txtEmail;
+        private Panel panel4;
         private TextBox txtUsername;
-        private Label label5;
-        private Label label4;
-        private Label label3;
+        private Panel panel5;
+        private TextBox txtCFPassword;
+        private FontAwesome.Sharp.IconPictureBox iconPictureBox2;
+        private FontAwesome.Sharp.IconPictureBox iconPictureBox3;
+        private FontAwesome.Sharp.IconPictureBox iconPictureBox4;
+        private FontAwesome.Sharp.IconPictureBox iconPictureBox5;
+        private FontAwesome.Sharp.IconPictureBox iconPictureBox6;
+        private Button btnsignup;
+        private LinkLabel linklogin;
         private Label label2;
-        private Label label1;
+        private Label lbwait;
     }
 }

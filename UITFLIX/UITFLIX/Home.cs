@@ -15,7 +15,8 @@ namespace UITFLIX
        // private string content;
         private static long size;
         //List<Video> videos = GetUploadedVideos();
-        public Home()
+        private string Userinfo;
+        public Home(string userinfo)
         {
             InitializeComponent();
             leftborderBtn = new Panel();
@@ -28,6 +29,7 @@ namespace UITFLIX
             btnnewvideo_Click(btnnewvideo, EventArgs.Empty);
             //Test thử ava
             LoadImageFromUrl(@"https://i.pinimg.com/564x/18/26/5d/18265df50a518f170e1bbef60351018b.jpg");
+            Userinfo = userinfo;
         }
 
         public struct RGBColors

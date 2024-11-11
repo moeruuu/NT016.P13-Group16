@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             leftside = new Panel();
             btncoop = new FontAwesome.Sharp.IconButton();
             btnupload = new FontAwesome.Sharp.IconButton();
@@ -669,6 +670,9 @@
             filevideo.Text = "label1";
             filevideo.Visible = false;
             // 
+            // guna2Elipse1
+            // 
+            // 
             // Home
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -710,6 +714,7 @@
             Controls.Add(chat);
             Controls.Add(toppanel);
             Controls.Add(leftside);
+            FormBorderStyle = FormBorderStyle.None;
             Name = "Home";
             Text = "Home";
             leftside.ResumeLayout(false);

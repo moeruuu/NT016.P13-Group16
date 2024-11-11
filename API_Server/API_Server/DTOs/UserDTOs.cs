@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson;
+using System.ComponentModel.DataAnnotations;
 namespace API_Server.DTOs
 {
     public class UserSignUpDTOs
@@ -11,14 +13,11 @@ namespace API_Server.DTOs
         [RegularExpression("^[a-zA-Z0-9]{4,25}$", ErrorMessage = "Tên tài khoản không chứa kí tự đặt biệt và phải chứa ít nhất 4 kí tự hoặc tối đa 25 kí tự!")]
         public string Username { get; set; }
         [Required(ErrorMessage = "Vui lòng nhập Email!")]
-        [RegularExpression(@"^[\w]{4,15}@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}", ErrorMessage = "Vui lòng nhập đúng định dạng Email!")]
+        [RegularExpression(@"^[\w]{4,15}@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "Vui lòng nhập đúng định dạng Email!")]
         public string Email { get; set; }
         [Required(ErrorMessage = "Vui lòng nhập mật khẩu!")]
         [RegularExpression(@"^.{6,20}$", ErrorMessage = "Mật khẩu phải chứa ít nhất 6 kí tự hoặc tối đa 20 kí tự!")]
         public string Password { get; set; }
-        [Required(ErrorMessage = "Vui lòng nhập xác nhận mật khẩu!")]
-        public string ConfirmPassword { get; set; }
-
     }
 
     public class UserLogInDTOs 
@@ -41,7 +40,25 @@ namespace API_Server.DTOs
 
     }*/
 
-    
+    public class UserModel
+    {
+            public ObjectId UserId { get; set; }
 
+            public string Fullname { get; set; }
+          
+            public string Username { get; set; }
+
+            public string Password { get; set; }
+           
+            public string Email { get; set; }
+
+            //0 là Admin, 1 là User
+            public int Role { get; set; }
+            public string Profilepicture { get; set; }
+            public string Bio { get; set; }
+
+            public string Token { get; set; }
+        }
+    
 
 }

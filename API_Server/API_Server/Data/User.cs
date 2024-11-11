@@ -25,7 +25,5 @@ namespace API_Server.Data
         [BsonElement("Bio")]
         public string Bio {  get; set; }
 
-        [BsonElement("Token")]
-        public string Token { get; set; }
     }
 }

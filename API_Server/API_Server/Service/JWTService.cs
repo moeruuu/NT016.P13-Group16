@@ -10,6 +10,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Cryptography;
 using System.Net.WebSockets;
 using System.Security.Claims;
+using API_Server.DTOs;
+using Org.BouncyCastle.Asn1.Esf;
 
 namespace API_Server.Service
 {
@@ -52,21 +54,21 @@ namespace API_Server.Service
                 expires: DateTime.Now.AddMinutes(120),
                 signingCredentials: Credentials
                 );
-            string token = "Bearer";
-            string temp = new JwtSecurityTokenHandler().WriteToken(TokenInfor);
-            token += temp;
-            return token;
+            return new JwtSecurityTokenHandler().WriteToken(TokenInfor);
+            
         }
 
-        public string GetRefreshToken()
+       public string GenerateRefreshToken()
         {
-            var randomnumber = new byte[32];
+            var randomNumber = new byte[32]; 
             using (var rng = RandomNumberGenerator.Create())
             {
-                rng.GetBytes(randomnumber);
-                return Convert.ToBase64String(randomnumber);
+                rng.GetBytes(randomNumber);
+                return Convert.ToBase64String(randomNumber); 
             }
         }
+
+      
 
         public string VerifyToken(string token)
         {
@@ -139,6 +141,48 @@ namespace API_Server.Service
         {
             var filter = Builders<Token>.Filter.Eq(t => t.UserId, id);
             return await JWT.Find(filter).FirstOrDefaultAsync();
+        }
+        public async Task IncrementUsedToken(string refreshToken)
+        {
+            var filter = Builders<Token>.Filter.Eq(t => t.RefreshToken, refreshToken);
+            var update = Builders<Token>.Update.Set(t => t.UsedToken, true);
+            await JWT.UpdateOneAsync(filter, update);
+        }
+
+        // Lưu token mới vào cơ sở dữ liệu
+        public async Task SaveToken(string refreshToken, ObjectId userid)
+        {
+            var tokenData = new Token
+            {
+                RefreshToken = refreshToken,
+                UserId = userid,
+                ExpiryTime = DateTime.UtcNow.AddDays(14),
+                IsRevoked = false,
+                UsedToken = false
+            };
+
+            await JWT.InsertOneAsync(tokenData);
+        }
+        //Vô hiệu hóa token
+        public async Task InvalidateToken(string token)
+        {
+            var filter = Builders<Token>.Filter.Eq(t => t.RefreshToken, token);
+            var update = Builders<Token>.Update.Set(t => t.ExpiryTime, DateTime.UtcNow);
+
+            await JWT.UpdateOneAsync(filter, update);
+        }
+        public async Task<bool> DeleteTokenById(ObjectId userid)
+        {
+            try
+            {
+                var res = await JWT.DeleteOneAsync(token => token.UserId == userid);
+                return res.DeletedCount > 0;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
         }
     }
 }

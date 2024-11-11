@@ -11,10 +11,14 @@ namespace UITFLIX.Services
 {
     public class VideoService
     {
-        private readonly HttpClient httpClient;
-        public VideoService(string baseUrl)
+        public static readonly HttpClient httpClient = new HttpClient
         {
-            httpClient = new HttpClient { BaseAddress = new Uri(baseUrl), Timeout = TimeSpan.FromSeconds(60) };
+            BaseAddress = new Uri(@"https://localhost:7292/"),
+            Timeout = TimeSpan.FromSeconds(60)
+        };
+        public VideoService()
+        {
+            
         }
 
         public async Task<string> UploadVideoAsync(dynamic uploadvideo)

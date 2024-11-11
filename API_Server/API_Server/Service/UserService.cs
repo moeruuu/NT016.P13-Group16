@@ -36,10 +36,10 @@ namespace API_Server.Service
 
         public async Task<User> Register(UserSignUpDTOs SignupDTOs)
         {   
-            if (SignupDTOs.ConfirmPassword != SignupDTOs.Password)
+            /*if (SignupDTOs.ConfirmPassword != SignupDTOs.Password)
             {
                 throw new Exception("Mật khẩu và mật khẩu xác nhận không đúng!");
-            }
+            }*/
             var filter = Builders<User>.Filter.Or(
                     Builders<User>.Filter.Eq(u => u.Username, SignupDTOs.Username),
                     Builders<User>.Filter.Eq(u => u.Email, SignupDTOs.Email));
@@ -87,7 +87,7 @@ namespace API_Server.Service
                 throw new Exception("Tên tài khoản hoặc mật khẩu không trùng khớp!");
             }
 
-            existingUser.Token = token.GenerateAccessToken(existingUser);
+            //existingUser = GenerateAccessToken(existingUser);
             return existingUser;
         }
 
@@ -178,7 +178,7 @@ namespace API_Server.Service
             }
             if (currentOTP != otp.OTP)
             {
-                throw new Exception("Email không trùng khớp!");
+                throw new Exception("Mã OTP không trùng khớp!");
             }
 
             var newUser = new User
