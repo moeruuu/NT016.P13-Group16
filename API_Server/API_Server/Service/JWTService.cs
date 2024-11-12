@@ -22,6 +22,7 @@ namespace API_Server.Service
         private readonly string _audience;
         private readonly string secretkey;
         private readonly IMongoCollection<User> users;
+        private static string Jti;
 
         public JWTService(IMongoDatabase database, MongoDbContext context, IConfiguration configuration)
         {
@@ -37,20 +38,20 @@ namespace API_Server.Service
             var SecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretkey));
             var Credentials = new SigningCredentials(SecurityKey, SecurityAlgorithms.HmacSha256);
 
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
-                new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Role, user.Role == 0 ? "Admin" : "User"),
-                new Claim("Fullname", user.Fullname ?? ""),
-                new Claim("Bio", user.Bio ?? "")
-            };
+            Jti = Guid.NewGuid().ToString();
+            var claims = new[]
+               {
+                    new Claim(JwtRegisteredClaimNames.Name, user.Fullname),
+                    new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                    new Claim(JwtRegisteredClaimNames.Jti, Jti),
+                    new Claim("UserName", user.Username),
+                    new Claim("UserId", user.UserId.ToString())
+                };
 
             var TokenInfor = new JwtSecurityToken(
                 issuer: _issuer,
                 audience: _audience,
-                claims: null,
+                claims: claims,
                 expires: DateTime.Now.AddMinutes(120),
                 signingCredentials: Credentials
                 );
@@ -68,74 +69,42 @@ namespace API_Server.Service
             }
         }
 
-      
 
-        public string VerifyToken(string token)
+
+        public ClaimsPrincipal? ValidateToken(string token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.UTF8.GetBytes(secretkey);
-            try
-            {
-                tokenHandler.ValidateToken(token,
-                   new TokenValidationParameters
-                   {
-                       ValidateIssuerSigningKey = true,
-                       IssuerSigningKey = new SymmetricSecurityKey(key),
-                       ValidateIssuer = true,
-                       ValidateAudience = true,
-                       ValidIssuer = _issuer,
-                       ValidAudience = _audience,
-                       ClockSkew = TimeSpan.Zero
-                   },
-                   out SecurityToken validatedToken);
-                return "Hợp lệ";
-            }
-            catch (Exception ex)
-            {
-                return "Không hợp lệ";
-            }
-        }
+            var key = Encoding.ASCII.GetBytes(secretkey);
 
-        public async Task<bool> ValidateAccessToken(string token)
-        {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.UTF8.GetBytes(secretkey);
             try
             {
-                tokenHandler.ValidateToken(token,
-                    new TokenValidationParameters
-                    {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(key),
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidIssuer = _issuer,
-                        ValidAudience = _audience,
-                        ClockSkew = TimeSpan.Zero
-                    },
-                    out SecurityToken validatedToken);
-                return true;
+                var principal = tokenHandler.ValidateToken(token, new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ClockSkew = TimeSpan.Zero
+                }, out SecurityToken validatedToken);
+
+                return principal;
             }
             catch
             {
-                return false;
+                return null;
             }
         }
 
-        public async Task<bool> ValidateRefreshToken(string refreshtoken)
+        public async Task<bool> ValidateRefreshToken(string token, ObjectId userId, ObjectId id)
         {
-            var filter = Builders<Token>.Filter.Eq(t => t.RefreshToken, refreshtoken);
-            var token = await JWT.Find(filter).FirstOrDefaultAsync();
-            if (token != null)
-            {
-                if (token.UsedToken > 0 || token.ExpiryTime < DateTime.UtcNow)
-                {
-                    return false;
-                }
-                return true;
-            }
-            return false;
+            var getToken = await GetCurrentTokenForUser(userId);
+
+            if (getToken.RefreshToken == null || getToken.ExpiryTime < DateTime.UtcNow || getToken.IsRevoked != null || getToken.Id != id)
+                return false;
+
+            return true;
         }
+
 
         public async Task<Token> GetCurrentTokenForUser(ObjectId id)
         {
@@ -149,28 +118,8 @@ namespace API_Server.Service
             await JWT.UpdateOneAsync(filter, update);
         }
 
-        // Lưu token mới vào cơ sở dữ liệu
-        public async Task SaveToken(string refreshToken, ObjectId userid)
-        {
-            var tokenData = new Token
-            {
-                RefreshToken = refreshToken,
-                UserId = userid,
-                ExpiryTime = DateTime.UtcNow.AddDays(14),
-                IsRevoked = false,
-                UsedToken = false
-            };
-
-            await JWT.InsertOneAsync(tokenData);
-        }
         //Vô hiệu hóa token
-        public async Task InvalidateToken(string token)
-        {
-            var filter = Builders<Token>.Filter.Eq(t => t.RefreshToken, token);
-            var update = Builders<Token>.Update.Set(t => t.ExpiryTime, DateTime.UtcNow);
-
-            await JWT.UpdateOneAsync(filter, update);
-        }
+        
         public async Task<bool> DeleteTokenById(ObjectId userid)
         {
             try
@@ -184,6 +133,21 @@ namespace API_Server.Service
             }
 
         }
+        public async Task SaveRefreshToken(string refreshToken, ObjectId userid)
+        {
+            var token = new Token
+            {
+                Id = ObjectId.GenerateNewId(),
+                RefreshToken = refreshToken,
+                UserId = userid,
+                ExpiryTime = DateTime.UtcNow.AddMinutes(120),
+                UsedToken = false,
+                IsRevoked = false,
+                Jti = Jti
+            };
+            JWT.InsertOneAsync(token);
+        }
+
     }
 }
 

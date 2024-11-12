@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Security.Claims;
 using MongoDB.Bson;
+using MongoDB.Driver;
 
 namespace API_Server.Controllers
 {
@@ -17,10 +18,13 @@ namespace API_Server.Controllers
     {
         private readonly UserService userService;
         private readonly JWTService jwtService;
+        //private readonly IMongoCollection<Token> Tokencollection;
 
-        public UserController(UserService _userService)
+        public UserController(UserService _userService, JWTService jwt)
         {
             userService = _userService;
+            jwtService = jwt;
+            //Tokencollection = database.GetCollection<Token>("JWTToken");
         }
 
         [AllowAnonymous]
@@ -60,14 +64,29 @@ namespace API_Server.Controllers
             try
             {
                 var userLogin = await userService.Login(logInDTOs);
-                var token = jwtService.GenerateAccessToken(userLogin);
+                var accessToken = jwtService.GenerateAccessToken(userLogin);
+                
                 var refreshtoken = jwtService.GenerateRefreshToken();
+
+                jwtService.SaveRefreshToken(refreshtoken, userLogin.UserId);
+
+                var Cookie = new CookieOptions
+                {
+                    HttpOnly = true,
+                    Expires = DateTime.UtcNow.AddMinutes(120),
+                    Secure = true,
+                    SameSite = SameSiteMode.Strict,
+                };
+
+                Response.Cookies.Append("accessToken", accessToken, Cookie);
+
                 return Ok(new
                 {
-                    Access_token = token,
+                    Access_token = accessToken,
                     Token_type = "bearer",
                     User = new
                     {
+                        Fullname = userLogin.Fullname,
                         Username = userLogin.Username,
                         Email = userLogin.Email,
                         Profilepicture = userLogin.Profilepicture,
@@ -77,7 +96,7 @@ namespace API_Server.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest($"Lỗi {ex.Message}");
+                return BadRequest($"Lỗi {ex.Message} \n {ex.StackTrace}");
             }
         }
 

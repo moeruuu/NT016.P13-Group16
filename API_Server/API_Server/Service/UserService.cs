@@ -60,6 +60,7 @@ namespace API_Server.Service
                 Password = HashPassword(SignupDTOs.Password),
                 Email = SignupDTOs.Email,
                 Role = 1,
+                IsOnline = false,
 
             };
 
@@ -86,7 +87,8 @@ namespace API_Server.Service
             {
                 throw new Exception("Tên tài khoản hoặc mật khẩu không trùng khớp!");
             }
-
+            var update = Builders<User>.Update.Set(u => u.IsOnline, true);
+            await users.UpdateOneAsync(filter, update);
             //existingUser = GenerateAccessToken(existingUser);
             return existingUser;
         }

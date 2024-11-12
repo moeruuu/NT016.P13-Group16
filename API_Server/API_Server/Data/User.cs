@@ -24,6 +24,8 @@ namespace API_Server.Data
         public string Profilepicture { get; set; }
         [BsonElement("Bio")]
         public string Bio {  get; set; }
+        [BsonElement("IsOnline")]
+        public bool IsOnline { get; set; }
 
     }
 }

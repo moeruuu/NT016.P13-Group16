@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using UITFLIX.Services;
 
 
@@ -108,11 +109,13 @@ namespace UITFLIX
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await httpClient.PostAsync("/api/User/LogIn", content);
                 var info = await response.Content.ReadAsStringAsync();
-                MessageBox.Show(response.ToString());
+                JObject res = JObject.Parse(info);
+                //MessageBox.Show(Userinfo.ToString());
+                //MessageBox.Show(response.ToString());
                 if (response.IsSuccessStatusCode)
                 {
-                    MessageBox.Show(info);
-                    Home home = new Home(info);
+                    
+                    Home home = new Home(res);
                     home.ShowDialog();
                     this.Hide();
                 }
@@ -123,7 +126,7 @@ namespace UITFLIX
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message +'\n'+ ex.StackTrace);
             }
 
         }

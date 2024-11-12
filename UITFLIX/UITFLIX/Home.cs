@@ -1,4 +1,5 @@
 ﻿using FontAwesome.Sharp;
+using Newtonsoft.Json.Linq;
 using System.Drawing.Drawing2D;
 using System.Net;
 using System.Windows.Forms;
@@ -15,8 +16,8 @@ namespace UITFLIX
        // private string content;
         private static long size;
         //List<Video> videos = GetUploadedVideos();
-        private string Userinfo;
-        public Home(string userinfo)
+        private JObject Userinfo;
+        public Home(JObject in4)
         {
             InitializeComponent();
             leftborderBtn = new Panel();
@@ -27,9 +28,9 @@ namespace UITFLIX
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             //Mở new videos ngay khi mở form
             btnnewvideo_Click(btnnewvideo, EventArgs.Empty);
-            //Test thử ava
-            LoadImageFromUrl(@"https://i.pinimg.com/564x/18/26/5d/18265df50a518f170e1bbef60351018b.jpg");
-            Userinfo = userinfo;
+
+            Userinfo = in4; 
+            setUserinfo();
         }
 
         public struct RGBColors
@@ -182,21 +183,42 @@ namespace UITFLIX
         }
         //Lấy url để setava
         //thực hiện các tác vụ liên quan đến giao tiếp HTTP
-        private void LoadImageFromUrl(string imageUrl)
+        private async void LoadImageFromUrl(string imageUrl)
         {
-            using (WebClient client = new WebClient())
+            using (var client = new HttpClient())
             {
-                try
+                // Kiểm tra URL hợp lệ không
+                if (Uri.TryCreate(imageUrl, UriKind.Absolute, out var uriResult)
+                    && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps))
                 {
-                    byte[] imageData = client.DownloadData(imageUrl);
-                    using (MemoryStream ms = new MemoryStream(imageData))
+                    var imageBytes = await client.GetByteArrayAsync(imageUrl);
+                    using (var ms = new MemoryStream(imageBytes))
                     {
-                        Avatar.Image = Image.FromStream(ms); 
+                        if (ms != null && ms.CanRead)
+                        {
+                            ms.Seek(0, SeekOrigin.Begin);
+
+                            Image image = Image.FromStream(ms);
+                            Avatar.Image = Image.FromStream(ms);
+                        }
                     }
                 }
-                catch (Exception ex)
+                else
                 {
-                    MessageBox.Show("Lỗi tải ava: " + ex.Message);
+                    Avatar.Image = LoadDefaultImage();
+                }
+            }
+        }
+
+        private Image LoadDefaultImage()
+        {
+            string defaultImageUrl = "https://i.pinimg.com/736x/62/ee/b3/62eeb37155f0df95a708586aed9165c5.jpg";
+            using (var client = new HttpClient())
+            {
+                var imageBytes = client.GetByteArrayAsync(defaultImageUrl).Result;
+                using (var ms = new MemoryStream(imageBytes))
+                {
+                    return Image.FromStream(ms);
                 }
             }
         }
@@ -213,6 +235,13 @@ namespace UITFLIX
             {
                 return text;
             }
+        }
+
+        private void setUserinfo()
+        {
+            Username.Text = Userinfo["user"]["username"].ToString();
+            LoadImageFromUrl(Userinfo["user"]["profilepicture"].ToString());
+
         }
 
             /*private void DisplayVideos(List<Video> videos)

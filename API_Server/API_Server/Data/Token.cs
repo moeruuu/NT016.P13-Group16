@@ -17,6 +17,7 @@ namespace API_Server.Data
         public bool UsedToken { get; set; }
         [BsonElement("Revoked")]
         public bool IsRevoked { get; set; }
-
+        [BsonElement("Jti")]
+        public string Jti { get; set; }
     }
 }
