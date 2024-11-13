@@ -35,28 +35,31 @@ namespace API_Server.Service
 
         public string GenerateAccessToken(User user)
         {
+            var tokenHandler = new JwtSecurityTokenHandler();
             var SecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretkey));
             var Credentials = new SigningCredentials(SecurityKey, SecurityAlgorithms.HmacSha256);
 
-            Jti = Guid.NewGuid().ToString();
             var claims = new[]
-               {
-                    new Claim(JwtRegisteredClaimNames.Name, user.Fullname),
-                    new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                    new Claim(JwtRegisteredClaimNames.Jti, Jti),
-                    new Claim("UserName", user.Username),
-                    new Claim("UserId", user.UserId.ToString())
-                };
+            {
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Sub, user.UserId.ToString()),
+                new Claim(JwtRegisteredClaimNames.UniqueName, user.Username),
+                new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                new Claim(JwtRegisteredClaimNames.Name, user.Fullname),
+                new Claim("Role", user.Role.ToString()),
+            };
 
-            var TokenInfor = new JwtSecurityToken(
-                issuer: _issuer,
-                audience: _audience,
-                claims: claims,
-                expires: DateTime.Now.AddMinutes(120),
-                signingCredentials: Credentials
-                );
-            return new JwtSecurityTokenHandler().WriteToken(TokenInfor);
-            
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.UtcNow.AddMinutes(120),
+                Issuer = _issuer,
+                Audience = _audience,
+                SigningCredentials = Credentials,
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
         }
 
        public string GenerateRefreshToken()
