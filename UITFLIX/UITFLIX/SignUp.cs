@@ -196,9 +196,10 @@ namespace UITFLIX
             //JObject status = JObject.Parse(response);
             if (response.Contains("thành công!", StringComparison.OrdinalIgnoreCase))
             {
+                this.Hide();
                 VerifyOTP otp = new VerifyOTP();
                 otp.ShowDialog();
-                this.Hide();
+                this.Close();
             }
             else
             {
@@ -209,9 +210,10 @@ namespace UITFLIX
 
         private void linklogin_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            this.Hide();
             LogIn logIn = new LogIn();
             logIn.ShowDialog();
-            this.Hide();
+            this.Close();
         }
     }
 }
