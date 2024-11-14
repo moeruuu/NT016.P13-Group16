@@ -82,9 +82,10 @@ namespace UITFLIX
 
         private async void linksignup_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            this.Hide();
             SignUp signUp = new SignUp();
             signUp.ShowDialog();
-            this.Hide();
+            this.Close();
         }
 
         private async void btnlogin_Click(object sender, EventArgs e)
@@ -114,10 +115,12 @@ namespace UITFLIX
                 //MessageBox.Show(response.ToString());
                 if (response.IsSuccessStatusCode)
                 {
+                    this.Hide();
+                    Home home = new Home(res);
                     var videoService = new VideoService();
                     Home home = new Home(res, videoService);
                     home.ShowDialog();
-                    this.Hide();
+                    this.Close();
                 }
                 else
                 {

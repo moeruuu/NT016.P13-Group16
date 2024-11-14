@@ -65,7 +65,6 @@ namespace API_Server.Controllers
             {
                 var userLogin = await userService.Login(logInDTOs);
                 var accessToken = jwtService.GenerateAccessToken(userLogin);
-                
                 var refreshtoken = jwtService.GenerateRefreshToken();
 
                 jwtService.SaveRefreshToken(refreshtoken, userLogin.UserId);
