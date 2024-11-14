@@ -18,7 +18,7 @@ namespace API_Server.Controllers
     {
         private readonly UserService userService;
         private readonly JWTService jwtService;
-        //private readonly IMongoCollection<Token> Tokencollection;
+
 
         public UserController(UserService _userService, JWTService jwt)
         {
@@ -165,6 +165,16 @@ namespace API_Server.Controllers
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        [HttpGet("GetAll")]
+        public async Task<ActionResult<List<User>>> GetAllUsers()
+        {
+            var users = await userService.GetAllUsers();
+            if (users != null || users.Count != 0)
+                return Ok(users);
+            else return NotFound("Không có người dùng nào!");
+        }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         [HttpDelete("UserID/{UserId}")]
         public async Task<IActionResult> DeleteUser()
         {
@@ -183,5 +193,7 @@ namespace API_Server.Controllers
                 return NotFound("Không tìm thấy người dùng");
             }
         }
+
+        
     }
 }

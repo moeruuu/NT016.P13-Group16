@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
             leftside = new Panel();
             btncoop = new FontAwesome.Sharp.IconButton();
             btnupload = new FontAwesome.Sharp.IconButton();
@@ -585,6 +584,7 @@
             btnuploadvideo.Text = "Upload";
             btnuploadvideo.UseVisualStyleBackColor = true;
             btnuploadvideo.Visible = false;
+            btnuploadvideo.Click += btnuploadvideo_Click;
             // 
             // progressupload
             // 
@@ -669,9 +669,6 @@
             filevideo.TabIndex = 34;
             filevideo.Text = "label1";
             filevideo.Visible = false;
-            // 
-            // guna2Elipse1
-            // 
             // 
             // Home
             // 

@@ -23,9 +23,9 @@ namespace API_Server.Controllers
             userService = user;
         }
 
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost("Upload")]
-        public async Task<IActionResult> UploadVideo([FromBody] UploadVideoDTOs uploadVideo, IFormFile file)
+        public async Task<IActionResult> UploadVideo([FromForm] UploadVideoDTOs uploadVideo)
         {
             try
             {
@@ -34,9 +34,9 @@ namespace API_Server.Controllers
                 {
                     return Unauthorized("Không thể xác thực người dùng.");
                 }
-               // var user = await userService.GetUserByID(UserId);
-
-                var addedVideo = await filmService.AddVideo(uploadVideo, UserId, file);
+                //var user = await userService.GetUserByID(UserId);
+                //ObjectId UserId = ObjectId.Parse("67337f1bc5297b798496ced9");
+                var addedVideo = await filmService.AddVideo(uploadVideo, UserId);
 
                 return Ok(new
                 {
@@ -82,6 +82,16 @@ namespace API_Server.Controllers
             }
 
             return Ok(videos);
+        }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        [HttpGet("GetAllVideos")]
+        public async Task<ActionResult<List<Video>>> GetAllVideos()
+        {
+            var videos = await filmService.GetAllVideos();
+            if (videos != null || videos.Count != 0)
+                return Ok(videos);
+            else return NotFound("Không có người dùng nào!");
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]

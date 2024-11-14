@@ -4,6 +4,8 @@ using API_Server.DTOs;
 using API_Server.Models;
 using MongoDB.Bson;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using MongoDB.Driver.GridFS;
 namespace API_Server.Service
 {
     public class FilmService
@@ -11,51 +13,47 @@ namespace API_Server.Service
         private readonly IMongoCollection<Video> videos;
         private readonly User user;
         private readonly ImgurService imgurService;
-        public FilmService(IMongoDatabase database)
+        private readonly IGridFSBucket gridFS;
+
+        public FilmService(IConfiguration configuration, ImgurService imgurService)
         {
+            var client = new MongoClient(configuration.GetSection("MongoDB:ConnectionString").Value);
+            var database = client.GetDatabase("DOAN");
             videos = database.GetCollection<Video>("Videos");
+            gridFS = new GridFSBucket(database);
+
+            this.imgurService = imgurService;
         }
 
-        public async Task<Video> AddVideo(UploadVideoDTOs uploadVideo, ObjectId id, IFormFile imagefilm)
+        public async Task<Video> AddVideo(UploadVideoDTOs uploadVideo, ObjectId id)
         {
-            //long size = await GetVideoSize(uploadVideo.Url);
-            var imageUrl = await imgurService.UploadImgurAsync(new ImageDTOs { file = imagefilm });
+
+            var imageUrl = await imgurService.UploadImgurAsync(new ImageDTOs { file = uploadVideo.UrlImage });
+
+            //Upload video vào GridFS
+            ObjectId videoFileId;
+            using (var stream = uploadVideo.UrlVideo.OpenReadStream())
+            {
+                var options = new GridFSUploadOptions { Metadata = new BsonDocument { { "contentType", uploadVideo.UrlVideo.ContentType } } };
+                videoFileId = await gridFS.UploadFromStreamAsync(uploadVideo.UrlVideo.FileName, stream, options);
+            }
+
             var newvideo = new Video
             {
                 VideoId = ObjectId.GenerateNewId(),
                 Title = uploadVideo.Title,
                 Description = uploadVideo.Description,
-                Url = uploadVideo.Url,
+                Url = videoFileId.ToString(),  //lưu GridFS ID của video làm url
                 UrlImage = imageUrl,
                 UploaderID = id,
                 UploadedDate = DateTime.UtcNow,
                 Size = uploadVideo.Size,
-
             };
+
             await videos.InsertOneAsync(newvideo);
             return newvideo;
         }
 
-        /*private async Task<long> GetVideoSize(string videoUrl)
-        {
-            using (var httpClient = new HttpClient())
-            {
-                
-                var response = await httpClient.SendAsync(new HttpRequestMessage(HttpMethod.Head, videoUrl));
-
-                //Xem resquest oke chưa
-                if (response.IsSuccessStatusCode)
-                {
-                    
-                    if (response.Content.Headers.ContentLength.HasValue)
-                    {
-                        return response.Content.Headers.ContentLength.Value; 
-                    }
-                }
-            }
-            //Nếu ko lấy được thì return 0
-            return 0;
-        }*/
 
         public async Task<List<Video>> SearchVideos(string title)
         {
@@ -69,6 +67,10 @@ namespace API_Server.Service
             return result.DeletedCount > 0;
         }
 
-      
+        public async Task<List<Video>> GetAllVideos()
+        {
+            return await videos.Find(new BsonDocument()).ToListAsync();
+        }
+
     }
 }

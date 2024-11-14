@@ -107,6 +107,7 @@ namespace API_Server.Service
             //Thay đổi ava phải cần đường link
             if (avatarFile != null && avatarFile.Length > 0)
             {
+
                 var imageUrl = await imgurService.UploadImgurAsync(new ImageDTOs { file = avatarFile });
                 updates.Add(Builders<User>.Update.Set(u => u.Profilepicture, imageUrl));
             }
@@ -325,6 +326,10 @@ namespace API_Server.Service
                 throw new Exception("Không tìm thấy user");
             }
             return existingUser;
+        }
+        public async Task<List<User>> GetAllUsers()
+        {
+            return await users.Find(new BsonDocument()).ToListAsync();
         }
     }
 }

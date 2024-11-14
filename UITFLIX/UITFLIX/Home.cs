@@ -4,20 +4,31 @@ using System.Drawing.Drawing2D;
 using System.Net;
 using System.Windows.Forms;
 using UITFLIX.Models;
+using UITFLIX.Services;
 namespace UITFLIX
 {
     public partial class Home : Form
     {
+        public static readonly HttpClient httpClient = new HttpClient
+        {
+            BaseAddress = new Uri(@"https://localhost:7292/"),
+            Timeout = TimeSpan.FromSeconds(60)
+        };
         private IconButton currentbtn;
         private Panel leftborderBtn;
         private bool MainVisible = true;
         private bool OtherVisible = false;
         private OpenFileDialog openFileDialog = new OpenFileDialog();
-       // private string content;
+        // private string content;
         private static long size;
         //List<Video> videos = GetUploadedVideos();
         private JObject Userinfo;
-        public Home(JObject in4)
+
+        private readonly VideoService videoService;
+
+        private static string selectedvideofile;
+        private static string selectedimagefile;
+        public Home(JObject in4, VideoService video)
         {
             InitializeComponent();
             leftborderBtn = new Panel();
@@ -29,7 +40,8 @@ namespace UITFLIX
             //Mở new videos ngay khi mở form
             btnnewvideo_Click(btnnewvideo, EventArgs.Empty);
 
-            Userinfo = in4; 
+            Userinfo = in4;
+            videoService = video;
             setUserinfo();
         }
 
@@ -161,10 +173,10 @@ namespace UITFLIX
             openFileDialog.Filter = "Video Files|*.mp4;*.avi;*.mov;*.wmv;*.mkv;*.flv;*.webm";
             openFileDialog.Title = "Select a Video File";
             openFileDialog.ShowDialog();
-            string selectedfile = openFileDialog.FileName;
+            selectedvideofile = openFileDialog.FileName;
 
-            string getname = Path.GetFileNameWithoutExtension(selectedfile);
-            string getextensions = Path.GetExtension(selectedfile);
+            string getname = Path.GetFileNameWithoutExtension(selectedvideofile);
+            string getextensions = Path.GetExtension(selectedvideofile);
             filevideo.Text = SetLabelText(getname) + getextensions;
         }
 
@@ -173,13 +185,13 @@ namespace UITFLIX
             openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;*.tiff;*.webp;*.svg";
             openFileDialog.Title = "Select an Image File";
             openFileDialog.ShowDialog();
-            string selectedfile = openFileDialog.FileName;
-            string getname  = Path.GetFileNameWithoutExtension(selectedfile);
-            string getextensions = Path.GetExtension(selectedfile);
-            FileInfo info = new FileInfo(selectedfile);
+            selectedimagefile = openFileDialog.FileName;
+            string getname = Path.GetFileNameWithoutExtension(selectedimagefile);
+            string getextensions = Path.GetExtension(selectedimagefile);
+            FileInfo info = new FileInfo(selectedimagefile);
             size = info.Length;
             fileimage.Text = SetLabelText(getname) + getextensions;
-            
+
         }
         //Lấy url để setava
         //thực hiện các tác vụ liên quan đến giao tiếp HTTP
@@ -239,43 +251,77 @@ namespace UITFLIX
 
         private void setUserinfo()
         {
-            Username.Text = Userinfo["user"]["username"].ToString();
+            Username.Text = Userinfo["user"]["fullname"].ToString();
             LoadImageFromUrl(Userinfo["user"]["profilepicture"].ToString());
 
         }
 
-            /*private void DisplayVideos(List<Video> videos)
+        private async void btnuploadvideo_Click(object sender, EventArgs e)
+        {
+            try
             {
-
-                PictureBox[] pictureBoxes = { picfilm1, picfilm2, picfilm3, picfilm4, picfilm5, picfilm6 };
-                Label[] titleLabels = { filmname1, filmname2, filmname3, filmname4, filmname5, filmname6 };
-                Label[] dateLabels = { event1, event2, event3, event4, event5, event6 };
-
-                //hiển thị số lượng PictureBox và Label phù hợp với số lượng video
-                for (int i = 0; i < pictureBoxes.Length; i++)
+                if (tbnamefilm.Text == null)
                 {
-                    if (i < videos.Count)
-                    {
-                        pictureBoxes[i].Visible = true;
-                        titleLabels[i].Visible = true;
-                        dateLabels[i].Visible = true;
-                        pictureBoxes[i].Image = Image.FromFile(videos[i].urlimage);
-                        titleLabels[i].Text = videos[i].Title;
-                        dateLabels[i].Text = videos[i].uploaddate.ToString();
-                    }
-                    else
-                    {
-                        pictureBoxes[i].Visible = false;
-                        titleLabels[i].Visible = false;
-                        dateLabels[i].Visible = false;
-                    }
+                    MessageBox.Show("Vui lòng chọn tên phim!");
+                    return;
                 }
+                if (selectedimagefile == null || selectedvideofile == null)
+                {
+                    MessageBox.Show("Vui lòng chọn file!");
+                }
+                FileInfo fileInfo = new FileInfo(selectedvideofile);
+                var size = fileInfo.Length;
+                if (size > 100000000)
+                { MessageBox.Show("Dung lượng video quá lớn!");
+                    return;
+                }
+                /* if (await videoService.UploadVideoAsync(selectedvideofile, selectedimagefile, tbnamefilm.Text.Trim(), tbdescription.Text.Trim(), size.ToString()))
+                     MessageBox.Show("Upload video thành công!");
+                 else
+                     MessageBox.Show("Không thể upload video");*/
+                await videoService.UploadVideoAsync(selectedvideofile, selectedimagefile, tbnamefilm.Text.Trim(), tbdescription.Text.Trim(), size.ToString(), Userinfo["access_token"].ToString());
 
-            }*/
 
-            /*private List<Video> GetUploadedVideos()
+            }
+            catch(Exception ex)
             {
+                MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
+            }
 
-            }*/
         }
+
+        /*private void DisplayVideos(List<Video> videos)
+        {
+
+            PictureBox[] pictureBoxes = { picfilm1, picfilm2, picfilm3, picfilm4, picfilm5, picfilm6 };
+            Label[] titleLabels = { filmname1, filmname2, filmname3, filmname4, filmname5, filmname6 };
+            Label[] dateLabels = { event1, event2, event3, event4, event5, event6 };
+
+            //hiển thị số lượng PictureBox và Label phù hợp với số lượng video
+            for (int i = 0; i < pictureBoxes.Length; i++)
+            {
+                if (i < videos.Count)
+                {
+                    pictureBoxes[i].Visible = true;
+                    titleLabels[i].Visible = true;
+                    dateLabels[i].Visible = true;
+                    pictureBoxes[i].Image = Image.FromFile(videos[i].urlimage);
+                    titleLabels[i].Text = videos[i].Title;
+                    dateLabels[i].Text = videos[i].uploaddate.ToString();
+                }
+                else
+                {
+                    pictureBoxes[i].Visible = false;
+                    titleLabels[i].Visible = false;
+                    dateLabels[i].Visible = false;
+                }
+            }
+
+        }*/
+
+        /*private List<Video> GetUploadedVideos()
+        {
+
+        }*/
+    }
 }
