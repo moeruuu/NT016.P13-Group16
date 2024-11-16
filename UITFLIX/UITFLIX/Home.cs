@@ -5,6 +5,9 @@ using System.Net;
 using System.Windows.Forms;
 using UITFLIX.Models;
 using UITFLIX.Services;
+using Newtonsoft.Json;
+using System.Diagnostics.Eventing.Reader;
+
 namespace UITFLIX
 {
     public partial class Home : Form
@@ -86,12 +89,78 @@ namespace UITFLIX
             }
         }
 
-        private void btnnewvideo_Click(object sender, EventArgs e)
+        private async void btnnewvideo_Click(object sender, EventArgs e)
         {
             ActiveButton(sender, RGBColors.color1);
             VisibleCoop(OtherVisible);
             VisibleUpload(OtherVisible);
             VisibleTopPanel(MainVisible);
+            try
+            {
+                var json = await videoService.GetNewestVideosAsync(Userinfo["access_token"].ToString());
+                JArray videos = JArray.Parse(json.ToString());
+                if (videos != null && videos.Count > 0)
+                {
+                    for (int i = 0; i < videos.Count; i++)
+                    {
+                        var video = videos[i];
+                        PictureBox currentPicBox = (PictureBox)this.Controls.Find($"picfilm{i + 1}", true).FirstOrDefault();
+
+                        if (currentPicBox != null)
+                        {
+                            currentPicBox.Visible = true;
+
+                            string imageurl = video["urlImage"].ToString();
+
+                            using (var client = new HttpClient())
+                            {
+                                if (Uri.TryCreate(imageurl, UriKind.Absolute, out var uriResult)
+                                    && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps))
+                                {
+                                    var imageBytes = await client.GetByteArrayAsync(imageurl);
+                                    using (var ms = new MemoryStream(imageBytes))
+                                    {
+                                        if (ms != null && ms.CanRead)
+                                        {
+                                            ms.Seek(0, SeekOrigin.Begin);
+
+                                            Image image = Image.FromStream(ms);
+                                            currentPicBox.Image = Image.FromStream(ms);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    currentPicBox.Image = null;
+                                }
+                            }
+                        }
+
+                        Label currentname = (Label)this.Controls.Find($"filmname{i + 1}", true).FirstOrDefault();
+                        if (currentname != null)
+                        {
+                            currentname.Visible = true;
+                            currentname.Text = video["title"].ToString();
+                            SetLabelText(currentname.Text, 11);
+                        }
+
+                        Label currentevent = (Label)this.Controls.Find($"event{i + 1}", true).FirstOrDefault();
+                        if (currentevent != null)
+                        {
+                            currentevent.Visible = true;
+                            currentevent.Text = video["title"].ToString();
+                            SetLabelText(currentevent.Text, 11);
+                        }
+                    }
+                }
+                else
+                {
+                    information.Visible = true;
+                }
+            }
+            catch(Exception ex) {
+                MessageBox.Show($"{ex.Message}\n{ex.StackTrace}");
+            }
 
         }
 
@@ -177,7 +246,7 @@ namespace UITFLIX
 
             string getname = Path.GetFileNameWithoutExtension(selectedvideofile);
             string getextensions = Path.GetExtension(selectedvideofile);
-            filevideo.Text = SetLabelText(getname) + getextensions;
+            filevideo.Text = SetLabelText(getname, 15) + getextensions;
         }
 
         private void btnchooseimage_Click(object sender, EventArgs e)
@@ -190,7 +259,7 @@ namespace UITFLIX
             string getextensions = Path.GetExtension(selectedimagefile);
             FileInfo info = new FileInfo(selectedimagefile);
             size = info.Length;
-            fileimage.Text = SetLabelText(getname) + getextensions;
+            fileimage.Text = SetLabelText(getname, 15) + getextensions;
 
         }
         //Lấy url để setava
@@ -236,9 +305,9 @@ namespace UITFLIX
         }
 
         //Hihi lấy tên tối đa =)))
-        private string SetLabelText(string text)
+        private string SetLabelText(string text, int maxLength)
         {
-            int maxLength = 15;
+            //int maxLength = 15;
             if (text.Length > maxLength)
             {
                 return text.Substring(0, maxLength) + "...";
@@ -260,6 +329,8 @@ namespace UITFLIX
         {
             try
             {
+
+                btnupload.Enabled = false;
                 if (tbnamefilm.Text == null || tbdescription.Text == null)
                 {
                     MessageBox.Show("Vui lòng ghi tên phim hoặc mô tả!");
@@ -278,15 +349,13 @@ namespace UITFLIX
 
                 var progress = new Progress<int>(percent =>
                 {
-                    progressupload.Value = percent;
+                    progressupload.Value = percent;  
                 });
                 /* if (await videoService.UploadVideoAsync(selectedvideofile, selectedimagefile, tbnamefilm.Text.Trim(), tbdescription.Text.Trim(), size.ToString()))
                      MessageBox.Show("Upload video thành công!");
                  else
                      MessageBox.Show("Không thể upload video");*/
                 await videoService.UploadVideoAsync(selectedvideofile, selectedimagefile, tbnamefilm.Text.Trim(), tbdescription.Text.Trim(), size.ToString(), Userinfo["access_token"].ToString(), progress);
-
-
             }
             catch(Exception ex)
             {

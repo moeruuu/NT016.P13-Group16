@@ -7,6 +7,8 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
 using System.Security.Policy;
+using System.Runtime.InteropServices.JavaScript;
+using Newtonsoft.Json.Linq;
 
 namespace UITFLIX.Services
 {
@@ -28,7 +30,7 @@ namespace UITFLIX.Services
             {
                 if (string.IsNullOrEmpty(accessToken))
                 {
-                    MessageBox.Show("Access token is required.");
+                    MessageBox.Show("Yêu cầu access token!");
                     return;
                 }
 
@@ -42,7 +44,7 @@ namespace UITFLIX.Services
 
                 //Thêm video đến form bằng binary
                 using var videoStream = new FileStream(videoFilePath, FileMode.Open, FileAccess.Read);
-                var videoContent = new StreamContent(videoStream);
+                var videoContent = new ProgressableStreamContent(videoStream, progress);
                 var videoExtension = Path.GetExtension(videoFilePath).ToLower();
                 var videoMimeType = videoExtension switch
                 {
@@ -73,12 +75,41 @@ namespace UITFLIX.Services
                 }
                 else
                 {
-                    MessageBox.Show("Video uploaded successfully.");
+                    MessageBox.Show("Upload video thành công!");
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"{ex.Message}\n{ex.StackTrace}");
+            }
+        }
+
+        public async Task<JObject> GetNewestVideosAsync(string accesstoken)
+        {
+            try
+            {
+                if(string.IsNullOrEmpty(accesstoken))
+                {
+                    return null;
+                }
+
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accesstoken);
+                HttpResponseMessage response = await httpClient.GetAsync($"/api/Video/GetNewestVideos");
+                if (response.IsSuccessStatusCode)
+                {
+                    var res = await response.Content.ReadAsStringAsync();
+                    JObject json = JObject.Parse(res);
+                    return json;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch(Exception ex)
+            {
+               // MessageBox.Show($"{ex.Message}\n{ex.StackTrace}");
+                return null;
             }
         }
 

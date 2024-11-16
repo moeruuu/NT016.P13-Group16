@@ -74,6 +74,7 @@
             linkcreateroom = new LinkLabel();
             btnchooseimage = new Button();
             filevideo = new Label();
+            information = new Label();
             leftside.SuspendLayout();
             avatarpanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)Avatar).BeginInit();
@@ -388,7 +389,7 @@
             filmname1.AutoSize = true;
             filmname1.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             filmname1.ForeColor = SystemColors.ButtonHighlight;
-            filmname1.Location = new Point(437, 347);
+            filmname1.Location = new Point(394, 347);
             filmname1.Name = "filmname1";
             filmname1.Size = new Size(62, 23);
             filmname1.TabIndex = 9;
@@ -400,7 +401,7 @@
             event1.AutoSize = true;
             event1.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             event1.ForeColor = SystemColors.ButtonHighlight;
-            event1.Location = new Point(437, 381);
+            event1.Location = new Point(394, 381);
             event1.Name = "event1";
             event1.Size = new Size(62, 23);
             event1.TabIndex = 10;
@@ -412,7 +413,7 @@
             event2.AutoSize = true;
             event2.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             event2.ForeColor = SystemColors.ButtonHighlight;
-            event2.Location = new Point(784, 381);
+            event2.Location = new Point(739, 381);
             event2.Name = "event2";
             event2.Size = new Size(62, 23);
             event2.TabIndex = 12;
@@ -424,7 +425,7 @@
             filmname2.AutoSize = true;
             filmname2.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             filmname2.ForeColor = SystemColors.ButtonHighlight;
-            filmname2.Location = new Point(784, 347);
+            filmname2.Location = new Point(739, 347);
             filmname2.Name = "filmname2";
             filmname2.Size = new Size(62, 23);
             filmname2.TabIndex = 11;
@@ -436,7 +437,7 @@
             event3.AutoSize = true;
             event3.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             event3.ForeColor = SystemColors.ButtonHighlight;
-            event3.Location = new Point(1155, 381);
+            event3.Location = new Point(1105, 381);
             event3.Name = "event3";
             event3.Size = new Size(62, 23);
             event3.TabIndex = 14;
@@ -448,7 +449,7 @@
             filmname3.AutoSize = true;
             filmname3.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             filmname3.ForeColor = SystemColors.ButtonHighlight;
-            filmname3.Location = new Point(1155, 347);
+            filmname3.Location = new Point(1105, 347);
             filmname3.Name = "filmname3";
             filmname3.Size = new Size(62, 23);
             filmname3.TabIndex = 13;
@@ -460,7 +461,7 @@
             event4.AutoSize = true;
             event4.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             event4.ForeColor = SystemColors.ButtonHighlight;
-            event4.Location = new Point(437, 669);
+            event4.Location = new Point(394, 669);
             event4.Name = "event4";
             event4.Size = new Size(62, 23);
             event4.TabIndex = 16;
@@ -472,7 +473,7 @@
             filmname4.AutoSize = true;
             filmname4.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             filmname4.ForeColor = SystemColors.ButtonHighlight;
-            filmname4.Location = new Point(437, 635);
+            filmname4.Location = new Point(394, 635);
             filmname4.Name = "filmname4";
             filmname4.Size = new Size(62, 23);
             filmname4.TabIndex = 15;
@@ -484,7 +485,7 @@
             event5.AutoSize = true;
             event5.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             event5.ForeColor = SystemColors.ButtonHighlight;
-            event5.Location = new Point(784, 669);
+            event5.Location = new Point(739, 669);
             event5.Name = "event5";
             event5.Size = new Size(62, 23);
             event5.TabIndex = 18;
@@ -496,7 +497,7 @@
             filmname5.AutoSize = true;
             filmname5.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             filmname5.ForeColor = SystemColors.ButtonHighlight;
-            filmname5.Location = new Point(784, 635);
+            filmname5.Location = new Point(739, 635);
             filmname5.Name = "filmname5";
             filmname5.Size = new Size(73, 23);
             filmname5.TabIndex = 17;
@@ -508,7 +509,7 @@
             event6.AutoSize = true;
             event6.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             event6.ForeColor = SystemColors.ButtonHighlight;
-            event6.Location = new Point(1155, 669);
+            event6.Location = new Point(1105, 669);
             event6.Name = "event6";
             event6.Size = new Size(73, 23);
             event6.TabIndex = 20;
@@ -520,7 +521,7 @@
             filmname6.AutoSize = true;
             filmname6.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             filmname6.ForeColor = SystemColors.ButtonHighlight;
-            filmname6.Location = new Point(1155, 635);
+            filmname6.Location = new Point(1105, 635);
             filmname6.Name = "filmname6";
             filmname6.Size = new Size(73, 23);
             filmname6.TabIndex = 19;
@@ -670,12 +671,25 @@
             filevideo.Text = "label1";
             filevideo.Visible = false;
             // 
+            // information
+            // 
+            information.AutoSize = true;
+            information.Font = new Font("Cambria", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            information.ForeColor = SystemColors.ButtonHighlight;
+            information.Location = new Point(327, 169);
+            information.Name = "information";
+            information.Size = new Size(297, 28);
+            information.TabIndex = 35;
+            information.Text = "Hiện tại chưa có video nào...";
+            information.Visible = false;
+            // 
             // Home
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightBlue;
             ClientSize = new Size(1342, 769);
+            Controls.Add(information);
             Controls.Add(filevideo);
             Controls.Add(btnchooseimage);
             Controls.Add(linkcreateroom);
@@ -780,5 +794,6 @@
         private Button btnchooseimage;
         private Label filevideo;
         private LinkLabel Username;
+        private Label information;
     }
 }

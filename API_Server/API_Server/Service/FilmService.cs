@@ -30,6 +30,12 @@ namespace API_Server.Service
 
             var imageUrl = await imgurService.UploadImgurAsync(new ImageDTOs { file = uploadVideo.UrlImage });
 
+            long videosize;
+            using (var stream = uploadVideo.UrlVideo.OpenReadStream())
+            {
+                videosize = stream.Length; 
+            }
+
             //Upload video vào GridFS
             ObjectId videoFileId;
             using (var stream = uploadVideo.UrlVideo.OpenReadStream())
@@ -47,7 +53,7 @@ namespace API_Server.Service
                 UrlImage = imageUrl,
                 UploaderID = id,
                 UploadedDate = DateTime.UtcNow,
-                //Size = uploadVideo.Size,
+                Size = videosize,
             };
 
             await videos.InsertOneAsync(newvideo);
@@ -59,6 +65,12 @@ namespace API_Server.Service
         {
             var filter = Builders<Video>.Filter.Regex(v => v.Title, new MongoDB.Bson.BsonRegularExpression(title, "i"));
             return await videos.Find(filter).ToListAsync();
+        }
+
+        public async Task<List<Video>> GetNewestVideos()
+        {
+            var newvideos = await videos.Find(new BsonDocument()).Sort(Builders<Video>.Sort.Descending(v => v.UploadedDate)).Limit(6).ToListAsync();
+            return newvideos;
         }
         public async Task<bool> DeleteVideo(string id)
         {

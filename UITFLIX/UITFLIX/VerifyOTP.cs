@@ -14,6 +14,7 @@ namespace UITFLIX
     public partial class VerifyOTP : Form
     {
         private readonly UserService userService;
+      
         public VerifyOTP()
         {
             InitializeComponent();
@@ -24,6 +25,9 @@ namespace UITFLIX
 
         private async void btnverify_Click(object sender, EventArgs e)
         {
+            btnverify.Enabled = false;
+            //btnverify.Text = $"Vui lòng chờ {delay}s...";
+
             if (string.IsNullOrEmpty(tbotp.Text.Trim()))
             {
                 MessageBox.Show("Vui lòng nhập mã OTP!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -47,5 +51,7 @@ namespace UITFLIX
                 return;
             }
         }
+
+        
     }
 }

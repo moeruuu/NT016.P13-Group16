@@ -84,6 +84,14 @@ namespace API_Server.Controllers
             return Ok(videos);
         }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet("GetNewestVideos")]
+        public async Task<ActionResult<List<Video>>> GetNewestVideo()
+        {
+            var videos = await filmService.GetNewestVideos();
+            return Ok(videos);
+        } 
+
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         [HttpGet("GetAllVideos")]
         public async Task<ActionResult<List<Video>>> GetAllVideos()

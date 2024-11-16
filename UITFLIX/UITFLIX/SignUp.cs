@@ -148,7 +148,7 @@ namespace UITFLIX
         }
         public bool checkemail(string email)
         {
-            return Regex.IsMatch(email, @"^[\w]{4,15}@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}");
+            return Regex.IsMatch(email, @"^[\w]{4,30}@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}");
         }
         public bool checkpassword(string password)
         {
