@@ -46,7 +46,7 @@ namespace API_Server.Service
                 new Claim(JwtRegisteredClaimNames.UniqueName, user.Username),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 new Claim(JwtRegisteredClaimNames.Name, user.Fullname),
-                new Claim("Role", user.Role.ToString()),
+                new Claim(ClaimTypes.Role, user.Role == 0 ? "Admin" : "User"),
             };
 
             var tokenDescriptor = new SecurityTokenDescriptor

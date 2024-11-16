@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using MongoDB.Driver;
 using System.Configuration;
 using System.Net.WebSockets;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 var builder = WebApplication.CreateBuilder(args);
@@ -65,6 +66,20 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                 context.Response.ContentType = "application/json";
                 return context.Response.WriteAsync("{\"message\":\"Không thể xác thực người dùng.\"}");
+            },
+            OnTokenValidated = context =>
+            {
+                var claimsIdentity = context.Principal.Identity as ClaimsIdentity;
+                var roleClaim = claimsIdentity?.FindFirst("Role");
+
+                if (roleClaim != null)
+                {
+                    var roleValue = roleClaim.Value == "0" ? "Admin" : "User";
+                    claimsIdentity.RemoveClaim(roleClaim);
+                    claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, roleValue));
+                }
+
+                return Task.CompletedTask;
             }
         };
     });

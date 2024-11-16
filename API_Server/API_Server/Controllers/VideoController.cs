@@ -23,7 +23,7 @@ namespace API_Server.Controllers
             userService = user;
         }
 
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost("Upload")]
         public async Task<IActionResult> UploadVideo([FromForm] UploadVideoDTOs uploadVideo)
         {

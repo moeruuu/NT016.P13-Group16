@@ -16,7 +16,7 @@ namespace API_Server.DTOs
         //[Url(ErrorMessage = "Đường dẫn video không hợp lệ.")]
         [Required(ErrorMessage = "Vui lòng chọn video để update.")]
         public IFormFile UrlVideo { get; set; }
-        public long Size { get; set; }
+        //public long Size { get; set; }
 
     }
 }
