@@ -260,9 +260,9 @@ namespace UITFLIX
         {
             try
             {
-                if (tbnamefilm.Text == null)
+                if (tbnamefilm.Text == null || tbdescription.Text == null)
                 {
-                    MessageBox.Show("Vui lòng chọn tên phim!");
+                    MessageBox.Show("Vui lòng ghi tên phim hoặc mô tả!");
                     return;
                 }
                 if (selectedimagefile == null || selectedvideofile == null)
@@ -275,11 +275,16 @@ namespace UITFLIX
                 { MessageBox.Show("Dung lượng video quá lớn!");
                     return;
                 }
+
+                var progress = new Progress<int>(percent =>
+                {
+                    progressupload.Value = percent;
+                });
                 /* if (await videoService.UploadVideoAsync(selectedvideofile, selectedimagefile, tbnamefilm.Text.Trim(), tbdescription.Text.Trim(), size.ToString()))
                      MessageBox.Show("Upload video thành công!");
                  else
                      MessageBox.Show("Không thể upload video");*/
-                await videoService.UploadVideoAsync(selectedvideofile, selectedimagefile, tbnamefilm.Text.Trim(), tbdescription.Text.Trim(), size.ToString(), Userinfo["access_token"].ToString());
+                await videoService.UploadVideoAsync(selectedvideofile, selectedimagefile, tbnamefilm.Text.Trim(), tbdescription.Text.Trim(), size.ToString(), Userinfo["access_token"].ToString(), progress);
 
 
             }

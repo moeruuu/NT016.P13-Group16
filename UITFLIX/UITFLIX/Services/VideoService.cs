@@ -22,31 +22,29 @@ namespace UITFLIX.Services
             
         }
 
-        public async Task UploadVideoAsync(string videoFilePath, string imageFilePath, string tittle, string des, string size, string accesstoken)
+        public async Task UploadVideoAsync(string videoFilePath, string imageFilePath, string title, string description, string size, string accessToken, IProgress<int> progress)
         {
-            /* var json = JsonConvert.SerializeObject(uploadvideo);
-             var content = new StringContent(json, Encoding.UTF8, "application/json");
-             var response = await httpClient.PostAsync("api/Video/Upload", content);
-             return await response.Content.ReadAsStringAsync();*/
             try
             {
-                if (!string.IsNullOrEmpty(accesstoken))
+                if (string.IsNullOrEmpty(accessToken))
                 {
-                    httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accesstoken);
+                    MessageBox.Show("Access token is required.");
+                    return;
                 }
-                using var client = new HttpClient();
+
+                //authorize bằng token qua header
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
                 using var form = new MultipartFormDataContent();
 
-                // Thêm các trường thông tin video vào form
-                form.Add(new StringContent(tittle), "Title");
-                form.Add(new StringContent(des), "Description");
-                form.Add(new StringContent(size), "Size");
+                form.Add(new StringContent(title), "Title");
+                form.Add(new StringContent(description), "Description");
 
-                // Thêm file video vào form
+                //Thêm video đến form bằng binary
                 using var videoStream = new FileStream(videoFilePath, FileMode.Open, FileAccess.Read);
                 var videoContent = new StreamContent(videoStream);
-                var extension = Path.GetExtension(videoFilePath).ToLower();
-                var mimeType = extension switch
+                var videoExtension = Path.GetExtension(videoFilePath).ToLower();
+                var videoMimeType = videoExtension switch
                 {
                     ".mp4" => "video/mp4",
                     ".avi" => "video/x-msvideo",
@@ -55,30 +53,34 @@ namespace UITFLIX.Services
                     ".mkv" => "video/x-matroska",
                     _ => "application/octet-stream"
                 };
-                videoContent.Headers.ContentType = new MediaTypeHeaderValue(mimeType);
-                form.Add(videoContent, "videoFile", Path.GetFileName(videoFilePath));
 
-                // Thêm file ảnh thumbnail vào form
+                videoContent.Headers.ContentType = new MediaTypeHeaderValue(videoMimeType);
+                form.Add(videoContent, "UrlVideo", Path.GetFileName(videoFilePath));
+
+                //anhr cumx z
                 using var imageStream = new FileStream(imageFilePath, FileMode.Open, FileAccess.Read);
                 var imageContent = new StreamContent(imageStream);
-                imageContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("image/jpg"); // thay đổi nếu cần
-                form.Add(imageContent, "imagefilm", Path.GetFileName(imageFilePath));
+                imageContent.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg"); 
+                form.Add(imageContent, "UrlImage", Path.GetFileName(imageFilePath));
 
-                // Gửi yêu cầu POST lên server
-                var response = await client.PostAsync("api/Video/Upload", form);
+                var response = await httpClient.PostAsync("api/Video/Upload", form); 
+                httpClient.Timeout = TimeSpan.FromMinutes(5);
+
                 if (!response.IsSuccessStatusCode)
                 {
                     var errorMessage = await response.Content.ReadAsStringAsync();
-                    MessageBox.Show($"Error: {response.StatusCode} - {errorMessage}");
+                    MessageBox.Show($"Error: {response.StatusCode}: {errorMessage}");
                 }
-                //return true;
+                else
+                {
+                    MessageBox.Show("Video uploaded successfully.");
+                }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
-                //return false;
+                MessageBox.Show($"{ex.Message}\n{ex.StackTrace}");
             }
-
         }
+
     }
 }

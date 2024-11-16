@@ -116,7 +116,7 @@ namespace UITFLIX
                 if (response.IsSuccessStatusCode)
                 {
                     this.Hide();
-                    Home home = new Home(res);
+                    //Home home = new Home(res);
                     var videoService = new VideoService();
                     Home home = new Home(res, videoService);
                     home.ShowDialog();
