@@ -105,6 +105,7 @@ namespace UITFLIX
             VisibleUpload(OtherVisible);
             VisibleTopPanel(MainVisible);
             bottompanel.Visible = true;
+            progressupload.Visible = true;
             try
             {
                 progressupload.Minimum = 0;
@@ -140,8 +141,8 @@ namespace UITFLIX
                                 if (Uri.TryCreate(imageurl, UriKind.Absolute, out var uriResult)
                                     && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps))
                                 {
-                                    var imageBytes = await client.GetByteArrayAsync(imageurl);
-                                    using (var ms = new MemoryStream(imageBytes))
+                                    var bytes = await client.GetByteArrayAsync(imageurl);
+                                    using (var ms = new MemoryStream(bytes))
                                     {
                                         if (ms != null && ms.CanRead)
                                         {
@@ -346,11 +347,11 @@ namespace UITFLIX
 
         private Image LoadDefaultImage()
         {
-            string defaultImageUrl = "https://i.pinimg.com/736x/62/ee/b3/62eeb37155f0df95a708586aed9165c5.jpg";
+            string defaulturl = "https://i.pinimg.com/736x/62/ee/b3/62eeb37155f0df95a708586aed9165c5.jpg";
             using (var client = new HttpClient())
             {
-                var imageBytes = client.GetByteArrayAsync(defaultImageUrl).Result;
-                using (var ms = new MemoryStream(imageBytes))
+                var bytes = client.GetByteArrayAsync(defaulturl).Result;
+                using (var ms = new MemoryStream(bytes))
                 {
                     return Image.FromStream(ms);
                 }
@@ -430,38 +431,5 @@ namespace UITFLIX
 
         }
 
-        /*private void DisplayVideos(List<Video> videos)
-        {
-
-            PictureBox[] pictureBoxes = { picfilm1, picfilm2, picfilm3, picfilm4, picfilm5, picfilm6 };
-            Label[] titleLabels = { filmname1, filmname2, filmname3, filmname4, filmname5, filmname6 };
-            Label[] dateLabels = { event1, event2, event3, event4, event5, event6 };
-
-            //hiển thị số lượng PictureBox và Label phù hợp với số lượng video
-            for (int i = 0; i < pictureBoxes.Length; i++)
-            {
-                if (i < videos.Count)
-                {
-                    pictureBoxes[i].Visible = true;
-                    titleLabels[i].Visible = true;
-                    dateLabels[i].Visible = true;
-                    pictureBoxes[i].Image = Image.FromFile(videos[i].urlimage);
-                    titleLabels[i].Text = videos[i].Title;
-                    dateLabels[i].Text = videos[i].uploaddate.ToString();
-                }
-                else
-                {
-                    pictureBoxes[i].Visible = false;
-                    titleLabels[i].Visible = false;
-                    dateLabels[i].Visible = false;
-                }
-            }
-
-        }*/
-
-        /*private List<Video> GetUploadedVideos()
-        {
-
-        }*/
     }
 }

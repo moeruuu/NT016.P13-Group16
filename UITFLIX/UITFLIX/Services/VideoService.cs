@@ -24,7 +24,7 @@ namespace UITFLIX.Services
             
         }
 
-        public async Task UploadVideoAsync(string videoFilePath, string imageFilePath, string title, string description, string size, string accessToken)
+        public async Task UploadVideoAsync(string videofile, string imagefile, string title, string description, string size, string accessToken)
         {
             try
             {
@@ -43,10 +43,10 @@ namespace UITFLIX.Services
                 form.Add(new StringContent(description), "Description");
 
                 //Thêm video đến form bằng binary
-                using var videoStream = new FileStream(videoFilePath, FileMode.Open, FileAccess.Read);
-                var videoContent = new StreamContent(videoStream);
-                var videoExtension = Path.GetExtension(videoFilePath).ToLower();
-                var videoMimeType = videoExtension switch
+                using var videostream = new FileStream(videofile, FileMode.Open, FileAccess.Read);
+                var videocontent = new StreamContent(videostream);
+                var videoextension = Path.GetExtension(videofile).ToLower();
+                var videoMimeType = videoextension switch
                 {
                     ".mp4" => "video/mp4",
                     ".avi" => "video/x-msvideo",
@@ -56,14 +56,14 @@ namespace UITFLIX.Services
                     _ => "application/octet-stream"
                 };
 
-                videoContent.Headers.ContentType = new MediaTypeHeaderValue(videoMimeType);
-                form.Add(videoContent, "UrlVideo", Path.GetFileName(videoFilePath));
+                videocontent.Headers.ContentType = new MediaTypeHeaderValue(videoMimeType);
+                form.Add(videocontent, "UrlVideo", Path.GetFileName(videofile));
 
                 //anhr cumx z
-                using var imageStream = new FileStream(imageFilePath, FileMode.Open, FileAccess.Read);
-                var imageContent = new StreamContent(imageStream);
-                imageContent.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg"); 
-                form.Add(imageContent, "UrlImage", Path.GetFileName(imageFilePath));
+                using var imagestream = new FileStream(imagefile, FileMode.Open, FileAccess.Read);
+                var imagecontent = new StreamContent(imagestream);
+                imagecontent.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg"); 
+                form.Add(imagecontent, "UrlImage", Path.GetFileName(imagefile));
                 var response = await httpClient.PostAsync("api/Video/Upload", form); 
 
                 if (!response.IsSuccessStatusCode)
