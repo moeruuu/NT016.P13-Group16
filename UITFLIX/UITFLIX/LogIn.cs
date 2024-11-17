@@ -117,8 +117,11 @@ namespace UITFLIX
                 {
                     this.Hide();
                     //Home home = new Home(res);
+                    var accesstoken = res["access_token"].ToString();
+                   // MessageBox.Show(accesstoken);
                     var videoService = new VideoService();
-                    Home home = new Home(res, videoService);
+                    //var user = new UserService();
+                    Home home = new Home(res, videoService, accesstoken);
                     home.ShowDialog();
                     this.Close();
                 }

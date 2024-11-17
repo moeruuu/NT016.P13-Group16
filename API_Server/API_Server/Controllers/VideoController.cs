@@ -43,6 +43,7 @@ namespace API_Server.Controllers
                     Video = new
                     {
                         VideoId = addedVideo.VideoId,
+                        ID = addedVideo.id,
                         Title = addedVideo.Title,
                         Description = addedVideo.Description,
                         Url = addedVideo.Url,

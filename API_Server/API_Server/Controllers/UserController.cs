@@ -82,6 +82,7 @@ namespace API_Server.Controllers
                 return Ok(new
                 {
                     Access_token = accessToken,
+                    Refresh_token = refreshtoken,
                     Token_type = "bearer",
                     User = new
                     {
@@ -172,6 +173,19 @@ namespace API_Server.Controllers
                 return Ok(users);
             else return NotFound("Không có người dùng nào!");
         }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet("GetUserByID/{id}")]
+        public async Task<IActionResult> GetUserByID([FromRoute] ObjectId id)
+        {
+            var user = await userService.GetUserByID(id);
+            if (user != null)
+            {
+                return Ok(user);
+            }
+            else return NotFound("Không tìm thấy người dùng!");
+        }
+
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         [HttpDelete("UserID/{UserId}")]

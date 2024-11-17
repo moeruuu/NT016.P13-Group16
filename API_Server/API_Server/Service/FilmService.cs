@@ -47,6 +47,7 @@ namespace API_Server.Service
             var newvideo = new Video
             {
                 VideoId = ObjectId.GenerateNewId(),
+                id = Guid.NewGuid().ToString(),
                 Title = uploadVideo.Title,
                 Description = uploadVideo.Description,
                 Url = videoFileId.ToString(),  //lưu GridFS ID của video làm url

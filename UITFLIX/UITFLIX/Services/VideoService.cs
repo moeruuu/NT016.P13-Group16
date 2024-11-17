@@ -17,14 +17,14 @@ namespace UITFLIX.Services
         public static readonly HttpClient httpClient = new HttpClient
         {
             BaseAddress = new Uri(@"https://localhost:7292/"),
-            Timeout = TimeSpan.FromSeconds(60)
+            Timeout = TimeSpan.FromMinutes(5)
         };
         public VideoService()
         {
             
         }
 
-        public async Task UploadVideoAsync(string videoFilePath, string imageFilePath, string title, string description, string size, string accessToken, IProgress<int> progress)
+        public async Task UploadVideoAsync(string videoFilePath, string imageFilePath, string title, string description, string size, string accessToken)
         {
             try
             {
@@ -44,7 +44,7 @@ namespace UITFLIX.Services
 
                 //Thêm video đến form bằng binary
                 using var videoStream = new FileStream(videoFilePath, FileMode.Open, FileAccess.Read);
-                var videoContent = new ProgressableStreamContent(videoStream, progress);
+                var videoContent = new StreamContent(videoStream);
                 var videoExtension = Path.GetExtension(videoFilePath).ToLower();
                 var videoMimeType = videoExtension switch
                 {
@@ -64,9 +64,7 @@ namespace UITFLIX.Services
                 var imageContent = new StreamContent(imageStream);
                 imageContent.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg"); 
                 form.Add(imageContent, "UrlImage", Path.GetFileName(imageFilePath));
-
                 var response = await httpClient.PostAsync("api/Video/Upload", form); 
-                httpClient.Timeout = TimeSpan.FromMinutes(5);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -84,31 +82,31 @@ namespace UITFLIX.Services
             }
         }
 
-        public async Task<JObject> GetNewestVideosAsync(string accesstoken)
+        public async Task<JArray> GetNewestVideosAsync(string accesstoken)
         {
             try
             {
-                if(string.IsNullOrEmpty(accesstoken))
+                if (string.IsNullOrEmpty(accesstoken))
                 {
                     return null;
                 }
 
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accesstoken);
-                HttpResponseMessage response = await httpClient.GetAsync($"/api/Video/GetNewestVideos");
+                HttpResponseMessage response = await httpClient.GetAsync("/api/Video/GetNewestVideos");
                 if (response.IsSuccessStatusCode)
                 {
                     var res = await response.Content.ReadAsStringAsync();
-                    JObject json = JObject.Parse(res);
-                    return json;
+                    JArray jarray = JArray.Parse(res);
+                    return jarray;
                 }
                 else
                 {
                     return null;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-               // MessageBox.Show($"{ex.Message}\n{ex.StackTrace}");
+                // MessageBox.Show($"{ex.Message}\n{ex.StackTrace}");
                 return null;
             }
         }

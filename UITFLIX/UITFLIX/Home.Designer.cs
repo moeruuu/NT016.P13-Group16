@@ -75,6 +75,8 @@
             btnchooseimage = new Button();
             filevideo = new Label();
             information = new Label();
+            bottompanel = new Panel();
+            waiting = new Label();
             leftside.SuspendLayout();
             avatarpanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)Avatar).BeginInit();
@@ -88,6 +90,7 @@
             ((System.ComponentModel.ISupportInitialize)picfilm6).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picfilm5).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picfilm4).BeginInit();
+            bottompanel.SuspendLayout();
             SuspendLayout();
             // 
             // leftside
@@ -318,7 +321,7 @@
             chat.BackgroundImage = Properties.Resources._5962463;
             chat.BackgroundImageLayout = ImageLayout.Zoom;
             chat.Cursor = Cursors.Hand;
-            chat.Location = new Point(1295, 739);
+            chat.Location = new Point(983, 9);
             chat.Name = "chat";
             chat.Size = new Size(47, 30);
             chat.TabIndex = 2;
@@ -330,6 +333,7 @@
             picfilm1.Location = new Point(394, 194);
             picfilm1.Name = "picfilm1";
             picfilm1.Size = new Size(150, 150);
+            picfilm1.SizeMode = PictureBoxSizeMode.StretchImage;
             picfilm1.TabIndex = 3;
             picfilm1.TabStop = false;
             picfilm1.Visible = false;
@@ -340,6 +344,7 @@
             picfilm2.Location = new Point(739, 194);
             picfilm2.Name = "picfilm2";
             picfilm2.Size = new Size(150, 150);
+            picfilm2.SizeMode = PictureBoxSizeMode.StretchImage;
             picfilm2.TabIndex = 4;
             picfilm2.TabStop = false;
             picfilm2.Visible = false;
@@ -350,6 +355,7 @@
             picfilm3.Location = new Point(1105, 194);
             picfilm3.Name = "picfilm3";
             picfilm3.Size = new Size(150, 150);
+            picfilm3.SizeMode = PictureBoxSizeMode.StretchImage;
             picfilm3.TabIndex = 5;
             picfilm3.TabStop = false;
             picfilm3.Visible = false;
@@ -360,6 +366,7 @@
             picfilm6.Location = new Point(1105, 481);
             picfilm6.Name = "picfilm6";
             picfilm6.Size = new Size(150, 150);
+            picfilm6.SizeMode = PictureBoxSizeMode.StretchImage;
             picfilm6.TabIndex = 8;
             picfilm6.TabStop = false;
             picfilm6.Visible = false;
@@ -370,6 +377,7 @@
             picfilm5.Location = new Point(739, 481);
             picfilm5.Name = "picfilm5";
             picfilm5.Size = new Size(150, 150);
+            picfilm5.SizeMode = PictureBoxSizeMode.StretchImage;
             picfilm5.TabIndex = 7;
             picfilm5.TabStop = false;
             picfilm5.Visible = false;
@@ -380,6 +388,7 @@
             picfilm4.Location = new Point(394, 481);
             picfilm4.Name = "picfilm4";
             picfilm4.Size = new Size(150, 150);
+            picfilm4.SizeMode = PictureBoxSizeMode.StretchImage;
             picfilm4.TabIndex = 6;
             picfilm4.TabStop = false;
             picfilm4.Visible = false;
@@ -589,11 +598,10 @@
             // 
             // progressupload
             // 
-            progressupload.Location = new Point(550, 669);
+            progressupload.Location = new Point(6, 9);
             progressupload.Name = "progressupload";
-            progressupload.Size = new Size(640, 34);
+            progressupload.Size = new Size(640, 29);
             progressupload.TabIndex = 28;
-            progressupload.Visible = false;
             // 
             // tbidroom
             // 
@@ -683,12 +691,37 @@
             information.Text = "Hiện tại chưa có video nào...";
             information.Visible = false;
             // 
+            // bottompanel
+            // 
+            bottompanel.BackColor = Color.PowderBlue;
+            bottompanel.Controls.Add(waiting);
+            bottompanel.Controls.Add(progressupload);
+            bottompanel.Controls.Add(chat);
+            bottompanel.Dock = DockStyle.Bottom;
+            bottompanel.Location = new Point(300, 725);
+            bottompanel.Name = "bottompanel";
+            bottompanel.Size = new Size(1042, 44);
+            bottompanel.TabIndex = 36;
+            // 
+            // waiting
+            // 
+            waiting.AutoSize = true;
+            waiting.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            waiting.ForeColor = Color.MidnightBlue;
+            waiting.Location = new Point(6, 15);
+            waiting.Name = "waiting";
+            waiting.Size = new Size(170, 23);
+            waiting.TabIndex = 29;
+            waiting.Text = "Waiting for video...";
+            waiting.Visible = false;
+            // 
             // Home
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightBlue;
             ClientSize = new Size(1342, 769);
+            Controls.Add(bottompanel);
             Controls.Add(information);
             Controls.Add(filevideo);
             Controls.Add(btnchooseimage);
@@ -699,7 +732,6 @@
             Controls.Add(idroom);
             Controls.Add(tbidroom);
             Controls.Add(tbdescription);
-            Controls.Add(progressupload);
             Controls.Add(btnuploadvideo);
             Controls.Add(tbnamefilm);
             Controls.Add(noidung);
@@ -722,7 +754,6 @@
             Controls.Add(picfilm3);
             Controls.Add(picfilm2);
             Controls.Add(picfilm1);
-            Controls.Add(chat);
             Controls.Add(toppanel);
             Controls.Add(leftside);
             FormBorderStyle = FormBorderStyle.None;
@@ -742,6 +773,8 @@
             ((System.ComponentModel.ISupportInitialize)picfilm6).EndInit();
             ((System.ComponentModel.ISupportInitialize)picfilm5).EndInit();
             ((System.ComponentModel.ISupportInitialize)picfilm4).EndInit();
+            bottompanel.ResumeLayout(false);
+            bottompanel.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -795,5 +828,7 @@
         private Label filevideo;
         private LinkLabel Username;
         private Label information;
+        private Panel bottompanel;
+        private Label waiting;
     }
 }

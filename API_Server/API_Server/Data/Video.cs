@@ -7,7 +7,8 @@ namespace API_Server.Data
        
         [BsonId]
         public ObjectId VideoId { get; set; }
-
+        [BsonElement("ID")]
+        public string id {  get; set; }
         [BsonElement("Title")]
         public string Title { get; set; }
 
