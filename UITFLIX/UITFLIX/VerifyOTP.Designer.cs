@@ -75,6 +75,7 @@
             Controls.Add(label1);
             Controls.Add(tbotp);
             Name = "VerifyOTP";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "VerifyOTP";
             ResumeLayout(false);
             PerformLayout();

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using MongoDB.Bson;
 using System.Security.Claims;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace API_Server.Controllers
 {
@@ -101,6 +102,23 @@ namespace API_Server.Controllers
             if (videos != null || videos.Count != 0)
                 return Ok(videos);
             else return NotFound("Không có người dùng nào!");
+        }
+
+        [HttpGet("GetVideo/{id}")]
+        public async Task<IActionResult> GetVideo(string id)
+        {
+            try
+            {
+                var video = await filmService.GetVideoByID(id);
+                var extension = Path.GetExtension(video.Url).ToLower();
+                var mime = filmService.GetMimeType(extension);
+                var stream = await filmService.GetStreamByIDVideo(id);
+                return File(stream, mime);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]

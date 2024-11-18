@@ -127,7 +127,8 @@ namespace UITFLIX
                     for (int i = 0; i < jarray.Count; i++)
                     {
                         progressupload.Value++;
-                        var video = jarray[i];
+                        JToken video = jarray[i];
+                        //MessageBox.Show(video.ToString());
                         PictureBox currentPicBox = (PictureBox)this.Controls.Find($"picfilm{i + 1}", true).FirstOrDefault();
 
                         if (currentPicBox != null)
@@ -158,6 +159,7 @@ namespace UITFLIX
                                     currentPicBox.Image = null;
                                 }
                             }
+                            currentPicBox.Click += (sender, e) => OpenNewForm(video);
                         }
 
                         Label currentname = (Label)this.Controls.Find($"filmname{i + 1}", true).FirstOrDefault();
@@ -165,6 +167,7 @@ namespace UITFLIX
                         {
                             currentname.Visible = true;
                             currentname.Text = SetLabelText(video["title"].ToString(), 14);
+                            currentname.Click += (sender, e) => OpenNewForm(video);
                         }
 
                         Label currentevent = (Label)this.Controls.Find($"event{i + 1}", true).FirstOrDefault();
@@ -186,6 +189,22 @@ namespace UITFLIX
                 MessageBox.Show($"{ex.Message}\n{ex.StackTrace}");
             }
 
+        }
+
+        /* private void OpenNewForm(JToken video)
+         {
+             this.Hide();
+             Playvideo videos = new Playvideo(video, accesstoken, videoService);
+             videos.ShowDialog();
+             this.Close();
+         }*/
+
+        private void OpenNewForm(JToken video)
+        {
+            this.Hide();
+            PVideo videos = new PVideo(video, accesstoken, videoService);
+            videos.ShowDialog();
+            this.Close();
         }
         private void btntopvideo_Click(object sender, EventArgs e)
         {

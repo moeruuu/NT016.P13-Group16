@@ -308,6 +308,7 @@
             Controls.Add(iconPictureBox1);
             FormBorderStyle = FormBorderStyle.None;
             Name = "SignUp";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "SignUp";
             Load += SignUp_Load;
             ((System.ComponentModel.ISupportInitialize)iconPictureBox1).EndInit();

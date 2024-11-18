@@ -85,5 +85,47 @@ namespace API_Server.Service
             return await videos.Find(new BsonDocument()).ToListAsync();
         }
 
+        public async Task<Video> GetVideoByID(string id)
+        {
+            var filter = Builders<Video>.Filter.Eq(v=>v.id, id);
+            var video = await videos.Find(filter).FirstOrDefaultAsync();
+            if (video == null)
+                throw new Exception("Không tồn tại video");
+            return video;
+        }
+        public async Task<Stream> GetStreamByIDVideo(string id)
+        {
+            var find = Builders<Video>.Filter.Eq(v => v.id, id);
+            var video = await videos.Find(find).FirstOrDefaultAsync();
+            if (video == null)
+                throw new Exception("Không tồn tại video");
+            var videofile = new ObjectId(video.Url);
+            var stream = new MemoryStream();
+            await gridFS.DownloadToStreamAsync(videofile, stream);
+            stream.Seek(0, SeekOrigin.Begin);
+            return stream;
+        }
+
+        public string GetMimeType(string extension)
+        {
+            switch (extension.ToLower())
+            {
+                case ".mp4":
+                    return "video/mp4";
+                case ".avi":
+                    return "video/x-msvideo";
+                case ".mkv":
+                    return "video/x-matroska";
+                case ".mov":
+                    return "video/quicktime";
+                case ".flv":
+                    return "video/x-flv";
+                case ".webm":
+                    return "video/webm";
+                default:
+                    return "application/octet-stream"; 
+            }
+        }
+
     }
 }

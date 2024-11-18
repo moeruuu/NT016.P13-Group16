@@ -330,6 +330,7 @@
             // picfilm1
             // 
             picfilm1.BackColor = SystemColors.ButtonHighlight;
+            picfilm1.Cursor = Cursors.Hand;
             picfilm1.Location = new Point(394, 194);
             picfilm1.Name = "picfilm1";
             picfilm1.Size = new Size(150, 150);
@@ -341,6 +342,7 @@
             // picfilm2
             // 
             picfilm2.BackColor = SystemColors.ButtonHighlight;
+            picfilm2.Cursor = Cursors.Hand;
             picfilm2.Location = new Point(739, 194);
             picfilm2.Name = "picfilm2";
             picfilm2.Size = new Size(150, 150);
@@ -352,6 +354,7 @@
             // picfilm3
             // 
             picfilm3.BackColor = SystemColors.ButtonHighlight;
+            picfilm3.Cursor = Cursors.Hand;
             picfilm3.Location = new Point(1105, 194);
             picfilm3.Name = "picfilm3";
             picfilm3.Size = new Size(150, 150);
@@ -363,6 +366,7 @@
             // picfilm6
             // 
             picfilm6.BackColor = SystemColors.ButtonHighlight;
+            picfilm6.Cursor = Cursors.Hand;
             picfilm6.Location = new Point(1105, 481);
             picfilm6.Name = "picfilm6";
             picfilm6.Size = new Size(150, 150);
@@ -374,6 +378,7 @@
             // picfilm5
             // 
             picfilm5.BackColor = SystemColors.ButtonHighlight;
+            picfilm5.Cursor = Cursors.Hand;
             picfilm5.Location = new Point(739, 481);
             picfilm5.Name = "picfilm5";
             picfilm5.Size = new Size(150, 150);
@@ -385,6 +390,7 @@
             // picfilm4
             // 
             picfilm4.BackColor = SystemColors.ButtonHighlight;
+            picfilm4.Cursor = Cursors.Hand;
             picfilm4.Location = new Point(394, 481);
             picfilm4.Name = "picfilm4";
             picfilm4.Size = new Size(150, 150);
@@ -396,6 +402,7 @@
             // filmname1
             // 
             filmname1.AutoSize = true;
+            filmname1.Cursor = Cursors.Hand;
             filmname1.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             filmname1.ForeColor = SystemColors.ButtonHighlight;
             filmname1.Location = new Point(394, 347);
@@ -432,6 +439,7 @@
             // filmname2
             // 
             filmname2.AutoSize = true;
+            filmname2.Cursor = Cursors.Hand;
             filmname2.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             filmname2.ForeColor = SystemColors.ButtonHighlight;
             filmname2.Location = new Point(739, 347);
@@ -456,6 +464,7 @@
             // filmname3
             // 
             filmname3.AutoSize = true;
+            filmname3.Cursor = Cursors.Hand;
             filmname3.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             filmname3.ForeColor = SystemColors.ButtonHighlight;
             filmname3.Location = new Point(1105, 347);
@@ -480,6 +489,7 @@
             // filmname4
             // 
             filmname4.AutoSize = true;
+            filmname4.Cursor = Cursors.Hand;
             filmname4.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             filmname4.ForeColor = SystemColors.ButtonHighlight;
             filmname4.Location = new Point(394, 635);
@@ -504,6 +514,7 @@
             // filmname5
             // 
             filmname5.AutoSize = true;
+            filmname5.Cursor = Cursors.Hand;
             filmname5.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             filmname5.ForeColor = SystemColors.ButtonHighlight;
             filmname5.Location = new Point(739, 635);
@@ -528,6 +539,7 @@
             // filmname6
             // 
             filmname6.AutoSize = true;
+            filmname6.Cursor = Cursors.Hand;
             filmname6.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             filmname6.ForeColor = SystemColors.ButtonHighlight;
             filmname6.Location = new Point(1105, 635);
@@ -758,6 +770,7 @@
             Controls.Add(leftside);
             FormBorderStyle = FormBorderStyle.None;
             Name = "Home";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Home";
             leftside.ResumeLayout(false);
             avatarpanel.ResumeLayout(false);

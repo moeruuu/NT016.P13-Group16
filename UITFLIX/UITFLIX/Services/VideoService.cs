@@ -111,5 +111,39 @@ namespace UITFLIX.Services
             }
         }
 
+        public async Task<string> PlayVideo(string accesstoken, string id)
+        {
+            if (string.IsNullOrEmpty(accesstoken))
+            {
+                MessageBox.Show("Yêu cầu access token!");
+                return null;
+            }
+            if (string.IsNullOrEmpty(id))
+            {
+                MessageBox.Show("Yêu cầu id video");
+                return null;
+            }
+            //authorize bằng token qua header
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accesstoken);
+            var response = await httpClient.GetAsync($"api/Video/GetVideo/{id}");
+            if (response.IsSuccessStatusCode)
+            {
+                using (var stream = await response.Content.ReadAsStreamAsync())
+                {
+                    string temp = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid()}.mp4");
+                    using (var filestream = new FileStream(temp, FileMode.Create, FileAccess.Write))
+                    {
+                        await stream.CopyToAsync(filestream);
+                    }
+                    return temp;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Không thể tải video!");
+                return null;
+            }
+        }
+
     }
 }
