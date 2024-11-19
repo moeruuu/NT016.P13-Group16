@@ -37,15 +37,26 @@ namespace UITFLIX
             Userinfo = user;
             txtnamefilm.Text = jvideo["title"].ToString();
             txtnamefilm1.Text = jvideo["title"].ToString();
-            tbdes.Text = "DESCRIPTION: \n";
+            //tbdes.Text = "DESCRIPTION: \n";
             tbdes.Text += jvideo["description"].ToString();
-            double num = double.Parse(jvideo["rating"].ToString());
-            double round = Math.Round(num, 1);
-            averrate.Text = round.ToString("0.0");
-            total.Text += jvideo["numRate"].ToString() + " ratings.";
+            setlabelrateandnum(jvideo["rating"].ToString(), jvideo["numRate"].ToString());
             LoadVideo();
+            axWindowsMediaPlayer.uiMode = "None";
         }
 
+        public void setlabelrateandnum(string rating, string numrate)
+        {
+            double num = double.Parse(rating);
+            double round = Math.Round(num, 1);
+            averrate.Text = round.ToString("0.0");
+            int check = int.Parse(numrate);
+            if (check <= 1)
+            {
+                total.Text = "Based on " + numrate + " rating.";
+            }
+            else
+            total.Text = "Based on " + numrate + " ratings.";
+        }
         public async Task LoadVideo()
         {
             try
@@ -65,110 +76,162 @@ namespace UITFLIX
             }
         }
 
-        private void logo_DoubleClick(object sender, EventArgs e)
-        {
-            this.Hide();
-            Home home = new Home(Userinfo, videoService, accesstoken);
-            home.ShowDialog();
-            this.Close();
-        }
-
-
         private void setStar()
         {
 
-            star1.Image = Resources._1;
-            star2.Image = Resources._1;
-            star3.Image = Resources._1;
-            star4.Image = Resources._1;
-            star5.Image = Resources._1;
+            star1.Image = Resources._2;
+            star2.Image = Resources._2;
+            star3.Image = Resources._2;
+            star4.Image = Resources._2;
+            star5.Image = Resources._2;
 
         }
 
         private async void star1_Click(object sender, EventArgs e)
         {
-            if (rated)
+            try
             {
-                MessageBox.Show("Bạn đã đánh giá rồi");
-                return;
+                if (rated)
+                {
+                    MessageBox.Show("Bạn đã đánh giá rồi");
+                    return;
+                }
+                star1.Image = Resources._1;
+                star2.Image = Resources._2;
+                star3.Image = Resources._2;
+                star4.Image = Resources._2;
+                star5.Image = Resources._2;
+                var afterrated = await videoService.Rating(jvideo["id"].ToString(), 1, accesstoken);
+                MessageBox.Show("Cảm ơn bạn đã đánh giá!");
+                rated = true;
+                JObject res = JObject.Parse(afterrated);
+                setlabelrateandnum(res["rating"].ToString(), res["numRate"].ToString());
             }
-            star1.Image = Resources._1;
-            star2.Image = Resources._2;
-            star3.Image = Resources._2;
-            star4.Image = Resources._2;
-            star5.Image = Resources._2;
-            await videoService.Rating(jvideo["id"].ToString(), 1, accesstoken);
-            MessageBox.Show("Cảm ơn bạn đã đánh giá!");
-            rated = true;
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private async void star2_Click(object sender, EventArgs e)
         {
-            if (rated)
+            try
             {
-                MessageBox.Show("Bạn đã đánh giá rồi");
-                return;
+                if (rated)
+                {
+                    MessageBox.Show("Bạn đã đánh giá rồi");
+                    return;
+                }
+                star1.Image = Resources._1;
+                star2.Image = Resources._1;
+                star3.Image = Resources._2;
+                star4.Image = Resources._2;
+                star5.Image = Resources._2;
+                var afterrated = await videoService.Rating(jvideo["id"].ToString(), 2, accesstoken);
+                MessageBox.Show("Cảm ơn bạn đã đánh giá!");
+                rated = true;
+                JObject res = JObject.Parse(afterrated);
+                setlabelrateandnum(res["rating"].ToString(), res["numRate"].ToString());
             }
-            star1.Image = Resources._1;
-            star2.Image = Resources._1;
-            star3.Image = Resources._2;
-            star4.Image = Resources._2;
-            star5.Image = Resources._2;
-            await videoService.Rating(jvideo["id"].ToString(), 2, accesstoken);
-            MessageBox.Show("Cảm ơn bạn đã đánh giá!");
-            rated = true;
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private async void star3_Click(object sender, EventArgs e)
         {
-            if (rated)
+            try
             {
-                MessageBox.Show("Bạn đã đánh giá rồi");
-                return;
+                if (rated)
+                {
+                    MessageBox.Show("Bạn đã đánh giá rồi");
+                    return;
+                }
+                star1.Image = Resources._1;
+                star2.Image = Resources._1;
+                star3.Image = Resources._1;
+                star4.Image = Resources._2;
+                star5.Image = Resources._2;
+                var afterrated = await videoService.Rating(jvideo["id"].ToString(), 3, accesstoken);
+                MessageBox.Show("Cảm ơn bạn đã đánh giá!");
+                rated = true;
+                JObject res = JObject.Parse(afterrated);
+                setlabelrateandnum(res["rating"].ToString(), res["numRate"].ToString());
             }
-            star1.Image = Resources._1;
-            star2.Image = Resources._1;
-            star3.Image = Resources._1;
-            star4.Image = Resources._2;
-            star5.Image = Resources._2;
-            await videoService.Rating(jvideo["id"].ToString(), 3, accesstoken);
-            MessageBox.Show("Cảm ơn bạn đã đánh giá!");
-            rated = true;
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private async void star4_Click(object sender, EventArgs e)
         {
-            if (rated)
+            try
             {
-                MessageBox.Show("Bạn đã đánh giá rồi");
-                return;
+                if (rated)
+                {
+                    MessageBox.Show("Bạn đã đánh giá rồi");
+                    return;
+                }
+                star1.Image = Resources._1;
+                star2.Image = Resources._1;
+                star3.Image = Resources._1;
+                star4.Image = Resources._1;
+                star5.Image = Resources._2;
+                var afterrated = await videoService.Rating(jvideo["id"].ToString(), 4, accesstoken);
+                MessageBox.Show("Cảm ơn bạn đã đánh giá!");
+                rated = true;
+                JObject res = JObject.Parse(afterrated);
+                setlabelrateandnum(res["rating"].ToString(), res["numRate"].ToString());
             }
-            star1.Image = Resources._1;
-            star2.Image = Resources._1;
-            star3.Image = Resources._1;
-            star4.Image = Resources._1;
-            star5.Image = Resources._2;
-            await videoService.Rating(jvideo["id"].ToString(), 3, accesstoken);
-            MessageBox.Show("Cảm ơn bạn đã đánh giá!");
-            rated = true;
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private async void star5_Click(object sender, EventArgs e)
         {
-            if (rated)
+            try
             {
-                MessageBox.Show("Bạn đã đánh giá rồi");
-                return;
+                if (rated)
+                {
+                    MessageBox.Show("Bạn đã đánh giá rồi");
+                    return;
+                }
+                star1.Image = Resources._1;
+                star2.Image = Resources._1;
+                star3.Image = Resources._1;
+                star3.Image = Resources._1;
+                star4.Image = Resources._1;
+                star5.Image = Resources._1;
+                var afterrated = await videoService.Rating(jvideo["id"].ToString(), 5, accesstoken);
+                //await videoService.Rating("df96ac93-d19b-4434-b325-8fbe651d1244", 5, accesstoken);
+                //MessageBox.Show(jvideo["id"].ToString() + "hihi");
+                //MessageBox.Show(check.ToString());
+                MessageBox.Show("Cảm ơn bạn đã đánh giá!");
+                rated = true;
+                JObject res = JObject.Parse(afterrated);
+                setlabelrateandnum(res["rating"].ToString(), res["numRate"].ToString());
             }
-            star1.Image = Resources._1;
-            star2.Image = Resources._1;
-            star3.Image = Resources._1;
-            star3.Image = Resources._1;
-            star4.Image = Resources._1;
-            star5.Image = Resources._1;
-            await videoService.Rating(jvideo["id"].ToString(), 3, accesstoken);
-            MessageBox.Show("Cảm ơn bạn đã đánh giá!");
-            rated = true;
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
+
+        private void logo_Click(object sender, EventArgs e)
+        {
+            axWindowsMediaPlayer.Ctlcontrols.stop();
+            axWindowsMediaPlayer.close();
+            this.Hide();
+            Home home = new Home(Userinfo, videoService, accesstoken);
+            this.Close();
+            home.ShowDialog();
+            
+        }
+       
+
     }
 }

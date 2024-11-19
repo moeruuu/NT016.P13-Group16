@@ -30,6 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PVideo));
             panel2 = new Panel();
+            iconPictureBox1 = new FontAwesome.Sharp.IconPictureBox();
+            linkLabel1 = new LinkLabel();
             txtnamefilm = new Label();
             logo = new PictureBox();
             bottompanel = new Panel();
@@ -41,11 +43,12 @@
             total = new Label();
             averrate = new Label();
             leftbottm = new Panel();
+            panel1 = new Panel();
             tbdes = new RichTextBox();
             txtnamefilm1 = new Label();
             axWindowsMediaPlayer = new AxWMPLib.AxWindowsMediaPlayer();
-            panel1 = new Panel();
             panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)iconPictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)logo).BeginInit();
             bottompanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)star5).BeginInit();
@@ -59,6 +62,8 @@
             // 
             // panel2
             // 
+            panel2.Controls.Add(iconPictureBox1);
+            panel2.Controls.Add(linkLabel1);
             panel2.Controls.Add(txtnamefilm);
             panel2.Controls.Add(logo);
             panel2.Dock = DockStyle.Top;
@@ -66,6 +71,33 @@
             panel2.Name = "panel2";
             panel2.Size = new Size(1232, 39);
             panel2.TabIndex = 1;
+            // 
+            // iconPictureBox1
+            // 
+            iconPictureBox1.BackColor = Color.White;
+            iconPictureBox1.ForeColor = Color.MidnightBlue;
+            iconPictureBox1.IconChar = FontAwesome.Sharp.IconChar.Download;
+            iconPictureBox1.IconColor = Color.MidnightBlue;
+            iconPictureBox1.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            iconPictureBox1.IconSize = 30;
+            iconPictureBox1.Location = new Point(1050, 4);
+            iconPictureBox1.Name = "iconPictureBox1";
+            iconPictureBox1.Size = new Size(30, 30);
+            iconPictureBox1.TabIndex = 3;
+            iconPictureBox1.TabStop = false;
+            // 
+            // linkLabel1
+            // 
+            linkLabel1.ActiveLinkColor = Color.CadetBlue;
+            linkLabel1.AutoSize = true;
+            linkLabel1.Font = new Font("Cambria", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            linkLabel1.LinkColor = Color.MidnightBlue;
+            linkLabel1.Location = new Point(1080, 5);
+            linkLabel1.Name = "linkLabel1";
+            linkLabel1.Size = new Size(158, 23);
+            linkLabel1.TabIndex = 2;
+            linkLabel1.TabStop = true;
+            linkLabel1.Text = "Download video";
             // 
             // txtnamefilm
             // 
@@ -88,7 +120,7 @@
             logo.SizeMode = PictureBoxSizeMode.StretchImage;
             logo.TabIndex = 0;
             logo.TabStop = false;
-            logo.DoubleClick += logo_DoubleClick;
+            logo.Click += logo_Click;
             // 
             // bottompanel
             // 
@@ -195,6 +227,14 @@
             leftbottm.Size = new Size(797, 165);
             leftbottm.TabIndex = 0;
             // 
+            // panel1
+            // 
+            panel1.BackColor = Color.CadetBlue;
+            panel1.Location = new Point(789, 6);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(3, 150);
+            panel1.TabIndex = 2;
+            // 
             // tbdes
             // 
             tbdes.BorderStyle = BorderStyle.None;
@@ -224,14 +264,6 @@
             axWindowsMediaPlayer.Size = new Size(1232, 712);
             axWindowsMediaPlayer.TabIndex = 3;
             // 
-            // panel1
-            // 
-            panel1.BackColor = Color.CadetBlue;
-            panel1.Location = new Point(789, 6);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(5, 150);
-            panel1.TabIndex = 2;
-            // 
             // PVideo
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -247,6 +279,7 @@
             Text = "PVideo";
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)iconPictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)logo).EndInit();
             bottompanel.ResumeLayout(false);
             bottompanel.PerformLayout();
@@ -279,5 +312,7 @@
         private PictureBox star1;
         private AxWMPLib.AxWindowsMediaPlayer axWindowsMediaPlayer;
         private Panel panel1;
+        private FontAwesome.Sharp.IconPictureBox iconPictureBox1;
+        private LinkLabel linkLabel1;
     }
 }

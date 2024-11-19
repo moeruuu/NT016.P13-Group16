@@ -149,6 +149,7 @@ namespace UITFLIX.Services
         {
             try
             {
+                //MessageBox.Show(id);
                 if (string.IsNullOrEmpty(accesstoken))
                 {
                     MessageBox.Show("Yêu cầu access token!");
@@ -161,18 +162,46 @@ namespace UITFLIX.Services
                 }
                 var rating = new
                 {
-                    VideoID = id,
+                    Id = id,
                     Rating = num
                 };
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accesstoken);
                 var json = JsonConvert.SerializeObject(rating);
-                var content = new StringContent(json);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await httpClient.PatchAsync("api/Video/Rating", content);
                 return await response.Content.ReadAsStringAsync();
             }
             catch (Exception ex)
             {
                 return ex.Message;
+            }
+        }
+
+        public async Task<JArray> GetTopVideos(string accesstoken)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(accesstoken))
+                {
+                    return null;
+                }
+
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accesstoken);
+                HttpResponseMessage response = await httpClient.GetAsync("/api/Video/GetTopVideos");
+                if (response.IsSuccessStatusCode)
+                {
+                    var res = await response.Content.ReadAsStringAsync();
+                    JArray jarray = JArray.Parse(res);
+                    return jarray;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
             }
         }
 

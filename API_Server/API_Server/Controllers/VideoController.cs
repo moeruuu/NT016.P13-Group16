@@ -92,7 +92,15 @@ namespace API_Server.Controllers
         {
             var videos = await filmService.GetNewestVideos();
             return Ok(videos);
-        } 
+        }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet("GetTopVideos")]
+        public async Task<IActionResult> GetTopVideo()
+        {
+            var videos = await filmService.GetTopVideos();
+            return Ok(videos);
+        }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         [HttpGet("GetAllVideos")]
@@ -121,6 +129,16 @@ namespace API_Server.Controllers
             }
         }
 
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPatch("Rating")]
+        public async Task<IActionResult> Rating([FromBody] Rating rating)
+        {
+            var getvideorate = await filmService.Rating(rating);
+            return Ok(getvideorate);
+
+        }
+
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         [HttpDelete("Delete-Video/{IDVideo}")]
         public async Task<IActionResult> DeleteVideo(string IDVideo)
@@ -139,15 +157,6 @@ namespace API_Server.Controllers
             {
                 return NotFound("Không tìm thấy video");
             }
-        }
-
-        [Authorize(AuthenticationSchemes =JwtBearerDefaults.AuthenticationScheme)]
-        [HttpPatch("Rating")]
-        public async Task<IActionResult> Rating([FromBody]Rating rating)
-        {
-            var getvideorate = await filmService.Rating(rating);
-            return Ok(getvideorate);
-
         }
 
     }

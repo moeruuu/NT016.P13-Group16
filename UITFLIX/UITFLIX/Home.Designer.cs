@@ -338,6 +338,8 @@
             picfilm1.TabIndex = 3;
             picfilm1.TabStop = false;
             picfilm1.Visible = false;
+            picfilm1.MouseEnter += picfilm1_MouseEnter;
+            picfilm1.MouseLeave += picfilm1_MouseLeave;
             // 
             // picfilm2
             // 
@@ -350,6 +352,8 @@
             picfilm2.TabIndex = 4;
             picfilm2.TabStop = false;
             picfilm2.Visible = false;
+            picfilm2.MouseEnter += picfilm2_MouseEnter;
+            picfilm2.MouseLeave += picfilm2_MouseLeave;
             // 
             // picfilm3
             // 
@@ -362,6 +366,8 @@
             picfilm3.TabIndex = 5;
             picfilm3.TabStop = false;
             picfilm3.Visible = false;
+            picfilm3.MouseEnter += picfilm3_MouseEnter;
+            picfilm3.MouseLeave += picfilm3_MouseLeave;
             // 
             // picfilm6
             // 
@@ -374,6 +380,8 @@
             picfilm6.TabIndex = 8;
             picfilm6.TabStop = false;
             picfilm6.Visible = false;
+            picfilm6.MouseEnter += picfilm6_MouseEnter;
+            picfilm6.MouseLeave += picfilm6_MouseLeave;
             // 
             // picfilm5
             // 
@@ -386,6 +394,8 @@
             picfilm5.TabIndex = 7;
             picfilm5.TabStop = false;
             picfilm5.Visible = false;
+            picfilm5.MouseEnter += picfilm5_MouseEnter;
+            picfilm5.MouseLeave += picfilm5_MouseLeave;
             // 
             // picfilm4
             // 
@@ -398,6 +408,8 @@
             picfilm4.TabIndex = 6;
             picfilm4.TabStop = false;
             picfilm4.Visible = false;
+            picfilm4.MouseEnter += picfilm4_MouseEnter;
+            picfilm4.MouseLeave += picfilm4_MouseLeave;
             // 
             // filmname1
             // 

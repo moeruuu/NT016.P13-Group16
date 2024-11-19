@@ -46,7 +46,7 @@ namespace UITFLIX
             this.MaximizeBox = false;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             //Mở new videos ngay khi mở form
-           // btnnewvideo_Click(btnnewvideo, EventArgs.Empty);
+            // btnnewvideo_Click(btnnewvideo, EventArgs.Empty);
 
             Userinfo = in4;
             videoService = video;
@@ -83,7 +83,7 @@ namespace UITFLIX
                 leftborderBtn.BringToFront();
             }
         }
-       
+
         private void DisableButton()
         {
             if (currentbtn != null)
@@ -109,11 +109,11 @@ namespace UITFLIX
             try
             {
                 progressupload.Minimum = 0;
-                
+
                 //MessageBox.Show(accesstoken);
                 // httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", Userinfo["access_token"].ToString());
                 var jarray = await videoService.GetNewestVideosAsync(accesstoken);
-                if (jarray !=null)
+                if (jarray != null)
                 {
                     progressupload.Maximum = jarray.Count;
                 }
@@ -124,6 +124,11 @@ namespace UITFLIX
                 progressupload.Value = 0;
                 if (jarray != null && jarray.Count > 0)
                 {
+                    btncoop.Enabled = false;
+                    btntopvideo.Enabled = false;
+                    btnnewvideo.Enabled = false;
+                    btnwatchedvideo.Enabled = false;
+                    btnupload.Enabled = false;
                     for (int i = 0; i < jarray.Count; i++)
                     {
                         progressupload.Value++;
@@ -179,26 +184,26 @@ namespace UITFLIX
                             //SetLabelText(currentevent.Text, 11);
                         }
                     }
+                    progressupload.Visible = false;
+
+                    btncoop.Enabled = true;
+                    btnnewvideo.Enabled = true;
+                    btnwatchedvideo.Enabled = true;
+                    btnupload.Enabled = true;
+                    btntopvideo.Enabled = true;
                 }
                 else
                 {
                     information.Visible = true;
                 }
+
             }
-            catch(Exception ex) {
+            catch (Exception ex)
+            {
                 MessageBox.Show($"{ex.Message}\n{ex.StackTrace}");
             }
 
         }
-
-        /* private void OpenNewForm(JToken video)
-         {
-             this.Hide();
-             Playvideo videos = new Playvideo(video, accesstoken, videoService);
-             videos.ShowDialog();
-             this.Close();
-         }*/
-
         private void OpenNewForm(JToken video)
         {
             this.Hide();
@@ -206,7 +211,7 @@ namespace UITFLIX
             videos.ShowDialog();
             this.Close();
         }
-        private void btntopvideo_Click(object sender, EventArgs e)
+        private async void btntopvideo_Click(object sender, EventArgs e)
         {
             VisibleImageandLabel(false);
             ActiveButton(sender, RGBColors.color2);
@@ -214,6 +219,101 @@ namespace UITFLIX
             VisibleUpload(OtherVisible);
             VisibleTopPanel(MainVisible);
             bottompanel.Visible = true;
+            progressupload.Visible = true;
+            try
+            {
+                progressupload.Minimum = 0;
+                var jarray = await videoService.GetTopVideos(accesstoken);
+                if (jarray != null)
+                {
+                    progressupload.Maximum = jarray.Count;
+                }
+                else
+                {
+                    progressupload.Maximum = 1;
+                }
+                progressupload.Value = 0;
+                if (jarray != null && jarray.Count > 0)
+                {
+                    //tranh nguoi dung an vao trang khac khi dang load
+                    btncoop.Enabled = false;
+                    btntopvideo.Enabled = false;
+                    btnnewvideo.Enabled = false;
+                    btnwatchedvideo.Enabled = false;
+                    btnupload.Enabled = false;
+                    for (int i = 0; i < jarray.Count; i++)
+                    {
+                        progressupload.Value++;
+                        JToken video = jarray[i];
+                        //MessageBox.Show(video.ToString());
+                        PictureBox currentPicBox = (PictureBox)this.Controls.Find($"picfilm{i + 1}", true).FirstOrDefault();
+
+                        if (currentPicBox != null)
+                        {
+                            currentPicBox.Visible = true;
+
+                            string imageurl = video["urlImage"].ToString();
+
+                            using (var client = new HttpClient())
+                            {
+                                if (Uri.TryCreate(imageurl, UriKind.Absolute, out var uriResult)
+                                    && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps))
+                                {
+                                    var bytes = await client.GetByteArrayAsync(imageurl);
+                                    using (var ms = new MemoryStream(bytes))
+                                    {
+                                        if (ms != null && ms.CanRead)
+                                        {
+                                            ms.Seek(0, SeekOrigin.Begin);
+
+                                            Image image = Image.FromStream(ms);
+                                            currentPicBox.Image = Image.FromStream(ms);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    currentPicBox.Image = null;
+                                }
+                            }
+                            currentPicBox.Click += (sender, e) => OpenNewForm(video);
+                        }
+
+                        Label currentname = (Label)this.Controls.Find($"filmname{i + 1}", true).FirstOrDefault();
+                        if (currentname != null)
+                        {
+                            currentname.Visible = true;
+                            currentname.Text = SetLabelText(video["title"].ToString(), 14);
+                            currentname.Click += (sender, e) => OpenNewForm(video);
+                        }
+
+                        Label currentevent = (Label)this.Controls.Find($"event{i + 1}", true).FirstOrDefault();
+                        if (currentevent != null)
+                        {
+                            currentevent.Visible = true;
+                            double rate = double.Parse(video["rating"].ToString());
+                            double round = Math.Round(rate,1);
+
+                            currentevent.Text = "Rating: "  + round.ToString("0.0");
+                            //SetLabelText(currentevent.Text, 11);
+                        }
+                    }
+                    progressupload.Visible = false;
+                    btncoop.Enabled = true;
+                    btnnewvideo.Enabled = true;
+                    btnwatchedvideo.Enabled = true;
+                    btnupload.Enabled = true;
+                    btntopvideo.Enabled = true;
+                }
+                else
+                {
+                    information.Visible = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex.Message}\n{ex.StackTrace}");
+            }
 
         }
 
@@ -403,7 +503,7 @@ namespace UITFLIX
 
             btnupload.Enabled = false;
             btnchoosefile.Enabled = false;
-            btnupload.Enabled = false;
+            btnuploadvideo.Enabled = false;
             try
             {
                 waiting.Visible = true;
@@ -425,7 +525,7 @@ namespace UITFLIX
                 FileInfo fileInfo = new FileInfo(selectedvideofile);
                 var size = fileInfo.Length;
                 if (size > 100000000)
-                { 
+                {
                     MessageBox.Show("Dung lượng video quá lớn!");
                     btnupload.Enabled = true;
                     btnchoosefile.Enabled = true;
@@ -440,9 +540,9 @@ namespace UITFLIX
                 await videoService.UploadVideoAsync(selectedvideofile, selectedimagefile, tbnamefilm.Text.Trim(), tbdescription.Text.Trim(), size.ToString(), Userinfo["access_token"].ToString());
                 waiting.Visible = false;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                waiting.Visible = false; 
+                waiting.Visible = false;
                 btnupload.Enabled = true;
                 btnchoosefile.Enabled = true;
                 MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
@@ -450,5 +550,76 @@ namespace UITFLIX
 
         }
 
+        private void picfilm1_MouseEnter(object sender, EventArgs e)
+        {
+            picfilm1.Size = new Size(picfilm1.Width + 60, picfilm1.Height + 60);
+            picfilm1.Location = new Point(picfilm1.Left - 30, picfilm1.Top);
+        }
+
+        private void picfilm1_MouseLeave(object sender, EventArgs e)
+        {
+            picfilm1.Size = new Size(picfilm1.Width - 60, picfilm1.Height - 60);
+            picfilm1.Location = new Point(picfilm1.Left + 30, picfilm1.Top);
+        }
+
+        private void picfilm2_MouseEnter(object sender, EventArgs e)
+        {
+            picfilm2.Size = new Size(picfilm2.Width + 60, picfilm2.Height + 60);
+            picfilm2.Location = new Point(picfilm2.Left - 30, picfilm2.Top);
+        }
+
+        private void picfilm2_MouseLeave(object sender, EventArgs e)
+        {
+            picfilm2.Size = new Size(picfilm2.Width - 60, picfilm2.Height - 60);
+            picfilm2.Location = new Point(picfilm2.Left + 30, picfilm2.Top);
+        }
+
+        private void picfilm3_MouseEnter(object sender, EventArgs e)
+        {
+            picfilm3.Size = new Size(picfilm3.Width + 60, picfilm3.Height + 60);
+            picfilm3.Location = new Point(picfilm3.Left - 30, picfilm3.Top);
+        }
+
+        private void picfilm3_MouseLeave(object sender, EventArgs e)
+        {
+            picfilm3.Size = new Size(picfilm3.Width - 60, picfilm3.Height - 60);
+            picfilm3.Location = new Point(picfilm3.Left + 30, picfilm3.Top);
+        }
+
+        private void picfilm4_MouseEnter(object sender, EventArgs e)
+        {
+            picfilm4.Size = new Size(picfilm4.Width + 60, picfilm4.Height + 60);
+            picfilm4.Location = new Point(picfilm4.Left - 30, picfilm4.Top);
+        }
+
+        private void picfilm4_MouseLeave(object sender, EventArgs e)
+        {
+            picfilm4.Size = new Size(picfilm4.Width - 60, picfilm4.Height - 60);
+            picfilm4.Location = new Point(picfilm4.Left + 30, picfilm4.Top);
+        }
+
+        private void picfilm5_MouseEnter(object sender, EventArgs e)
+        {
+            picfilm5.Size = new Size(picfilm5.Width + 60, picfilm5.Height + 60);
+            picfilm5.Location = new Point(picfilm5.Left - 30, picfilm5.Top);
+        }
+
+        private void picfilm5_MouseLeave(object sender, EventArgs e)
+        {
+            picfilm5.Size = new Size(picfilm5.Width - 60, picfilm5.Height - 60);
+            picfilm5.Location = new Point(picfilm5.Left + 30, picfilm5.Top);
+        }
+
+        private void picfilm6_MouseEnter(object sender, EventArgs e)
+        {
+            picfilm6.Size = new Size(picfilm6.Width + 60, picfilm6.Height + 60);
+            picfilm6.Location = new Point(picfilm6.Left - 30, picfilm6.Top);
+        }
+
+        private void picfilm6_MouseLeave(object sender, EventArgs e)
+        {
+            picfilm6.Size = new Size(picfilm6.Width - 60, picfilm6.Height - 60);
+            picfilm6.Location = new Point(picfilm6.Left + 30, picfilm6.Top);
+        }
     }
 }
