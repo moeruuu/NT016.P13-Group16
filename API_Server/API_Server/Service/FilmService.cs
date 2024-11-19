@@ -6,6 +6,7 @@ using MongoDB.Bson;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using MongoDB.Driver.GridFS;
+using System.Net.WebSockets;
 namespace API_Server.Service
 {
     public class FilmService
@@ -127,5 +128,34 @@ namespace API_Server.Service
             }
         }
 
+        public async Task<Video> Rating(Rating modelrating)
+        {
+            var filter = Builders<Video>.Filter.Eq(v=>v.id, modelrating.Id);
+            var video = await videos.Find(filter).FirstOrDefaultAsync();
+            if (video == null)
+            {
+                throw new Exception("Không tìm thấy video");
+            }
+            double rating;
+            int numrate;
+            if (video.NumRate == 0)
+            {
+                rating = modelrating.rating;
+                numrate = 1;
+            }
+            else
+            {
+                numrate = video.NumRate + 1;
+                rating = (double) ((video.Rating * video.NumRate) + modelrating.rating) / numrate;
+
+            }
+
+            var update = Builders<Video>.Update.Set(v => v.Rating, rating).Set(v => v.NumRate, numrate);
+            await videos.UpdateOneAsync(filter, update);
+
+            //Goi lai de no cap nhap update
+            return await videos.Find(filter).FirstOrDefaultAsync();
+
+        }
     }
 }

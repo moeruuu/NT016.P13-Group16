@@ -145,5 +145,36 @@ namespace UITFLIX.Services
             }
         }
 
+        public async Task<string> Rating(string id, int num, string accesstoken)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(accesstoken))
+                {
+                    MessageBox.Show("Yêu cầu access token!");
+                    return null;
+                }
+                if (string.IsNullOrEmpty(id))
+                {
+                    MessageBox.Show("Yêu cầu id video");
+                    return null;
+                }
+                var rating = new
+                {
+                    VideoID = id,
+                    Rating = num
+                };
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accesstoken);
+                var json = JsonConvert.SerializeObject(rating);
+                var content = new StringContent(json);
+                var response = await httpClient.PatchAsync("api/Video/Rating", content);
+                return await response.Content.ReadAsStringAsync();
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+
     }
 }

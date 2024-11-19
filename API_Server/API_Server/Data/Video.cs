@@ -29,5 +29,7 @@ namespace API_Server.Data
 
         [BsonElement("Rating")]
         public double Rating { get; set; }
+        [BsonElement("NumRate")]
+        public int NumRate { get; set; }
     }
 }

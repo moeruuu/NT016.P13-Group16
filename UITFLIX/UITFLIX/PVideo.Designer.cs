@@ -30,52 +30,42 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PVideo));
             panel2 = new Panel();
-            btndes = new FontAwesome.Sharp.IconButton();
             txtnamefilm = new Label();
-            pictureBox1 = new PictureBox();
-            txtdate = new Label();
-            panel3 = new Panel();
+            logo = new PictureBox();
+            bottompanel = new Panel();
+            star5 = new PictureBox();
+            star4 = new PictureBox();
+            star3 = new PictureBox();
+            star2 = new PictureBox();
+            star1 = new PictureBox();
+            total = new Label();
+            averrate = new Label();
+            leftbottm = new Panel();
             tbdes = new RichTextBox();
-            description = new Panel();
+            txtnamefilm1 = new Label();
             axWindowsMediaPlayer = new AxWMPLib.AxWindowsMediaPlayer();
+            panel1 = new Panel();
             panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
-            description.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)logo).BeginInit();
+            bottompanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)star5).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)star4).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)star3).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)star2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)star1).BeginInit();
+            leftbottm.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)axWindowsMediaPlayer).BeginInit();
             SuspendLayout();
             // 
             // panel2
             // 
-            panel2.Controls.Add(btndes);
             panel2.Controls.Add(txtnamefilm);
-            panel2.Controls.Add(pictureBox1);
+            panel2.Controls.Add(logo);
             panel2.Dock = DockStyle.Top;
             panel2.Location = new Point(0, 0);
             panel2.Name = "panel2";
-            panel2.Size = new Size(1280, 39);
+            panel2.Size = new Size(1232, 39);
             panel2.TabIndex = 1;
-            // 
-            // btndes
-            // 
-            btndes.Dock = DockStyle.Right;
-            btndes.FlatAppearance.BorderSize = 0;
-            btndes.FlatStyle = FlatStyle.Flat;
-            btndes.Font = new Font("Cambria", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btndes.ForeColor = Color.MidnightBlue;
-            btndes.IconChar = FontAwesome.Sharp.IconChar.Comment;
-            btndes.IconColor = Color.MidnightBlue;
-            btndes.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            btndes.IconSize = 35;
-            btndes.Location = new Point(1074, 0);
-            btndes.Name = "btndes";
-            btndes.Size = new Size(206, 39);
-            btndes.TabIndex = 2;
-            btndes.TabStop = false;
-            btndes.Text = "Description: Off";
-            btndes.TextAlign = ContentAlignment.MiddleLeft;
-            btndes.TextImageRelation = TextImageRelation.TextBeforeImage;
-            btndes.UseVisualStyleBackColor = true;
-            btndes.Click += btndes_Click;
             // 
             // txtnamefilm
             // 
@@ -88,59 +78,141 @@
             txtnamefilm.TabIndex = 1;
             txtnamefilm.Text = "label1";
             // 
-            // pictureBox1
+            // logo
             // 
-            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(0, 0);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(50, 50);
-            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox1.TabIndex = 0;
-            pictureBox1.TabStop = false;
+            logo.Cursor = Cursors.Hand;
+            logo.Image = (Image)resources.GetObject("logo.Image");
+            logo.Location = new Point(0, 0);
+            logo.Name = "logo";
+            logo.Size = new Size(50, 50);
+            logo.SizeMode = PictureBoxSizeMode.StretchImage;
+            logo.TabIndex = 0;
+            logo.TabStop = false;
+            logo.DoubleClick += logo_DoubleClick;
             // 
-            // txtdate
+            // bottompanel
             // 
-            txtdate.AutoSize = true;
-            txtdate.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtdate.ForeColor = Color.MidnightBlue;
-            txtdate.Location = new Point(12, 51);
-            txtdate.Name = "txtdate";
-            txtdate.Size = new Size(62, 23);
-            txtdate.TabIndex = 0;
-            txtdate.Text = "label2";
+            bottompanel.Controls.Add(star5);
+            bottompanel.Controls.Add(star4);
+            bottompanel.Controls.Add(star3);
+            bottompanel.Controls.Add(star2);
+            bottompanel.Controls.Add(star1);
+            bottompanel.Controls.Add(total);
+            bottompanel.Controls.Add(averrate);
+            bottompanel.Controls.Add(leftbottm);
+            bottompanel.Dock = DockStyle.Bottom;
+            bottompanel.Font = new Font("Cambria", 10F);
+            bottompanel.ForeColor = Color.MidnightBlue;
+            bottompanel.Location = new Point(0, 751);
+            bottompanel.Name = "bottompanel";
+            bottompanel.Size = new Size(1232, 165);
+            bottompanel.TabIndex = 2;
             // 
-            // panel3
+            // star5
             // 
-            panel3.BackColor = Color.LightBlue;
-            panel3.Dock = DockStyle.Top;
-            panel3.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            panel3.ForeColor = SystemColors.ButtonHighlight;
-            panel3.Location = new Point(0, 0);
-            panel3.Name = "panel3";
-            panel3.Size = new Size(1280, 31);
-            panel3.TabIndex = 1;
+            star5.Cursor = Cursors.Hand;
+            star5.Location = new Point(1150, 35);
+            star5.Name = "star5";
+            star5.Size = new Size(50, 50);
+            star5.SizeMode = PictureBoxSizeMode.StretchImage;
+            star5.TabIndex = 7;
+            star5.TabStop = false;
+            star5.Click += star5_Click;
+            // 
+            // star4
+            // 
+            star4.Cursor = Cursors.Hand;
+            star4.Location = new Point(1094, 35);
+            star4.Name = "star4";
+            star4.Size = new Size(50, 50);
+            star4.SizeMode = PictureBoxSizeMode.StretchImage;
+            star4.TabIndex = 6;
+            star4.TabStop = false;
+            star4.Click += star4_Click;
+            // 
+            // star3
+            // 
+            star3.Cursor = Cursors.Hand;
+            star3.Location = new Point(1038, 35);
+            star3.Name = "star3";
+            star3.Size = new Size(50, 50);
+            star3.SizeMode = PictureBoxSizeMode.StretchImage;
+            star3.TabIndex = 5;
+            star3.TabStop = false;
+            star3.Click += star3_Click;
+            // 
+            // star2
+            // 
+            star2.Cursor = Cursors.Hand;
+            star2.Location = new Point(982, 35);
+            star2.Name = "star2";
+            star2.Size = new Size(50, 50);
+            star2.SizeMode = PictureBoxSizeMode.StretchImage;
+            star2.TabIndex = 4;
+            star2.TabStop = false;
+            star2.Click += star2_Click;
+            // 
+            // star1
+            // 
+            star1.Cursor = Cursors.Hand;
+            star1.Location = new Point(926, 35);
+            star1.Name = "star1";
+            star1.Size = new Size(50, 50);
+            star1.SizeMode = PictureBoxSizeMode.StretchImage;
+            star1.TabIndex = 3;
+            star1.TabStop = false;
+            star1.Click += star1_Click;
+            // 
+            // total
+            // 
+            total.AutoSize = true;
+            total.Location = new Point(926, 100);
+            total.Name = "total";
+            total.Size = new Size(92, 23);
+            total.TabIndex = 2;
+            total.Text = "Based on ";
+            // 
+            // averrate
+            // 
+            averrate.AutoSize = true;
+            averrate.Font = new Font("Cambria", 26F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            averrate.Location = new Point(814, 35);
+            averrate.Name = "averrate";
+            averrate.Size = new Size(96, 61);
+            averrate.TabIndex = 1;
+            averrate.Text = "0.0";
+            // 
+            // leftbottm
+            // 
+            leftbottm.Controls.Add(panel1);
+            leftbottm.Controls.Add(tbdes);
+            leftbottm.Controls.Add(txtnamefilm1);
+            leftbottm.Dock = DockStyle.Left;
+            leftbottm.Font = new Font("Cambria", 10F);
+            leftbottm.ForeColor = Color.MidnightBlue;
+            leftbottm.Location = new Point(0, 0);
+            leftbottm.Name = "leftbottm";
+            leftbottm.Size = new Size(797, 165);
+            leftbottm.TabIndex = 0;
             // 
             // tbdes
             // 
-            tbdes.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            tbdes.ForeColor = Color.MidnightBlue;
-            tbdes.Location = new Point(12, 77);
+            tbdes.BorderStyle = BorderStyle.None;
+            tbdes.Location = new Point(12, 55);
             tbdes.Name = "tbdes";
-            tbdes.Size = new Size(857, 166);
-            tbdes.TabIndex = 2;
+            tbdes.Size = new Size(762, 94);
+            tbdes.TabIndex = 1;
             tbdes.Text = "";
             // 
-            // description
+            // txtnamefilm1
             // 
-            description.Controls.Add(tbdes);
-            description.Controls.Add(panel3);
-            description.Controls.Add(txtdate);
-            description.Dock = DockStyle.Bottom;
-            description.Location = new Point(0, 500);
-            description.Name = "description";
-            description.Size = new Size(1280, 255);
-            description.TabIndex = 4;
-            description.Visible = false;
+            txtnamefilm1.AutoSize = true;
+            txtnamefilm1.Font = new Font("Cambria", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtnamefilm1.Location = new Point(12, 16);
+            txtnamefilm1.Name = "txtnamefilm1";
+            txtnamefilm1.Size = new Size(97, 33);
+            txtnamefilm1.TabIndex = 0;
+            txtnamefilm1.Text = "label1";
             // 
             // axWindowsMediaPlayer
             // 
@@ -149,17 +221,25 @@
             axWindowsMediaPlayer.Location = new Point(0, 39);
             axWindowsMediaPlayer.Name = "axWindowsMediaPlayer";
             axWindowsMediaPlayer.OcxState = (AxHost.State)resources.GetObject("axWindowsMediaPlayer.OcxState");
-            axWindowsMediaPlayer.Size = new Size(1280, 716);
+            axWindowsMediaPlayer.Size = new Size(1232, 712);
             axWindowsMediaPlayer.TabIndex = 3;
+            // 
+            // panel1
+            // 
+            panel1.BackColor = Color.CadetBlue;
+            panel1.Location = new Point(789, 6);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(5, 150);
+            panel1.TabIndex = 2;
             // 
             // PVideo
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(1280, 755);
-            Controls.Add(description);
+            ClientSize = new Size(1232, 916);
             Controls.Add(axWindowsMediaPlayer);
+            Controls.Add(bottompanel);
             Controls.Add(panel2);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             Name = "PVideo";
@@ -167,23 +247,37 @@
             Text = "PVideo";
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
-            description.ResumeLayout(false);
-            description.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)logo).EndInit();
+            bottompanel.ResumeLayout(false);
+            bottompanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)star5).EndInit();
+            ((System.ComponentModel.ISupportInitialize)star4).EndInit();
+            ((System.ComponentModel.ISupportInitialize)star3).EndInit();
+            ((System.ComponentModel.ISupportInitialize)star2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)star1).EndInit();
+            leftbottm.ResumeLayout(false);
+            leftbottm.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)axWindowsMediaPlayer).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
         private Label UITFLIX;
-        private PictureBox pictureBox1;
+        private PictureBox logo;
         private Panel panel2;
         private Label txtnamefilm;
-        private FontAwesome.Sharp.IconButton btndes;
-        private Label txtdate;
-        private Panel panel3;
+        private Panel bottompanel;
+        private Label total;
+        private Label averrate;
+        private Panel leftbottm;
         private RichTextBox tbdes;
-        private Panel description;
+        private Label txtnamefilm1;
+        private PictureBox star5;
+        private PictureBox star4;
+        private PictureBox star3;
+        private PictureBox star2;
+        private PictureBox star1;
         private AxWMPLib.AxWindowsMediaPlayer axWindowsMediaPlayer;
+        private Panel panel1;
     }
 }

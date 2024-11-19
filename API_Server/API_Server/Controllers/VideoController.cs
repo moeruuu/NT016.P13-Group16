@@ -49,7 +49,7 @@ namespace API_Server.Controllers
                         Description = addedVideo.Description,
                         Url = addedVideo.Url,
                         UrlImage = addedVideo.UrlImage,
-                        UploaderID = addedVideo.UploaderID,
+                        UploaderID = addedVideo.UploaderID.ToString(),
                         UploadedDate = addedVideo.UploadedDate,
                         Size = addedVideo.Size,
                         Rating = addedVideo.Rating,
@@ -140,5 +140,15 @@ namespace API_Server.Controllers
                 return NotFound("Không tìm thấy video");
             }
         }
+
+        [Authorize(AuthenticationSchemes =JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPatch("Rating")]
+        public async Task<IActionResult> Rating([FromBody]Rating rating)
+        {
+            var getvideorate = await filmService.Rating(rating);
+            return Ok(getvideorate);
+
+        }
+
     }
 }

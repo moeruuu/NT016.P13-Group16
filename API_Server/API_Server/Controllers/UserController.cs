@@ -86,6 +86,7 @@ namespace API_Server.Controllers
                     Token_type = "bearer",
                     User = new
                     {
+                        ID = userLogin.UserId.ToString(),
                         Fullname = userLogin.Fullname,
                         Username = userLogin.Username,
                         Email = userLogin.Email,
@@ -119,7 +120,7 @@ namespace API_Server.Controllers
                 var getuser = await userService.GetUserByID(UserId);
                 return Ok(new {
                     User = new {
-                        UserId = getuser.UserId,
+                        UserId = getuser.UserId.ToString(),
                         Username = getuser.Username,
                         Email = getuser.Email,
                         Profilepicture = getuser.Profilepicture,
@@ -149,7 +150,7 @@ namespace API_Server.Controllers
                 {
                     User = new
                     {
-                        UserId = CurrentUser.UserId,
+                        UserId = CurrentUser.UserId.ToString(),
                         Username = CurrentUser.Username,
                         Email = CurrentUser.Email,
                         Profilepicture = CurrentUser.Profilepicture,

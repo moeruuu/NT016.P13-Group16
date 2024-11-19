@@ -202,7 +202,7 @@ namespace UITFLIX
         private void OpenNewForm(JToken video)
         {
             this.Hide();
-            PVideo videos = new PVideo(video, accesstoken, videoService);
+            PVideo videos = new PVideo(video, accesstoken, videoService, Userinfo);
             videos.ShowDialog();
             this.Close();
         }
