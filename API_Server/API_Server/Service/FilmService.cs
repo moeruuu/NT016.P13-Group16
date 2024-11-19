@@ -34,7 +34,7 @@ namespace API_Server.Service
             long videosize;
             using (var stream = uploadVideo.UrlVideo.OpenReadStream())
             {
-                videosize = stream.Length; 
+                videosize = stream.Length;
             }
 
             //Upload video vào GridFS
@@ -63,10 +63,11 @@ namespace API_Server.Service
         }
 
 
-        public async Task<List<Video>> SearchVideos(string title)
+        public async Task<List<Video>> SearchVideos(string title, int page)
         {
+            int skip = (page - 1) * 6;
             var filter = Builders<Video>.Filter.Regex(v => v.Title, new MongoDB.Bson.BsonRegularExpression(title, "i"));
-            return await videos.Find(filter).ToListAsync();
+            return await videos.Find(filter).Skip(skip).Limit(6).ToListAsync();
         }
 
         public async Task<List<Video>> GetNewestVideos()
@@ -88,7 +89,7 @@ namespace API_Server.Service
 
         public async Task<Video> GetVideoByID(string id)
         {
-            var filter = Builders<Video>.Filter.Eq(v=>v.id, id);
+            var filter = Builders<Video>.Filter.Eq(v => v.id, id);
             var video = await videos.Find(filter).FirstOrDefaultAsync();
             if (video == null)
                 throw new Exception("Không tồn tại video");
@@ -124,13 +125,13 @@ namespace API_Server.Service
                 case ".webm":
                     return "video/webm";
                 default:
-                    return "application/octet-stream"; 
+                    return "application/octet-stream";
             }
         }
 
         public async Task<Video> Rating(Rating modelrating)
         {
-            var filter = Builders<Video>.Filter.Eq(v=>v.id, modelrating.Id);
+            var filter = Builders<Video>.Filter.Eq(v => v.id, modelrating.Id);
             var video = await videos.Find(filter).FirstOrDefaultAsync();
             if (video == null)
             {
@@ -146,7 +147,7 @@ namespace API_Server.Service
             else
             {
                 numrate = video.NumRate + 1;
-                rating = (double) ((video.Rating * video.NumRate) + modelrating.rating) / numrate;
+                rating = (double)((video.Rating * video.NumRate) + modelrating.rating) / numrate;
 
             }
 

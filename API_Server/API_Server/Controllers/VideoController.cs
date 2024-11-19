@@ -64,12 +64,16 @@ namespace API_Server.Controllers
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet("Search")]
-        public async Task<ActionResult<List<Video>>> SearchVideos(string title)
+        public async Task<ActionResult<List<Video>>> SearchVideos([FromBody]string title, int page)
         {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            /*var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userId) || !ObjectId.TryParse(userId, out ObjectId UserId))
             {
                 return Unauthorized("Không thể xác thực người dùng.");
+            }*/
+            if (string.IsNullOrEmpty(page.ToString()))
+            {
+                return BadRequest("Vui lòng nhập số trang");
             }
 
             if (string.IsNullOrWhiteSpace(title))
@@ -77,13 +81,16 @@ namespace API_Server.Controllers
                 return BadRequest("Vui lòng ghi tên phim tìm kiếm.");
             }
 
-            var videos = await filmService.SearchVideos(title);
+            var videos = await filmService.SearchVideos(title, page);
             if (videos == null || videos.Count == 0)
             {
                 return NotFound("Không tìm thấy video.");
             }
 
-            return Ok(videos);
+            return Ok(new {
+                total = videos.Count,
+                videos
+            });
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]

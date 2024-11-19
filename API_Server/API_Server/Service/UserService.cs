@@ -30,12 +30,12 @@ namespace API_Server.Service
         {
             users = database.GetCollection<User>("Users");
             this.emailService = emailService;
-            this.token = token;  
-            this.imgurService = imgurService;  
+            this.token = token;
+            this.imgurService = imgurService;
         }
 
         public async Task<User> Register(UserSignUpDTOs SignupDTOs)
-        {   
+        {
             /*if (SignupDTOs.ConfirmPassword != SignupDTOs.Password)
             {
                 throw new Exception("Mật khẩu và mật khẩu xác nhận không đúng!");
@@ -71,7 +71,7 @@ namespace API_Server.Service
 
             await SendOTPMail(currentEmail, otp);
             return user;
-           
+
         }
 
         public async Task<User> Login(UserLogInDTOs LoginDTOs)
@@ -147,12 +147,12 @@ namespace API_Server.Service
 
             return existUser;
         }*/
-        
+
         public async Task<bool> DeleteUser(ObjectId userid)
         {
             /*var Filter = Builders<User>.Filter.Eq(u => u.Username, username);
             var checkuser = await users.Find(Filter).FirstOrDefaultAsync();*/
-            var delete = await users.DeleteOneAsync(u=>u.UserId == userid);
+            var delete = await users.DeleteOneAsync(u => u.UserId == userid);
             if (delete.DeletedCount == 0)
             {
                 return false;
@@ -201,7 +201,7 @@ namespace API_Server.Service
         }
 
 
-        
+
         private async Task SendOTPMail(string mail, string otpText)
         {
             var mailrequest = new EmailRequest();
