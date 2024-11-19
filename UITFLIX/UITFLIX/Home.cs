@@ -106,6 +106,7 @@ namespace UITFLIX
             VisibleTopPanel(MainVisible);
             bottompanel.Visible = true;
             progressupload.Visible = true;
+            cbpage.Visible = false;
             try
             {
                 progressupload.Minimum = 0;
@@ -220,6 +221,7 @@ namespace UITFLIX
             VisibleTopPanel(MainVisible);
             bottompanel.Visible = true;
             progressupload.Visible = true;
+            cbpage.Visible = false;
             try
             {
                 progressupload.Minimum = 0;
@@ -292,9 +294,9 @@ namespace UITFLIX
                         {
                             currentevent.Visible = true;
                             double rate = double.Parse(video["rating"].ToString());
-                            double round = Math.Round(rate,1);
+                            double round = Math.Round(rate, 1);
 
-                            currentevent.Text = "Rating: "  + round.ToString("0.0");
+                            currentevent.Text = "Rating: " + round.ToString("0.0");
                             //SetLabelText(currentevent.Text, 11);
                         }
                     }
@@ -325,6 +327,7 @@ namespace UITFLIX
             VisibleUpload(OtherVisible);
             VisibleTopPanel(MainVisible);
             bottompanel.Visible = true;
+            cbpage.Visible = false;
         }
 
         private void btnupload_Click(object sender, EventArgs e)
@@ -339,6 +342,7 @@ namespace UITFLIX
             fileimage.Text = "";
             bottompanel.Visible = true;
             progressupload.Visible = false;
+            cbpage.Visible = false;
         }
 
         private void btncoop_Click(object sender, EventArgs e)
@@ -350,6 +354,7 @@ namespace UITFLIX
             VisibleTopPanel(OtherVisible);
             bottompanel.Visible = false;
             information.Visible = false;
+            cbpage.Visible = false;
         }
 
         public void DrawCircular(PictureBox pictureBox)
@@ -621,5 +626,114 @@ namespace UITFLIX
             picfilm6.Size = new Size(picfilm6.Width - 60, picfilm6.Height - 60);
             picfilm6.Location = new Point(picfilm6.Left + 30, picfilm6.Top);
         }
+
+        private async void pictureBox1_Click(object sender, EventArgs e)
+        {
+            cbpage.Visible = true;
+            progressupload.Visible = true;
+            DisableButton();
+            leftborderBtn.Visible = false;
+            VisibleImageandLabel(false);
+            VisibleCoop(false);
+            VisibleUpload(false);
+
+            cbpage.Items.Clear();
+
+            if (String.IsNullOrEmpty(searchtb.Text))
+            {
+                MessageBox.Show("Vui lòng nhập nội dung tìm kiếm!");
+                return;
+            }
+            try
+            {
+                var findvideos = await videoService.SearchVideos(searchtb.Text.ToString().Trim(), 1, accesstoken);
+                /*MessageBox.Show(searchtb.Text.ToString().Trim());
+                MessageBox.Show(findvideos.ToString());*/
+                if (findvideos != null)
+                {
+                    int totalpage = int.Parse(findvideos["totalpage"].ToString());
+                    for (int i = 1; i <= totalpage; i++)
+                    {
+                        cbpage.Items.Add(i.ToString());
+                    }
+                    cbpage.SelectedIndex = 0;
+
+                    JArray jarray = (JArray)findvideos["videos"];
+                    progressupload.Minimum = 0;
+                    progressupload.Maximum = jarray.Count;
+
+                    progressupload.Value = 0;
+
+                    btncoop.Enabled = false;
+                    btntopvideo.Enabled = false;
+                    btnnewvideo.Enabled = false;
+                    btnwatchedvideo.Enabled = false;
+                    btnupload.Enabled = false;
+                    for (int i = 0; i < jarray.Count; i++)
+                    {
+                        progressupload.Value++;
+                        JToken video = jarray[i];
+                        //MessageBox.Show(video.ToString());
+                        PictureBox currentPicBox = (PictureBox)this.Controls.Find($"picfilm{i + 1}", true).FirstOrDefault();
+
+                        if (currentPicBox != null)
+                        {
+                            currentPicBox.Visible = true;
+
+                            string imageurl = video["urlImage"].ToString();
+
+                            using (var client = new HttpClient())
+                            {
+                                if (Uri.TryCreate(imageurl, UriKind.Absolute, out var uriResult)
+                                    && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps))
+                                {
+                                    var bytes = await client.GetByteArrayAsync(imageurl);
+                                    using (var ms = new MemoryStream(bytes))
+                                    {
+                                        if (ms != null && ms.CanRead)
+                                        {
+                                            ms.Seek(0, SeekOrigin.Begin);
+
+                                            Image image = Image.FromStream(ms);
+                                            currentPicBox.Image = Image.FromStream(ms);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    currentPicBox.Image = null;
+                                }
+                            }
+                            currentPicBox.Click += (sender, e) => OpenNewForm(video);
+                        }
+
+                        Label currentname = (Label)this.Controls.Find($"filmname{i + 1}", true).FirstOrDefault();
+                        if (currentname != null)
+                        {
+                            currentname.Visible = true;
+                            currentname.Text = SetLabelText(video["title"].ToString(), 14);
+                            currentname.Click += (sender, e) => OpenNewForm(video);
+                        }
+
+                    }
+                    progressupload.Visible = false;
+                    btncoop.Enabled = true;
+                    btnnewvideo.Enabled = true;
+                    btnwatchedvideo.Enabled = true;
+                    btnupload.Enabled = true;
+                    btntopvideo.Enabled = true;
+                }
+                else
+                {
+                    cbpage.Items.Add(1);
+                    cbpage.SelectedIndex = 0;
+                    information.Visible = true;
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+}
     }
 }

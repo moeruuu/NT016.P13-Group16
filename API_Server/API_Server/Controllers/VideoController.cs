@@ -71,30 +71,37 @@ namespace API_Server.Controllers
             {
                 return Unauthorized("Không thể xác thực người dùng.");
             }*/
-            if (page <= 0)
+            try
             {
-                return BadRequest("Vui lòng nhập số trang");
-            }
+                if (page <= 0)
+                {
+                    return BadRequest("Vui lòng nhập số trang");
+                }
 
-            if (string.IsNullOrWhiteSpace(title))
-            {
-                return BadRequest("Vui lòng ghi tên phim tìm kiếm.");
-            }
+                if (string.IsNullOrWhiteSpace(title))
+                {
+                    return BadRequest("Vui lòng ghi tên phim tìm kiếm.");
+                }
 
-            var videos = await filmService.SearchVideos(title, page);
-            if (videos == null || videos.Count == 0)
-            {
-                return NotFound("Không tìm thấy video.");
+                var videos = await filmService.SearchVideos(title, page);
+                if (videos == null || videos.Count == 0)
+                {
+                    return NotFound("Không tìm thấy video.");
+                }
+                var countvideos = await filmService.CountVideos(title);
+                var totalpage = (long)Math.Ceiling((double)countvideos / 6);
+                return Ok(new
+                {
+                    totalvideos = countvideos,
+                    totalpage = totalpage,
+                    currentpage = page,
+                    videos
+                });
             }
-            var countvideos = await filmService.CountVideos(title);
-            var totalpage = (long)Math.Ceiling((double)countvideos / 6);
-            return Ok(new
+            catch(Exception ex)
             {
-                totalvideos = countvideos,
-                totalpage = totalpage,
-                currentpage = page,
-                videos
-            });
+                return BadRequest(ex.Message);
+            }
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]

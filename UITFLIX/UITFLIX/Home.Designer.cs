@@ -76,6 +76,7 @@
             filevideo = new Label();
             information = new Label();
             bottompanel = new Panel();
+            cbpage = new ComboBox();
             waiting = new Label();
             leftside.SuspendLayout();
             avatarpanel.SuspendLayout();
@@ -269,9 +270,11 @@
             pictureBox1.Size = new Size(50, 52);
             pictureBox1.TabIndex = 2;
             pictureBox1.TabStop = false;
+            pictureBox1.Click += pictureBox1_Click;
             // 
             // searchtb
             // 
+            searchtb.BackColor = Color.White;
             searchtb.Font = new Font("Cambria", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
             searchtb.ForeColor = Color.CadetBlue;
             searchtb.Location = new Point(191, 60);
@@ -321,7 +324,7 @@
             chat.BackgroundImage = Properties.Resources._5962463;
             chat.BackgroundImageLayout = ImageLayout.Zoom;
             chat.Cursor = Cursors.Hand;
-            chat.Location = new Point(983, 9);
+            chat.Location = new Point(983, 6);
             chat.Name = "chat";
             chat.Size = new Size(47, 30);
             chat.TabIndex = 2;
@@ -718,6 +721,7 @@
             // bottompanel
             // 
             bottompanel.BackColor = Color.PowderBlue;
+            bottompanel.Controls.Add(cbpage);
             bottompanel.Controls.Add(waiting);
             bottompanel.Controls.Add(progressupload);
             bottompanel.Controls.Add(chat);
@@ -726,6 +730,17 @@
             bottompanel.Name = "bottompanel";
             bottompanel.Size = new Size(1042, 44);
             bottompanel.TabIndex = 36;
+            // 
+            // cbpage
+            // 
+            cbpage.Font = new Font("Cambria", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cbpage.ForeColor = Color.MidnightBlue;
+            cbpage.FormattingEnabled = true;
+            cbpage.Location = new Point(922, 6);
+            cbpage.Name = "cbpage";
+            cbpage.Size = new Size(55, 29);
+            cbpage.TabIndex = 30;
+            cbpage.Visible = false;
             // 
             // waiting
             // 
@@ -855,5 +870,6 @@
         private Label information;
         private Panel bottompanel;
         private Label waiting;
+        private ComboBox cbpage;
     }
 }

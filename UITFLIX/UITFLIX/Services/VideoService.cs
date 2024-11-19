@@ -21,7 +21,7 @@ namespace UITFLIX.Services
         };
         public VideoService()
         {
-            
+
         }
 
         public async Task UploadVideoAsync(string videofile, string imagefile, string title, string description, string size, string accessToken)
@@ -62,9 +62,9 @@ namespace UITFLIX.Services
                 //anhr cumx z
                 using var imagestream = new FileStream(imagefile, FileMode.Open, FileAccess.Read);
                 var imagecontent = new StreamContent(imagestream);
-                imagecontent.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg"); 
+                imagecontent.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg");
                 form.Add(imagecontent, "UrlImage", Path.GetFileName(imagefile));
-                var response = await httpClient.PostAsync("api/Video/Upload", form); 
+                var response = await httpClient.PostAsync("api/Video/Upload", form);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -201,6 +201,44 @@ namespace UITFLIX.Services
             }
             catch (Exception ex)
             {
+                return null;
+            }
+        }
+
+        public async Task<JObject> SearchVideos(string title, int page, string accesstoken)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(accesstoken))
+                {
+                    return null;
+                }
+                if (string.IsNullOrEmpty(title))
+                {
+                    return null;
+                }
+                if (page <= 0)
+                {
+                    return null;
+                }
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accesstoken);
+                //dung EscapeDataString de ma hoa du lieu chua ki tu dac biet khong bi loi
+                string url = $"api/Video/Search?title={Uri.EscapeDataString(title)}&page={page}";
+                var response = await httpClient.GetAsync(url);
+                //return response;
+                if (response.IsSuccessStatusCode)
+                {
+                    var res = await response.Content.ReadAsStringAsync();
+                    return JObject.Parse(res);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
                 return null;
             }
         }

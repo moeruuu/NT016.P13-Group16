@@ -229,7 +229,7 @@
             // 
             // panel1
             // 
-            panel1.BackColor = Color.CadetBlue;
+            panel1.BackColor = Color.MidnightBlue;
             panel1.Location = new Point(789, 6);
             panel1.Name = "panel1";
             panel1.Size = new Size(3, 150);
