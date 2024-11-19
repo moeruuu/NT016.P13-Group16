@@ -741,6 +741,7 @@
             cbpage.Size = new Size(55, 29);
             cbpage.TabIndex = 30;
             cbpage.Visible = false;
+            cbpage.SelectedIndexChanged += cbpage_SelectedIndexChanged;
             // 
             // waiting
             // 

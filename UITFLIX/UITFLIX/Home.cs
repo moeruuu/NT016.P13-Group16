@@ -646,7 +646,7 @@ namespace UITFLIX
             }
             try
             {
-                var findvideos = await videoService.SearchVideos(searchtb.Text.ToString().Trim(), 1, accesstoken);
+                var findvideos = await videoService.SearchVideos(searchtb.Text.Trim(), 1, accesstoken);
                 /*MessageBox.Show(searchtb.Text.ToString().Trim());
                 MessageBox.Show(findvideos.ToString());*/
                 if (findvideos != null)
@@ -734,6 +734,93 @@ namespace UITFLIX
             {
 
             }
-}
+        }
+
+        private async void cbpage_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var select = cbpage.SelectedItem;
+            int page = int.Parse(cbpage.Text);
+            try
+            {
+                var findvideos = await videoService.SearchVideos(searchtb.Text.Trim(), page, accesstoken);
+                if (findvideos != null)
+                {
+                    JArray jarray = (JArray)findvideos["videos"];
+                    progressupload.Minimum = 0;
+                    progressupload.Maximum = jarray.Count;
+
+                    progressupload.Value = 0;
+
+                    btncoop.Enabled = false;
+                    btntopvideo.Enabled = false;
+                    btnnewvideo.Enabled = false;
+                    btnwatchedvideo.Enabled = false;
+                    btnupload.Enabled = false;
+                    for (int i = 0; i < jarray.Count; i++)
+                    {
+                        progressupload.Value++;
+                        JToken video = jarray[i];
+                        PictureBox currentPicBox = (PictureBox)this.Controls.Find($"picfilm{i + 1}", true).FirstOrDefault();
+
+                        if (currentPicBox != null)
+                        {
+                            currentPicBox.Visible = true;
+
+                            string imageurl = video["urlImage"].ToString();
+
+                            using (var client = new HttpClient())
+                            {
+                                if (Uri.TryCreate(imageurl, UriKind.Absolute, out var uriResult)
+                                    && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps))
+                                {
+                                    var bytes = await client.GetByteArrayAsync(imageurl);
+                                    using (var ms = new MemoryStream(bytes))
+                                    {
+                                        if (ms != null && ms.CanRead)
+                                        {
+                                            ms.Seek(0, SeekOrigin.Begin);
+
+                                            Image image = Image.FromStream(ms);
+                                            currentPicBox.Image = Image.FromStream(ms);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    currentPicBox.Image = null;
+                                }
+                            }
+                            currentPicBox.Click += (sender, e) => OpenNewForm(video);
+                        }
+
+                        Label currentname = (Label)this.Controls.Find($"filmname{i + 1}", true).FirstOrDefault();
+                        if (currentname != null)
+                        {
+                            currentname.Visible = true;
+                            currentname.Text = SetLabelText(video["title"].ToString(), 14);
+                            currentname.Click += (sender, e) => OpenNewForm(video);
+                        }
+
+                    }
+                    progressupload.Visible = false;
+                    btncoop.Enabled = true;
+                    btnnewvideo.Enabled = true;
+                    btnwatchedvideo.Enabled = true;
+                    btnupload.Enabled = true;
+                    btntopvideo.Enabled = true;
+                }
+                else
+                {
+                    cbpage.Items.Add(1);
+                    cbpage.SelectedIndex = 0;
+                    information.Visible = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
     }
+
 }
