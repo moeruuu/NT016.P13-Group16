@@ -228,6 +228,7 @@
             // Username
             // 
             Username.ActiveLinkColor = Color.MidnightBlue;
+            Username.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             Username.AutoSize = true;
             Username.Font = new Font("Cambria", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
             Username.LinkColor = Color.White;

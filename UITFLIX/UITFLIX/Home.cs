@@ -503,12 +503,18 @@ namespace UITFLIX
 
         }
 
+
         private async void btnuploadvideo_Click(object sender, EventArgs e)
         {
 
-            btnupload.Enabled = false;
+            btnchooseimage.Enabled = false;
             btnchoosefile.Enabled = false;
             btnuploadvideo.Enabled = false;
+            btncoop.Enabled = false;
+            btntopvideo.Enabled = false;
+            btnnewvideo.Enabled = false;
+            btnwatchedvideo.Enabled = false;
+            btnupload.Enabled = false;
             try
             {
                 waiting.Visible = true;
@@ -544,6 +550,21 @@ namespace UITFLIX
                      MessageBox.Show("Không thể upload video");*/
                 await videoService.UploadVideoAsync(selectedvideofile, selectedimagefile, tbnamefilm.Text.Trim(), tbdescription.Text.Trim(), size.ToString(), Userinfo["access_token"].ToString());
                 waiting.Visible = false;
+
+                btncoop.Enabled = true;
+                btnnewvideo.Enabled = true;
+                btnwatchedvideo.Enabled = true;
+                btnupload.Enabled = true;
+                btntopvideo.Enabled = true;
+                tbdescription.Clear();
+                tbnamefilm.Clear();
+                fileimage.Text = "";
+                filevideo.Text = "";
+                selectedvideofile = "";
+                selectedimagefile = "";
+                btnchoosefile.Enabled = true;
+                btnchooseimage.Enabled = true;
+                btnuploadvideo.Enabled = true;
             }
             catch (Exception ex)
             {
