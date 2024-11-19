@@ -54,24 +54,24 @@ namespace API_Server.Controllers
                         Size = addedVideo.Size,
                         Rating = addedVideo.Rating,
                     }
-                }); 
+                });
             }
             catch (Exception ex)
             {
-                return BadRequest($"Lỗi: {ex.Message}"); 
+                return BadRequest($"Lỗi: {ex.Message}");
             }
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet("Search")]
-        public async Task<ActionResult<List<Video>>> SearchVideos([FromBody]string title, int page)
+        public async Task<ActionResult<List<Video>>> SearchVideos([FromQuery] string title, [FromQuery] int page)
         {
             /*var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userId) || !ObjectId.TryParse(userId, out ObjectId UserId))
             {
                 return Unauthorized("Không thể xác thực người dùng.");
             }*/
-            if (string.IsNullOrEmpty(page.ToString()))
+            if (page <= 0)
             {
                 return BadRequest("Vui lòng nhập số trang");
             }
@@ -86,9 +86,13 @@ namespace API_Server.Controllers
             {
                 return NotFound("Không tìm thấy video.");
             }
-
-            return Ok(new {
-                total = videos.Count,
+            var countvideos = await filmService.CountVideos(title);
+            var totalpage = (long)Math.Ceiling((double)countvideos / 6);
+            return Ok(new
+            {
+                totalvideos = countvideos,
+                totalpage = totalpage,
+                currentpage = page,
                 videos
             });
         }

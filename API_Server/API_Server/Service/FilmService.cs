@@ -70,6 +70,13 @@ namespace API_Server.Service
             return await videos.Find(filter).Skip(skip).Limit(6).ToListAsync();
         }
 
+        public async Task<long> CountVideos(string title)
+        {
+            var filter = Builders<Video>.Filter.Regex(v => v.Title, new MongoDB.Bson.BsonRegularExpression(title, "i"));
+            //dem video da loc
+            return await videos.CountDocumentsAsync(filter);
+        }
+
         public async Task<List<Video>> GetNewestVideos()
         {
             var newvideos = await videos.Find(new BsonDocument()).Sort(Builders<Video>.Sort.Descending(v => v.UploadedDate)).Limit(6).ToListAsync();
