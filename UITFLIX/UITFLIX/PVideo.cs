@@ -1,6 +1,7 @@
 ﻿using AxWMPLib;
 using Newtonsoft.Json.Linq;
 using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -23,6 +24,7 @@ namespace UITFLIX
         private readonly VideoService videoService;
         private readonly JObject Userinfo;
         private bool rated = false;
+        private static string temp;
         public PVideo(JToken videonek, string accesstoken, VideoService service, JObject user)
         {
             InitializeComponent();
@@ -30,6 +32,7 @@ namespace UITFLIX
             this.MaximizeBox = false;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
 
+            this.FormClosing += PVideo_FormClosing;
             setStar();
             jvideo = videonek;
             this.accesstoken = accesstoken;
@@ -41,7 +44,8 @@ namespace UITFLIX
             tbdes.Text += jvideo["description"].ToString();
             setlabelrateandnum(jvideo["rating"].ToString(), jvideo["numRate"].ToString());
             LoadVideo();
-            axWindowsMediaPlayer.uiMode = "None";
+
+            //axWindowsMediaPlayer.uiMode = "None";
         }
 
         public void setlabelrateandnum(string rating, string numrate)
@@ -65,8 +69,10 @@ namespace UITFLIX
                 var stream = await videoService.PlayVideo(accesstoken, id);
                 if (stream != null)
                 {
+                    temp = stream;
                     axWindowsMediaPlayer.URL = stream;
                     axWindowsMediaPlayer.Ctlcontrols.play();
+                    //MessageBox.Show(temp.ToString());
                 }
 
             }
@@ -231,7 +237,20 @@ namespace UITFLIX
             home.ShowDialog();
             
         }
-       
 
+        private void PVideo_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(temp) && File.Exists(temp))
+                {
+                    File.Delete(temp); 
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
     }
 }
