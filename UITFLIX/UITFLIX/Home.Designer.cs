@@ -78,6 +78,8 @@
             bottompanel = new Panel();
             cbpage = new ComboBox();
             waiting = new Label();
+            tag = new Label();
+            cbtag = new ComboBox();
             leftside.SuspendLayout();
             avatarpanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)Avatar).BeginInit();
@@ -595,7 +597,7 @@
             tbnamefilm.ForeColor = Color.MidnightBlue;
             tbnamefilm.Location = new Point(550, 248);
             tbnamefilm.Name = "tbnamefilm";
-            tbnamefilm.Size = new Size(640, 33);
+            tbnamefilm.Size = new Size(412, 33);
             tbnamefilm.TabIndex = 25;
             tbnamefilm.Visible = false;
             // 
@@ -605,7 +607,7 @@
             tbdescription.ForeColor = Color.MidnightBlue;
             tbdescription.Location = new Point(550, 320);
             tbdescription.Name = "tbdescription";
-            tbdescription.Size = new Size(640, 260);
+            tbdescription.Size = new Size(711, 260);
             tbdescription.TabIndex = 26;
             tbdescription.Text = "";
             tbdescription.Visible = false;
@@ -615,7 +617,7 @@
             btnuploadvideo.Cursor = Cursors.Hand;
             btnuploadvideo.Font = new Font("Cambria", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnuploadvideo.ForeColor = Color.MidnightBlue;
-            btnuploadvideo.Location = new Point(795, 597);
+            btnuploadvideo.Location = new Point(837, 599);
             btnuploadvideo.Name = "btnuploadvideo";
             btnuploadvideo.Size = new Size(167, 45);
             btnuploadvideo.TabIndex = 27;
@@ -756,12 +758,39 @@
             waiting.Text = "Waiting for video...";
             waiting.Visible = false;
             // 
+            // tag
+            // 
+            tag.AutoSize = true;
+            tag.Font = new Font("Cambria", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            tag.ForeColor = Color.MidnightBlue;
+            tag.Location = new Point(978, 249);
+            tag.Name = "tag";
+            tag.Size = new Size(95, 28);
+            tag.TabIndex = 37;
+            tag.Text = "Thể loại";
+            tag.Visible = false;
+            // 
+            // cbtag
+            // 
+            cbtag.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cbtag.ForeColor = Color.MidnightBlue;
+            cbtag.FormattingEnabled = true;
+            cbtag.Items.AddRange(new object[] { "Âm nhạc", "Ẩm thực", "Giải Trí", "Hoạt hình", "Học tập", "Mỹ phẩm", "Review", "Vlog" });
+            cbtag.Location = new Point(1079, 248);
+            cbtag.Name = "cbtag";
+            cbtag.Size = new Size(182, 31);
+            cbtag.Sorted = true;
+            cbtag.TabIndex = 38;
+            cbtag.Visible = false;
+            // 
             // Home
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightBlue;
             ClientSize = new Size(1342, 769);
+            Controls.Add(cbtag);
+            Controls.Add(tag);
             Controls.Add(bottompanel);
             Controls.Add(information);
             Controls.Add(filevideo);
@@ -873,5 +902,7 @@
         private Panel bottompanel;
         private Label waiting;
         private ComboBox cbpage;
+        private Label tag;
+        private ComboBox cbtag;
     }
 }

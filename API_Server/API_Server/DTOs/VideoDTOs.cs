@@ -17,6 +17,8 @@ namespace API_Server.DTOs
         [Required(ErrorMessage = "Vui lòng chọn video để update.")]
         public IFormFile UrlVideo { get; set; }
         //public long Size { get; set; }
+        [Required(ErrorMessage ="Vui lòng chọn thể loại")]
+        public string Tag { get; set; }
 
     }
 }

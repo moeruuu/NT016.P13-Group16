@@ -30,6 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PVideo));
             panel2 = new Panel();
+            btnshowvideos = new FontAwesome.Sharp.IconButton();
+            panel3 = new Panel();
             iconPictureBox1 = new FontAwesome.Sharp.IconPictureBox();
             linkLabel1 = new LinkLabel();
             txtnamefilm = new Label();
@@ -47,6 +49,7 @@
             tbdes = new RichTextBox();
             txtnamefilm1 = new Label();
             axWindowsMediaPlayer = new AxWMPLib.AxWindowsMediaPlayer();
+            flowLayoutPanel = new FlowLayoutPanel();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)iconPictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)logo).BeginInit();
@@ -62,6 +65,8 @@
             // 
             // panel2
             // 
+            panel2.Controls.Add(btnshowvideos);
+            panel2.Controls.Add(panel3);
             panel2.Controls.Add(iconPictureBox1);
             panel2.Controls.Add(linkLabel1);
             panel2.Controls.Add(txtnamefilm);
@@ -72,6 +77,34 @@
             panel2.Size = new Size(1232, 39);
             panel2.TabIndex = 1;
             // 
+            // btnshowvideos
+            // 
+            btnshowvideos.FlatAppearance.BorderSize = 0;
+            btnshowvideos.FlatStyle = FlatStyle.Flat;
+            btnshowvideos.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnshowvideos.ForeColor = Color.MidnightBlue;
+            btnshowvideos.IconChar = FontAwesome.Sharp.IconChar.Film;
+            btnshowvideos.IconColor = Color.MidnightBlue;
+            btnshowvideos.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnshowvideos.IconSize = 35;
+            btnshowvideos.ImageAlign = ContentAlignment.TopLeft;
+            btnshowvideos.Location = new Point(1021, 2);
+            btnshowvideos.Name = "btnshowvideos";
+            btnshowvideos.Size = new Size(223, 34);
+            btnshowvideos.TabIndex = 5;
+            btnshowvideos.Text = "Related videos: Off";
+            btnshowvideos.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnshowvideos.UseVisualStyleBackColor = true;
+            btnshowvideos.Click += btnshowvideos_Click;
+            // 
+            // panel3
+            // 
+            panel3.BackColor = Color.MidnightBlue;
+            panel3.Location = new Point(1018, 5);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(3, 30);
+            panel3.TabIndex = 4;
+            // 
             // iconPictureBox1
             // 
             iconPictureBox1.BackColor = Color.White;
@@ -80,7 +113,7 @@
             iconPictureBox1.IconColor = Color.MidnightBlue;
             iconPictureBox1.IconFont = FontAwesome.Sharp.IconFont.Auto;
             iconPictureBox1.IconSize = 30;
-            iconPictureBox1.Location = new Point(1050, 4);
+            iconPictureBox1.Location = new Point(824, 7);
             iconPictureBox1.Name = "iconPictureBox1";
             iconPictureBox1.Size = new Size(30, 30);
             iconPictureBox1.TabIndex = 3;
@@ -92,7 +125,7 @@
             linkLabel1.AutoSize = true;
             linkLabel1.Font = new Font("Cambria", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             linkLabel1.LinkColor = Color.MidnightBlue;
-            linkLabel1.Location = new Point(1080, 5);
+            linkLabel1.Location = new Point(860, 9);
             linkLabel1.Name = "linkLabel1";
             linkLabel1.Size = new Size(158, 23);
             linkLabel1.TabIndex = 2;
@@ -264,12 +297,23 @@
             axWindowsMediaPlayer.Size = new Size(1232, 712);
             axWindowsMediaPlayer.TabIndex = 3;
             // 
+            // flowLayoutPanel
+            // 
+            flowLayoutPanel.BorderStyle = BorderStyle.FixedSingle;
+            flowLayoutPanel.Dock = DockStyle.Right;
+            flowLayoutPanel.Location = new Point(926, 39);
+            flowLayoutPanel.Name = "flowLayoutPanel";
+            flowLayoutPanel.Size = new Size(306, 712);
+            flowLayoutPanel.TabIndex = 3;
+            flowLayoutPanel.Visible = false;
+            // 
             // PVideo
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(1232, 916);
+            Controls.Add(flowLayoutPanel);
             Controls.Add(axWindowsMediaPlayer);
             Controls.Add(bottompanel);
             Controls.Add(panel2);
@@ -314,5 +358,8 @@
         private Panel panel1;
         private FontAwesome.Sharp.IconPictureBox iconPictureBox1;
         private LinkLabel linkLabel1;
+        private FontAwesome.Sharp.IconButton btnshowvideos;
+        private Panel panel3;
+        private FlowLayoutPanel flowLayoutPanel;
     }
 }

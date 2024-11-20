@@ -59,7 +59,7 @@ namespace UITFLIX
                 total.Text = "Based on " + numrate + " rating.";
             }
             else
-            total.Text = "Based on " + numrate + " ratings.";
+                total.Text = "Based on " + numrate + " ratings.";
         }
         public async Task LoadVideo()
         {
@@ -113,7 +113,7 @@ namespace UITFLIX
                 JObject res = JObject.Parse(afterrated);
                 setlabelrateandnum(res["rating"].ToString(), res["numRate"].ToString());
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -165,7 +165,7 @@ namespace UITFLIX
                 JObject res = JObject.Parse(afterrated);
                 setlabelrateandnum(res["rating"].ToString(), res["numRate"].ToString());
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -191,7 +191,7 @@ namespace UITFLIX
                 JObject res = JObject.Parse(afterrated);
                 setlabelrateandnum(res["rating"].ToString(), res["numRate"].ToString());
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -221,7 +221,7 @@ namespace UITFLIX
                 JObject res = JObject.Parse(afterrated);
                 setlabelrateandnum(res["rating"].ToString(), res["numRate"].ToString());
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -235,7 +235,7 @@ namespace UITFLIX
             Home home = new Home(Userinfo, videoService, accesstoken);
             this.Close();
             home.ShowDialog();
-            
+
         }
 
         private void PVideo_FormClosing(object sender, FormClosingEventArgs e)
@@ -244,12 +244,25 @@ namespace UITFLIX
             {
                 if (!string.IsNullOrEmpty(temp) && File.Exists(temp))
                 {
-                    File.Delete(temp); 
+                    File.Delete(temp);
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btnshowvideos_Click(object sender, EventArgs e)
+        {
+            if (btnshowvideos.Text.Contains("On")){
+                btnshowvideos.Text = "Related videos: Off";
+                flowLayoutPanel.Visible = false;
+            }
+            else
+            {
+                btnshowvideos.Text = "Related videos: On";
+                flowLayoutPanel.Visible = true;
             }
         }
     }

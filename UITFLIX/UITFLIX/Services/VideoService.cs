@@ -24,14 +24,14 @@ namespace UITFLIX.Services
 
         }
 
-        public async Task UploadVideoAsync(string videofile, string imagefile, string title, string description, string size, string accessToken)
+        public async Task<bool> UploadVideoAsync(string videofile, string imagefile, string title, string description, string tag, string accessToken)
         {
             try
             {
                 if (string.IsNullOrEmpty(accessToken))
                 {
                     MessageBox.Show("Yêu cầu access token!");
-                    return;
+                    return false;
                 }
 
                 //authorize bằng token qua header
@@ -64,21 +64,24 @@ namespace UITFLIX.Services
                 var imagecontent = new StreamContent(imagestream);
                 imagecontent.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg");
                 form.Add(imagecontent, "UrlImage", Path.GetFileName(imagefile));
+                form.Add(new StringContent(tag), "Tag");
                 var response = await httpClient.PostAsync("api/Video/Upload", form);
 
                 if (!response.IsSuccessStatusCode)
                 {
                     var errorMessage = await response.Content.ReadAsStringAsync();
                     MessageBox.Show($"Error: {response.StatusCode}: {errorMessage}");
+                    return false;
                 }
                 else
                 {
-                    MessageBox.Show("Upload video thành công!");
+                    return true;
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"{ex.Message}\n{ex.StackTrace}");
+                return false;
             }
         }
 

@@ -107,8 +107,10 @@ namespace UITFLIX
             bottompanel.Visible = true;
             progressupload.Visible = true;
             cbpage.Visible = false;
+            information.Visible = false;
             try
             {
+                this.Enabled = false;
                 progressupload.Minimum = 0;
 
                 //MessageBox.Show(accesstoken);
@@ -125,11 +127,6 @@ namespace UITFLIX
                 progressupload.Value = 0;
                 if (jarray != null && jarray.Count > 0)
                 {
-                    btncoop.Enabled = false;
-                    btntopvideo.Enabled = false;
-                    btnnewvideo.Enabled = false;
-                    btnwatchedvideo.Enabled = false;
-                    btnupload.Enabled = false;
                     for (int i = 0; i < jarray.Count; i++)
                     {
                         progressupload.Value++;
@@ -185,13 +182,6 @@ namespace UITFLIX
                             //SetLabelText(currentevent.Text, 11);
                         }
                     }
-                    progressupload.Visible = false;
-
-                    btncoop.Enabled = true;
-                    btnnewvideo.Enabled = true;
-                    btnwatchedvideo.Enabled = true;
-                    btnupload.Enabled = true;
-                    btntopvideo.Enabled = true;
                 }
                 else
                 {
@@ -202,6 +192,13 @@ namespace UITFLIX
             catch (Exception ex)
             {
                 MessageBox.Show($"{ex.Message}\n{ex.StackTrace}");
+            }
+            finally
+            {
+
+                progressupload.Visible = false;
+                this.Enabled = true;
+                this.Cursor = Cursors.Default;
             }
 
         }
@@ -222,8 +219,11 @@ namespace UITFLIX
             bottompanel.Visible = true;
             progressupload.Visible = true;
             cbpage.Visible = false;
+            information.Visible = false;
             try
             {
+                //Khong cho nguoi dung mo video khi dang load cac video
+                this.Enabled = false;
                 progressupload.Minimum = 0;
                 var jarray = await videoService.GetTopVideos(accesstoken);
                 if (jarray != null)
@@ -237,12 +237,6 @@ namespace UITFLIX
                 progressupload.Value = 0;
                 if (jarray != null && jarray.Count > 0)
                 {
-                    //tranh nguoi dung an vao trang khac khi dang load
-                    btncoop.Enabled = false;
-                    btntopvideo.Enabled = false;
-                    btnnewvideo.Enabled = false;
-                    btnwatchedvideo.Enabled = false;
-                    btnupload.Enabled = false;
                     for (int i = 0; i < jarray.Count; i++)
                     {
                         progressupload.Value++;
@@ -300,12 +294,6 @@ namespace UITFLIX
                             //SetLabelText(currentevent.Text, 11);
                         }
                     }
-                    progressupload.Visible = false;
-                    btncoop.Enabled = true;
-                    btnnewvideo.Enabled = true;
-                    btnwatchedvideo.Enabled = true;
-                    btnupload.Enabled = true;
-                    btntopvideo.Enabled = true;
                 }
                 else
                 {
@@ -315,6 +303,12 @@ namespace UITFLIX
             catch (Exception ex)
             {
                 MessageBox.Show($"{ex.Message}\n{ex.StackTrace}");
+            }
+            finally
+            {
+
+                progressupload.Visible = false;
+                this.Enabled = true;
             }
 
         }
@@ -328,6 +322,8 @@ namespace UITFLIX
             VisibleTopPanel(MainVisible);
             bottompanel.Visible = true;
             cbpage.Visible = false;
+            waiting.Visible = false;
+            information.Visible = false;
         }
 
         private void btnupload_Click(object sender, EventArgs e)
@@ -355,6 +351,7 @@ namespace UITFLIX
             bottompanel.Visible = false;
             information.Visible = false;
             cbpage.Visible = false;
+
         }
 
         public void DrawCircular(PictureBox pictureBox)
@@ -400,6 +397,8 @@ namespace UITFLIX
             tenphim.Visible = Visible;
             noidung.Visible = Visible;
             btnuploadvideo.Visible = Visible;
+            cbtag.Visible = Visible;
+            tag.Visible = Visible;
         }
 
         public void VisibleCoop(bool Visible)
@@ -506,22 +505,24 @@ namespace UITFLIX
 
         private async void btnuploadvideo_Click(object sender, EventArgs e)
         {
-
-            btnchooseimage.Enabled = false;
-            btnchoosefile.Enabled = false;
-            btnuploadvideo.Enabled = false;
-            btncoop.Enabled = false;
-            btntopvideo.Enabled = false;
-            btnnewvideo.Enabled = false;
-            btnwatchedvideo.Enabled = false;
-            btnupload.Enabled = false;
+            if (tbnamefilm.Text.Length > 100) {
+                MessageBox.Show("Tên phim không thể chứa quá 100 kí tự");
+                return;
+            }
+            if (tbdescription.Text.Length > 1000) {
+                MessageBox.Show("Mô tả không thể chứa quá 1000 kí tự");
+                return;
+                }
+            this.Enabled = false;
+            waiting.Visible = false;
+            information.Visible = false;
             try
             {
                 waiting.Visible = true;
-
-                if (tbnamefilm.Text == null || tbdescription.Text == null)
+                this.Cursor = Cursors.WaitCursor;
+                if (tbnamefilm.Text == null || tbdescription.Text == null || cbtag.SelectedIndex == -1)
                 {
-                    MessageBox.Show("Vui lòng ghi tên phim hoặc mô tả!");
+                    MessageBox.Show("Vui lòng ghi tên phim hoặc mô tả hoặc thể loại!");
                     btnupload.Enabled = true;
                     btnchoosefile.Enabled = true;
                     return;
@@ -548,30 +549,32 @@ namespace UITFLIX
                      MessageBox.Show("Upload video thành công!");
                  else
                      MessageBox.Show("Không thể upload video");*/
-                await videoService.UploadVideoAsync(selectedvideofile, selectedimagefile, tbnamefilm.Text.Trim(), tbdescription.Text.Trim(), size.ToString(), Userinfo["access_token"].ToString());
-                waiting.Visible = false;
+                if (await videoService.UploadVideoAsync(selectedvideofile, selectedimagefile, tbnamefilm.Text.Trim(), tbdescription.Text.Trim(), cbtag.SelectedItem.ToString(), Userinfo["access_token"].ToString()))
+                {
 
-                btncoop.Enabled = true;
-                btnnewvideo.Enabled = true;
-                btnwatchedvideo.Enabled = true;
-                btnupload.Enabled = true;
-                btntopvideo.Enabled = true;
-                tbdescription.Clear();
-                tbnamefilm.Clear();
-                fileimage.Text = "";
-                filevideo.Text = "";
-                selectedvideofile = "";
-                selectedimagefile = "";
-                btnchoosefile.Enabled = true;
-                btnchooseimage.Enabled = true;
-                btnuploadvideo.Enabled = true;
+                    MessageBox.Show("Upload video thành công!");
+                    tbdescription.Clear();
+                    tbnamefilm.Clear();
+                    fileimage.Text = "";
+                    filevideo.Text = "";
+                    selectedvideofile = "";
+                    selectedimagefile = "";
+                    cbtag.SelectedIndex = 0;
+                }
+                else
+                {
+                    MessageBox.Show("Đã có lỗi xảy ra");
+                }
             }
             catch (Exception ex)
             {
-                waiting.Visible = false;
-                btnupload.Enabled = true;
-                btnchoosefile.Enabled = true;
+                //this.Enabled = true;
                 MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
+            }
+            finally
+            {
+                waiting.Visible = false;
+                this.Enabled = true;
             }
 
         }
@@ -657,6 +660,7 @@ namespace UITFLIX
             VisibleImageandLabel(false);
             VisibleCoop(false);
             VisibleUpload(false);
+            information.Visible = false;
 
             cbpage.Items.Clear();
 
@@ -667,6 +671,7 @@ namespace UITFLIX
             }
             try
             {
+                this.Enabled = false;
                 var findvideos = await videoService.SearchVideos(searchtb.Text.Trim(), 1, accesstoken);
                 /*MessageBox.Show(searchtb.Text.ToString().Trim());
                 MessageBox.Show(findvideos.ToString());*/
@@ -684,12 +689,6 @@ namespace UITFLIX
                     progressupload.Maximum = jarray.Count;
 
                     progressupload.Value = 0;
-
-                    btncoop.Enabled = false;
-                    btntopvideo.Enabled = false;
-                    btnnewvideo.Enabled = false;
-                    btnwatchedvideo.Enabled = false;
-                    btnupload.Enabled = false;
                     for (int i = 0; i < jarray.Count; i++)
                     {
                         progressupload.Value++;
@@ -737,12 +736,6 @@ namespace UITFLIX
                         }
 
                     }
-                    progressupload.Visible = false;
-                    btncoop.Enabled = true;
-                    btnnewvideo.Enabled = true;
-                    btnwatchedvideo.Enabled = true;
-                    btnupload.Enabled = true;
-                    btntopvideo.Enabled = true;
                 }
                 else
                 {
@@ -753,7 +746,13 @@ namespace UITFLIX
             }
             catch (Exception ex)
             {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
 
+                progressupload.Visible = false;
+                this.Enabled = true;
             }
         }
 
@@ -763,6 +762,7 @@ namespace UITFLIX
             int page = int.Parse(cbpage.Text);
             try
             {
+                this.Enabled = false;
                 var findvideos = await videoService.SearchVideos(searchtb.Text.Trim(), page, accesstoken);
                 if (findvideos != null)
                 {
@@ -772,11 +772,6 @@ namespace UITFLIX
 
                     progressupload.Value = 0;
 
-                    btncoop.Enabled = false;
-                    btntopvideo.Enabled = false;
-                    btnnewvideo.Enabled = false;
-                    btnwatchedvideo.Enabled = false;
-                    btnupload.Enabled = false;
                     for (int i = 0; i < jarray.Count; i++)
                     {
                         progressupload.Value++;
@@ -823,12 +818,6 @@ namespace UITFLIX
                         }
 
                     }
-                    progressupload.Visible = false;
-                    btncoop.Enabled = true;
-                    btnnewvideo.Enabled = true;
-                    btnwatchedvideo.Enabled = true;
-                    btnupload.Enabled = true;
-                    btntopvideo.Enabled = true;
                 }
                 else
                 {
@@ -840,6 +829,12 @@ namespace UITFLIX
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+
+                progressupload.Visible = false;
+                this.Enabled = true;
             }
         }
     }

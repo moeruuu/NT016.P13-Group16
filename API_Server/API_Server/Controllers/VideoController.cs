@@ -53,6 +53,7 @@ namespace API_Server.Controllers
                         UploadedDate = addedVideo.UploadedDate,
                         Size = addedVideo.Size,
                         Rating = addedVideo.Rating,
+                        Tag = addedVideo.Tag,
                     }
                 });
             }
