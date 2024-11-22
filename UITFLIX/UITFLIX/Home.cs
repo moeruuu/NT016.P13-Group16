@@ -14,11 +14,6 @@ namespace UITFLIX
 {
     public partial class Home : Form
     {
-        public static readonly HttpClient httpClient = new HttpClient
-        {
-            BaseAddress = new Uri(@"https://localhost:7292/"),
-            Timeout = TimeSpan.FromSeconds(60)
-        };
         private IconButton currentbtn;
         private Panel leftborderBtn;
         private bool MainVisible = true;
@@ -505,14 +500,16 @@ namespace UITFLIX
 
         private async void btnuploadvideo_Click(object sender, EventArgs e)
         {
-            if (tbnamefilm.Text.Length > 100) {
+            if (tbnamefilm.Text.Length > 100)
+            {
                 MessageBox.Show("Tên phim không thể chứa quá 100 kí tự");
                 return;
             }
-            if (tbdescription.Text.Length > 1000) {
+            if (tbdescription.Text.Length > 1000)
+            {
                 MessageBox.Show("Mô tả không thể chứa quá 1000 kí tự");
                 return;
-                }
+            }
             this.Enabled = false;
             waiting.Visible = false;
             information.Visible = false;
@@ -836,6 +833,11 @@ namespace UITFLIX
                 progressupload.Visible = false;
                 this.Enabled = true;
             }
+        }
+
+        private void Username_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            new UpdateInformation(Userinfo, accesstoken).ShowDialog();
         }
     }
 

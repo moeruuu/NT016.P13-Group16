@@ -240,6 +240,7 @@
             Username.TabIndex = 3;
             Username.TabStop = true;
             Username.Text = "Username";
+            Username.LinkClicked += Username_LinkClicked;
             // 
             // Avatar
             // 
