@@ -8,6 +8,8 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using static System.Net.WebRequestMethods;
 using MongoDB.Bson;
+using System.Windows.Documents;
+using System.Windows.Forms;
 
 namespace UITFLIX.Services
 {
@@ -51,6 +53,45 @@ namespace UITFLIX.Services
             catch (Exception ex)
             {
                 return ex.Message;
+            }
+        }
+
+
+        public async Task<bool> UpdateInformation(string fullname, string bio, string file, string accesstoken)
+        {
+            try
+            {
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accesstoken);
+                using (var form = new MultipartFormDataContent())
+                {
+                    if (fullname != null)
+                    form.Add(new StringContent(fullname), "Fullname");
+                    if (file != null)
+                    {
+                        using var stream = new FileStream(file, FileMode.Open, FileAccess.Read);
+                        var content = new StreamContent(stream);
+                        content.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg");
+                        form.Add(content, "avatar", Path.GetFileName(file));
+                    }
+
+                    form.Add(new StringContent(bio), "bio");
+                    var response = await httpClient.PatchAsync("api/User/Update-Information", form);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return true;
+                    }
+                    var error = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show(error);
+                    return false;
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return false;
+
             }
         }
 

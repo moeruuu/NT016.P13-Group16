@@ -12,6 +12,7 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using System.Collections.Concurrent;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System;
 namespace API_Server.Service
 {
     public class UserService
@@ -94,7 +95,7 @@ namespace API_Server.Service
         }
 
 
-        public async Task<bool> UpdateInformation(ObjectId userid, string name, IFormFile avatarFile, string bio)
+        public async Task<bool> UpdateInformation(ObjectId userid, string name, IFormFile avatarfile, string bio)
         {
             var filter = Builders<User>.Filter.Eq(u => u.UserId, userid);
             //Tạo list để xem có bao nhiu thay đổi
@@ -105,10 +106,9 @@ namespace API_Server.Service
                 updates.Add(Builders<User>.Update.Set(u => u.Fullname, name));
             }
             //Thay đổi ava phải cần đường link
-            if (avatarFile != null && avatarFile.Length > 0)
+            if (avatarfile != null && avatarfile.Length > 0)
             {
-
-                var imageUrl = await imgurService.UploadImgurAsync(new ImageDTOs { file = avatarFile });
+                var imageUrl = await imgurService.UploadImgurAsync(new ImageDTOs { file = avatarfile });
                 updates.Add(Builders<User>.Update.Set(u => u.Profilepicture, imageUrl));
             }
 

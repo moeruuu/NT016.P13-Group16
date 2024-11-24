@@ -103,7 +103,7 @@ namespace API_Server.Controllers
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPatch("Update-Information")]
-        public async Task<IActionResult> UpdateInformation([FromBody] UpdateUserRequest request)
+        public async Task<IActionResult> UpdateInformation([FromForm] UpdateUserRequest request)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userId) || !ObjectId.TryParse(userId, out ObjectId UserId))
