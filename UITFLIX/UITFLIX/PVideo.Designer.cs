@@ -321,6 +321,7 @@
             Name = "PVideo";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "PVideo";
+            FormClosing += PVideo_FormClosing_1;
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)iconPictureBox1).EndInit();

@@ -65,6 +65,8 @@ namespace UITFLIX
         {
             try
             {
+                axWindowsMediaPlayer.Ctlcontrols.stop();
+                axWindowsMediaPlayer.URL = null;
                 var id = jvideo["id"].ToString();
                 var stream = await videoService.PlayVideo(accesstoken, id);
                 if (stream != null)
@@ -255,7 +257,8 @@ namespace UITFLIX
 
         private void btnshowvideos_Click(object sender, EventArgs e)
         {
-            if (btnshowvideos.Text.Contains("On")){
+            if (btnshowvideos.Text.Contains("On"))
+            {
                 btnshowvideos.Text = "Related videos: Off";
                 flowLayoutPanel.Visible = false;
             }
@@ -263,6 +266,23 @@ namespace UITFLIX
             {
                 btnshowvideos.Text = "Related videos: On";
                 flowLayoutPanel.Visible = true;
+            }
+        }
+
+        private void PVideo_FormClosing_1(object sender, FormClosingEventArgs e)
+        {
+            try
+            {
+                axWindowsMediaPlayer.Ctlcontrols.stop();
+                axWindowsMediaPlayer.close();
+                if (!string.IsNullOrEmpty(temp) && File.Exists(temp))
+                {
+                    File.Delete(temp);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
     }

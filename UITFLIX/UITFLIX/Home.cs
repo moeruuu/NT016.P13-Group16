@@ -9,6 +9,8 @@ using Newtonsoft.Json;
 using System.Diagnostics.Eventing.Reader;
 using System.Net.Http.Headers;
 using MongoDB.Bson;
+using System.ComponentModel;
+using System.Reflection;
 
 namespace UITFLIX
 {
@@ -91,9 +93,37 @@ namespace UITFLIX
                 currentbtn.TextAlign = ContentAlignment.MiddleLeft;
             }
         }
+        private void ClearAllVideoControls()
+        {
+            for (int i = 1; i <= 6; i++) 
+            {
+                PictureBox pic = (PictureBox)this.Controls.Find($"picfilm{i}", true).FirstOrDefault();
+                Label name = (Label)this.Controls.Find($"filmname{i}", true).FirstOrDefault();
+                Label eventLabel = (Label)this.Controls.Find($"event{i}", true).FirstOrDefault();
+
+                if (pic != null)
+                {
+                    pic.Visible = false;
+                    pic.Image = null;
+                    ResetClickEvent(pic);
+                }
+                if (name != null)
+                {
+                    name.Visible = false;
+                    name.Text = string.Empty;
+                    ResetClickEvent(name);
+                }
+                if (eventLabel != null)
+                {
+                    eventLabel.Visible = false;
+                    eventLabel.Text = string.Empty;
+                }
+            }
+        }
 
         private async void btnnewvideo_Click(object sender, EventArgs e)
         {
+            ClearAllVideoControls();
             VisibleImageandLabel(false);
             ActiveButton(sender, RGBColors.color1);
             VisibleCoop(OtherVisible);
@@ -157,6 +187,7 @@ namespace UITFLIX
                                     currentPicBox.Image = null;
                                 }
                             }
+                            ResetClickEvent(currentPicBox);
                             currentPicBox.Click += (sender, e) => OpenNewForm(video);
                         }
 
@@ -165,6 +196,7 @@ namespace UITFLIX
                         {
                             currentname.Visible = true;
                             currentname.Text = SetLabelText(video["title"].ToString(), 14);
+                            ResetClickEvent(currentname);
                             currentname.Click += (sender, e) => OpenNewForm(video);
                         }
 
@@ -199,14 +231,30 @@ namespace UITFLIX
         }
         private void OpenNewForm(JToken video)
         {
+            MessageBox.Show(video.ToString());
             this.Hide();
             PVideo videos = new PVideo(video, accesstoken, videoService, Userinfo);
             videos.ShowDialog();
             this.Close();
         }
+
+        private void ResetClickEvent(Control control)
+        {
+            if (control == null) return;
+
+            FieldInfo f1 = typeof(Control).GetField("EventClick", BindingFlags.Static | BindingFlags.NonPublic);
+            object obj = f1?.GetValue(control);
+            if (obj != null)
+            {
+                PropertyInfo pi = control.GetType().GetProperty("Events", BindingFlags.Instance | BindingFlags.NonPublic);
+                EventHandlerList list = (EventHandlerList)pi?.GetValue(control, null);
+                list?.RemoveHandler(obj, list[obj]);
+            }
+        }
         private async void btntopvideo_Click(object sender, EventArgs e)
         {
-            VisibleImageandLabel(false);
+            ClearAllVideoControls();
+            VisibleImageandLabel(true);
             ActiveButton(sender, RGBColors.color2);
             VisibleCoop(OtherVisible);
             VisibleUpload(OtherVisible);
@@ -230,7 +278,7 @@ namespace UITFLIX
                     progressupload.Maximum = 1;
                 }
                 progressupload.Value = 0;
-                if (jarray != null && jarray.Count > 0)
+                /*if (jarray != null && jarray.Count > 0)
                 {
                     for (int i = 0; i < jarray.Count; i++)
                     {
@@ -267,7 +315,9 @@ namespace UITFLIX
                                     currentPicBox.Image = null;
                                 }
                             }
+                            ResetClickEvent(currentPicBox);
                             currentPicBox.Click += (sender, e) => OpenNewForm(video);
+
                         }
 
                         Label currentname = (Label)this.Controls.Find($"filmname{i + 1}", true).FirstOrDefault();
@@ -275,7 +325,9 @@ namespace UITFLIX
                         {
                             currentname.Visible = true;
                             currentname.Text = SetLabelText(video["title"].ToString(), 14);
+                            ResetClickEvent(currentname);
                             currentname.Click += (sender, e) => OpenNewForm(video);
+
                         }
 
                         Label currentevent = (Label)this.Controls.Find($"event{i + 1}", true).FirstOrDefault();
@@ -288,12 +340,12 @@ namespace UITFLIX
                             currentevent.Text = "Rating: " + round.ToString("0.0");
                             //SetLabelText(currentevent.Text, 11);
                         }
-                    }
-                }
+                    }*/
+                /*}
                 else
                 {
                     information.Visible = true;
-                }
+                }*/
             }
             catch (Exception ex)
             {
