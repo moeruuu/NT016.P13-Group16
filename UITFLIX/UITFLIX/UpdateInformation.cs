@@ -20,7 +20,7 @@ namespace UITFLIX
     {
         private JObject userinfo;
         private readonly string AccessToken;
-        private static string selectedimagefile;
+        private static string selectedimagefile = "Not Null";
         private readonly UserService userService;
         public UpdateInformation(JObject in4, string accessToken)
         {
@@ -141,7 +141,8 @@ namespace UITFLIX
             openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;*.tiff;*.webp;*.svg";
             openFileDialog.ShowDialog();
             selectedimagefile = openFileDialog.FileName;
-            Avatar.Image = System.Drawing.Image.FromFile(selectedimagefile);
+            if (selectedimagefile != null)
+                Avatar.Image = System.Drawing.Image.FromFile(selectedimagefile);
         }
         private void txtBio_Enter(object sender, EventArgs e)
         {

@@ -77,6 +77,8 @@ namespace UITFLIX.Services
                         content.Headers.ContentType = new MediaTypeHeaderValue("image/png");
                         form.Add(content, "avatar", Path.GetFileName(file));
                     }
+                    else
+                        form.Add(new StreamContent(Stream.Null), "avatar", "Old");
 
                     var response = await httpClient.PatchAsync("api/User/Update-Information", form);
                     var info = await response.Content.ReadAsStringAsync();
