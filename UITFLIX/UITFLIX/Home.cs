@@ -837,7 +837,9 @@ namespace UITFLIX
 
         private void Username_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            this.Hide();
             new UpdateInformation(Userinfo, accesstoken).ShowDialog();
+            this.Close();
         }
     }
 

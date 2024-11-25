@@ -146,10 +146,10 @@ namespace UITFLIX
         }
         private void txtBio_Enter(object sender, EventArgs e)
         {
-            if(txtBio.Text == "< Người dùng này cạn lời rồi ... >")
+            if (txtBio.Text == "< Người dùng này cạn lời rồi ... >")
             {
                 txtBio.Text = "";
-            }    
+            }
         }
 
         private async void btnUpdateInfo_Click(object sender, EventArgs e)
@@ -166,38 +166,71 @@ namespace UITFLIX
             {
                 bio = "< Người dùng này cạn lời rồi ... >";
             }
-
-            var response = await userService.UpdateInformation(fullname, bio, selectedimagefile, AccessToken);
-            if (response is JObject json)
+            try
             {
-                MessageBox.Show("Update thông tin thành công", "Thành công");
-                userinfo = json;
+                var response = await userService.UpdateInformation(fullname, bio, selectedimagefile, AccessToken);
+
+                var res = MessageBox.Show("Update thông tin thành công. Bạn có muốn quay lại trang home?", "Thành công", MessageBoxButtons.YesNo);
+                JObject obj = JObject.Parse(response.ToString());
                 txtFullname.Text = null;
                 txtBio.Text = null;
                 LoadImageFromUrl(userinfo["user"]["profilepicture"].ToString());
-                //load lại form, thay bằng dữ liệu mới 
-                ReloadForm();
+                userinfo["user"]["profilepicture"] = obj["user"]["profilepicture"];
+                userinfo["user"]["fullname"] = obj["user"]["fullname"];
+                userinfo["user"]["bio"] = obj["user"]["bio"];
+                //MessageBox.Show(obj.ToString());
+                if (res == System.Windows.Forms.DialogResult.Yes)
+                {
+                    this.Hide();
+                    VideoService videoService = new VideoService();
+                    new Home(userinfo, videoService, AccessToken).ShowDialog();
+                    this.Close();
+                }
+                else
+                {
+                    //load lại form, thay bằng dữ liệu mới 
+                    ReloadForm(obj);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Hệ thống không thể update", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                MessageBox.Show(ex.Message);
+                //MessageBox.Show("Hệ thống không thể update", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
 
 
         }
-        private void ReloadForm()
+        private void ReloadForm(JObject obj)
         {
             this.Hide();
             var location = this.Location;
             this.Close();
 
-            var newUIForm = new UpdateInformation(userinfo, AccessToken);
+            var newUIForm = new UpdateInformation(obj, AccessToken);
             newUIForm.Location = location;
             newUIForm.TopMost = true;
             newUIForm.TopMost = false;
             newUIForm.ShowDialog();
         }
 
+        private void logo_Click(object sender, EventArgs e)
+        {
+            if (txtBio.ToString().Trim() != userinfo["user"]["bio"].ToString() || txtFullname.ToString().Trim() != userinfo["user"]["fullname"].ToString() || selectedimagefile != null)
+            {
+                var res = MessageBox.Show("Bạn chưa lưu thay đổi. Bạn vẫn muốn thoát chứ?", "Information", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (res == DialogResult.Yes)
+                {
+                    this.Hide();
+                    VideoService videos = new VideoService();
+                    new Home(userinfo, videos, AccessToken).ShowDialog();
+                    this.Close();
+                }
+                else
+                {
+                    return;
+                }
+            }
+        }
     }
 }
