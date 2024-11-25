@@ -10,6 +10,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Documents;
 using System.Windows.Forms;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using UITFLIX.Services;
 
 namespace UITFLIX
 {
@@ -18,6 +21,7 @@ namespace UITFLIX
         private readonly JObject userinfo;
         private readonly string AccessToken;
         private static string selectedimagefile;
+        private readonly UserService userService;
         public UpdateInformation(JObject in4, string accessToken)
         {
             InitializeComponent();
@@ -25,6 +29,9 @@ namespace UITFLIX
             DrawCircular(Avatar);
             SettingInformation(true);
             AccessToken = accessToken;
+            userService = new UserService();
+            txtFullname.Text = userinfo["user"]["fullname"].ToString();
+            txtBio.Text = userinfo["user"]["bio"].ToString();
             //MessageBox.Show(userinfo.ToString());
         }
 
@@ -92,6 +99,7 @@ namespace UITFLIX
                 lbBio.Visible = Visible;
                 lbFullname.Visible = Visible;
                 btnChangeAva.Visible = Visible;
+                btnUpdateInfo.Visible = Visible;
                 btninformation.TextImageRelation = TextImageRelation.TextBeforeImage;
                 btnpass.TextImageRelation = TextImageRelation.ImageBeforeText;
             }
@@ -109,6 +117,7 @@ namespace UITFLIX
             txtCfPass.Visible = Visible;
             txtNewPass.Visible = Visible;
             txtPass.Visible = Visible;
+            btnSavePwd.Visible = Visible;
             underlinepass.Visible = Visible;
             btnpass.TextImageRelation = TextImageRelation.TextBeforeImage;
             btninformation.TextImageRelation = TextImageRelation.ImageBeforeText;
@@ -134,5 +143,58 @@ namespace UITFLIX
             selectedimagefile = openFileDialog.FileName;
             Avatar.Image = System.Drawing.Image.FromFile(selectedimagefile);
         }
+
+        private async void btnUpdateInfo_Click(object sender, EventArgs e)
+        {
+            string fullname = txtFullname.Text.Trim();
+            string bio = txtBio.Text.Trim();
+
+            if (fullname == string.Empty)
+            {
+                MessageBox.Show("Fullname không thể để trống. Vui lòng nhập tên đầy đủ", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+            if(bio == string.Empty)
+            {
+                bio = "Người dùng này cạn lời rồi ... ";
+            }    
+
+            var response = await userService.UpdateInformation(fullname, bio, selectedimagefile, AccessToken);
+            if(response == true)
+            {
+                MessageBox.Show("Update thông tin thành công", "Thành công");
+                txtFullname.Text = null;
+                txtBio.Text = null;
+                LoadImageFromUrl(userinfo["user"]["profilepicture"].ToString());
+                //load lại form, thay bằng dữ liệu mới 
+                //ReloadForm();
+            }
+            else
+            {
+                MessageBox.Show("Hệ thống không thể update", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            
+        }
+        private void ReloadForm()
+        {
+            //var json = JsonConvert.SerializeObject(User);
+            //var content = new StringContent(json, Encoding.UTF8, "application/json");
+            //var response = await httpClient.PostAsync("/api/User/LogIn", content);
+            //var info = await response.Content.ReadAsStringAsync();
+            //JObject res = JObject.Parse(info);
+
+            this.Hide();
+            var location = this.Location;
+            this.Close();
+
+            var newUIForm = new UpdateInformation(userinfo, AccessToken);
+            newUIForm.Location = location;
+            newUIForm.TopMost = true;
+            newUIForm.TopMost = false;
+            newUIForm.ShowDialog();
+        }
+
     }
 }

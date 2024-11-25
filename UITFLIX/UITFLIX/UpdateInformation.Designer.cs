@@ -42,7 +42,7 @@
             lbBio = new Label();
             txtFullname = new TextBox();
             txtBio = new RichTextBox();
-            button1 = new Button();
+            btnSavePwd = new Button();
             lbPass = new Label();
             lbNewpass = new Label();
             lbcfpass = new Label();
@@ -50,6 +50,7 @@
             txtNewPass = new TextBox();
             txtCfPass = new TextBox();
             btnChangeAva = new FontAwesome.Sharp.IconButton();
+            btnUpdateInfo = new Button();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panel2.SuspendLayout();
@@ -64,17 +65,19 @@
             panel1.Dock = DockStyle.Top;
             panel1.ForeColor = Color.CadetBlue;
             panel1.Location = new Point(0, 0);
+            panel1.Margin = new Padding(2);
             panel1.Name = "panel1";
-            panel1.Size = new Size(778, 63);
+            panel1.Size = new Size(622, 50);
             panel1.TabIndex = 0;
             // 
             // label3
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label3.Location = new Point(69, 9);
+            label3.Location = new Point(55, 7);
+            label3.Margin = new Padding(2, 0, 2, 0);
             label3.Name = "label3";
-            label3.Size = new Size(148, 38);
+            label3.Size = new Size(125, 32);
             label3.TabIndex = 1;
             label3.Text = "SETTINGS";
             // 
@@ -82,8 +85,9 @@
             // 
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
             pictureBox1.Location = new Point(0, 0);
+            pictureBox1.Margin = new Padding(2);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(63, 63);
+            pictureBox1.Size = new Size(50, 50);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
@@ -95,26 +99,29 @@
             panel2.Controls.Add(btnpass);
             panel2.Controls.Add(btninformation);
             panel2.Dock = DockStyle.Top;
-            panel2.Location = new Point(0, 63);
+            panel2.Location = new Point(0, 50);
+            panel2.Margin = new Padding(2);
             panel2.Name = "panel2";
-            panel2.Size = new Size(778, 78);
+            panel2.Size = new Size(622, 62);
             panel2.TabIndex = 1;
             // 
             // underlineinf
             // 
             underlineinf.BackColor = Color.DarkSlateGray;
-            underlineinf.Location = new Point(0, 69);
+            underlineinf.Location = new Point(0, 55);
+            underlineinf.Margin = new Padding(2);
             underlineinf.Name = "underlineinf";
-            underlineinf.Size = new Size(385, 10);
+            underlineinf.Size = new Size(308, 8);
             underlineinf.TabIndex = 3;
             underlineinf.Visible = false;
             // 
             // underlinepass
             // 
             underlinepass.BackColor = Color.DarkSlateGray;
-            underlinepass.Location = new Point(381, 69);
+            underlinepass.Location = new Point(305, 55);
+            underlinepass.Margin = new Padding(2);
             underlinepass.Name = "underlinepass";
-            underlinepass.Size = new Size(401, 10);
+            underlinepass.Size = new Size(321, 8);
             underlinepass.TabIndex = 2;
             underlinepass.Visible = false;
             // 
@@ -128,9 +135,10 @@
             btnpass.IconChar = FontAwesome.Sharp.IconChar.LockOpen;
             btnpass.IconColor = Color.CadetBlue;
             btnpass.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            btnpass.Location = new Point(381, 0);
+            btnpass.Location = new Point(305, 0);
+            btnpass.Margin = new Padding(2);
             btnpass.Name = "btnpass";
-            btnpass.Size = new Size(398, 78);
+            btnpass.Size = new Size(318, 62);
             btnpass.TabIndex = 1;
             btnpass.Text = "Password";
             btnpass.TextImageRelation = TextImageRelation.ImageBeforeText;
@@ -148,8 +156,9 @@
             btninformation.IconColor = Color.CadetBlue;
             btninformation.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btninformation.Location = new Point(0, 0);
+            btninformation.Margin = new Padding(2);
             btninformation.Name = "btninformation";
-            btninformation.Size = new Size(386, 78);
+            btninformation.Size = new Size(309, 62);
             btninformation.TabIndex = 0;
             btninformation.Text = "Information";
             btninformation.TextImageRelation = TextImageRelation.ImageBeforeText;
@@ -158,9 +167,10 @@
             // 
             // Avatar
             // 
-            Avatar.Location = new Point(21, 191);
+            Avatar.Location = new Point(17, 153);
+            Avatar.Margin = new Padding(2);
             Avatar.Name = "Avatar";
-            Avatar.Size = new Size(170, 170);
+            Avatar.Size = new Size(136, 136);
             Avatar.SizeMode = PictureBoxSizeMode.StretchImage;
             Avatar.TabIndex = 2;
             Avatar.TabStop = false;
@@ -171,9 +181,10 @@
             lbFullname.AutoSize = true;
             lbFullname.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lbFullname.ForeColor = Color.White;
-            lbFullname.Location = new Point(215, 195);
+            lbFullname.Location = new Point(172, 156);
+            lbFullname.Margin = new Padding(2, 0, 2, 0);
             lbFullname.Name = "lbFullname";
-            lbFullname.Size = new Size(90, 23);
+            lbFullname.Size = new Size(76, 20);
             lbFullname.TabIndex = 4;
             lbFullname.Text = "Fullname";
             lbFullname.Visible = false;
@@ -183,9 +194,10 @@
             lbBio.AutoSize = true;
             lbBio.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lbBio.ForeColor = Color.White;
-            lbBio.Location = new Point(215, 231);
+            lbBio.Location = new Point(172, 185);
+            lbBio.Margin = new Padding(2, 0, 2, 0);
             lbBio.Name = "lbBio";
-            lbBio.Size = new Size(39, 23);
+            lbBio.Size = new Size(33, 20);
             lbBio.TabIndex = 5;
             lbBio.Text = "Bio";
             lbBio.Visible = false;
@@ -194,9 +206,10 @@
             // 
             txtFullname.Font = new Font("Cambria", 10F);
             txtFullname.ForeColor = Color.CadetBlue;
-            txtFullname.Location = new Point(311, 191);
+            txtFullname.Location = new Point(249, 153);
+            txtFullname.Margin = new Padding(2);
             txtFullname.Name = "txtFullname";
-            txtFullname.Size = new Size(413, 31);
+            txtFullname.Size = new Size(331, 27);
             txtFullname.TabIndex = 6;
             txtFullname.Visible = false;
             // 
@@ -204,33 +217,36 @@
             // 
             txtBio.Font = new Font("Cambria", 10F);
             txtBio.ForeColor = Color.CadetBlue;
-            txtBio.Location = new Point(311, 231);
+            txtBio.Location = new Point(249, 185);
+            txtBio.Margin = new Padding(2);
             txtBio.Name = "txtBio";
-            txtBio.Size = new Size(413, 134);
+            txtBio.Size = new Size(331, 108);
             txtBio.TabIndex = 7;
             txtBio.Text = "";
             txtBio.Visible = false;
             // 
-            // button1
+            // btnSavePwd
             // 
-            button1.Font = new Font("Cambria", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            button1.ForeColor = Color.DarkSlateGray;
-            button1.Location = new Point(566, 376);
-            button1.Name = "button1";
-            button1.Size = new Size(158, 34);
-            button1.TabIndex = 8;
-            button1.Text = "Save";
-            button1.UseVisualStyleBackColor = true;
-            button1.Visible = false;
+            btnSavePwd.Font = new Font("Cambria", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnSavePwd.ForeColor = Color.DarkSlateGray;
+            btnSavePwd.Location = new Point(453, 301);
+            btnSavePwd.Margin = new Padding(2);
+            btnSavePwd.Name = "btnSavePwd";
+            btnSavePwd.Size = new Size(126, 27);
+            btnSavePwd.TabIndex = 8;
+            btnSavePwd.Text = "Save";
+            btnSavePwd.UseVisualStyleBackColor = true;
+            btnSavePwd.Visible = false;
             // 
             // lbPass
             // 
             lbPass.AutoSize = true;
             lbPass.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lbPass.ForeColor = Color.White;
-            lbPass.Location = new Point(21, 209);
+            lbPass.Location = new Point(17, 167);
+            lbPass.Margin = new Padding(2, 0, 2, 0);
             lbPass.Name = "lbPass";
-            lbPass.Size = new Size(94, 23);
+            lbPass.Size = new Size(79, 20);
             lbPass.TabIndex = 9;
             lbPass.Text = "Password";
             lbPass.Visible = false;
@@ -240,9 +256,10 @@
             lbNewpass.AutoSize = true;
             lbNewpass.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lbNewpass.ForeColor = Color.White;
-            lbNewpass.Location = new Point(21, 249);
+            lbNewpass.Location = new Point(17, 199);
+            lbNewpass.Margin = new Padding(2, 0, 2, 0);
             lbNewpass.Name = "lbNewpass";
-            lbNewpass.Size = new Size(137, 23);
+            lbNewpass.Size = new Size(115, 20);
             lbNewpass.TabIndex = 10;
             lbNewpass.Text = "New password";
             lbNewpass.Visible = false;
@@ -252,9 +269,10 @@
             lbcfpass.AutoSize = true;
             lbcfpass.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lbcfpass.ForeColor = Color.White;
-            lbcfpass.Location = new Point(21, 295);
+            lbcfpass.Location = new Point(17, 236);
+            lbcfpass.Margin = new Padding(2, 0, 2, 0);
             lbcfpass.Name = "lbcfpass";
-            lbcfpass.Size = new Size(208, 23);
+            lbcfpass.Size = new Size(175, 20);
             lbcfpass.TabIndex = 11;
             lbcfpass.Text = "Confirm new password";
             lbcfpass.Visible = false;
@@ -263,9 +281,10 @@
             // 
             txtPass.Font = new Font("Cambria", 10F);
             txtPass.ForeColor = Color.CadetBlue;
-            txtPass.Location = new Point(265, 206);
+            txtPass.Location = new Point(212, 165);
+            txtPass.Margin = new Padding(2);
             txtPass.Name = "txtPass";
-            txtPass.Size = new Size(459, 31);
+            txtPass.Size = new Size(368, 27);
             txtPass.TabIndex = 12;
             txtPass.Visible = false;
             // 
@@ -273,9 +292,10 @@
             // 
             txtNewPass.Font = new Font("Cambria", 10F);
             txtNewPass.ForeColor = Color.CadetBlue;
-            txtNewPass.Location = new Point(265, 246);
+            txtNewPass.Location = new Point(212, 197);
+            txtNewPass.Margin = new Padding(2);
             txtNewPass.Name = "txtNewPass";
-            txtNewPass.Size = new Size(459, 31);
+            txtNewPass.Size = new Size(368, 27);
             txtNewPass.TabIndex = 13;
             txtNewPass.Visible = false;
             // 
@@ -283,9 +303,10 @@
             // 
             txtCfPass.Font = new Font("Cambria", 10F);
             txtCfPass.ForeColor = Color.CadetBlue;
-            txtCfPass.Location = new Point(265, 292);
+            txtCfPass.Location = new Point(212, 234);
+            txtCfPass.Margin = new Padding(2);
             txtCfPass.Name = "txtCfPass";
-            txtCfPass.Size = new Size(459, 31);
+            txtCfPass.Size = new Size(368, 27);
             txtCfPass.TabIndex = 14;
             txtCfPass.Visible = false;
             // 
@@ -296,20 +317,36 @@
             btnChangeAva.IconChar = FontAwesome.Sharp.IconChar.None;
             btnChangeAva.IconColor = Color.Black;
             btnChangeAva.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            btnChangeAva.Location = new Point(21, 372);
+            btnChangeAva.Location = new Point(17, 298);
+            btnChangeAva.Margin = new Padding(2);
             btnChangeAva.Name = "btnChangeAva";
-            btnChangeAva.Size = new Size(170, 34);
+            btnChangeAva.Size = new Size(136, 27);
             btnChangeAva.TabIndex = 15;
             btnChangeAva.Text = "Change Avatar";
             btnChangeAva.UseVisualStyleBackColor = true;
             btnChangeAva.Click += btnChangeAva_Click;
             // 
+            // btnUpdateInfo
+            // 
+            btnUpdateInfo.Font = new Font("Cambria", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnUpdateInfo.ForeColor = Color.DarkSlateGray;
+            btnUpdateInfo.Location = new Point(453, 301);
+            btnUpdateInfo.Margin = new Padding(2);
+            btnUpdateInfo.Name = "btnUpdateInfo";
+            btnUpdateInfo.Size = new Size(126, 27);
+            btnUpdateInfo.TabIndex = 16;
+            btnUpdateInfo.Text = "Update";
+            btnUpdateInfo.UseVisualStyleBackColor = true;
+            btnUpdateInfo.Visible = false;
+            btnUpdateInfo.Click += btnUpdateInfo_Click;
+            // 
             // UpdateInformation
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightBlue;
-            ClientSize = new Size(778, 422);
+            ClientSize = new Size(622, 338);
+            Controls.Add(btnUpdateInfo);
             Controls.Add(btnChangeAva);
             Controls.Add(txtCfPass);
             Controls.Add(txtNewPass);
@@ -317,7 +354,7 @@
             Controls.Add(lbcfpass);
             Controls.Add(lbNewpass);
             Controls.Add(lbPass);
-            Controls.Add(button1);
+            Controls.Add(btnSavePwd);
             Controls.Add(txtBio);
             Controls.Add(txtFullname);
             Controls.Add(lbBio);
@@ -326,6 +363,7 @@
             Controls.Add(panel2);
             Controls.Add(panel1);
             ForeColor = Color.LightBlue;
+            Margin = new Padding(2);
             Name = "UpdateInformation";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "UpdateInformation";
@@ -351,7 +389,7 @@
         private Label lbBio;
         private TextBox txtFullname;
         private RichTextBox txtBio;
-        private Button button1;
+        private Button btnSavePwd;
         private Label label3;
         private PictureBox pictureBox1;
         private Label lbPass;
@@ -361,5 +399,6 @@
         private TextBox txtNewPass;
         private TextBox txtCfPass;
         private FontAwesome.Sharp.IconButton btnChangeAva;
+        private Button btnUpdateInfo;
     }
 }

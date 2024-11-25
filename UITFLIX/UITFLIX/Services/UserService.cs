@@ -64,17 +64,20 @@ namespace UITFLIX.Services
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accesstoken);
                 using (var form = new MultipartFormDataContent())
                 {
-                    if (fullname != null)
-                    form.Add(new StringContent(fullname), "Fullname");
-                    if (file != null)
+                    if (!string.IsNullOrEmpty(fullname))
+                        form.Add(new StringContent(fullname), "Fullname");
+
+                    if (!string.IsNullOrEmpty(bio))
+                        form.Add(new StringContent(bio), "bio");
+
+                    if (!string.IsNullOrEmpty(file) && System.IO.File.Exists(file))
                     {
-                        using var stream = new FileStream(file, FileMode.Open, FileAccess.Read);
+                        var stream = new FileStream(file, FileMode.Open, FileAccess.Read);
                         var content = new StreamContent(stream);
-                        content.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg");
+                        content.Headers.ContentType = new MediaTypeHeaderValue("image/png");
                         form.Add(content, "avatar", Path.GetFileName(file));
                     }
 
-                    form.Add(new StringContent(bio), "bio");
                     var response = await httpClient.PatchAsync("api/User/Update-Information", form);
                     if (response.IsSuccessStatusCode)
                     {
