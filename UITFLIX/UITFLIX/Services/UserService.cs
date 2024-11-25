@@ -57,7 +57,7 @@ namespace UITFLIX.Services
         }
 
 
-        public async Task<bool> UpdateInformation(string fullname, string bio, string file, string accesstoken)
+        public async Task<object> UpdateInformation(string fullname, string bio, string file, string accesstoken)
         {
             try
             {
@@ -79,9 +79,11 @@ namespace UITFLIX.Services
                     }
 
                     var response = await httpClient.PatchAsync("api/User/Update-Information", form);
+                    var info = await response.Content.ReadAsStringAsync();
+                    JObject res = JObject.Parse(info);
                     if (response.IsSuccessStatusCode)
                     {
-                        return true;
+                        return res;
                     }
                     var error = await response.Content.ReadAsStringAsync();
                     MessageBox.Show(error);

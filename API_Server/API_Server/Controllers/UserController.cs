@@ -121,10 +121,9 @@ namespace API_Server.Controllers
                 return Ok(new {
                     User = new {
                         UserId = getuser.UserId.ToString(),
-                        Username = getuser.Username,
-                        Email = getuser.Email,
+                        Fullname = getuser.Fullname,
+                        Bio = getuser.Bio,    
                         Profilepicture = getuser.Profilepicture,
-                        Bio = getuser.Bio,
                     }
                 });
             }

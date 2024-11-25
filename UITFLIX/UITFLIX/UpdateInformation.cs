@@ -18,7 +18,7 @@ namespace UITFLIX
 {
     public partial class UpdateInformation : Form
     {
-        private readonly JObject userinfo;
+        private JObject userinfo;
         private readonly string AccessToken;
         private static string selectedimagefile;
         private readonly UserService userService;
@@ -113,7 +113,7 @@ namespace UITFLIX
         {
             lbcfpass.Visible = Visible;
             lbNewpass.Visible = Visible;
-            lbPass.Visible = Visible;
+            lbOldpass.Visible = Visible;
             txtCfPass.Visible = Visible;
             txtNewPass.Visible = Visible;
             txtPass.Visible = Visible;
@@ -143,6 +143,13 @@ namespace UITFLIX
             selectedimagefile = openFileDialog.FileName;
             Avatar.Image = System.Drawing.Image.FromFile(selectedimagefile);
         }
+        private void txtBio_Enter(object sender, EventArgs e)
+        {
+            if(txtBio.Text == "< Người dùng này cạn lời rồi ... >")
+            {
+                txtBio.Text = "";
+            }    
+        }
 
         private async void btnUpdateInfo_Click(object sender, EventArgs e)
         {
@@ -154,20 +161,21 @@ namespace UITFLIX
                 MessageBox.Show("Fullname không thể để trống. Vui lòng nhập tên đầy đủ", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
-            if(bio == string.Empty)
+            if (bio == string.Empty)
             {
-                bio = "Người dùng này cạn lời rồi ... ";
-            }    
+                bio = "< Người dùng này cạn lời rồi ... >";
+            }
 
             var response = await userService.UpdateInformation(fullname, bio, selectedimagefile, AccessToken);
-            if(response == true)
+            if (response is JObject json)
             {
                 MessageBox.Show("Update thông tin thành công", "Thành công");
+                userinfo = json;
                 txtFullname.Text = null;
                 txtBio.Text = null;
                 LoadImageFromUrl(userinfo["user"]["profilepicture"].ToString());
                 //load lại form, thay bằng dữ liệu mới 
-                //ReloadForm();
+                ReloadForm();
             }
             else
             {
@@ -175,16 +183,10 @@ namespace UITFLIX
                 return;
             }
 
-            
+
         }
         private void ReloadForm()
         {
-            //var json = JsonConvert.SerializeObject(User);
-            //var content = new StringContent(json, Encoding.UTF8, "application/json");
-            //var response = await httpClient.PostAsync("/api/User/LogIn", content);
-            //var info = await response.Content.ReadAsStringAsync();
-            //JObject res = JObject.Parse(info);
-
             this.Hide();
             var location = this.Location;
             this.Close();

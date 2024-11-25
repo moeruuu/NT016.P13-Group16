@@ -43,7 +43,7 @@
             txtFullname = new TextBox();
             txtBio = new RichTextBox();
             btnSavePwd = new Button();
-            lbPass = new Label();
+            lbOldpass = new Label();
             lbNewpass = new Label();
             lbcfpass = new Label();
             txtPass = new TextBox();
@@ -224,6 +224,7 @@
             txtBio.TabIndex = 7;
             txtBio.Text = "";
             txtBio.Visible = false;
+            txtBio.Enter += txtBio_Enter;
             // 
             // btnSavePwd
             // 
@@ -238,18 +239,18 @@
             btnSavePwd.UseVisualStyleBackColor = true;
             btnSavePwd.Visible = false;
             // 
-            // lbPass
+            // lbOldpass
             // 
-            lbPass.AutoSize = true;
-            lbPass.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lbPass.ForeColor = Color.White;
-            lbPass.Location = new Point(17, 167);
-            lbPass.Margin = new Padding(2, 0, 2, 0);
-            lbPass.Name = "lbPass";
-            lbPass.Size = new Size(79, 20);
-            lbPass.TabIndex = 9;
-            lbPass.Text = "Password";
-            lbPass.Visible = false;
+            lbOldpass.AutoSize = true;
+            lbOldpass.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lbOldpass.ForeColor = Color.White;
+            lbOldpass.Location = new Point(17, 167);
+            lbOldpass.Margin = new Padding(2, 0, 2, 0);
+            lbOldpass.Name = "lbOldpass";
+            lbOldpass.Size = new Size(107, 20);
+            lbOldpass.TabIndex = 9;
+            lbOldpass.Text = "Old password";
+            lbOldpass.Visible = false;
             // 
             // lbNewpass
             // 
@@ -353,7 +354,7 @@
             Controls.Add(txtPass);
             Controls.Add(lbcfpass);
             Controls.Add(lbNewpass);
-            Controls.Add(lbPass);
+            Controls.Add(lbOldpass);
             Controls.Add(btnSavePwd);
             Controls.Add(txtBio);
             Controls.Add(txtFullname);
@@ -392,7 +393,7 @@
         private Button btnSavePwd;
         private Label label3;
         private PictureBox pictureBox1;
-        private Label lbPass;
+        private Label lbOldpass;
         private Label lbNewpass;
         private Label lbcfpass;
         private TextBox txtPass;
