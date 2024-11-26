@@ -39,26 +39,5 @@ namespace API_Server.DTOs
         public string ConfirmPassword { get; set;}
 
     }*/
-
-    public class UserModel
-    {
-            public ObjectId UserId { get; set; }
-
-            public string Fullname { get; set; }
-          
-            public string Username { get; set; }
-
-            public string Password { get; set; }
-           
-            public string Email { get; set; }
-
-            //0 là Admin, 1 là User
-            public int Role { get; set; }
-            public string Profilepicture { get; set; }
-            public string Bio { get; set; }
-
-            public string Token { get; set; }
-        }
     
-
 }
