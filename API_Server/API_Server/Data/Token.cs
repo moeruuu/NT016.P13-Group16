@@ -14,9 +14,7 @@ namespace API_Server.Data
         [BsonElement("ExpiryTime")]
         public DateTime ExpiryTime { get; set; }
         [BsonElement("UsedToken")]
-        public bool UsedToken { get; set; }
-        [BsonElement("Revoked")]
-        public bool IsRevoked { get; set; }
+        public List<string> UsedToken { get; set; } = new List<string>();
         [BsonElement("Jti")]
         public string Jti { get; set; }
     }

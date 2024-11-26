@@ -23,14 +23,16 @@ namespace API_Server.Service
         private readonly string secretkey;
         private readonly IMongoCollection<User> users;
         private static string Jti;
+        private readonly UserService userService;
 
-        public JWTService(IMongoDatabase database, MongoDbContext context, IConfiguration configuration)
+        public JWTService(IMongoDatabase database, MongoDbContext context, IConfiguration configuration, UserService userService)
         {
             JWT = database.GetCollection<Token>("JWTToken");
             users = context.Users;
             secretkey = configuration["JWT:SecretKey"];
             _issuer = configuration["JWT:Issuer"];
             _audience = configuration["JWT:Audience"];
+            this.userService = userService;
         }
 
         public string GenerateAccessToken(User user)
@@ -98,28 +100,57 @@ namespace API_Server.Service
             }
         }
 
-        public async Task<bool> ValidateRefreshToken(string token, ObjectId userId, ObjectId id)
+        public async Task<bool> ValidateRefreshToken(string token, ObjectId userid)
         {
-            var getToken = await GetCurrentTokenForUser(userId);
+            var tokendata = await GetRefreshToken(token);
 
-            if (getToken.RefreshToken == null || getToken.ExpiryTime < DateTime.UtcNow || getToken.IsRevoked != null || getToken.Id != id)
+            if (tokendata == null || tokendata.UserId != userid)
+            {
                 return false;
+            }
+            if (tokendata.ExpiryTime <= DateTime.UtcNow)
+            {
+                return false;
+            }
+            if (tokendata.UsedToken.Contains(token))
+            {
+                return false;
+            }
 
             return true;
         }
 
+        public async Task<Token> GetRefreshToken(string token)
+        {
+            var refreshToken = await JWT.Find(rt => rt.RefreshToken == token).FirstOrDefaultAsync();
+            return refreshToken;
 
+        }
         public async Task<Token> GetCurrentTokenForUser(ObjectId id)
         {
             var filter = Builders<Token>.Filter.Eq(t => t.UserId, id);
             return await JWT.Find(filter).FirstOrDefaultAsync();
         }
-        public async Task IncrementUsedToken(string refreshToken)
+
+        public async Task SaveToken(Token token)
         {
-            var filter = Builders<Token>.Filter.Eq(t => t.RefreshToken, refreshToken);
-            var update = Builders<Token>.Update.Set(t => t.UsedToken, true);
-            await JWT.UpdateOneAsync(filter, update);
+            var existedtoken = await JWT.Find(td => td.UserId == token.UserId).FirstOrDefaultAsync();
+
+            if (existedtoken != null)
+            {
+                existedtoken.RefreshToken = token.RefreshToken;
+                existedtoken.UsedToken = token.UsedToken;
+                existedtoken.ExpiryTime = token.ExpiryTime;
+                existedtoken.Jti = token.Jti;
+
+                await JWT.ReplaceOneAsync(td => td.Id == existedtoken.Id, existedtoken);
+            }
+            else
+            {
+                await JWT.InsertOneAsync(token);
+            }
         }
+     
 
         //Vô hiệu hóa token
         
@@ -136,6 +167,37 @@ namespace API_Server.Service
             }
 
         }
+        public async Task<string> NewGenerateAccessToken(string refreshToken, ObjectId Id)
+        {
+            var token = await GetRefreshToken(refreshToken);
+            var Validated = await ValidateRefreshToken(refreshToken, Id);
+            if (!Validated)
+            {
+                throw new UnauthorizedAccessException("Invalid token!");
+            }
+
+            token.UsedToken.Add(refreshToken);
+
+            var user = await userService.GetUserByID(Id);
+            var AccessToken = GenerateAccessToken(user);
+
+            var newRefreshToken = GenerateRefreshToken();
+            token.RefreshToken = newRefreshToken;
+            token.ExpiryTime = DateTime.UtcNow.AddDays(14);
+
+            await SaveToken(token);
+
+            return AccessToken;
+        }
+
+        public string GetJtiFromAccessToken(string token)
+        {
+            var tokenhandler = new JwtSecurityTokenHandler();
+            var JWTToken = tokenhandler.ReadToken(token) as JwtSecurityToken;
+            var jti = JWTToken?.Claims.FirstOrDefault(claim => claim.Type == JwtRegisteredClaimNames.Jti)?.Value;
+            return jti ?? string.Empty;
+        }
+
         public async Task SaveRefreshToken(string refreshToken, ObjectId userid)
         {
             var token = new Token
@@ -144,8 +206,6 @@ namespace API_Server.Service
                 RefreshToken = refreshToken,
                 UserId = userid,
                 ExpiryTime = DateTime.UtcNow.AddMinutes(120),
-                UsedToken = false,
-                IsRevoked = false,
                 Jti = Jti
             };
             JWT.InsertOneAsync(token);
