@@ -12,6 +12,7 @@ using System.Windows.Documents;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Text.RegularExpressions;
 using UITFLIX.Services;
 
 namespace UITFLIX
@@ -108,15 +109,76 @@ namespace UITFLIX
                 MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
             }
         }
+        private void txtPass_Enter(object sender, EventArgs e)
+        {
+            if (txtPass.Text == "Enter Old Password...")
+            {
+                txtPass.PasswordChar = '*';
+                txtPass.Text = "";
+            }
+        }
 
+        private void txtPass_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtPass.Text))
+            {
+                txtPass.PasswordChar = '\0';
+                txtPass.Text = "Enter Old Password...";
+                txtPass.ForeColor = Color.SkyBlue;
+            }
+        }
+
+        private void txtNewPass_Enter(object sender, EventArgs e)
+        {
+            if (txtNewPass.Text == "Enter New Password...")
+            {
+                txtNewPass.PasswordChar = '*';
+                txtNewPass.Text = "";
+            }
+        }
+
+        private void txtNewPass_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtNewPass.Text))
+            {
+                txtNewPass.PasswordChar = '\0';
+                txtNewPass.Text = "Enter New Password...";
+                txtNewPass.ForeColor = Color.SkyBlue;
+            }
+        }
+
+        private void txtCfPass_Enter(object sender, EventArgs e)
+        {
+            if (txtCfPass.Text == "Confirm Password...")
+            {
+                txtCfPass.PasswordChar = '*';
+                txtCfPass.Text = "";
+            }
+        }
+
+        private void txtCfPass_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtCfPass.Text))
+            {
+                txtCfPass.PasswordChar = '\0';
+                txtCfPass.Text = "Confirm Password...";
+                txtCfPass.ForeColor = Color.SkyBlue;
+            }
+        }
         private void SettingPassword(bool Visible)
         {
             lbcfpass.Visible = Visible;
             lbNewpass.Visible = Visible;
             lbOldpass.Visible = Visible;
-            txtCfPass.Visible = Visible;
-            txtNewPass.Visible = Visible;
             txtPass.Visible = Visible;
+            txtPass.Text = "Enter Old Password...";
+            txtPass.ForeColor = Color.SkyBlue;
+            txtNewPass.Visible = Visible;
+            txtNewPass.Text = "Enter New Password...";
+            txtNewPass.ForeColor = Color.SkyBlue;
+            txtCfPass.Visible = Visible;
+            txtCfPass.Text = "Confirm Password...";
+            txtCfPass.ForeColor = Color.SkyBlue;
             btnSavePwd.Visible = Visible;
             underlinepass.Visible = Visible;
             btnpass.TextImageRelation = TextImageRelation.TextBeforeImage;
@@ -165,6 +227,7 @@ namespace UITFLIX
             if (bio == string.Empty)
             {
                 bio = "< Người dùng này cạn lời rồi ... >";
+                txtBio.ForeColor = Color.SkyBlue;
             }
             try
             {
@@ -197,21 +260,12 @@ namespace UITFLIX
                 MessageBox.Show(ex.Message);
                 //MessageBox.Show("Hệ thống không thể update", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-
-
         }
         private void ReloadForm(JObject obj)
         {
             this.Hide();
-            var location = this.Location;
+            new UpdateInformation(obj, AccessToken).ShowDialog();
             this.Close();
-
-            var newUIForm = new UpdateInformation(obj, AccessToken);
-            newUIForm.Location = location;
-            newUIForm.TopMost = true;
-            newUIForm.TopMost = false;
-            newUIForm.ShowDialog();
         }
 
         private void logo_Click(object sender, EventArgs e)
@@ -232,5 +286,78 @@ namespace UITFLIX
                 }
             }
         }
+
+        public bool checkpassword(string password)
+        {
+            return Regex.IsMatch(password, @"^.{6,20}$");
+        }
+        public bool checkconfirmpassword(string password, string secondpassword)
+        {
+            return password.Equals(secondpassword);
+        }
+        private async void btnSavePwd_Click(object sender, EventArgs e)
+        {
+            string oldPassword = txtPass.Text.Trim();
+            string newPassword = txtNewPass.Text.Trim();
+            string confirmPassword = txtCfPass.Text.Trim();
+            bool checkflag = true;
+            string ErrorMsg = "";
+            if (!checkpassword(oldPassword))
+            {
+                ErrorMsg = "Mật khẩu cũ phải dài từ 6 đến 20 kí tự.";
+                lbOldpass.Text = "Old password(*)";
+                checkflag = false;
+            }
+            else
+            {
+                lbOldpass.Text = "Old password";
+            }
+            if (!checkpassword(newPassword))
+            {
+                ErrorMsg += "\n\nVui lòng nhập mật khẩu mới ít nhất 6 kí tự đến 20 kí tự.";
+                ErrorMsg.Trim();
+                lbNewpass.Text = "New password(*)";
+                checkflag |= false;
+            }
+            else
+            {
+                lbNewpass.Text = "New password";
+            }
+            if (!checkconfirmpassword(newPassword, confirmPassword))
+            {
+                ErrorMsg += "\n\nMật khẩu bạn nhập lại không khớp, vui lòng nhập lại.";
+                ErrorMsg.Trim();
+                lbcfpass.Text = "Confirm new password(*)";
+                checkflag &= false;
+            }
+            else
+            {
+                lbcfpass.Text = "Confirm new password";
+            }
+
+            if (checkflag == false)
+            {
+                MessageBox.Show(ErrorMsg, "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+
+            var response = await userService.ChangePassword(oldPassword, newPassword, AccessToken);
+
+            if (response.Contains("Thành công!", StringComparison.OrdinalIgnoreCase))
+            {
+                this.Hide();
+                MessageBox.Show("Thay đổi mật khẩu thành công! Vui lòng đăng nhập lại.", "Thành công", MessageBoxButtons.OK);
+                LogIn logIn = new LogIn();
+                logIn.ShowDialog();
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show(response, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+        }
+
+
     }
 }

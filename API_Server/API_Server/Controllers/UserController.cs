@@ -134,6 +134,30 @@ namespace API_Server.Controllers
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPatch("Change-Password")]
+        public async Task<IActionResult> ChangePassword([FromForm] ChangePassword request)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId) || !ObjectId.TryParse(userId, out ObjectId UserId))
+            {
+                return Unauthorized("Không thể xác thực người dùng.");
+            }
+            if (request == null)
+            {
+                return BadRequest("Người dùng không đổi mật khẩu.");
+            }
+            var userUpdate = await userService.ChangePassword(UserId, request.OldPassword, request.NewPassword);
+            if (userUpdate)
+            {
+                return Ok("Thành công!");
+            }
+            else
+            {
+                return BadRequest("Không thể thay đổi mật khẩu.");
+            }
+        }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet("GetInformation/me")]
         public async Task<IActionResult> GetUser()
         {

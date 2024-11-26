@@ -33,8 +33,19 @@ namespace UITFLIX
 
         private string accesstoken;
         //private readonly UserService userService;
+
+        public static Point? homeLocation;
         public Home(JObject in4, VideoService video, string token)
         {
+            if (homeLocation.HasValue)
+            {
+                this.StartPosition = FormStartPosition.Manual;
+                this.Location = homeLocation.Value;
+            }
+            else
+            {
+                this.StartPosition = FormStartPosition.CenterScreen;
+            }
             InitializeComponent();
             leftborderBtn = new Panel();
             leftborderBtn.Size = new Size(10, 105);
@@ -890,6 +901,7 @@ namespace UITFLIX
         private void Username_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             this.Hide();
+            homeLocation = this.Location;
             new UpdateInformation(Userinfo, accesstoken).ShowDialog();
             this.Close();
         }
