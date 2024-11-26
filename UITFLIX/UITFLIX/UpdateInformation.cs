@@ -197,21 +197,12 @@ namespace UITFLIX
                 MessageBox.Show(ex.Message);
                 //MessageBox.Show("Hệ thống không thể update", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-
-
         }
         private void ReloadForm(JObject obj)
         {
             this.Hide();
-            var location = this.Location;
+            new UpdateInformation(obj, AccessToken).ShowDialog();
             this.Close();
-
-            var newUIForm = new UpdateInformation(obj, AccessToken);
-            newUIForm.Location = location;
-            newUIForm.TopMost = true;
-            newUIForm.TopMost = false;
-            newUIForm.ShowDialog();
         }
 
         private void logo_Click(object sender, EventArgs e)
