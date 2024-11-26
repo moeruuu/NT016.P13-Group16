@@ -128,6 +128,23 @@ namespace API_Server.Service
             return result.ModifiedCount > 0;
         }
 
+        public async Task<bool> ChangePassword(ObjectId userid, string oldpassword, string newpassword)
+        {
+            var filter = Builders<User>.Filter.Eq(u => u.UserId, userid);
+            var user = await users.Find(filter).FirstOrDefaultAsync();
+            
+            string hashOldPwd = HashPassword(oldpassword);
+            if (hashOldPwd != user.Password)
+                throw new Exception("Mật khẩu cũ không trùng khớp!");
+
+            string hashNewPwd = HashPassword(newpassword);
+            var update = Builders<User>.Update.Set(u => u.Password, hashNewPwd);
+
+            var result = await users.UpdateOneAsync(filter, update);
+
+            return result.ModifiedCount > 0;
+        }
+
 
         /*public async Task<User> ForgetPassword(ForgetPassDTOs forgetPassDTOs)
         {

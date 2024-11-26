@@ -102,5 +102,28 @@ namespace UITFLIX.Services
             }
         }
 
+        public async Task<string> ChangePassword(string oldPassword, string newPassword, string accesstoken)
+        {
+            try
+            {
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accesstoken);
+                using (var form = new MultipartFormDataContent())
+                {
+                    if (!string.IsNullOrEmpty(oldPassword))
+                        form.Add(new StringContent(oldPassword), "OldPassword");
+
+                    if (!string.IsNullOrEmpty(newPassword))
+                        form.Add(new StringContent(newPassword), "NewPassword");
+
+                    var response = await httpClient.PatchAsync("api/User/Change-Password", form);
+                    return await response.Content.ReadAsStringAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+
     }
 }
