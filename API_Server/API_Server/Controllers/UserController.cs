@@ -122,11 +122,13 @@ namespace API_Server.Controllers
             if (userUpdate)
             {
                 var getuser = await userService.GetUserByID(UserId);
-                return Ok(new {
-                    User = new {
+                return Ok(new
+                {
+                    User = new
+                    {
                         UserId = getuser.UserId.ToString(),
                         Fullname = getuser.Fullname,
-                        Bio = getuser.Bio,    
+                        Bio = getuser.Bio,
                         Profilepicture = getuser.Profilepicture,
                     }
                 });
@@ -139,7 +141,7 @@ namespace API_Server.Controllers
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPatch("Change-Password")]
-        public async Task<IActionResult> ChangePassword([FromForm] ChangePassword request)
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePassword request)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userId) || !ObjectId.TryParse(userId, out ObjectId UserId))
@@ -162,33 +164,33 @@ namespace API_Server.Controllers
         }
 
         //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        //[HttpPatch("Forget-Password")]
-        //public async Task<IActionResult> ForgetPassword([FromForm] ForgetPassDTOs request)
-        //{
-        //    var email = User.FindFirst(ClaimTypes.Email)?.Value;
-        //    if (request == null)
-        //    {
-        //        return BadRequest("Người dùng không đổi mật khẩu.");
-        //    }
-        //    var forgetString = await userService.ForgetPassword(request);
-        //    if(forgetString == "Đã gửi mã OTP")
-        //    {
-        //        return Ok("Đã gửi mã OTP");
-        //    }    
-        //    else
-        //    {
-        //        var updatePass = await userService.ChangePassword(request.Email, forgetString, request.Password);
-        //        if (updatePass)
-        //        {
-        //            return Ok("Thành công!");
-        //        }
-        //        else
-        //        {
-        //            return BadRequest("Không thể thay đổi mật khẩu.");
-        //        }
-        //    }
+        [HttpPatch("Forget-Password")]
+        public async Task<IActionResult> ForgetPassword([FromBody] ForgetPassDTOs request)
+        {
+            var email = User.FindFirst(ClaimTypes.Email)?.Value;
+            if (request == null)
+            {
+                return BadRequest("Người dùng không đổi mật khẩu.");
+            }
+            var forgetString = await userService.ForgetPassword(request);
+            if (forgetString == "Đã gửi mã OTP")
+            {
+                return Ok("Đã gửi mã OTP");
+            }
+            else
+            {
+                var updatePass = await userService.ChangePassword(request.Email, forgetString, request.Password);
+                if (updatePass)
+                {
+                    return Ok("Thành công!");
+                }
+                else
+                {
+                    return BadRequest("Không thể thay đổi mật khẩu.");
+                }
+            }
 
-        //}
+        }
 
 
 
@@ -266,6 +268,6 @@ namespace API_Server.Controllers
             }
         }
 
-        
+
     }
 }

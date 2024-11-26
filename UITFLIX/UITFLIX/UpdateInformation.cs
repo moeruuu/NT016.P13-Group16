@@ -341,7 +341,12 @@ namespace UITFLIX
                 return;
             }
 
-            var response = await userService.ChangePassword(oldPassword, newPassword, AccessToken);
+            var Pass = new
+            {
+                oldPassword = oldPassword,
+                newPassword = newPassword,
+            };
+            var response = await userService.ChangePassword(Pass, AccessToken);
 
             if (response.Contains("Thành công!", StringComparison.OrdinalIgnoreCase))
             {

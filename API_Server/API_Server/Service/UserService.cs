@@ -149,33 +149,33 @@ namespace API_Server.Service
         }
 
 
-        //public async Task<string> ForgetPassword(ForgetPassDTOs forgetPassDTOs)
-        //{
-        //    var Filter = Builders<User>.Filter.Eq(u => u.Email, forgetPassDTOs.Email);
-        //    var existUser = await users.Find(Filter).FirstOrDefaultAsync();
+        public async Task<string> ForgetPassword(ForgetPassDTOs forgetPassDTOs)
+        {
+            var Filter = Builders<User>.Filter.Eq(u => u.Email, forgetPassDTOs.Email);
+            var existUser = await users.Find(Filter).FirstOrDefaultAsync();
 
-        //    if (existUser == null)
-        //    {
-        //        throw new Exception("Email này chưa được đăng ký!");
-        //    }
-        //    string hashPwd = HashPassword(forgetPassDTOs.Password);
-        //    if (forgetPassDTOs.Password == existUser.Password)
-        //    {
-        //        throw new Exception("Mật khẩu mới trùng với mật khẩu cũ!");
-        //    }
+            if (existUser == null)
+            {
+                throw new Exception("Email này chưa được đăng ký!");
+            }
+            string hashPwd = HashPassword(forgetPassDTOs.Password);
+            if (forgetPassDTOs.Password == existUser.Password)
+            {
+                throw new Exception("Mật khẩu mới trùng với mật khẩu cũ!");
+            }
 
-        //    if (forgetPassDTOs.statusCode == 0)
-        //    {
-        //        //gửi OTP đến email để confirm
-        //        currentEmail = existUser.Email;
-        //        currentOTP = new Random().Next(0, 100000).ToString("D6"); ;
+            if (forgetPassDTOs.statusCode == 0)
+            {
+                //gửi OTP đến email để confirm
+                currentEmail = existUser.Email;
+                currentOTP = new Random().Next(0, 100000).ToString("D6"); ;
 
-        //        await SendOTPMail(currentEmail, currentOTP, 1);
-        //        return "Đã gửi mã OTP";
-        //    }
+                await SendOTPMail(currentEmail, currentOTP, 1);
+                return "Đã gửi mã OTP";
+            }
 
-        //    return $"k@1 n@y l@ key $iêµ 7uyệ7 mậ7 dµng để 7ạ0 mộ7 k@1 p@$w0rd mớ1 m@ kH0ng cầN p@$w0rd cũ";
-        //}
+            return $"k@1 n@y l@ key $iêµ 7uyệ7 mậ7 dµng để 7ạ0 mộ7 k@1 p@$w0rd mớ1 m@ kH0ng cầN p@$w0rd cũ";
+        }
 
         public async Task<bool> DeleteUser(ObjectId userid)
         {
@@ -257,7 +257,7 @@ namespace API_Server.Service
                 title = "Bạn quên mật khẩu à?";
                 message = "Đừng quên mật khẩu nữa nhé!";
                 mailrequest.Subject = "RENEW PASSWORD OF YOUR UITFLIX ACCOUNT";
-            }    
+            }
             mailrequest.Body = BodyEmail(otpText, title, message);
             await this.emailService.SendEmail(mailrequest);
         }
