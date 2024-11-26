@@ -278,7 +278,7 @@ namespace UITFLIX
                     progressupload.Maximum = 1;
                 }
                 progressupload.Value = 0;
-                /*if (jarray != null && jarray.Count > 0)
+                if (jarray != null && jarray.Count > 0)
                 {
                     for (int i = 0; i < jarray.Count; i++)
                     {
@@ -340,13 +340,13 @@ namespace UITFLIX
                             currentevent.Text = "Rating: " + round.ToString("0.0");
                             //SetLabelText(currentevent.Text, 11);
                         }
-                    }*/
-                /*}
+                    }
+                }
                 else
-                {
-                    information.Visible = true;
-                }*/
+            {
+                information.Visible = true;
             }
+        }
             catch (Exception ex)
             {
                 MessageBox.Show($"{ex.Message}\n{ex.StackTrace}");
