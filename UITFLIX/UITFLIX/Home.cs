@@ -106,7 +106,7 @@ namespace UITFLIX
         }
         private void ClearAllVideoControls()
         {
-            for (int i = 1; i <= 6; i++) 
+            for (int i = 1; i <= 6; i++)
             {
                 PictureBox pic = (PictureBox)this.Controls.Find($"picfilm{i}", true).FirstOrDefault();
                 Label name = (Label)this.Controls.Find($"filmname{i}", true).FirstOrDefault();
@@ -354,10 +354,10 @@ namespace UITFLIX
                     }
                 }
                 else
-            {
-                information.Visible = true;
+                {
+                    information.Visible = true;
+                }
             }
-        }
             catch (Exception ex)
             {
                 MessageBox.Show($"{ex.Message}\n{ex.StackTrace}");
@@ -904,6 +904,11 @@ namespace UITFLIX
             homeLocation = this.Location;
             new UpdateInformation(Userinfo, accesstoken).ShowDialog();
             this.Close();
+        }
+
+        private void logout_Click(object sender, EventArgs e)
+        {
+
         }
     }
 
