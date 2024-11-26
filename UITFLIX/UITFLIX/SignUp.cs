@@ -197,7 +197,7 @@ namespace UITFLIX
             if (response.Contains("thành công!", StringComparison.OrdinalIgnoreCase))
             {
                 this.Hide();
-                VerifyOTP otp = new VerifyOTP();
+                VerifyOTP otp = new VerifyOTP(0, null, null);
                 otp.ShowDialog();
                 this.Close();
             }

@@ -125,5 +125,20 @@ namespace UITFLIX.Services
             }
         }
 
+        public async Task<string> ForgetPassword(dynamic ForgetPwd)
+        {
+            try
+            {
+                var json = JsonConvert.SerializeObject(ForgetPwd);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await httpClient.PostAsync("/api/User/Forget-Password", content);
+                return await response.Content.ReadAsStringAsync();
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+
     }
 }

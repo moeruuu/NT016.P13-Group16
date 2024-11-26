@@ -27,7 +27,7 @@ namespace API_Server.Service
         private static readonly ConcurrentDictionary<string, User> nguoidung = new ConcurrentDictionary<string, User>();
         private readonly ImgurService imgurService;
         private readonly JWTService token;
-        public UserService(IMongoDatabase database, EmailService emailService, JWTService token, ImgurService imgurService)
+        public UserService(IMongoDatabase database, EmailService emailService, ImgurService imgurService)
         {
             users = database.GetCollection<User>("Users");
             this.emailService = emailService;
@@ -47,7 +47,7 @@ namespace API_Server.Service
             var existingUser = await users.Find(filter).FirstOrDefaultAsync();
             if (existingUser != null)
             {
-                throw new Exception("Tên tài khoản đã tồn tại.");
+                throw new Exception("Tên tài khoản hoặc email đã tồn tại.");
             }
 
             var otp = new Random().Next(0, 100000).ToString("D6");
@@ -70,7 +70,7 @@ namespace API_Server.Service
             currentEmail = user.Email;
             currentOTP = otp;
 
-            await SendOTPMail(currentEmail, otp);
+            await SendOTPMail(currentEmail, otp, 0);
             return user;
 
         }
@@ -128,14 +128,19 @@ namespace API_Server.Service
             return result.ModifiedCount > 0;
         }
 
-        public async Task<bool> ChangePassword(ObjectId userid, string oldpassword, string newpassword)
+        public async Task<bool> ChangePassword(Object user, string oldpassword, string newpassword)
         {
-            var filter = Builders<User>.Filter.Eq(u => u.UserId, userid);
-            var user = await users.Find(filter).FirstOrDefaultAsync();
-            
-            string hashOldPwd = HashPassword(oldpassword);
-            if (hashOldPwd != user.Password)
-                throw new Exception("Mật khẩu cũ không trùng khớp!");
+            var filter = Builders<User>.Filter.Or(
+                    Builders<User>.Filter.Eq(u => u.Username, user),
+                    Builders<User>.Filter.Eq(u => u.Email, user));
+            var existUser = await users.Find(filter).FirstOrDefaultAsync();
+
+            if (oldpassword != $"k@1 n@y l@ key $iêµ 7uyệ7 mậ7 dµng để 7ạ0 mộ7 k@1 p@$w0rd mớ1 m@ kH0ng cầN p@$w0rd cũ")
+            {
+                string hashOldPwd = HashPassword(oldpassword);
+                if (hashOldPwd != existUser.Password)
+                    throw new Exception("Mật khẩu cũ không trùng khớp!");
+            }
 
             string hashNewPwd = HashPassword(newpassword);
             var update = Builders<User>.Update.Set(u => u.Password, hashNewPwd);
@@ -146,24 +151,33 @@ namespace API_Server.Service
         }
 
 
-        /*public async Task<User> ForgetPassword(ForgetPassDTOs forgetPassDTOs)
-        {
-            var Filter = Builders<User>.Filter.Eq(u => u.Username, forgetPassDTOs.Username);
-            var existUser = await users.Find(Filter).FirstOrDefaultAsync();
-            if (existUser == null)
-            {
-                throw new Exception("Tài khoản không tồn tại!");
-            }
-            if (forgetPassDTOs.Password != forgetPassDTOs.ConfirmPassword)
-            {
-                throw new Exception("Mật khẩu không khớp!");
-            }
-            string hash = HashPassword(forgetPassDTOs.Password);
-            var update = Builders<User>.Update.Set(u => u.Password, hash);
-            await users.UpdateOneAsync(Filter, update);
+        //public async Task<string> ForgetPassword(ForgetPassDTOs forgetPassDTOs)
+        //{
+        //    var Filter = Builders<User>.Filter.Eq(u => u.Email, forgetPassDTOs.Email);
+        //    var existUser = await users.Find(Filter).FirstOrDefaultAsync();
 
-            return existUser;
-        }*/
+        //    if (existUser == null)
+        //    {
+        //        throw new Exception("Email này chưa được đăng ký!");
+        //    }
+        //    string hashPwd = HashPassword(forgetPassDTOs.Password);
+        //    if (forgetPassDTOs.Password == existUser.Password)
+        //    {
+        //        throw new Exception("Mật khẩu mới trùng với mật khẩu cũ!");
+        //    }
+
+        //    if (forgetPassDTOs.statusCode == 0)
+        //    {
+        //        //gửi OTP đến email để confirm
+        //        currentEmail = existUser.Email;
+        //        currentOTP = new Random().Next(0, 100000).ToString("D6"); ;
+
+        //        await SendOTPMail(currentEmail, currentOTP, 1);
+        //        return "Đã gửi mã OTP";
+        //    }
+
+        //    return $"k@1 n@y l@ key $iêµ 7uyệ7 mậ7 dµng để 7ạ0 mộ7 k@1 p@$w0rd mớ1 m@ kH0ng cầN p@$w0rd cũ";
+        //}
 
         public async Task<bool> DeleteUser(ObjectId userid)
         {
@@ -178,58 +192,79 @@ namespace API_Server.Service
             {
                 return true;
             }
-
         }
 
-        public async Task<User> CheckOTP(VerifyOTPDTOs otp)
+        public async Task<Object> CheckOTP(VerifyOTPDTOs otpDTOs)
         {
-            if (String.IsNullOrEmpty(currentEmail))
+            if (otpDTOs.requestCode == 0)
             {
-                throw new Exception("Email này chưa được dùng để đăng ký!");
-            }
-            //Lấy người dùng tạm ra nè
-            var tempUser = nguoidung[currentEmail];
+                if (String.IsNullOrEmpty(currentEmail))
+                {
+                    throw new Exception("Email này chưa được dùng để đăng ký!");
+                }
+                //Lấy người dùng tạm ra nè
+                var tempUser = nguoidung[currentEmail];
 
-            var Filter = Builders<User>.Filter.Eq(u => u.Email, tempUser.Email);
-            var existingUser = await users.Find(Filter).FirstOrDefaultAsync();
-            if (existingUser != null)
-            {
-                throw new Exception("Email đã tồn tại!");
-            }
-            if (currentOTP != otp.OTP)
-            {
-                throw new Exception("Mã OTP không trùng khớp!");
-            }
+                var Filter = Builders<User>.Filter.Eq(u => u.Email, tempUser.Email);
+                var existingUser = await users.Find(Filter).FirstOrDefaultAsync();
+                if (existingUser != null)
+                {
+                    throw new Exception("Email đã tồn tại!");
+                }
+                if (currentOTP != otpDTOs.OTP)
+                {
+                    throw new Exception("Mã OTP không trùng khớp!");
+                }
 
-            var newUser = new User
+                var newUser = new User
+                {
+                    UserId = tempUser.UserId,
+                    Fullname = tempUser.Fullname,
+                    Username = tempUser.Username,
+                    Password = tempUser.Password,
+                    Email = tempUser.Email,
+                    Role = 1,
+                };
+                await users.InsertOneAsync(newUser);
+                /*nguoidung.TryRemove(currentEmail, out _);
+                currentEmail = null;
+                currentOTP = null;*/
+                return existingUser;
+            }
+            if (otpDTOs.requestCode == 1)
             {
-                UserId = tempUser.UserId,
-                Fullname = tempUser.Fullname,
-                Username = tempUser.Username,
-                Password = tempUser.Password,
-                Email = tempUser.Email,
-                Role = 1,
-            };
-            await users.InsertOneAsync(newUser);
-            /*nguoidung.TryRemove(currentEmail, out _);
-            currentEmail = null;
-            currentOTP = null;*/
-            return existingUser;
+                if (currentOTP != otpDTOs.OTP)
+                    throw new Exception("Mã OTP không trùng khớp");
+                return true;
+            }
+            return null;
         }
 
 
 
-        private async Task SendOTPMail(string mail, string otpText)
+        private async Task SendOTPMail(string mail, string otpText, int code)
         {
+            string title = "";
+            string message = "";
             var mailrequest = new EmailRequest();
             mailrequest.Email = mail;
-            mailrequest.Subject = "CONFIRM YOUR EMAIL ON UITFLIX";
-            mailrequest.Body = BodyEmail(otpText);
+            if (code == 0) //đăng ký
+            {
+                title = "Welcome to UITFLIX,";
+                message = "Cảm ơn cậu đã trở thành thành viên của UITFLIX!";
+                mailrequest.Subject = "CONFIRM YOUR EMAIL ON UITFLIX";
+            }
+            if (code == 1) //quên mk
+            {
+                title = "Bạn quên mật khẩu à?";
+                message = "Đừng quên mật khẩu nữa nhé!";
+                mailrequest.Subject = "RENEW PASSWORD OF YOUR UITFLIX ACCOUNT";
+            }    
+            mailrequest.Body = BodyEmail(otpText, title, message);
             await this.emailService.SendEmail(mailrequest);
-
         }
 
-        public string BodyEmail(string otp)
+        public string BodyEmail(string otp, string title, string message)
         {
             //html viết mail tại tôi ngựa 
             string email = $@"
@@ -309,12 +344,12 @@ namespace API_Server.Service
                     <h2>NT106.P13</h2>
                 </div>
                 <div class='middle'>
-                  <h1>Welcome to UITFLIX,</h1>
+                  <h1>{title}</h1>
                   <p class='huhu'>Để có những phút giây vui vẻ xem phim với tụi tớ thì cậu hãy nhập OTP nhé!</p>
                   <p class='one-time-password'>{otp}</p>
                 </div>
                 <div class='footer'>
-                  <p>Cảm ơn cậu đã trở thành thành viên của UITFLIX!</p>
+                  <p>{message}</p>
                   <p>Vui lòng không trả lời email này!</p>
                 </div>
               </div>

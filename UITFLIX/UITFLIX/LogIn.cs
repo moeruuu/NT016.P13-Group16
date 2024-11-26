@@ -118,7 +118,7 @@ namespace UITFLIX
                     this.Hide();
                     //Home home = new Home(res);
                     var accesstoken = res["access_token"].ToString();
-                   // MessageBox.Show(accesstoken);
+                    // MessageBox.Show(accesstoken);
                     var videoService = new VideoService();
                     //var user = new UserService();
                     Home home = new Home(res, videoService, accesstoken);
@@ -132,9 +132,17 @@ namespace UITFLIX
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message +'\n'+ ex.StackTrace);
+                MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
             }
 
+        }
+
+        private void linkforgetpass_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            this.Hide();
+            ForgetPassword forgetPassword = new ForgetPassword();
+            forgetPassword.ShowDialog();
+            this.Close();
         }
     }
 }

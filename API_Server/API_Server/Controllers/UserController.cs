@@ -44,12 +44,16 @@ namespace API_Server.Controllers
 
         [AllowAnonymous]
         [HttpPost("Verify-OTP")]
-        public async Task<IActionResult> VerifyOTP([FromBody] VerifyOTPDTOs OTP)
+        public async Task<IActionResult> VerifyOTP([FromBody] VerifyOTPDTOs otpDTOs)
         {
             try
             {
-                var userOTP = await userService.CheckOTP(OTP);
-                return Ok("Xác thực OTP thành công!");
+                var userOTP = await userService.CheckOTP(otpDTOs);
+                if (otpDTOs.requestCode == 0)
+                    return Ok("Xác thực OTP để đăng ký thành công!");
+                if (otpDTOs.requestCode == 1)
+                    return Ok("Xác thực OTP để tạo mật khẩu mới thành công!");
+                return BadRequest("Không xác định được yêu cầu.");
             }
             catch (Exception ex)
             {
@@ -156,6 +160,37 @@ namespace API_Server.Controllers
                 return BadRequest("Không thể thay đổi mật khẩu.");
             }
         }
+
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        //[HttpPatch("Forget-Password")]
+        //public async Task<IActionResult> ForgetPassword([FromForm] ForgetPassDTOs request)
+        //{
+        //    var email = User.FindFirst(ClaimTypes.Email)?.Value;
+        //    if (request == null)
+        //    {
+        //        return BadRequest("Người dùng không đổi mật khẩu.");
+        //    }
+        //    var forgetString = await userService.ForgetPassword(request);
+        //    if(forgetString == "Đã gửi mã OTP")
+        //    {
+        //        return Ok("Đã gửi mã OTP");
+        //    }    
+        //    else
+        //    {
+        //        var updatePass = await userService.ChangePassword(request.Email, forgetString, request.Password);
+        //        if (updatePass)
+        //        {
+        //            return Ok("Thành công!");
+        //        }
+        //        else
+        //        {
+        //            return BadRequest("Không thể thay đổi mật khẩu.");
+        //        }
+        //    }
+
+        //}
+
+
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet("GetInformation/me")]
