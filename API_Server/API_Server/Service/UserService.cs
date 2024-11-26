@@ -26,12 +26,10 @@ namespace API_Server.Service
         //Lưu dữ liệu tạm thời
         private static readonly ConcurrentDictionary<string, User> nguoidung = new ConcurrentDictionary<string, User>();
         private readonly ImgurService imgurService;
-        private readonly JWTService token;
         public UserService(IMongoDatabase database, EmailService emailService, ImgurService imgurService)
         {
             users = database.GetCollection<User>("Users");
             this.emailService = emailService;
-            this.token = token;
             this.imgurService = imgurService;
         }
 
