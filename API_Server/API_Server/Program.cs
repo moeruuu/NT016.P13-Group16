@@ -17,6 +17,7 @@ using API_Server.SignalRHub;
 var builder = WebApplication.CreateBuilder(args);
 
 
+builder.Services.AddSignalR();
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -89,7 +90,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 var app = builder.Build();
 
-builder.Services.AddSignalR();
 app.MapHub<VideoHub>("/videohub");
 
 if (app.Environment.IsDevelopment())
