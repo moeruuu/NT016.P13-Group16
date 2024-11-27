@@ -26,6 +26,7 @@ namespace UITFLIX
         //List<Video> videos = GetUploadedVideos();
         private JObject Userinfo;
 
+        private readonly UserService userService;
         private readonly VideoService videoService;
 
         private static string selectedvideofile;
@@ -56,6 +57,7 @@ namespace UITFLIX
             //Mở new videos ngay khi mở form
             // btnnewvideo_Click(btnnewvideo, EventArgs.Empty);
 
+            userService = new UserService();
             Userinfo = in4;
             videoService = video;
             accesstoken = token;
@@ -876,7 +878,6 @@ namespace UITFLIX
                             currentname.Text = SetLabelText(video["title"].ToString(), 14);
                             currentname.Click += (sender, e) => OpenNewForm(video);
                         }
-
                     }
                 }
                 else
@@ -892,7 +893,6 @@ namespace UITFLIX
             }
             finally
             {
-
                 progressupload.Visible = false;
                 this.Enabled = true;
             }
@@ -906,9 +906,30 @@ namespace UITFLIX
             this.Close();
         }
 
-        private void logout_Click(object sender, EventArgs e)
+        private async void logout_Click(object sender, EventArgs e)
         {
-
+            var res = MessageBox.Show("Bạn có muốn thoát?", "Thoát", MessageBoxButtons.YesNo);
+            if (res == DialogResult.Yes)
+            {
+                var LogOutModel = new
+                {
+                    Id = Userinfo["user"]["id"].ToString()
+                };
+                var response = await userService.LogOut(LogOutModel, accesstoken);
+                if (response.Contains("thành công!", StringComparison.OrdinalIgnoreCase))
+                {
+                    this.Hide();
+                    MessageBox.Show("Đăng xuất thành công!", "Thành công", MessageBoxButtons.OK);
+                    LogIn login = new LogIn();
+                    login.ShowDialog();
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show(response, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }    
+            }
         }
     }
 

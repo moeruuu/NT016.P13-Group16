@@ -92,6 +92,17 @@ namespace API_Server.Service
             return existingUser;
         }
 
+        public async Task LogOut(ObjectId userid)
+        {
+            var filter = Builders<User>.Filter.Eq(u => u.UserId, userid);
+            var existingUser = await users.Find(filter).FirstOrDefaultAsync();
+            if (existingUser == null)
+            {
+                throw new Exception("Tài khoản này không tồn tại!");
+            }
+            var update = Builders<User>.Update.Set(u => u.IsOnline, false);
+            await users.UpdateOneAsync(filter, update);
+        }
 
         public async Task<bool> UpdateInformation(ObjectId userid, string name, IFormFile avatarfile, string bio)
         {
