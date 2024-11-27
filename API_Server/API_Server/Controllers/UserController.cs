@@ -129,6 +129,9 @@ namespace API_Server.Controllers
                 ObjectId.TryParse(logOutDTOs.Id, out ObjectId UserId);
                 await jwtService.DeleteTokenById(UserId);
 
+                //set online false
+                userService.LogOut(UserId);
+
                 return Ok("Logout thành công!");
             }
             catch (Exception ex)
