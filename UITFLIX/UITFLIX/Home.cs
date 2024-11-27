@@ -11,6 +11,7 @@ using System.Net.Http.Headers;
 using MongoDB.Bson;
 using System.ComponentModel;
 using System.Reflection;
+using UITFLIX.Controllers;
 
 namespace UITFLIX
 {
@@ -66,6 +67,7 @@ namespace UITFLIX
             //MessageBox.Show(accesstoken);
         }
 
+        //Màu thanh tabbar
         public struct RGBColors
         {
             public static Color color1 = Color.FromArgb(255, 255, 153);
@@ -74,6 +76,8 @@ namespace UITFLIX
             public static Color color4 = Color.FromArgb(153, 255, 204);
             public static Color color5 = Color.FromArgb(255, 153, 153);
         }
+
+        //chọn option tabbar
         private void ActiveButton(object senderBtn, Color color)
         {
             DisableButton();
@@ -94,6 +98,7 @@ namespace UITFLIX
             }
         }
 
+        //hủy chọn option tabbar
         private void DisableButton()
         {
             if (currentbtn != null)
@@ -106,6 +111,8 @@ namespace UITFLIX
                 currentbtn.TextAlign = ContentAlignment.MiddleLeft;
             }
         }
+
+        //clear video trên một form tabbar để mở form tabbar mới
         private void ClearAllVideoControls()
         {
             for (int i = 1; i <= 6; i++)
@@ -134,6 +141,7 @@ namespace UITFLIX
             }
         }
 
+        //form New Video
         private async void btnnewvideo_Click(object sender, EventArgs e)
         {
             ClearAllVideoControls();
@@ -146,13 +154,13 @@ namespace UITFLIX
             progressupload.Visible = true;
             cbpage.Visible = false;
             information.Visible = false;
+            fpnVideos.Visible = true;
+
             try
             {
                 this.Enabled = false;
                 progressupload.Minimum = 0;
 
-                //MessageBox.Show(accesstoken);
-                // httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", Userinfo["access_token"].ToString());
                 var jarray = await videoService.GetNewestVideosAsync(accesstoken);
                 if (jarray != null)
                 {
@@ -163,64 +171,22 @@ namespace UITFLIX
                     progressupload.Maximum = 1;
                 }
                 progressupload.Value = 0;
+
                 if (jarray != null && jarray.Count > 0)
                 {
-                    for (int i = 0; i < jarray.Count; i++)
-                    {
+                    foreach(JToken video in jarray)
+                    {    
                         progressupload.Value++;
-                        JToken video = jarray[i];
-                        //MessageBox.Show(video.ToString());
-                        PictureBox currentPicBox = (PictureBox)this.Controls.Find($"picfilm{i + 1}", true).FirstOrDefault();
 
-                        if (currentPicBox != null)
+                        VideoControl item = new VideoControl()
                         {
-                            currentPicBox.Visible = true;
+                            Title = SetLabelText(video["title"].ToString(), 14),
+                            Sub = video["uploadedDate"].ToObject<DateTime>().ToUniversalTime().ToString("dd/MM/yyyy"),
+                            ImageUrl = video["urlImage"].ToString()
+                        };
 
-                            string imageurl = video["urlImage"].ToString();
-
-                            using (var client = new HttpClient())
-                            {
-                                if (Uri.TryCreate(imageurl, UriKind.Absolute, out var uriResult)
-                                    && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps))
-                                {
-                                    var bytes = await client.GetByteArrayAsync(imageurl);
-                                    using (var ms = new MemoryStream(bytes))
-                                    {
-                                        if (ms != null && ms.CanRead)
-                                        {
-                                            ms.Seek(0, SeekOrigin.Begin);
-
-                                            Image image = Image.FromStream(ms);
-                                            currentPicBox.Image = Image.FromStream(ms);
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    currentPicBox.Image = null;
-                                }
-                            }
-                            ResetClickEvent(currentPicBox);
-                            currentPicBox.Click += (sender, e) => OpenNewForm(video);
-                        }
-
-                        Label currentname = (Label)this.Controls.Find($"filmname{i + 1}", true).FirstOrDefault();
-                        if (currentname != null)
-                        {
-                            currentname.Visible = true;
-                            currentname.Text = SetLabelText(video["title"].ToString(), 14);
-                            ResetClickEvent(currentname);
-                            currentname.Click += (sender, e) => OpenNewForm(video);
-                        }
-
-                        Label currentevent = (Label)this.Controls.Find($"event{i + 1}", true).FirstOrDefault();
-                        if (currentevent != null)
-                        {
-                            currentevent.Visible = true;
-                            DateTime uploadedDate = video["uploadedDate"].ToObject<DateTime>();
-                            currentevent.Text = uploadedDate.ToUniversalTime().ToString("dd/MM/yyyy");
-                            //SetLabelText(currentevent.Text, 11);
-                        }
+                        item.Click += (sender, e) => OpenNewForm(video);
+                        fpnVideos.Controls.Add(item);
                     }
                 }
                 else
@@ -242,13 +208,13 @@ namespace UITFLIX
             }
 
         }
+
+        //Mở form play video
         private void OpenNewForm(JToken video)
         {
             MessageBox.Show(video.ToString());
-            this.Hide();
             PVideo videos = new PVideo(video, accesstoken, videoService, Userinfo);
             videos.ShowDialog();
-            this.Close();
         }
 
         private void ResetClickEvent(Control control)
@@ -399,6 +365,7 @@ namespace UITFLIX
             bottompanel.Visible = true;
             progressupload.Visible = false;
             cbpage.Visible = false;
+            fpnVideos.Visible = false;
         }
 
         private void btncoop_Click(object sender, EventArgs e)
@@ -426,24 +393,24 @@ namespace UITFLIX
 
         private void VisibleImageandLabel(bool Visable)
         {
-            picfilm1.Visible = Visable;
-            picfilm2.Visible = Visable;
-            picfilm3.Visible = Visable;
-            picfilm4.Visible = Visable;
-            picfilm5.Visible = Visable;
-            picfilm6.Visible = Visable;
-            filmname1.Visible = Visable;
-            filmname2.Visible = Visable;
-            filmname3.Visible = Visable;
-            filmname4.Visible = Visable;
-            filmname5.Visible = Visable;
-            filmname6.Visible = Visable;
-            event1.Visible = Visable;
-            event2.Visible = Visable;
-            event3.Visible = Visable;
-            event4.Visible = Visable;
-            event5.Visible = Visable;
-            event6.Visible = Visable;
+            //picfilm1.Visible = Visable;
+            //picfilm2.Visible = Visable;
+            //picfilm3.Visible = Visable;
+            //picfilm4.Visible = Visable;
+            //picfilm5.Visible = Visable;
+            //picfilm6.Visible = Visable;
+            //filmname1.Visible = Visable;
+            //filmname2.Visible = Visable;
+            //filmname3.Visible = Visable;
+            //filmname4.Visible = Visable;
+            //filmname5.Visible = Visable;
+            //filmname6.Visible = Visable;
+            //event1.Visible = Visable;
+            //event2.Visible = Visable;
+            //event3.Visible = Visable;
+            //event4.Visible = Visable;
+            //event5.Visible = Visable;
+            //event6.Visible = Visable;
         }
         private void VisibleUpload(bool Visible)
         {
@@ -639,78 +606,6 @@ namespace UITFLIX
                 this.Enabled = true;
             }
 
-        }
-
-        private void picfilm1_MouseEnter(object sender, EventArgs e)
-        {
-            picfilm1.Size = new Size(picfilm1.Width + 60, picfilm1.Height + 60);
-            picfilm1.Location = new Point(picfilm1.Left - 30, picfilm1.Top);
-        }
-
-        private void picfilm1_MouseLeave(object sender, EventArgs e)
-        {
-            picfilm1.Size = new Size(picfilm1.Width - 60, picfilm1.Height - 60);
-            picfilm1.Location = new Point(picfilm1.Left + 30, picfilm1.Top);
-        }
-
-        private void picfilm2_MouseEnter(object sender, EventArgs e)
-        {
-            picfilm2.Size = new Size(picfilm2.Width + 60, picfilm2.Height + 60);
-            picfilm2.Location = new Point(picfilm2.Left - 30, picfilm2.Top);
-        }
-
-        private void picfilm2_MouseLeave(object sender, EventArgs e)
-        {
-            picfilm2.Size = new Size(picfilm2.Width - 60, picfilm2.Height - 60);
-            picfilm2.Location = new Point(picfilm2.Left + 30, picfilm2.Top);
-        }
-
-        private void picfilm3_MouseEnter(object sender, EventArgs e)
-        {
-            picfilm3.Size = new Size(picfilm3.Width + 60, picfilm3.Height + 60);
-            picfilm3.Location = new Point(picfilm3.Left - 30, picfilm3.Top);
-        }
-
-        private void picfilm3_MouseLeave(object sender, EventArgs e)
-        {
-            picfilm3.Size = new Size(picfilm3.Width - 60, picfilm3.Height - 60);
-            picfilm3.Location = new Point(picfilm3.Left + 30, picfilm3.Top);
-        }
-
-        private void picfilm4_MouseEnter(object sender, EventArgs e)
-        {
-            picfilm4.Size = new Size(picfilm4.Width + 60, picfilm4.Height + 60);
-            picfilm4.Location = new Point(picfilm4.Left - 30, picfilm4.Top);
-        }
-
-        private void picfilm4_MouseLeave(object sender, EventArgs e)
-        {
-            picfilm4.Size = new Size(picfilm4.Width - 60, picfilm4.Height - 60);
-            picfilm4.Location = new Point(picfilm4.Left + 30, picfilm4.Top);
-        }
-
-        private void picfilm5_MouseEnter(object sender, EventArgs e)
-        {
-            picfilm5.Size = new Size(picfilm5.Width + 60, picfilm5.Height + 60);
-            picfilm5.Location = new Point(picfilm5.Left - 30, picfilm5.Top);
-        }
-
-        private void picfilm5_MouseLeave(object sender, EventArgs e)
-        {
-            picfilm5.Size = new Size(picfilm5.Width - 60, picfilm5.Height - 60);
-            picfilm5.Location = new Point(picfilm5.Left + 30, picfilm5.Top);
-        }
-
-        private void picfilm6_MouseEnter(object sender, EventArgs e)
-        {
-            picfilm6.Size = new Size(picfilm6.Width + 60, picfilm6.Height + 60);
-            picfilm6.Location = new Point(picfilm6.Left - 30, picfilm6.Top);
-        }
-
-        private void picfilm6_MouseLeave(object sender, EventArgs e)
-        {
-            picfilm6.Size = new Size(picfilm6.Width - 60, picfilm6.Height - 60);
-            picfilm6.Location = new Point(picfilm6.Left + 30, picfilm6.Top);
         }
 
         private async void pictureBox1_Click(object sender, EventArgs e)

@@ -211,7 +211,6 @@ namespace UITFLIX
                 star1.Image = Resources._1;
                 star2.Image = Resources._1;
                 star3.Image = Resources._1;
-                star3.Image = Resources._1;
                 star4.Image = Resources._1;
                 star5.Image = Resources._1;
                 var afterrated = await videoService.Rating(jvideo["id"].ToString(), 5, accesstoken);

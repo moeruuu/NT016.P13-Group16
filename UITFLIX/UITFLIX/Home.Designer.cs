@@ -45,24 +45,6 @@
             btnchoosefile = new Button();
             fileimage = new Label();
             chat = new PictureBox();
-            picfilm1 = new PictureBox();
-            picfilm2 = new PictureBox();
-            picfilm3 = new PictureBox();
-            picfilm6 = new PictureBox();
-            picfilm5 = new PictureBox();
-            picfilm4 = new PictureBox();
-            filmname1 = new Label();
-            event1 = new Label();
-            event2 = new Label();
-            filmname2 = new Label();
-            event3 = new Label();
-            filmname3 = new Label();
-            event4 = new Label();
-            filmname4 = new Label();
-            event5 = new Label();
-            filmname5 = new Label();
-            event6 = new Label();
-            filmname6 = new Label();
             tenphim = new Label();
             noidung = new Label();
             tbnamefilm = new TextBox();
@@ -82,6 +64,7 @@
             waiting = new Label();
             tag = new Label();
             cbtag = new ComboBox();
+            fpnVideos = new FlowLayoutPanel();
             leftside.SuspendLayout();
             avatarpanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)Avatar).BeginInit();
@@ -89,12 +72,6 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)logo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)chat).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)picfilm1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)picfilm2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)picfilm3).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)picfilm6).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)picfilm5).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)picfilm4).BeginInit();
             bottompanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)logout).BeginInit();
             SuspendLayout();
@@ -353,258 +330,6 @@
             chat.TabIndex = 2;
             chat.TabStop = false;
             // 
-            // picfilm1
-            // 
-            picfilm1.BackColor = SystemColors.ButtonHighlight;
-            picfilm1.Cursor = Cursors.Hand;
-            picfilm1.Location = new Point(315, 155);
-            picfilm1.Margin = new Padding(2);
-            picfilm1.Name = "picfilm1";
-            picfilm1.Size = new Size(120, 120);
-            picfilm1.SizeMode = PictureBoxSizeMode.StretchImage;
-            picfilm1.TabIndex = 3;
-            picfilm1.TabStop = false;
-            picfilm1.Visible = false;
-            picfilm1.MouseEnter += picfilm1_MouseEnter;
-            picfilm1.MouseLeave += picfilm1_MouseLeave;
-            // 
-            // picfilm2
-            // 
-            picfilm2.BackColor = SystemColors.ButtonHighlight;
-            picfilm2.Cursor = Cursors.Hand;
-            picfilm2.Location = new Point(591, 155);
-            picfilm2.Margin = new Padding(2);
-            picfilm2.Name = "picfilm2";
-            picfilm2.Size = new Size(120, 120);
-            picfilm2.SizeMode = PictureBoxSizeMode.StretchImage;
-            picfilm2.TabIndex = 4;
-            picfilm2.TabStop = false;
-            picfilm2.Visible = false;
-            picfilm2.MouseEnter += picfilm2_MouseEnter;
-            picfilm2.MouseLeave += picfilm2_MouseLeave;
-            // 
-            // picfilm3
-            // 
-            picfilm3.BackColor = SystemColors.ButtonHighlight;
-            picfilm3.Cursor = Cursors.Hand;
-            picfilm3.Location = new Point(884, 155);
-            picfilm3.Margin = new Padding(2);
-            picfilm3.Name = "picfilm3";
-            picfilm3.Size = new Size(120, 120);
-            picfilm3.SizeMode = PictureBoxSizeMode.StretchImage;
-            picfilm3.TabIndex = 5;
-            picfilm3.TabStop = false;
-            picfilm3.Visible = false;
-            picfilm3.MouseEnter += picfilm3_MouseEnter;
-            picfilm3.MouseLeave += picfilm3_MouseLeave;
-            // 
-            // picfilm6
-            // 
-            picfilm6.BackColor = SystemColors.ButtonHighlight;
-            picfilm6.Cursor = Cursors.Hand;
-            picfilm6.Location = new Point(884, 385);
-            picfilm6.Margin = new Padding(2);
-            picfilm6.Name = "picfilm6";
-            picfilm6.Size = new Size(120, 120);
-            picfilm6.SizeMode = PictureBoxSizeMode.StretchImage;
-            picfilm6.TabIndex = 8;
-            picfilm6.TabStop = false;
-            picfilm6.Visible = false;
-            picfilm6.MouseEnter += picfilm6_MouseEnter;
-            picfilm6.MouseLeave += picfilm6_MouseLeave;
-            // 
-            // picfilm5
-            // 
-            picfilm5.BackColor = SystemColors.ButtonHighlight;
-            picfilm5.Cursor = Cursors.Hand;
-            picfilm5.Location = new Point(591, 385);
-            picfilm5.Margin = new Padding(2);
-            picfilm5.Name = "picfilm5";
-            picfilm5.Size = new Size(120, 120);
-            picfilm5.SizeMode = PictureBoxSizeMode.StretchImage;
-            picfilm5.TabIndex = 7;
-            picfilm5.TabStop = false;
-            picfilm5.Visible = false;
-            picfilm5.MouseEnter += picfilm5_MouseEnter;
-            picfilm5.MouseLeave += picfilm5_MouseLeave;
-            // 
-            // picfilm4
-            // 
-            picfilm4.BackColor = SystemColors.ButtonHighlight;
-            picfilm4.Cursor = Cursors.Hand;
-            picfilm4.Location = new Point(315, 385);
-            picfilm4.Margin = new Padding(2);
-            picfilm4.Name = "picfilm4";
-            picfilm4.Size = new Size(120, 120);
-            picfilm4.SizeMode = PictureBoxSizeMode.StretchImage;
-            picfilm4.TabIndex = 6;
-            picfilm4.TabStop = false;
-            picfilm4.Visible = false;
-            picfilm4.MouseEnter += picfilm4_MouseEnter;
-            picfilm4.MouseLeave += picfilm4_MouseLeave;
-            // 
-            // filmname1
-            // 
-            filmname1.AutoSize = true;
-            filmname1.Cursor = Cursors.Hand;
-            filmname1.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            filmname1.ForeColor = SystemColors.ButtonHighlight;
-            filmname1.Location = new Point(315, 278);
-            filmname1.Margin = new Padding(2, 0, 2, 0);
-            filmname1.Name = "filmname1";
-            filmname1.Size = new Size(53, 20);
-            filmname1.TabIndex = 9;
-            filmname1.Text = "label1";
-            filmname1.Visible = false;
-            // 
-            // event1
-            // 
-            event1.AutoSize = true;
-            event1.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            event1.ForeColor = SystemColors.ButtonHighlight;
-            event1.Location = new Point(315, 305);
-            event1.Margin = new Padding(2, 0, 2, 0);
-            event1.Name = "event1";
-            event1.Size = new Size(53, 20);
-            event1.TabIndex = 10;
-            event1.Text = "label2";
-            event1.Visible = false;
-            // 
-            // event2
-            // 
-            event2.AutoSize = true;
-            event2.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            event2.ForeColor = SystemColors.ButtonHighlight;
-            event2.Location = new Point(591, 305);
-            event2.Margin = new Padding(2, 0, 2, 0);
-            event2.Name = "event2";
-            event2.Size = new Size(53, 20);
-            event2.TabIndex = 12;
-            event2.Text = "label3";
-            event2.Visible = false;
-            // 
-            // filmname2
-            // 
-            filmname2.AutoSize = true;
-            filmname2.Cursor = Cursors.Hand;
-            filmname2.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            filmname2.ForeColor = SystemColors.ButtonHighlight;
-            filmname2.Location = new Point(591, 278);
-            filmname2.Margin = new Padding(2, 0, 2, 0);
-            filmname2.Name = "filmname2";
-            filmname2.Size = new Size(53, 20);
-            filmname2.TabIndex = 11;
-            filmname2.Text = "label4";
-            filmname2.Visible = false;
-            // 
-            // event3
-            // 
-            event3.AutoSize = true;
-            event3.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            event3.ForeColor = SystemColors.ButtonHighlight;
-            event3.Location = new Point(884, 305);
-            event3.Margin = new Padding(2, 0, 2, 0);
-            event3.Name = "event3";
-            event3.Size = new Size(53, 20);
-            event3.TabIndex = 14;
-            event3.Text = "label5";
-            event3.Visible = false;
-            // 
-            // filmname3
-            // 
-            filmname3.AutoSize = true;
-            filmname3.Cursor = Cursors.Hand;
-            filmname3.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            filmname3.ForeColor = SystemColors.ButtonHighlight;
-            filmname3.Location = new Point(884, 278);
-            filmname3.Margin = new Padding(2, 0, 2, 0);
-            filmname3.Name = "filmname3";
-            filmname3.Size = new Size(53, 20);
-            filmname3.TabIndex = 13;
-            filmname3.Text = "label6";
-            filmname3.Visible = false;
-            // 
-            // event4
-            // 
-            event4.AutoSize = true;
-            event4.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            event4.ForeColor = SystemColors.ButtonHighlight;
-            event4.Location = new Point(315, 535);
-            event4.Margin = new Padding(2, 0, 2, 0);
-            event4.Name = "event4";
-            event4.Size = new Size(53, 20);
-            event4.TabIndex = 16;
-            event4.Text = "label7";
-            event4.Visible = false;
-            // 
-            // filmname4
-            // 
-            filmname4.AutoSize = true;
-            filmname4.Cursor = Cursors.Hand;
-            filmname4.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            filmname4.ForeColor = SystemColors.ButtonHighlight;
-            filmname4.Location = new Point(315, 508);
-            filmname4.Margin = new Padding(2, 0, 2, 0);
-            filmname4.Name = "filmname4";
-            filmname4.Size = new Size(53, 20);
-            filmname4.TabIndex = 15;
-            filmname4.Text = "label8";
-            filmname4.Visible = false;
-            // 
-            // event5
-            // 
-            event5.AutoSize = true;
-            event5.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            event5.ForeColor = SystemColors.ButtonHighlight;
-            event5.Location = new Point(591, 535);
-            event5.Margin = new Padding(2, 0, 2, 0);
-            event5.Name = "event5";
-            event5.Size = new Size(53, 20);
-            event5.TabIndex = 18;
-            event5.Text = "label9";
-            event5.Visible = false;
-            // 
-            // filmname5
-            // 
-            filmname5.AutoSize = true;
-            filmname5.Cursor = Cursors.Hand;
-            filmname5.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            filmname5.ForeColor = SystemColors.ButtonHighlight;
-            filmname5.Location = new Point(591, 508);
-            filmname5.Margin = new Padding(2, 0, 2, 0);
-            filmname5.Name = "filmname5";
-            filmname5.Size = new Size(62, 20);
-            filmname5.TabIndex = 17;
-            filmname5.Text = "label10";
-            filmname5.Visible = false;
-            // 
-            // event6
-            // 
-            event6.AutoSize = true;
-            event6.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            event6.ForeColor = SystemColors.ButtonHighlight;
-            event6.Location = new Point(884, 535);
-            event6.Margin = new Padding(2, 0, 2, 0);
-            event6.Name = "event6";
-            event6.Size = new Size(62, 20);
-            event6.TabIndex = 20;
-            event6.Text = "label11";
-            event6.Visible = false;
-            // 
-            // filmname6
-            // 
-            filmname6.AutoSize = true;
-            filmname6.Cursor = Cursors.Hand;
-            filmname6.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            filmname6.ForeColor = SystemColors.ButtonHighlight;
-            filmname6.Location = new Point(884, 508);
-            filmname6.Margin = new Padding(2, 0, 2, 0);
-            filmname6.Name = "filmname6";
-            filmname6.Size = new Size(62, 20);
-            filmname6.TabIndex = 19;
-            filmname6.Text = "label12";
-            filmname6.Visible = false;
-            // 
             // tenphim
             // 
             tenphim.AutoSize = true;
@@ -792,7 +517,7 @@
             logout.Cursor = Cursors.Hand;
             logout.Image = (Image)resources.GetObject("logout.Image");
             logout.Location = new Point(799, 5);
-            logout.Margin = new Padding(2, 2, 2, 2);
+            logout.Margin = new Padding(2);
             logout.Name = "logout";
             logout.Size = new Size(28, 28);
             logout.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -853,6 +578,14 @@
             cbtag.TabIndex = 38;
             cbtag.Visible = false;
             // 
+            // fpnVideos
+            // 
+            fpnVideos.AutoScroll = true;
+            fpnVideos.Location = new Point(288, 118);
+            fpnVideos.Name = "fpnVideos";
+            fpnVideos.Size = new Size(786, 462);
+            fpnVideos.TabIndex = 39;
+            // 
             // Home
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -871,31 +604,14 @@
             Controls.Add(btnidroom);
             Controls.Add(idroom);
             Controls.Add(tbidroom);
-            Controls.Add(tbdescription);
             Controls.Add(btnuploadvideo);
             Controls.Add(tbnamefilm);
             Controls.Add(noidung);
             Controls.Add(tenphim);
-            Controls.Add(event6);
-            Controls.Add(filmname6);
-            Controls.Add(event5);
-            Controls.Add(filmname5);
-            Controls.Add(event4);
-            Controls.Add(filmname4);
-            Controls.Add(event3);
-            Controls.Add(filmname3);
-            Controls.Add(event2);
-            Controls.Add(filmname2);
-            Controls.Add(event1);
-            Controls.Add(filmname1);
-            Controls.Add(picfilm6);
-            Controls.Add(picfilm5);
-            Controls.Add(picfilm4);
-            Controls.Add(picfilm3);
-            Controls.Add(picfilm2);
-            Controls.Add(picfilm1);
             Controls.Add(toppanel);
             Controls.Add(leftside);
+            Controls.Add(tbdescription);
+            Controls.Add(fpnVideos);
             FormBorderStyle = FormBorderStyle.None;
             Margin = new Padding(2);
             Name = "Home";
@@ -908,12 +624,6 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)logo).EndInit();
             ((System.ComponentModel.ISupportInitialize)chat).EndInit();
-            ((System.ComponentModel.ISupportInitialize)picfilm1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)picfilm2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)picfilm3).EndInit();
-            ((System.ComponentModel.ISupportInitialize)picfilm6).EndInit();
-            ((System.ComponentModel.ISupportInitialize)picfilm5).EndInit();
-            ((System.ComponentModel.ISupportInitialize)picfilm4).EndInit();
             bottompanel.ResumeLayout(false);
             bottompanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)logout).EndInit();
@@ -936,24 +646,6 @@
         private RichTextBox searchtb;
         private PictureBox pictureBox1;
         private PictureBox chat;
-        private PictureBox picfilm1;
-        private PictureBox picfilm2;
-        private PictureBox picfilm3;
-        private PictureBox picfilm6;
-        private PictureBox picfilm5;
-        private PictureBox picfilm4;
-        private Label filmname1;
-        private Label event1;
-        private Label event2;
-        private Label filmname2;
-        private Label event3;
-        private Label filmname3;
-        private Label event4;
-        private Label filmname4;
-        private Label event5;
-        private Label filmname5;
-        private Label event6;
-        private Label filmname6;
         private Button btnchoosefile;
         private Label fileimage;
         private Label tenphim;
@@ -976,5 +668,6 @@
         private Label tag;
         private ComboBox cbtag;
         private PictureBox logout;
+        private FlowLayoutPanel fpnVideos;
     }
 }

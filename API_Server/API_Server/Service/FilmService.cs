@@ -80,7 +80,7 @@ namespace API_Server.Service
 
         public async Task<List<Video>> GetNewestVideos()
         {
-            var newvideos = await videos.Find(new BsonDocument()).Sort(Builders<Video>.Sort.Descending(v => v.UploadedDate)).Limit(6).ToListAsync();
+            var newvideos = await videos.Find(new BsonDocument()).Sort(Builders<Video>.Sort.Descending(v => v.UploadedDate)).ToListAsync();
             return newvideos;
         }
         public async Task<bool> DeleteVideo(string id)
