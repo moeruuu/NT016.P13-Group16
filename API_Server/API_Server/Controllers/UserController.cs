@@ -163,7 +163,7 @@ namespace API_Server.Controllers
             }
         }
 
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [AllowAnonymous]
         [HttpPatch("Forget-Password")]
         public async Task<IActionResult> ForgetPassword([FromBody] ForgetPassDTOs request)
         {

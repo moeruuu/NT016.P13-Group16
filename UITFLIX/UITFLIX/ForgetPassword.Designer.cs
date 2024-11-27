@@ -35,6 +35,7 @@
             lbNewpass = new Label();
             lbEmail = new Label();
             btnSend = new Button();
+            btnCancel = new Button();
             SuspendLayout();
             // 
             // txtCfPass
@@ -113,12 +114,23 @@
             btnSend.UseVisualStyleBackColor = true;
             btnSend.Click += btnSend_Click;
             // 
+            // btnCancel
+            // 
+            btnCancel.Location = new Point(390, 143);
+            btnCancel.Name = "btnCancel";
+            btnCancel.Size = new Size(94, 29);
+            btnCancel.TabIndex = 27;
+            btnCancel.Text = "Cancel";
+            btnCancel.UseVisualStyleBackColor = true;
+            btnCancel.Click += btnCancel_Click;
+            // 
             // ForgetPassword
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightBlue;
             ClientSize = new Size(641, 184);
+            Controls.Add(btnCancel);
             Controls.Add(btnSend);
             Controls.Add(txtCfPass);
             Controls.Add(txtNewPass);
@@ -126,7 +138,11 @@
             Controls.Add(lbcfpass);
             Controls.Add(lbNewpass);
             Controls.Add(lbEmail);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            MaximizeBox = false;
+            MinimizeBox = false;
             Name = "ForgetPassword";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "ForgetPassword";
             ResumeLayout(false);
             PerformLayout();
@@ -141,5 +157,6 @@
         private Label lbNewpass;
         private Label lbEmail;
         private Button btnSend;
+        private Button btnCancel;
     }
 }

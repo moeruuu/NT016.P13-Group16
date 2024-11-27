@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using UITFLIX.Services;
+using UITFLIX.Models;
 
 namespace UITFLIX
 {
@@ -18,6 +19,7 @@ namespace UITFLIX
         public ForgetPassword()
         {
             InitializeComponent();
+            userService = new UserService();
         }
 
         public bool checkemail(string email)
@@ -55,7 +57,7 @@ namespace UITFLIX
                 ErrorMsg += "\n\nVui lòng nhập mật khẩu mới ít nhất 6 kí tự đến 20 kí tự.";
                 ErrorMsg.Trim();
                 lbNewpass.Text = "New password(*)";
-                checkflag |= false;
+                checkflag = false;
             }
             else
             {
@@ -66,7 +68,7 @@ namespace UITFLIX
                 ErrorMsg += "\n\nMật khẩu bạn nhập lại không khớp, vui lòng nhập lại.";
                 ErrorMsg.Trim();
                 lbcfpass.Text = "Confirm new password(*)";
-                checkflag &= false;
+                checkflag = false;
             }
             else
             {
@@ -87,22 +89,26 @@ namespace UITFLIX
             };
             var response = await userService.ForgetPassword(ForgetPwd);
 
-            if (response.Contains("Đã gửi mẫ OTP", StringComparison.OrdinalIgnoreCase))
-            {
-                VerifyOTP verify = new VerifyOTP(1,email,newPassword);
-                verify.ShowDialog();
-            }
-
-            if (response.Contains("Thành công!", StringComparison.OrdinalIgnoreCase))
+            if (response.Contains("Đã gửi mã OTP", StringComparison.OrdinalIgnoreCase))
             {
                 this.Hide();
+                VerifyOTP verify = new VerifyOTP(1, email, newPassword);
+                verify.ShowDialog();
                 this.Close();
             }
             else
             {
-                MessageBox.Show(response, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Lỗi " + response, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            LogIn logIn = new LogIn();
+            logIn.ShowDialog();
+            this.Close();
         }
     }
 }

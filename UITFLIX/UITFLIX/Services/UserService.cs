@@ -80,7 +80,7 @@ namespace UITFLIX.Services
                     else
                         form.Add(new StreamContent(Stream.Null), "avatar", "current image");
 
-                    var response = await httpClient.PatchAsync("api/User/Update-Information", form);
+                    var response = await httpClient.PatchAsync("/api/User/Update-Information", form);
                     var info = await response.Content.ReadAsStringAsync();
                     JObject res = JObject.Parse(info);
                     if (response.IsSuccessStatusCode)
@@ -110,7 +110,7 @@ namespace UITFLIX.Services
 
                 var json = JsonConvert.SerializeObject(ChangePass);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await httpClient.PatchAsync("api/User/Change-Password", content);
+                var response = await httpClient.PatchAsync("/api/User/Change-Password", content);
                 return await response.Content.ReadAsStringAsync();
 
             }
@@ -126,7 +126,7 @@ namespace UITFLIX.Services
             {
                 var json = JsonConvert.SerializeObject(ForgetPwd);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await httpClient.PostAsync("/api/User/Forget-Password", content);
+                var response = await httpClient.PatchAsync("/api/User/Forget-Password", content);
                 return await response.Content.ReadAsStringAsync();
             }
             catch (Exception ex)

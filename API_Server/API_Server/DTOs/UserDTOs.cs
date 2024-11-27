@@ -30,6 +30,7 @@ namespace API_Server.DTOs
 
     public class ForgetPassDTOs
     {
+        [Required(ErrorMessage = "Không rõ yêu cầu!")]
         public int statusCode { get; set; } //0 là chưa gửi OTP, 1 là đúng OTP, 2 là sai OTP
         [Required(ErrorMessage = "Vui lòng nhập email đã đăng ký!")]
         [RegularExpression(@"^[\w]{4,30}@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "Vui lòng nhập đúng định dạng Email!")]
