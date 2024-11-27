@@ -4,6 +4,7 @@ using API_Server.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.IdentityModel.Tokens;
 using MongoDB.Driver;
 using System.Configuration;
@@ -11,6 +12,8 @@ using System.Net.WebSockets;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using API_Server.SignalRHub;
+
 var builder = WebApplication.CreateBuilder(args);
 
 
@@ -86,6 +89,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 var app = builder.Build();
 
+builder.Services.AddSignalR();
+app.MapHub<VideoHub>("/videohub");
 
 if (app.Environment.IsDevelopment())
 {
