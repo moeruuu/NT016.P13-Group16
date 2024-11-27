@@ -11,11 +11,11 @@ namespace API_Server.Data
         [BsonElement("HostId")]
         public string HostId { get; set; }
 
-        [BsonElement("VideoId")]
-        public string VideoId { get; set; }
+        [BsonElement("VideoStatus")]
+        public List<VideoStatus> VideoStatus { get; set; } = new List<VideoStatus>();
 
         [BsonElement("ParticipantId")]
-        public List<string> ParticipantId { get; set; }
+        public List<string> ParticipantId { get; set; } = new List<string>();
 
         [BsonElement("StartTime")]
         public DateTime StartTime { get; set; } = DateTime.UtcNow;
