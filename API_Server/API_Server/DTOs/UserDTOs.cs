@@ -27,7 +27,11 @@ namespace API_Server.DTOs
         [Required(ErrorMessage = "Vui lòng nhập mật khẩu!")]
         public string Password { get; set; }
     }
-
+    public class LogOutDTOs
+    {
+        [Required(ErrorMessage = "UserID không tồn tại")]
+        public string Id { get; set; }
+    }
     public class ForgetPassDTOs
     {
         [Required(ErrorMessage = "Không rõ yêu cầu!")]
@@ -39,5 +43,7 @@ namespace API_Server.DTOs
         [RegularExpression(@"^.{6,20}$", ErrorMessage = "Mật khẩu phải chứa ít nhất 6 kí tự hoặc tối đa 20 kí tự!")]
         public string Password { get; set; }
     }
+
+
     
 }

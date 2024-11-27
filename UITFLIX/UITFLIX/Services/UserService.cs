@@ -21,10 +21,7 @@ namespace UITFLIX.Services
             Timeout = TimeSpan.FromSeconds(60)
         };
 
-        public UserService()
-        {
-
-        }
+        public UserService() { }
 
         public async Task<string> Register(dynamic ModelRegister)
         {
@@ -65,7 +62,7 @@ namespace UITFLIX.Services
                 using (var form = new MultipartFormDataContent())
                 {
                     if (!string.IsNullOrEmpty(fullname))
-                        form.Add(new StringContent(fullname), "Fullname");
+                        form.Add(new StringContent(fullname), "fullname");
 
                     if (!string.IsNullOrEmpty(bio))
                         form.Add(new StringContent(bio), "bio");
@@ -135,5 +132,21 @@ namespace UITFLIX.Services
             }
         }
 
+        public async Task<string> LogOut(dynamic LogOutModel, string accesstoken)
+        {
+            try
+            {
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accesstoken);
+
+                var json = JsonConvert.SerializeObject(LogOutModel);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await httpClient.PostAsync("/api/User/LogOut", content);
+                return await response.Content.ReadAsStringAsync();
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
     }
 }

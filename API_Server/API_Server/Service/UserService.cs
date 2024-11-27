@@ -92,7 +92,6 @@ namespace API_Server.Service
             return existingUser;
         }
 
-
         public async Task<bool> UpdateInformation(ObjectId userid, string name, IFormFile avatarfile, string bio)
         {
             var filter = Builders<User>.Filter.Eq(u => u.UserId, userid);

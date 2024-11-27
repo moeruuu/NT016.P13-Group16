@@ -38,7 +38,7 @@ namespace API_Server.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest($"Lỗi {ex.Message}");
+                return BadRequest($"Lỗi đăng ký: {ex.Message}");
             }
         }
 
@@ -57,7 +57,7 @@ namespace API_Server.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest($"Lỗi: {ex.Message}");
+                return BadRequest($"Lỗi OTP: {ex.Message}");
             }
         }
 
@@ -101,7 +101,39 @@ namespace API_Server.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest($"Lỗi {ex.Message} \n {ex.StackTrace}");
+                return BadRequest($"Lỗi login: {ex.Message} \n {ex.StackTrace}");
+            }
+        }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPost("LogOut")]
+        public async Task<IActionResult> LogOut([FromBody] LogOutDTOs logOutDTOs)
+        {
+            try
+            {
+                //xóa cookie
+                if (Request.Cookies.ContainsKey("accessToken"))
+                {
+                    var cookieDelete = new CookieOptions
+                    {
+                        HttpOnly = true,
+                        Secure = true,
+                        SameSite = SameSiteMode.Strict,
+                        Expires = DateTime.UtcNow.AddDays(-1) // Set thời gian hết hạn trong quá khứ để xóa cookie
+                    };
+
+                    Response.Cookies.Append("accessToken", "", cookieDelete);
+                }
+
+                //xóa token trong database
+                ObjectId.TryParse(logOutDTOs.Id, out ObjectId UserId);
+                await jwtService.DeleteTokenById(UserId);
+
+                return Ok("Logout thành công!");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Lỗi logout: {ex.Message} \n {ex.StackTrace}");
             }
         }
 
@@ -191,8 +223,6 @@ namespace API_Server.Controllers
             }
 
         }
-
-
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet("GetInformation/me")]
