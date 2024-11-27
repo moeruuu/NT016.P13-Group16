@@ -141,7 +141,29 @@ namespace UITFLIX
             }
         }
 
-        //form New Video
+        //Mở form play video
+        private void OpenNewForm(JToken video)
+        {
+            MessageBox.Show(video.ToString());
+            PVideo videos = new PVideo(video, accesstoken, videoService, Userinfo);
+            videos.ShowDialog();
+        }
+
+        private void ResetClickEvent(Control control)
+        {
+            if (control == null) return;
+
+            FieldInfo f1 = typeof(Control).GetField("EventClick", BindingFlags.Static | BindingFlags.NonPublic);
+            object obj = f1?.GetValue(control);
+            if (obj != null)
+            {
+                PropertyInfo pi = control.GetType().GetProperty("Events", BindingFlags.Instance | BindingFlags.NonPublic);
+                EventHandlerList list = (EventHandlerList)pi?.GetValue(control, null);
+                list?.RemoveHandler(obj, list[obj]);
+            }
+        }
+
+        //tab New Video
         private async void btnnewvideo_Click(object sender, EventArgs e)
         {
             ClearAllVideoControls();
@@ -154,6 +176,8 @@ namespace UITFLIX
             progressupload.Visible = true;
             cbpage.Visible = false;
             information.Visible = false;
+
+            fpnVideos.Controls.Clear();
             fpnVideos.Visible = true;
 
             try
@@ -209,27 +233,7 @@ namespace UITFLIX
 
         }
 
-        //Mở form play video
-        private void OpenNewForm(JToken video)
-        {
-            MessageBox.Show(video.ToString());
-            PVideo videos = new PVideo(video, accesstoken, videoService, Userinfo);
-            videos.ShowDialog();
-        }
-
-        private void ResetClickEvent(Control control)
-        {
-            if (control == null) return;
-
-            FieldInfo f1 = typeof(Control).GetField("EventClick", BindingFlags.Static | BindingFlags.NonPublic);
-            object obj = f1?.GetValue(control);
-            if (obj != null)
-            {
-                PropertyInfo pi = control.GetType().GetProperty("Events", BindingFlags.Instance | BindingFlags.NonPublic);
-                EventHandlerList list = (EventHandlerList)pi?.GetValue(control, null);
-                list?.RemoveHandler(obj, list[obj]);
-            }
-        }
+        //tab Top Video
         private async void btntopvideo_Click(object sender, EventArgs e)
         {
             ClearAllVideoControls();
@@ -242,11 +246,15 @@ namespace UITFLIX
             progressupload.Visible = true;
             cbpage.Visible = false;
             information.Visible = false;
+
+            fpnVideos.Controls.Clear();
+            fpnVideos.Visible = true;
+
             try
             {
-                //Khong cho nguoi dung mo video khi dang load cac video
                 this.Enabled = false;
                 progressupload.Minimum = 0;
+
                 var jarray = await videoService.GetTopVideos(accesstoken);
                 if (jarray != null)
                 {
@@ -257,74 +265,29 @@ namespace UITFLIX
                     progressupload.Maximum = 1;
                 }
                 progressupload.Value = 0;
+
                 if (jarray != null && jarray.Count > 0)
                 {
-                    for (int i = 0; i < jarray.Count; i++)
+                    foreach (JToken video in jarray)
                     {
                         progressupload.Value++;
-                        JToken video = jarray[i];
-                        //MessageBox.Show(video.ToString());
-                        PictureBox currentPicBox = (PictureBox)this.Controls.Find($"picfilm{i + 1}", true).FirstOrDefault();
 
-                        if (currentPicBox != null)
+                        VideoControl item = new VideoControl()
                         {
-                            currentPicBox.Visible = true;
+                            Title = SetLabelText(video["title"].ToString(), 14),
+                            Sub = Math.Round(double.Parse(video["rating"].ToString()), 1).ToString() + " ★",
+                            ImageUrl = video["urlImage"].ToString()
+                        };
 
-                            string imageurl = video["urlImage"].ToString();
-
-                            using (var client = new HttpClient())
-                            {
-                                if (Uri.TryCreate(imageurl, UriKind.Absolute, out var uriResult)
-                                    && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps))
-                                {
-                                    var bytes = await client.GetByteArrayAsync(imageurl);
-                                    using (var ms = new MemoryStream(bytes))
-                                    {
-                                        if (ms != null && ms.CanRead)
-                                        {
-                                            ms.Seek(0, SeekOrigin.Begin);
-
-                                            Image image = Image.FromStream(ms);
-                                            currentPicBox.Image = Image.FromStream(ms);
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    currentPicBox.Image = null;
-                                }
-                            }
-                            ResetClickEvent(currentPicBox);
-                            currentPicBox.Click += (sender, e) => OpenNewForm(video);
-
-                        }
-
-                        Label currentname = (Label)this.Controls.Find($"filmname{i + 1}", true).FirstOrDefault();
-                        if (currentname != null)
-                        {
-                            currentname.Visible = true;
-                            currentname.Text = SetLabelText(video["title"].ToString(), 14);
-                            ResetClickEvent(currentname);
-                            currentname.Click += (sender, e) => OpenNewForm(video);
-
-                        }
-
-                        Label currentevent = (Label)this.Controls.Find($"event{i + 1}", true).FirstOrDefault();
-                        if (currentevent != null)
-                        {
-                            currentevent.Visible = true;
-                            double rate = double.Parse(video["rating"].ToString());
-                            double round = Math.Round(rate, 1);
-
-                            currentevent.Text = "Rating: " + round.ToString("0.0");
-                            //SetLabelText(currentevent.Text, 11);
-                        }
+                        item.Click += (sender, e) => OpenNewForm(video);
+                        fpnVideos.Controls.Add(item);
                     }
                 }
                 else
                 {
                     information.Visible = true;
                 }
+
             }
             catch (Exception ex)
             {
@@ -335,6 +298,7 @@ namespace UITFLIX
 
                 progressupload.Visible = false;
                 this.Enabled = true;
+                this.Cursor = Cursors.Default;
             }
 
         }

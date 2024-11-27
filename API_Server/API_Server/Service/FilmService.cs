@@ -83,6 +83,13 @@ namespace API_Server.Service
             var newvideos = await videos.Find(new BsonDocument()).Sort(Builders<Video>.Sort.Descending(v => v.UploadedDate)).ToListAsync();
             return newvideos;
         }
+
+        public async Task<List<Video>> GetTopVideos()
+        {
+            var topvideos = await videos.Find(new BsonDocument()).Sort(Builders<Video>.Sort.Descending(v => v.Rating)).ToListAsync();
+            return topvideos;
+        } 
+
         public async Task<bool> DeleteVideo(string id)
         {
             var filter = Builders<Video>.Filter.Eq(v => v.VideoId, ObjectId.Parse(id));
@@ -167,10 +174,6 @@ namespace API_Server.Service
 
         }
 
-        public async Task<List<Video>> GetTopVideos()
-        {
-            var topvideos = await videos.Find(new BsonDocument()).Sort(Builders<Video>.Sort.Descending(v => v.Rating)).Limit(6).ToListAsync();
-            return topvideos;
-        }
+
     }
 }
