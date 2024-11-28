@@ -165,6 +165,22 @@ namespace API_Server.Service
             return await videos.Find(filter).FirstOrDefaultAsync();
 
         }
+        public async Task<(Stream Stream, Video Video)> DownloadVideo(string id)
+        {
+            var filter = Builders<Video>.Filter.Eq(v => v.id, id);
+            var video = await videos.Find(filter).FirstOrDefaultAsync();
+
+            if (video == null)
+                throw new FileNotFoundException("Không tìm thấy video.");
+
+            var videoFileId = new ObjectId(video.Url);
+            var stream = new MemoryStream();
+
+            await gridFS.DownloadToStreamAsync(videoFileId, stream);
+            stream.Seek(0, SeekOrigin.Begin);
+
+            return (stream, video);
+        }
 
 
     }
