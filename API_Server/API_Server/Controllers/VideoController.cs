@@ -104,6 +104,47 @@ namespace API_Server.Controllers
             return Ok(videos);
         }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPost("SaveWatchedVideo")]
+        public async Task<IActionResult> SaveWatchedVideo([FromBody] WatchedVideo watchedVideoDetailsModel)
+        {
+            try
+            {
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userId) || !ObjectId.TryParse(userId, out ObjectId UserId))
+                {
+                    return Unauthorized("Không thể xác thực người dùng.");
+                }
+
+                await filmService.SaveWatchedVideo(UserId, watchedVideoDetailsModel);
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest("Không thể lưu video đã xem");
+            }
+        }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet("GetWatchedVideos")]
+        public async Task<IActionResult> GetWatchedVideo()
+        {
+            try
+            {
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userId) || !ObjectId.TryParse(userId, out ObjectId UserId))
+                {
+                    return Unauthorized("Không thể xác thực người dùng.");
+                }
+                var videos = await filmService.GetWatchedVideos(UserId);
+                return Ok(videos);
+            }
+            catch
+            {
+                return BadRequest("Không thể load danh sách videos đã xem");
+            }
+        }
+
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         [HttpGet("GetAllVideos")]
         public async Task<ActionResult<List<Video>>> GetAllVideos()

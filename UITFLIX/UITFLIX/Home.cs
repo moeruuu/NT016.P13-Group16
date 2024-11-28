@@ -77,7 +77,6 @@ namespace UITFLIX
         {
             Username.Text = Userinfo["user"]["fullname"].ToString();
             LoadImageFromUrl(Userinfo["user"]["profilepicture"].ToString());
-
         }
 
         //lấy tên user tối đa =)))
@@ -200,9 +199,10 @@ namespace UITFLIX
         }
 
         //Mở form play video
-        private void OpenNewForm(JToken video)
+        private async void OpenPlayVIdeoForm(JToken video)
         {
             MessageBox.Show(video.ToString());
+            await videoService.SaveWatchedVideo(video["id"].ToString(), accesstoken);
             PVideo videos = new PVideo(video, accesstoken, videoService, Userinfo);
             videos.ShowDialog();
         }
@@ -250,7 +250,7 @@ namespace UITFLIX
                             ImageUrl = video["urlImage"].ToString()
                         };
 
-                        item.Click += (sender, e) => OpenNewForm(video);
+                        item.Click += (sender, e) => OpenPlayVIdeoForm(video);
                         toolTip.SetToolTip(item, video["title"].ToString());
                         fpnVideos.Controls.Add(item);
                     }
@@ -317,7 +317,7 @@ namespace UITFLIX
                             ImageUrl = video["urlImage"].ToString()
                         };
 
-                        item.Click += (sender, e) => OpenNewForm(video);
+                        item.Click += (sender, e) => OpenPlayVIdeoForm(video);
                         toolTip.SetToolTip(item, video["title"].ToString());
                         fpnVideos.Controls.Add(item);
                     }
@@ -339,11 +339,10 @@ namespace UITFLIX
                 this.Enabled = true;
                 this.Cursor = Cursors.Default;
             }
-
         }
 
         //tab Watched Video
-        private void btnwatchedvideo_Click(object sender, EventArgs e)
+        private async void btnwatchedvideo_Click(object sender, EventArgs e)
         {
             ActiveButton(sender, RGBColors.color3);
             VisibleCoop(OtherVisible);
@@ -352,6 +351,61 @@ namespace UITFLIX
             bottompanel.Visible = true;
             waiting.Visible = false;
             information.Visible = false;
+
+            fpnVideos.Controls.Clear();
+            fpnVideos.Visible = true;
+
+            try
+            {
+                this.Enabled = false;
+                progressupload.Minimum = 0;
+
+                var jarray = await videoService.GetWatchedVideos(accesstoken);
+                if (jarray != null)
+                {
+                    progressupload.Maximum = jarray.Count;
+                }
+                else
+                {
+                    progressupload.Maximum = 1;
+                }
+                progressupload.Value = 0;
+
+                if (jarray != null && jarray.Count > 0)
+                {
+                    foreach (JToken video in jarray)
+                    {
+                        progressupload.Value++;
+
+                        VideoControl item = new VideoControl()
+                        {
+                            Title = SetLabelText(video["video"]["title"].ToString(), 14),
+                            Sub = "Watched at: " + video["watchedTime"].ToObject<DateTime>().ToUniversalTime().ToString("dd/MM/yyyy"),
+                            ImageUrl = video["video"]["urlImage"].ToString()
+                        };
+
+                        item.Click += (sender, e) => OpenPlayVIdeoForm(video);
+                        toolTip.SetToolTip(item, video["video"]["title"].ToString());
+                        fpnVideos.Controls.Add(item);
+                    }
+                }
+                else
+                {
+                    information.Visible = true;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex.Message}\n{ex.StackTrace}");
+            }
+            finally
+            {
+
+                progressupload.Visible = false;
+                this.Enabled = true;
+                this.Cursor = Cursors.Default;
+            }
         }
 
         //tab Upload Video
@@ -566,7 +620,7 @@ namespace UITFLIX
                             ImageUrl = video["urlImage"].ToString()
                         };
 
-                        item.Click += (sender, e) => OpenNewForm(video);
+                        item.Click += (sender, e) => OpenPlayVIdeoForm(video);
                         toolTip.SetToolTip(item, video["title"].ToString());
                         fpnVideos.Controls.Add(item);
                     }
