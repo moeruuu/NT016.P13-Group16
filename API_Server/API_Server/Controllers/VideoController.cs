@@ -65,41 +65,23 @@ namespace API_Server.Controllers
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet("Search")]
-        public async Task<ActionResult<List<Video>>> SearchVideos([FromQuery] string title, [FromQuery] int page)
+        public async Task<ActionResult<List<Video>>> SearchVideos([FromQuery] string title)
         {
-            /*var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (string.IsNullOrEmpty(userId) || !ObjectId.TryParse(userId, out ObjectId UserId))
-            {
-                return Unauthorized("Không thể xác thực người dùng.");
-            }*/
             try
             {
-                if (page <= 0)
-                {
-                    return BadRequest("Vui lòng nhập số trang");
-                }
-
                 if (string.IsNullOrWhiteSpace(title))
                 {
-                    return BadRequest("Vui lòng ghi tên phim tìm kiếm.");
+                    return BadRequest("Vui lòng ghi tên video cần tìm kiếm.");
                 }
 
-                var videos = await filmService.SearchVideos(title, page);
+                var videos = await filmService.SearchVideos(title);
                 if (videos == null || videos.Count == 0)
                 {
                     return NotFound("Không tìm thấy video.");
                 }
-                var countvideos = await filmService.CountVideos(title);
-                var totalpage = (long)Math.Ceiling((double)countvideos / 6);
-                return Ok(new
-                {
-                    totalvideos = countvideos,
-                    totalpage = totalpage,
-                    currentpage = page,
-                    videos
-                });
+                return Ok(videos);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -147,7 +129,6 @@ namespace API_Server.Controllers
                 return NotFound(ex.Message);
             }
         }
-
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPatch("Rating")]

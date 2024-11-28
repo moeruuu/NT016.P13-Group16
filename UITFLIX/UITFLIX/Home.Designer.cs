@@ -60,7 +60,6 @@
             information = new Label();
             bottompanel = new Panel();
             logout = new PictureBox();
-            cbpage = new ComboBox();
             waiting = new Label();
             tag = new Label();
             cbtag = new ComboBox();
@@ -259,7 +258,7 @@
             btnSearch.BackgroundImage = Properties.Resources.search;
             btnSearch.BackgroundImageLayout = ImageLayout.Zoom;
             btnSearch.Cursor = Cursors.Hand;
-            btnSearch.Location = new Point(754, 41);
+            btnSearch.Location = new Point(746, 41);
             btnSearch.Margin = new Padding(2);
             btnSearch.Name = "btnSearch";
             btnSearch.Size = new Size(40, 42);
@@ -272,12 +271,15 @@
             searchtb.BackColor = Color.White;
             searchtb.Font = new Font("Cambria", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
             searchtb.ForeColor = Color.CadetBlue;
-            searchtb.Location = new Point(153, 48);
+            searchtb.Location = new Point(137, 44);
             searchtb.Margin = new Padding(2);
+            searchtb.Multiline = false;
             searchtb.Name = "searchtb";
-            searchtb.Size = new Size(582, 35);
+            searchtb.Size = new Size(598, 35);
             searchtb.TabIndex = 1;
             searchtb.Text = "";
+            searchtb.Enter += searchtb_Enter;
+            searchtb.Leave += searchtb_Leave;
             // 
             // logo
             // 
@@ -399,7 +401,7 @@
             progressupload.Location = new Point(5, 7);
             progressupload.Margin = new Padding(2);
             progressupload.Name = "progressupload";
-            progressupload.Size = new Size(512, 23);
+            progressupload.Size = new Size(748, 23);
             progressupload.TabIndex = 28;
             // 
             // tbidroom
@@ -487,21 +489,20 @@
             // information
             // 
             information.AutoSize = true;
-            information.Font = new Font("Cambria", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            information.Font = new Font("Cambria", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
             information.ForeColor = SystemColors.ButtonHighlight;
-            information.Location = new Point(262, 135);
+            information.Location = new Point(490, 338);
             information.Margin = new Padding(2, 0, 2, 0);
             information.Name = "information";
-            information.Size = new Size(248, 23);
+            information.Size = new Size(329, 23);
             information.TabIndex = 35;
-            information.Text = "Hiện tại chưa có video nào...";
+            information.Text = "Hiện tại chưa có video bạn cần tìm...";
             information.Visible = false;
             // 
             // bottompanel
             // 
             bottompanel.BackColor = Color.PowderBlue;
             bottompanel.Controls.Add(logout);
-            bottompanel.Controls.Add(cbpage);
             bottompanel.Controls.Add(waiting);
             bottompanel.Controls.Add(progressupload);
             bottompanel.Controls.Add(chat);
@@ -525,25 +526,12 @@
             logout.TabStop = false;
             logout.Click += logout_Click;
             // 
-            // cbpage
-            // 
-            cbpage.Font = new Font("Cambria", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            cbpage.ForeColor = Color.MidnightBlue;
-            cbpage.FormattingEnabled = true;
-            cbpage.Location = new Point(709, 6);
-            cbpage.Margin = new Padding(2);
-            cbpage.Name = "cbpage";
-            cbpage.Size = new Size(45, 25);
-            cbpage.TabIndex = 30;
-            cbpage.Visible = false;
-            cbpage.SelectedIndexChanged += cbpage_SelectedIndexChanged;
-            // 
             // waiting
             // 
             waiting.AutoSize = true;
             waiting.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             waiting.ForeColor = Color.MidnightBlue;
-            waiting.Location = new Point(5, 12);
+            waiting.Location = new Point(5, 7);
             waiting.Margin = new Padding(2, 0, 2, 0);
             waiting.Name = "waiting";
             waiting.Size = new Size(143, 20);
@@ -581,7 +569,7 @@
             // fpnVideos
             // 
             fpnVideos.AutoScroll = true;
-            fpnVideos.Location = new Point(288, 118);
+            fpnVideos.Location = new Point(288, 119);
             fpnVideos.Name = "fpnVideos";
             fpnVideos.Size = new Size(786, 462);
             fpnVideos.TabIndex = 39;
@@ -664,7 +652,6 @@
         private Label information;
         private Panel bottompanel;
         private Label waiting;
-        private ComboBox cbpage;
         private Label tag;
         private ComboBox cbtag;
         private PictureBox logout;

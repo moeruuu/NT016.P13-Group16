@@ -64,18 +64,10 @@ namespace API_Server.Service
         }
 
 
-        public async Task<List<Video>> SearchVideos(string title, int page)
+        public async Task<List<Video>> SearchVideos(string title)
         {
-            int skip = (page - 1) * 6;
-            var filter = Builders<Video>.Filter.Regex(v => v.Title, new MongoDB.Bson.BsonRegularExpression(title, "i"));
-            return await videos.Find(filter).Skip(skip).Limit(6).ToListAsync();
-        }
-
-        public async Task<long> CountVideos(string title)
-        {
-            var filter = Builders<Video>.Filter.Regex(v => v.Title, new MongoDB.Bson.BsonRegularExpression(title, "i"));
-            //dem video da loc
-            return await videos.CountDocumentsAsync(filter);
+            var searchvideos = await videos.Find(Builders<Video>.Filter.Regex("Title", new MongoDB.Bson.BsonRegularExpression(title, "i"))).ToListAsync();
+            return searchvideos;
         }
 
         public async Task<List<Video>> GetNewestVideos()
@@ -88,7 +80,7 @@ namespace API_Server.Service
         {
             var topvideos = await videos.Find(new BsonDocument()).Sort(Builders<Video>.Sort.Descending(v => v.Rating)).ToListAsync();
             return topvideos;
-        } 
+        }
 
         public async Task<bool> DeleteVideo(string id)
         {

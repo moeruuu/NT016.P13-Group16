@@ -208,36 +208,28 @@ namespace UITFLIX.Services
             }
         }
 
-        public async Task<JObject> SearchVideos(string title, int page, string accesstoken)
+        public async Task<JArray> SearchVideos(string title, string accesstoken)
         {
             try
             {
                 if (string.IsNullOrEmpty(accesstoken))
-                {
                     return null;
-                }
                 if (string.IsNullOrEmpty(title))
-                {
                     return null;
-                }
-                if (page <= 0)
-                {
-                    return null;
-                }
+
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accesstoken);
                 //dung EscapeDataString de ma hoa du lieu chua ki tu dac biet khong bi loi
-                string url = $"api/Video/Search?title={Uri.EscapeDataString(title)}&page={page}";
-                var response = await httpClient.GetAsync(url);
-                //return response;
+                string url = $"api/Video/Search?title={Uri.EscapeDataString(title)}";
+                HttpResponseMessage response = await httpClient.GetAsync(url);
+
                 if (response.IsSuccessStatusCode)
                 {
                     var res = await response.Content.ReadAsStringAsync();
-                    return JObject.Parse(res);
+                    JArray jarray = JArray.Parse(res);
+                    return jarray;
                 }
                 else
-                {
                     return null;
-                }
             }
             catch (Exception ex)
             {
