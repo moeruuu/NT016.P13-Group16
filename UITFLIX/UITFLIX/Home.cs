@@ -542,6 +542,9 @@ namespace UITFLIX
             VisibleUpload(false);
             information.Visible = false;
 
+            fpnVideos.Controls.Clear();
+            fpnVideos.Visible = true;
+
             if (String.IsNullOrEmpty(searchtb.Text) || searchtb.Text == " Search")
             {
                 searchtb.Text = " Search";
