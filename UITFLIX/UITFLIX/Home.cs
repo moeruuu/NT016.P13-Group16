@@ -207,20 +207,6 @@ namespace UITFLIX
             videos.ShowDialog();
         }
 
-        private void ResetClickEvent(Control control)
-        {
-            if (control == null) return;
-
-            FieldInfo f1 = typeof(Control).GetField("EventClick", BindingFlags.Static | BindingFlags.NonPublic);
-            object obj = f1?.GetValue(control);
-            if (obj != null)
-            {
-                PropertyInfo pi = control.GetType().GetProperty("Events", BindingFlags.Instance | BindingFlags.NonPublic);
-                EventHandlerList list = (EventHandlerList)pi?.GetValue(control, null);
-                list?.RemoveHandler(obj, list[obj]);
-            }
-        }
-
         //tab New Video
         private async void btnnewvideo_Click(object sender, EventArgs e)
         {
