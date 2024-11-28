@@ -33,5 +33,7 @@ namespace API_Server.Data
         public int NumRate { get; set; }
         [BsonElement("Tag")]
         public string Tag { get; set; }
+        [BsonElement("Views")]
+        public long Views { get; set; }
     }
 }

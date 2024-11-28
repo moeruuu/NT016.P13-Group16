@@ -13,5 +13,7 @@ namespace UITFLIX.Models
         public double rate { get; set; }
         public string urlvideo { get; set; }
         public string urlimage {  get; set; }
+        public string tag { get; set; }
+        public long views { get; set; }
     }
 }
