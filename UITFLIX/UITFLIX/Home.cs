@@ -22,9 +22,9 @@ namespace UITFLIX
         private bool MainVisible = true;
         private bool OtherVisible = false;
         private OpenFileDialog openFileDialog = new OpenFileDialog();
-        // private string content;
-        private static long size;
-        //List<Video> videos = GetUploadedVideos();
+
+        private static long size;        // private string content;
+
         private JObject Userinfo;
 
         private readonly UserService userService;
@@ -34,9 +34,9 @@ namespace UITFLIX
         private static string selectedimagefile;
 
         private string accesstoken;
-        //private readonly UserService userService;
 
         public static Point? homeLocation;
+
         public Home(JObject in4, VideoService video, string token)
         {
             if (homeLocation.HasValue)
@@ -49,6 +49,12 @@ namespace UITFLIX
                 this.StartPosition = FormStartPosition.CenterScreen;
             }
             InitializeComponent();
+            userService = new UserService();
+            Userinfo = in4;
+            videoService = video;
+            accesstoken = token;
+            setUserinfo();
+
             leftborderBtn = new Panel();
             leftborderBtn.Size = new Size(10, 105);
             leftside.Controls.Add(leftborderBtn);
@@ -56,15 +62,89 @@ namespace UITFLIX
             this.MaximizeBox = false;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             //Mở new videos ngay khi mở form
-            // btnnewvideo_Click(btnnewvideo, EventArgs.Empty);
+            btnnewvideo_Click(btnnewvideo, EventArgs.Empty);
+        }
 
-            userService = new UserService();
-            Userinfo = in4;
-            videoService = video;
-            accesstoken = token;
-            setUserinfo();
-            //userService = user;
-            //MessageBox.Show(accesstoken);
+        //set info user
+        private void setUserinfo()
+        {
+            Username.Text = Userinfo["user"]["fullname"].ToString();
+            LoadImageFromUrl(Userinfo["user"]["profilepicture"].ToString());
+
+        }
+
+        //lấy tên user tối đa =)))
+        private string SetLabelText(string text, int max)
+        {
+            if (text.Length > max)
+            {
+                return text.Substring(0, max) + "...";
+            }
+            else
+            {
+                return text;
+            }
+        }
+
+        //Vẽ avatar
+        public void DrawCircular(PictureBox pictureBox)
+        {
+            int width = pictureBox.Width;
+            int height = pictureBox.Height;
+
+            GraphicsPath circlePath = new GraphicsPath();
+            circlePath.AddEllipse(0, 0, width, height);
+            pictureBox.Region = new Region(circlePath);
+        }
+
+        //Lấy url để setava
+        private async void LoadImageFromUrl(string imageUrl)
+        {
+            using (var client = new HttpClient())
+            {
+                // Kiểm tra URL hợp lệ không
+                if (Uri.TryCreate(imageUrl, UriKind.Absolute, out var uriResult)
+                    && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps))
+                {
+                    var imageBytes = await client.GetByteArrayAsync(imageUrl);
+                    using (var ms = new MemoryStream(imageBytes))
+                    {
+                        if (ms != null && ms.CanRead)
+                        {
+                            ms.Seek(0, SeekOrigin.Begin);
+
+                            Image image = Image.FromStream(ms);
+                            Avatar.Image = Image.FromStream(ms);
+                        }
+                    }
+                }
+                else
+                {
+                    Avatar.Image = LoadDefaultImage();
+                }
+            }
+        }
+
+        private Image LoadDefaultImage()
+        {
+            string defaulturl = "https://i.pinimg.com/736x/62/ee/b3/62eeb37155f0df95a708586aed9165c5.jpg";
+            using (var client = new HttpClient())
+            {
+                var bytes = client.GetByteArrayAsync(defaulturl).Result;
+                using (var ms = new MemoryStream(bytes))
+                {
+                    return Image.FromStream(ms);
+                }
+            }
+        }
+
+        //Mở form Update Info
+        private void Username_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            this.Hide();
+            homeLocation = this.Location;
+            new UpdateInformation(Userinfo, accesstoken).ShowDialog();
+            this.Close();
         }
 
         //Màu thanh tabbar
@@ -167,7 +247,6 @@ namespace UITFLIX
         private async void btnnewvideo_Click(object sender, EventArgs e)
         {
             ClearAllVideoControls();
-            VisibleImageandLabel(false);
             ActiveButton(sender, RGBColors.color1);
             VisibleCoop(OtherVisible);
             VisibleUpload(OtherVisible);
@@ -198,8 +277,8 @@ namespace UITFLIX
 
                 if (jarray != null && jarray.Count > 0)
                 {
-                    foreach(JToken video in jarray)
-                    {    
+                    foreach (JToken video in jarray)
+                    {
                         progressupload.Value++;
 
                         VideoControl item = new VideoControl()
@@ -237,7 +316,6 @@ namespace UITFLIX
         private async void btntopvideo_Click(object sender, EventArgs e)
         {
             ClearAllVideoControls();
-            VisibleImageandLabel(true);
             ActiveButton(sender, RGBColors.color2);
             VisibleCoop(OtherVisible);
             VisibleUpload(OtherVisible);
@@ -303,9 +381,9 @@ namespace UITFLIX
 
         }
 
+        //tab Watched Video
         private void btnwatchedvideo_Click(object sender, EventArgs e)
         {
-            VisibleImageandLabel(false);
             ActiveButton(sender, RGBColors.color3);
             VisibleCoop(OtherVisible);
             VisibleUpload(OtherVisible);
@@ -316,9 +394,9 @@ namespace UITFLIX
             information.Visible = false;
         }
 
+        //tab Upload Video
         private void btnupload_Click(object sender, EventArgs e)
         {
-            VisibleImageandLabel(false);
             information.Visible = false;
             ActiveButton(sender, RGBColors.color4);
             VisibleUpload(MainVisible);
@@ -329,12 +407,14 @@ namespace UITFLIX
             bottompanel.Visible = true;
             progressupload.Visible = false;
             cbpage.Visible = false;
+
             fpnVideos.Visible = false;
+            fpnVideos.Controls.Clear();
         }
 
+        //Tab Coop 
         private void btncoop_Click(object sender, EventArgs e)
         {
-            VisibleImageandLabel(false);
             ActiveButton(sender, RGBColors.color5);
             VisibleCoop(MainVisible);
             VisibleUpload(OtherVisible);
@@ -343,39 +423,12 @@ namespace UITFLIX
             information.Visible = false;
             cbpage.Visible = false;
 
+            fpnVideos.Visible = false;
+            fpnVideos.Controls.Clear();
+
         }
 
-        public void DrawCircular(PictureBox pictureBox)
-        {
-            int width = pictureBox.Width;
-            int height = pictureBox.Height;
-
-            GraphicsPath circlePath = new GraphicsPath();
-            circlePath.AddEllipse(0, 0, width, height);
-            pictureBox.Region = new Region(circlePath);
-        }
-
-        private void VisibleImageandLabel(bool Visable)
-        {
-            //picfilm1.Visible = Visable;
-            //picfilm2.Visible = Visable;
-            //picfilm3.Visible = Visable;
-            //picfilm4.Visible = Visable;
-            //picfilm5.Visible = Visable;
-            //picfilm6.Visible = Visable;
-            //filmname1.Visible = Visable;
-            //filmname2.Visible = Visable;
-            //filmname3.Visible = Visable;
-            //filmname4.Visible = Visable;
-            //filmname5.Visible = Visable;
-            //filmname6.Visible = Visable;
-            //event1.Visible = Visable;
-            //event2.Visible = Visable;
-            //event3.Visible = Visable;
-            //event4.Visible = Visable;
-            //event5.Visible = Visable;
-            //event6.Visible = Visable;
-        }
+        //Hiện các nút Upload
         private void VisibleUpload(bool Visible)
         {
             btnchoosefile.Visible = Visible;
@@ -384,7 +437,6 @@ namespace UITFLIX
             fileimage.Visible = Visible;
             tbdescription.Visible = Visible;
             tbnamefilm.Visible = Visible;
-            //progressupload.Visible = Visible;
             tenphim.Visible = Visible;
             noidung.Visible = Visible;
             btnuploadvideo.Visible = Visible;
@@ -392,6 +444,7 @@ namespace UITFLIX
             tag.Visible = Visible;
         }
 
+        //Hiện các nút Coop
         public void VisibleCoop(bool Visible)
         {
             idroom.Visible = Visible;
@@ -399,13 +452,16 @@ namespace UITFLIX
             btnidroom.Visible = Visible;
             linkcreateroom.Visible = Visible;
         }
+
+        //Hiện thanh search
         public void VisibleTopPanel(bool Visible)
         {
             chat.Visible = Visible;
             toppanel.Visible = Visible;
         }
 
-        //viết cho upload video
+
+        //Upload video
         private void btnchoosefile_Click(object sender, EventArgs e)
         {
             openFileDialog.Filter = "Video Files|*.mp4;*.avi;*.mov;*.wmv;*.mkv;*.flv;*.webm";
@@ -431,68 +487,6 @@ namespace UITFLIX
             fileimage.Text = SetLabelText(getname, 15) + getextensions;
 
         }
-        //Lấy url để setava
-        private async void LoadImageFromUrl(string imageUrl)
-        {
-            using (var client = new HttpClient())
-            {
-                // Kiểm tra URL hợp lệ không
-                if (Uri.TryCreate(imageUrl, UriKind.Absolute, out var uriResult)
-                    && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps))
-                {
-                    var imageBytes = await client.GetByteArrayAsync(imageUrl);
-                    using (var ms = new MemoryStream(imageBytes))
-                    {
-                        if (ms != null && ms.CanRead)
-                        {
-                            ms.Seek(0, SeekOrigin.Begin);
-
-                            Image image = Image.FromStream(ms);
-                            Avatar.Image = Image.FromStream(ms);
-                        }
-                    }
-                }
-                else
-                {
-                    Avatar.Image = LoadDefaultImage();
-                }
-            }
-        }
-
-        private Image LoadDefaultImage()
-        {
-            string defaulturl = "https://i.pinimg.com/736x/62/ee/b3/62eeb37155f0df95a708586aed9165c5.jpg";
-            using (var client = new HttpClient())
-            {
-                var bytes = client.GetByteArrayAsync(defaulturl).Result;
-                using (var ms = new MemoryStream(bytes))
-                {
-                    return Image.FromStream(ms);
-                }
-            }
-        }
-
-        //Hihi lấy tên tối đa =)))
-        private string SetLabelText(string text, int max)
-        {
-            //int max = 15;
-            if (text.Length > max)
-            {
-                return text.Substring(0, max) + "...";
-            }
-            else
-            {
-                return text;
-            }
-        }
-
-        private void setUserinfo()
-        {
-            Username.Text = Userinfo["user"]["fullname"].ToString();
-            LoadImageFromUrl(Userinfo["user"]["profilepicture"].ToString());
-
-        }
-
 
         private async void btnuploadvideo_Click(object sender, EventArgs e)
         {
@@ -538,10 +532,6 @@ namespace UITFLIX
                 }
                 progressupload.Value = 0;
 
-                /* if (await videoService.UploadVideoAsync(selectedvideofile, selectedimagefile, tbnamefilm.Text.Trim(), tbdescription.Text.Trim(), size.ToString()))
-                     MessageBox.Show("Upload video thành công!");
-                 else
-                     MessageBox.Show("Không thể upload video");*/
                 if (await videoService.UploadVideoAsync(selectedvideofile, selectedimagefile, tbnamefilm.Text.Trim(), tbdescription.Text.Trim(), cbtag.SelectedItem.ToString(), Userinfo["access_token"].ToString()))
                 {
 
@@ -561,7 +551,6 @@ namespace UITFLIX
             }
             catch (Exception ex)
             {
-                //this.Enabled = true;
                 MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
             }
             finally
@@ -572,13 +561,13 @@ namespace UITFLIX
 
         }
 
-        private async void pictureBox1_Click(object sender, EventArgs e)
+        //button search
+        private async void btnSearch_Click(object sender, EventArgs e)
         {
             cbpage.Visible = true;
             progressupload.Visible = true;
             DisableButton();
             leftborderBtn.Visible = false;
-            VisibleImageandLabel(false);
             VisibleCoop(false);
             VisibleUpload(false);
             information.Visible = false;
@@ -757,14 +746,7 @@ namespace UITFLIX
             }
         }
 
-        private void Username_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            this.Hide();
-            homeLocation = this.Location;
-            new UpdateInformation(Userinfo, accesstoken).ShowDialog();
-            this.Close();
-        }
-
+        //LogOut
         private async void logout_Click(object sender, EventArgs e)
         {
             var res = MessageBox.Show("Bạn có muốn thoát?", "Thoát", MessageBoxButtons.YesNo);
@@ -787,9 +769,10 @@ namespace UITFLIX
                 {
                     MessageBox.Show(response, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
-                }    
+                }
             }
         }
+
     }
 
 }

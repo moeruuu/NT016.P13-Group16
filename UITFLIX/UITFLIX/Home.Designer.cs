@@ -39,7 +39,7 @@
             Username = new LinkLabel();
             Avatar = new PictureBox();
             toppanel = new Panel();
-            pictureBox1 = new PictureBox();
+            btnSearch = new PictureBox();
             searchtb = new RichTextBox();
             logo = new PictureBox();
             btnchoosefile = new Button();
@@ -69,7 +69,7 @@
             avatarpanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)Avatar).BeginInit();
             toppanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)btnSearch).BeginInit();
             ((System.ComponentModel.ISupportInitialize)logo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)chat).BeginInit();
             bottompanel.SuspendLayout();
@@ -244,7 +244,7 @@
             // toppanel
             // 
             toppanel.BackColor = Color.PowderBlue;
-            toppanel.Controls.Add(pictureBox1);
+            toppanel.Controls.Add(btnSearch);
             toppanel.Controls.Add(searchtb);
             toppanel.Controls.Add(logo);
             toppanel.Dock = DockStyle.Top;
@@ -254,18 +254,18 @@
             toppanel.Size = new Size(834, 120);
             toppanel.TabIndex = 1;
             // 
-            // pictureBox1
+            // btnSearch
             // 
-            pictureBox1.BackgroundImage = Properties.Resources.search;
-            pictureBox1.BackgroundImageLayout = ImageLayout.Zoom;
-            pictureBox1.Cursor = Cursors.Hand;
-            pictureBox1.Location = new Point(754, 41);
-            pictureBox1.Margin = new Padding(2);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(40, 42);
-            pictureBox1.TabIndex = 2;
-            pictureBox1.TabStop = false;
-            pictureBox1.Click += pictureBox1_Click;
+            btnSearch.BackgroundImage = Properties.Resources.search;
+            btnSearch.BackgroundImageLayout = ImageLayout.Zoom;
+            btnSearch.Cursor = Cursors.Hand;
+            btnSearch.Location = new Point(754, 41);
+            btnSearch.Margin = new Padding(2);
+            btnSearch.Name = "btnSearch";
+            btnSearch.Size = new Size(40, 42);
+            btnSearch.TabIndex = 2;
+            btnSearch.TabStop = false;
+            btnSearch.Click += btnSearch_Click;
             // 
             // searchtb
             // 
@@ -621,7 +621,7 @@
             avatarpanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)Avatar).EndInit();
             toppanel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)btnSearch).EndInit();
             ((System.ComponentModel.ISupportInitialize)logo).EndInit();
             ((System.ComponentModel.ISupportInitialize)chat).EndInit();
             bottompanel.ResumeLayout(false);
@@ -644,7 +644,7 @@
         private PictureBox Avatar;
         private PictureBox logo;
         private RichTextBox searchtb;
-        private PictureBox pictureBox1;
+        private PictureBox btnSearch;
         private PictureBox chat;
         private Button btnchoosefile;
         private Label fileimage;
