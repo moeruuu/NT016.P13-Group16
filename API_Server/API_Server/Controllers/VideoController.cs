@@ -200,6 +200,26 @@ namespace API_Server.Controllers
                 return NotFound("Không tìm thấy video");
             }
         }
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet("DownloadVideo/{id}")]
+        public async Task<IActionResult> DownloadVideo(string id)
+        {
+            try
+            {
+                var (stream, video) = await filmService.DownloadVideo(id);
+                var mimeType = filmService.GetMimeType(Path.GetExtension(video.Url));
+                return File(stream, mimeType, $"{video.Title}.mp4");
+
+            }
+            catch (FileNotFoundException)
+            {
+                return NotFound("Không tìm thấy video.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Lỗi trong quá trình tải video.", error = ex.Message });
+            }
+        }
 
     }
 }
