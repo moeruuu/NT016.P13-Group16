@@ -16,6 +16,18 @@ using API_Server.SignalRHub;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
+
+
+
 
 builder.Services.AddSignalR();
 // Add services to the container.
@@ -99,6 +111,7 @@ if (app.Environment.IsDevelopment())
 }
 //app.MapIdentityApi<IdentityUser>();
 
+app.UseCors("AllowAll");
 app.UseHttpsRedirection();
 
 
