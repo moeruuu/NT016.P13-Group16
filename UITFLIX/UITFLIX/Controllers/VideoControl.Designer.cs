@@ -77,8 +77,8 @@
             Controls.Add(pbImage);
             Name = "VideoControl";
             Size = new Size(174, 224);
-            Enter += VideoControl_Enter;
-            Leave += VideoControl_Leave;
+            MouseEnter += VideoControl_MouseEnter;
+            MouseLeave += VideoControl_MouseLeave;
             ((System.ComponentModel.ISupportInitialize)pbImage).EndInit();
             ResumeLayout(false);
             PerformLayout();

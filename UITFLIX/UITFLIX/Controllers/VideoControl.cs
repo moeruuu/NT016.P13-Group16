@@ -89,12 +89,12 @@ namespace UITFLIX.Controllers
             }
         }
 
-        private void VideoControl_Enter(object sender, EventArgs e)
+        private void VideoControl_MouseEnter(object sender, EventArgs e)
         {
-            this.BackColor = Color.White;
+            this.BackColor = Color.PowderBlue;
         }
 
-        private void VideoControl_Leave(object sender, EventArgs e)
+        private void VideoControl_MouseLeave(object sender, EventArgs e)
         {
             this.BackColor = Color.LightBlue;
         }

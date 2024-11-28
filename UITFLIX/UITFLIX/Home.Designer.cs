@@ -580,6 +580,9 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightBlue;
             ClientSize = new Size(1074, 615);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            MaximizeBox = false;
+            MinimizeBox = false;
             ControlBox = false;
             Controls.Add(cbtag);
             Controls.Add(tag);
@@ -607,8 +610,6 @@
             MdiChildrenMinimizedAnchorBottom = false;
             MinimizeBox = false;
             Name = "Home";
-            ShowIcon = false;
-            ShowInTaskbar = false;
             Text = "Home";
             leftside.ResumeLayout(false);
             avatarpanel.ResumeLayout(false);

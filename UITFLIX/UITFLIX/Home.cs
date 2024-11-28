@@ -19,6 +19,7 @@ namespace UITFLIX
     {
         private IconButton currentbtn;
         private Panel leftborderBtn;
+        private ToolTip toolTip;
         private bool MainVisible = true;
         private bool OtherVisible = false;
         private OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -49,6 +50,7 @@ namespace UITFLIX
                 this.StartPosition = FormStartPosition.CenterScreen;
             }
             InitializeComponent();
+            toolTip = new ToolTip();
             userService = new UserService();
             Userinfo = in4;
             videoService = video;
@@ -59,14 +61,13 @@ namespace UITFLIX
             leftborderBtn.Size = new Size(10, 105);
             leftside.Controls.Add(leftborderBtn);
             DrawCircular(Avatar);
+            toolTip.SetToolTip(Username, in4["user"]["fullname"].ToString());
+
             searchtb.Text = " Search";
             searchtb.ForeColor = Color.CadetBlue;
             searchtb.Font = new Font(searchtb.Font, FontStyle.Italic);
             searchtb.Font = new Font(searchtb.Font.FontFamily, 16);
             searchtb.ScrollBars = RichTextBoxScrollBars.None;
-
-            this.MaximizeBox = false;
-            this.FormBorderStyle = FormBorderStyle.FixedSingle;
             //Mở new videos ngay khi mở form
             //btnnewvideo_Click(btnnewvideo, EventArgs.Empty);
         }
@@ -264,6 +265,7 @@ namespace UITFLIX
                         };
 
                         item.Click += (sender, e) => OpenNewForm(video);
+                        toolTip.SetToolTip(item, video["title"].ToString());
                         fpnVideos.Controls.Add(item);
                     }
                 }
@@ -330,6 +332,7 @@ namespace UITFLIX
                         };
 
                         item.Click += (sender, e) => OpenNewForm(video);
+                        toolTip.SetToolTip(item, video["title"].ToString());
                         fpnVideos.Controls.Add(item);
                     }
                 }
@@ -575,6 +578,7 @@ namespace UITFLIX
                         };
 
                         item.Click += (sender, e) => OpenNewForm(video);
+                        toolTip.SetToolTip(item, video["title"].ToString());
                         fpnVideos.Controls.Add(item);
                     }
                 }
