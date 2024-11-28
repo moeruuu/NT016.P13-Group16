@@ -57,6 +57,7 @@ namespace API_Server.Service
                 UploadedDate = DateTime.UtcNow,
                 Size = videosize,
                 Tag = uploadVideo.Tag,
+                Views = 0,
             };
 
             await videos.InsertOneAsync(newvideo);

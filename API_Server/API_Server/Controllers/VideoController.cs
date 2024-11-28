@@ -54,6 +54,7 @@ namespace API_Server.Controllers
                         Size = addedVideo.Size,
                         Rating = addedVideo.Rating,
                         Tag = addedVideo.Tag,
+                        Views = addedVideo.Views,
                     }
                 });
             }
