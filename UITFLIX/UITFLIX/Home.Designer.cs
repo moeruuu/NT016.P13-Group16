@@ -580,6 +580,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightBlue;
             ClientSize = new Size(1074, 615);
+            ControlBox = false;
             Controls.Add(cbtag);
             Controls.Add(tag);
             Controls.Add(bottompanel);
@@ -602,7 +603,12 @@
             Controls.Add(fpnVideos);
             FormBorderStyle = FormBorderStyle.None;
             Margin = new Padding(2);
+            MaximizeBox = false;
+            MdiChildrenMinimizedAnchorBottom = false;
+            MinimizeBox = false;
             Name = "Home";
+            ShowIcon = false;
+            ShowInTaskbar = false;
             Text = "Home";
             leftside.ResumeLayout(false);
             avatarpanel.ResumeLayout(false);

@@ -62,8 +62,9 @@ namespace UITFLIX
             searchtb.Text = " Search";
             searchtb.ForeColor = Color.CadetBlue;
             searchtb.Font = new Font(searchtb.Font, FontStyle.Italic);
-            searchtb.Font = new Font(searchtb.Font.FontFamily, 17);
+            searchtb.Font = new Font(searchtb.Font.FontFamily, 16);
             searchtb.ScrollBars = RichTextBoxScrollBars.None;
+
             this.MaximizeBox = false;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             //Mở new videos ngay khi mở form
@@ -624,7 +625,6 @@ namespace UITFLIX
                 if (response.Contains("thành công!", StringComparison.OrdinalIgnoreCase))
                 {
                     this.Hide();
-                    MessageBox.Show("Đăng xuất thành công!", "Thành công", MessageBoxButtons.OK);
                     LogIn login = new LogIn();
                     login.ShowDialog();
                     this.Close();
