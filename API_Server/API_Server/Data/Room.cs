@@ -6,6 +6,8 @@ namespace API_Server.Data
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
+        public ObjectId Id { get; set; }
+        [BsonElement("RoomId")]
         public string RoomId { get; set; }
 
         [BsonElement("HostId")]

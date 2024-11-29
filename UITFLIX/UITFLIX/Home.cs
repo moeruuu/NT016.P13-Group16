@@ -30,6 +30,7 @@ namespace UITFLIX
 
         private readonly UserService userService;
         private readonly VideoService videoService;
+        private readonly CoopService coopService;
 
         private static string selectedvideofile;
         private static string selectedimagefile;
@@ -52,6 +53,7 @@ namespace UITFLIX
             InitializeComponent();
             toolTip = new ToolTip();
             userService = new UserService();
+            coopService = new CoopService();
             Userinfo = in4;
             videoService = video;
             accesstoken = token;
@@ -377,7 +379,7 @@ namespace UITFLIX
                             ImageUrl = video["video"]["urlImage"].ToString()
                         };
 
-                        JToken reVid = video["video"]; 
+                        JToken reVid = video["video"];
                         item.Click += (sender, e) => OpenPlayVIdeoForm(reVid);
                         toolTip.SetToolTip(item, video["video"]["title"].ToString());
                         fpnVideos.Controls.Add(item);
@@ -678,7 +680,18 @@ namespace UITFLIX
             }
         }
 
-
+        private async void linkcreateroom_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            var roomid = await coopService.CreateRoom(accesstoken);
+            if (roomid != null)
+            {
+                MessageBox.Show("Your room id: " + roomid);
+            }
+            /*else
+            {
+                MessageBox.Show("qqjz");
+            }*/
+        }
     }
 
 }

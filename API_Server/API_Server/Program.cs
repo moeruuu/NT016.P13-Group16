@@ -54,6 +54,7 @@ builder.Services.AddScoped<EmailService>();
 builder.Services.AddScoped<ImgurService>();
 builder.Services.AddScoped<JWTService>();
 builder.Services.AddScoped<MongoDbContext>();
+builder.Services.AddScoped<CoopService>();
 
 
 
@@ -135,4 +136,5 @@ public class MongoDbContext
 
     public IMongoCollection<User> Users => _db.GetCollection<User>("Users");
     public IMongoCollection<Token> Tokens => _db.GetCollection<Token>("JWTToken");
+    public IMongoCollection<Room> Rooms => _db.GetCollection<Room>("Rooms");
 }
