@@ -1,6 +1,6 @@
 ﻿namespace UITFLIX.Controllers
 {
-    partial class VideoControl
+    partial class RelatedVideoControl
     {
         /// <summary> 
         /// Required designer variable.
@@ -30,16 +30,16 @@
         {
             pbImage = new PictureBox();
             lbTitle = new Label();
-            lbSub = new Label();
+            lbRate = new Label();
+            lbUploadDate = new Label();
             ((System.ComponentModel.ISupportInitialize)pbImage).BeginInit();
             SuspendLayout();
             // 
             // pbImage
             // 
-            pbImage.Enabled = false;
-            pbImage.Location = new Point(7, 3);
+            pbImage.Location = new Point(12, 3);
             pbImage.Name = "pbImage";
-            pbImage.Size = new Size(160, 160);
+            pbImage.Size = new Size(120, 120);
             pbImage.TabIndex = 0;
             pbImage.TabStop = false;
             // 
@@ -49,36 +49,49 @@
             lbTitle.Enabled = false;
             lbTitle.Font = new Font("Cambria", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbTitle.ForeColor = Color.MidnightBlue;
-            lbTitle.Location = new Point(61, 166);
+            lbTitle.Location = new Point(141, 14);
             lbTitle.Name = "lbTitle";
             lbTitle.Size = new Size(53, 23);
-            lbTitle.TabIndex = 1;
+            lbTitle.TabIndex = 2;
             lbTitle.Text = "Title";
             // 
-            // lbSub
+            // lbRate
             // 
-            lbSub.AutoSize = true;
-            lbSub.Enabled = false;
-            lbSub.Font = new Font("Cambria", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lbSub.ForeColor = Color.MidnightBlue;
-            lbSub.Location = new Point(71, 196);
-            lbSub.Name = "lbSub";
-            lbSub.Size = new Size(30, 17);
-            lbSub.TabIndex = 2;
-            lbSub.Text = "sub";
+            lbRate.AutoSize = true;
+            lbRate.Enabled = false;
+            lbRate.Font = new Font("Cambria", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lbRate.ForeColor = Color.MidnightBlue;
+            lbRate.Location = new Point(141, 44);
+            lbRate.Name = "lbRate";
+            lbRate.Size = new Size(36, 17);
+            lbRate.TabIndex = 3;
+            lbRate.Text = "Rate";
             // 
-            // VideoControl
+            // lbUploadDate
+            // 
+            lbUploadDate.AutoSize = true;
+            lbUploadDate.Enabled = false;
+            lbUploadDate.Font = new Font("Cambria", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lbUploadDate.ForeColor = Color.MidnightBlue;
+            lbUploadDate.Location = new Point(141, 74);
+            lbUploadDate.Name = "lbUploadDate";
+            lbUploadDate.Size = new Size(74, 17);
+            lbUploadDate.TabIndex = 4;
+            lbUploadDate.Text = "UploaDate";
+            // 
+            // RelatedVideoControl
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.LightBlue;
-            Controls.Add(lbSub);
+            BackColor = Color.White;
+            Controls.Add(lbUploadDate);
+            Controls.Add(lbRate);
             Controls.Add(lbTitle);
             Controls.Add(pbImage);
-            Name = "VideoControl";
-            Size = new Size(174, 224);
-            MouseEnter += VideoControl_MouseEnter;
-            MouseLeave += VideoControl_MouseLeave;
+            Name = "RelatedVideoControl";
+            Size = new Size(340, 127);
+            MouseEnter += RelatedVideoControl_MouseEnter;
+            MouseLeave += RelatedVideoControl_MouseLeave;
             ((System.ComponentModel.ISupportInitialize)pbImage).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -88,6 +101,7 @@
 
         private PictureBox pbImage;
         private Label lbTitle;
-        private Label lbSub;
+        private Label lbRate;
+        private Label lbUploadDate;
     }
 }

@@ -3,14 +3,14 @@ using Newtonsoft.Json.Linq;
 using System.Drawing.Drawing2D;
 using System.Net;
 using System.Windows.Forms;
-using UITFLIX.Models;
-using UITFLIX.Services;
 using Newtonsoft.Json;
 using System.Diagnostics.Eventing.Reader;
 using System.Net.Http.Headers;
 using MongoDB.Bson;
 using System.ComponentModel;
 using System.Reflection;
+using UITFLIX.Models;
+using UITFLIX.Services;
 using UITFLIX.Controllers;
 
 namespace UITFLIX
@@ -82,14 +82,8 @@ namespace UITFLIX
         //lấy tên user tối đa =)))
         private string SetLabelText(string text, int max)
         {
-            if (text.Length > max)
-            {
-                return text.Substring(0, max) + "...";
-            }
-            else
-            {
-                return text;
-            }
+            if (text.Length > max) return text.Substring(0, max) + "...";
+            else return text;
         }
 
         //Vẽ avatar

@@ -14,6 +14,7 @@ using System.Xml.Linq;
 using UITFLIX.Models;
 using UITFLIX.Properties;
 using UITFLIX.Services;
+using UITFLIX.Controllers;
 
 namespace UITFLIX
 {
@@ -25,6 +26,7 @@ namespace UITFLIX
         private readonly JObject Userinfo;
         private bool rated = false;
         private static string temp;
+        private ToolTip toolTip = new ToolTip();
         public PVideo(JToken videonek, string accesstoken, VideoService service, JObject user)
         {
             InitializeComponent();
@@ -43,8 +45,8 @@ namespace UITFLIX
             //tbdes.Text = "DESCRIPTION: \n";
             tbdes.Text += jvideo["description"].ToString();
             setlabelrateandnum(jvideo["rating"].ToString(), jvideo["numRate"].ToString());
-            LoadVideo();
 
+            LoadVideo();
             //axWindowsMediaPlayer.uiMode = "None";
         }
 
@@ -255,20 +257,6 @@ namespace UITFLIX
             }
         }
 
-        private void btnshowvideos_Click(object sender, EventArgs e)
-        {
-            if (btnshowvideos.Text.Contains("On"))
-            {
-                btnshowvideos.Text = "Related videos: Off";
-                flowLayoutPanel.Visible = false;
-            }
-            else
-            {
-                btnshowvideos.Text = "Related videos: On";
-                flowLayoutPanel.Visible = true;
-            }
-        }
-
         private void PVideo_FormClosing_1(object sender, FormClosingEventArgs e)
         {
             try
@@ -284,6 +272,58 @@ namespace UITFLIX
             {
                 MessageBox.Show(ex.Message);
             }
+        } 
+        
+        private void btnShowRelatedVideos_Click(object sender, EventArgs e)
+        {
+            if (btnShowRelatedVideos.ForeColor == Color.MidnightBlue)
+            {
+                btnShowRelatedVideos.ForeColor = Color.Violet;
+                btnShowRelatedVideos.IconColor = Color.Violet;
+                flpRelatedVideos.Visible = false;
+            }
+            else
+            {
+                btnShowRelatedVideos.ForeColor = Color.MidnightBlue;
+                btnShowRelatedVideos.IconColor = Color.MidnightBlue;
+                flpRelatedVideos.Visible = true;
+            }
+        }
+
+        private async void LoadRalatedVideos()
+        {
+            try
+            {
+                var jarray = await videoService.GetNewestVideosAsync(accesstoken);
+                if (jarray != null && jarray.Count > 0)
+                {
+                    foreach (JToken video in jarray)
+                    {
+                        RelatedVideoControl item = new RelatedVideoControl()
+                        {
+                            Title = SetLabelText(video["title"].ToString(), 14),
+                            Rate = Math.Round(double.Parse(video["rating"].ToString()), 1).ToString() + " ★",
+                            UploadDate = video["uploadedDate"].ToObject<DateTime>().ToUniversalTime().ToString("dd/MM/yyyy"),
+                            ImageUrl = video["urlImage"].ToString()
+                        };
+
+                        //item.Click += (sender, e) => OpenPlayVIdeoForm(video); 
+                        toolTip.SetToolTip(item, video["title"].ToString());
+                        flpRelatedVideos.Controls.Add(item);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex.Message}\n{ex.StackTrace}");
+            }
+        }
+
+        private string SetLabelText(string text, int max)
+        {
+            if (text.Length > max) return text.Substring(0, max) + "...";
+            else return text;
         }
     }
 }
