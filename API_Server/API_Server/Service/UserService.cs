@@ -60,7 +60,6 @@ namespace API_Server.Service
                 Email = SignupDTOs.Email,
                 Role = 1,
                 IsOnline = false,
-                WatchedVideosList = new List<WatchedVideo>(),
             };
 
             //Lưu tạm user thui

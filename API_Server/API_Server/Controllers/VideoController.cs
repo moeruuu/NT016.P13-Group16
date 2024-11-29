@@ -106,7 +106,7 @@ namespace API_Server.Controllers
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost("SaveWatchedVideo")]
-        public async Task<IActionResult> SaveWatchedVideo([FromBody] WatchedVideo watchedVideoDetailsModel)
+        public async Task<IActionResult> SaveWatchedVideo([FromBody] WatchedVideoDetail watchedVideoDetailsModel)
         {
             try
             {
@@ -116,8 +116,11 @@ namespace API_Server.Controllers
                     return Unauthorized("Không thể xác thực người dùng.");
                 }
 
-                await filmService.SaveWatchedVideo(UserId, watchedVideoDetailsModel);
-                return Ok();
+                var res = await filmService.SaveWatchedVideo(UserId, watchedVideoDetailsModel);
+                if(res == true)
+                    return Ok();
+                else
+                    return BadRequest("Không thể lưu");
             }
             catch
             {

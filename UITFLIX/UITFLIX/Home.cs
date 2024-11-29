@@ -202,7 +202,6 @@ namespace UITFLIX
         private async void OpenPlayVIdeoForm(JToken video)
         {
             MessageBox.Show(video.ToString());
-            await videoService.SaveWatchedVideo(video["id"].ToString(), accesstoken);
             PVideo videos = new PVideo(video, accesstoken, videoService, Userinfo);
             videos.ShowDialog();
         }

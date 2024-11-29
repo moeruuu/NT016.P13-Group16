@@ -77,6 +77,7 @@ namespace UITFLIX
                     //MessageBox.Show(temp.ToString());
                 }
 
+                await videoService.SaveWatchedVideo(jvideo["id"].ToString(), accesstoken);
             }
             catch (Exception ex)
             {

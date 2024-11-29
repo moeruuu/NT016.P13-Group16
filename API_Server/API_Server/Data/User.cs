@@ -26,8 +26,5 @@ namespace API_Server.Data
         public string Bio {  get; set; }
         [BsonElement("IsOnline")]
         public bool IsOnline { get; set; }
-
-        [BsonElement("VideoId")]
-        public List<WatchedVideo> WatchedVideosList { get; set; } = new List<WatchedVideo>();
     }
 }

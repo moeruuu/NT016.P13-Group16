@@ -211,13 +211,8 @@ namespace UITFLIX.Services
                     return false;
 
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accesstoken);
-
-                var watchedvideo = new
-                {
-                    VideoID = videoid,
-                };
-
-                var json = JsonConvert.SerializeObject(videoid);
+                var payload = new { VideoID = videoid };
+                var json = JsonConvert.SerializeObject(payload);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 string url = $"api/Video/SaveWatchedVideo";
                 HttpResponseMessage response = await httpClient.PostAsync(url, content);

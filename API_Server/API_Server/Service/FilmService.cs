@@ -11,7 +11,7 @@ namespace API_Server.Service
 {
     public class FilmService
     {
-        private readonly IMongoCollection<User> users;
+        private readonly IMongoCollection<WatchedVideo> watchedList;
         private readonly IMongoCollection<Video> videos;
         private readonly User user;
         private readonly ImgurService imgurService;
@@ -23,7 +23,7 @@ namespace API_Server.Service
             var database = client.GetDatabase("DOAN");
             videos = database.GetCollection<Video>("Videos");
             gridFS = new GridFSBucket(database);
-            users = database.GetCollection<User>("WatchedVideos");
+            watchedList = database.GetCollection<WatchedVideo>("WatchedVideos");
 
             this.imgurService = imgurService;
         }
@@ -85,33 +85,65 @@ namespace API_Server.Service
             return topvideos;
         }
 
-        public async Task<bool> SaveWatchedVideo(ObjectId userId, WatchedVideo watchedVideoDetailsModel)
+        public async Task<bool> SaveWatchedVideo(ObjectId userId, WatchedVideoDetail watchedVideoDetailsModel)
         {
-            var filter = Builders<User>.Filter.Eq(u => u.UserId, userId);
-            var update = Builders<User>.Update.Push(u => u.WatchedVideosList, watchedVideoDetailsModel);
-            var result = await users.UpdateOneAsync(filter, update);
-            return result.ModifiedCount > 0;
+            var filter = Builders<WatchedVideo>.Filter.Eq(u => u.UserId, userId);
+            var user = await watchedList.Find(filter).FirstOrDefaultAsync();
+            if (user == null)
+            {
+                // Nếu chưa tồn tại, tạo mới tài liệu
+                var newWatchedList = new WatchedVideo
+                {
+                    IDWatchedVideo = ObjectId.GenerateNewId(),
+                    UserId = userId,
+                    WatchedVideosList = new List<WatchedVideoDetail> { watchedVideoDetailsModel }
+                };
+                await watchedList.InsertOneAsync(newWatchedList);
+                return true;
+            }
+            else
+            {
+                //Tìm xem có video nào trùng không
+                var existingVideo = user.WatchedVideosList.FirstOrDefault(v => v.VideoID == watchedVideoDetailsModel.VideoID);
+
+                if (existingVideo != null)
+                {
+                    // Xóa video cũ
+                    var removeUpdate = Builders<WatchedVideo>.Update.PullFilter(
+                        u => u.WatchedVideosList,
+                        v => v.VideoID == watchedVideoDetailsModel.VideoID
+                    );
+                    await watchedList.UpdateOneAsync(filter, removeUpdate);
+                }
+
+                var addUpdate = Builders<WatchedVideo>.Update.Push(u => u.WatchedVideosList, watchedVideoDetailsModel);
+                var result = await watchedList.UpdateOneAsync(filter, addUpdate);
+                return result.ModifiedCount > 0;
+            }
         }
 
-        public async Task<List<Object>> GetWatchedVideos(ObjectId userId)
+        public async Task<List<object>> GetWatchedVideos(ObjectId userId)
         {
-            var filter = Builders<User>.Filter.Eq(u => u.UserId, userId);
-            // Người dùng không tồn tại hoặc chưa xem video nào
+            var filter = Builders<WatchedVideo>.Filter.Eq(u => u.UserId, userId);
+            var user = await watchedList.Find(filter).FirstOrDefaultAsync();
+
+            // Kiểm tra nếu người dùng không tồn tại hoặc chưa xem video nào
             if (user == null || user.WatchedVideosList == null || !user.WatchedVideosList.Any())
             {
-                return new List<Object>();
+                return new List<object>();
             }
 
-            var watchedvideos = new List<Object>();
-            foreach (var watchedVideo in user.WatchedVideosList)
+            var watchedVideos = new List<object>();
+            //lấy video từ cuối danh sách lên
+            foreach (var watchedVideo in user.WatchedVideosList.AsEnumerable().Reverse())
             {
                 try
                 {
-                    var video = await GetVideoByID(watchedVideo.VideoID.ToString());
-                    watchedvideos.Add(new 
+                    var video = await GetVideoByID(watchedVideo.VideoID);
+                    watchedVideos.Add(new
                     {
-                        video,
-                        watchedVideo.WatchedTime,
+                        Video = video,
+                        WatchedTime = watchedVideo.WatchedTime
                     });
                 }
                 catch (Exception ex)
@@ -120,7 +152,7 @@ namespace API_Server.Service
                 }
             }
 
-            return watchedvideos;
+            return watchedVideos;
         }
 
         public async Task<bool> DeleteVideo(string id)
