@@ -21,7 +21,7 @@ namespace UITFLIX.Controllers
         public string Title
         {
             get { return this.title; }
-            set { this.title = value; lbTitle.Text = value; lbTitle.Location = new Point((this.ClientSize.Width - lbTitle.Width) / 2, 166); }
+            set { this.title = value; lbTitle.Text = value; }
         }
         private string rate;
         public string Rate
@@ -35,6 +35,13 @@ namespace UITFLIX.Controllers
         {
             get { return this.uploadDate; }
             set { this.uploadDate = value; lbUploadDate.Text = value; }
+        }
+
+        private string tag;
+        public string Tag
+        {
+            get { return this.tag; }
+            set { this.tag = value; lbTag.Text = value; }
         }
 
         private string imageUrl;

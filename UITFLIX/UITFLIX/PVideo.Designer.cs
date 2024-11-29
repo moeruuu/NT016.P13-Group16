@@ -87,12 +87,12 @@
             btnShowRelatedVideos.IconChar = FontAwesome.Sharp.IconChar.Film;
             btnShowRelatedVideos.IconColor = Color.MidnightBlue;
             btnShowRelatedVideos.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            btnShowRelatedVideos.IconSize = 35;
+            btnShowRelatedVideos.IconSize = 25;
             btnShowRelatedVideos.ImageAlign = ContentAlignment.TopLeft;
-            btnShowRelatedVideos.Location = new Point(817, 2);
+            btnShowRelatedVideos.Location = new Point(823, 2);
             btnShowRelatedVideos.Margin = new Padding(2);
             btnShowRelatedVideos.Name = "btnShowRelatedVideos";
-            btnShowRelatedVideos.Size = new Size(178, 27);
+            btnShowRelatedVideos.Size = new Size(158, 27);
             btnShowRelatedVideos.TabIndex = 5;
             btnShowRelatedVideos.Text = "Related videos";
             btnShowRelatedVideos.TextImageRelation = TextImageRelation.ImageBeforeText;
@@ -116,7 +116,7 @@
             iconPictureBox1.IconColor = Color.MidnightBlue;
             iconPictureBox1.IconFont = FontAwesome.Sharp.IconFont.Auto;
             iconPictureBox1.IconSize = 24;
-            iconPictureBox1.Location = new Point(659, 6);
+            iconPictureBox1.Location = new Point(650, 5);
             iconPictureBox1.Margin = new Padding(2);
             iconPictureBox1.Name = "iconPictureBox1";
             iconPictureBox1.Size = new Size(24, 24);
@@ -129,7 +129,7 @@
             linkLabel1.AutoSize = true;
             linkLabel1.Font = new Font("Cambria", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             linkLabel1.LinkColor = Color.MidnightBlue;
-            linkLabel1.Location = new Point(688, 7);
+            linkLabel1.Location = new Point(677, 6);
             linkLabel1.Margin = new Padding(2, 0, 2, 0);
             linkLabel1.Name = "linkLabel1";
             linkLabel1.Size = new Size(136, 20);
@@ -319,6 +319,7 @@
             // 
             // flpRelatedVideos
             // 
+            flpRelatedVideos.AutoScroll = true;
             flpRelatedVideos.BorderStyle = BorderStyle.FixedSingle;
             flpRelatedVideos.Dock = DockStyle.Right;
             flpRelatedVideos.Location = new Point(631, 31);

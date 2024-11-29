@@ -377,7 +377,8 @@ namespace UITFLIX
                             ImageUrl = video["video"]["urlImage"].ToString()
                         };
 
-                        item.Click += (sender, e) => OpenPlayVIdeoForm(video);
+                        JToken reVid = video["video"]; 
+                        item.Click += (sender, e) => OpenPlayVIdeoForm(reVid);
                         toolTip.SetToolTip(item, video["video"]["title"].ToString());
                         fpnVideos.Controls.Add(item);
                     }

@@ -47,6 +47,7 @@ namespace UITFLIX
             setlabelrateandnum(jvideo["rating"].ToString(), jvideo["numRate"].ToString());
 
             LoadVideo();
+            LoadRalatedVideos();
             //axWindowsMediaPlayer.uiMode = "None";
         }
 
@@ -280,18 +281,20 @@ namespace UITFLIX
             {
                 btnShowRelatedVideos.ForeColor = Color.Violet;
                 btnShowRelatedVideos.IconColor = Color.Violet;
-                flpRelatedVideos.Visible = false;
+                flpRelatedVideos.Visible = true;
             }
             else
             {
                 btnShowRelatedVideos.ForeColor = Color.MidnightBlue;
                 btnShowRelatedVideos.IconColor = Color.MidnightBlue;
-                flpRelatedVideos.Visible = true;
+                flpRelatedVideos.Visible = false;
             }
         }
 
         private async void LoadRalatedVideos()
         {
+            flpRelatedVideos.Controls.Clear();
+
             try
             {
                 var jarray = await videoService.GetNewestVideosAsync(accesstoken);
@@ -304,6 +307,7 @@ namespace UITFLIX
                             Title = SetLabelText(video["title"].ToString(), 14),
                             Rate = Math.Round(double.Parse(video["rating"].ToString()), 1).ToString() + " ★",
                             UploadDate = video["uploadedDate"].ToObject<DateTime>().ToUniversalTime().ToString("dd/MM/yyyy"),
+                            Tag = $"[{video["tag"].ToString()}]",
                             ImageUrl = video["urlImage"].ToString()
                         };
 
