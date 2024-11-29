@@ -297,11 +297,13 @@ namespace UITFLIX
 
             try
             {
-                var jarray = await videoService.GetNewestVideosAsync(accesstoken);
+                var jarray = await videoService.GetRelatedVideos(jvideo["tag"].ToString(), accesstoken);
                 if (jarray != null && jarray.Count > 0)
                 {
                     foreach (JToken video in jarray)
                     {
+                        if (video["id"].ToString() == jvideo["id"].ToString()) continue;
+
                         RelatedVideoControl item = new RelatedVideoControl()
                         {
                             Title = SetLabelText(video["title"].ToString(), 14),

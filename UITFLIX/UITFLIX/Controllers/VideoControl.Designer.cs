@@ -40,6 +40,7 @@
             pbImage.Location = new Point(7, 3);
             pbImage.Name = "pbImage";
             pbImage.Size = new Size(160, 160);
+            pbImage.SizeMode = PictureBoxSizeMode.StretchImage;
             pbImage.TabIndex = 0;
             pbImage.TabStop = false;
             // 

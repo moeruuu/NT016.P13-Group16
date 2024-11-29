@@ -38,9 +38,11 @@
             // 
             // pbImage
             // 
+            pbImage.Enabled = false;
             pbImage.Location = new Point(12, 3);
             pbImage.Name = "pbImage";
             pbImage.Size = new Size(120, 120);
+            pbImage.SizeMode = PictureBoxSizeMode.StretchImage;
             pbImage.TabIndex = 0;
             pbImage.TabStop = false;
             // 
@@ -102,6 +104,7 @@
             Controls.Add(lbRate);
             Controls.Add(lbTitle);
             Controls.Add(pbImage);
+            Cursor = Cursors.Hand;
             Name = "RelatedVideoControl";
             Size = new Size(326, 127);
             MouseEnter += RelatedVideoControl_MouseEnter;

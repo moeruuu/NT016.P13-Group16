@@ -120,9 +120,7 @@ namespace UITFLIX.Services
         {
             try
             {
-                if (string.IsNullOrEmpty(accesstoken))
-                    return null;
-                if (string.IsNullOrEmpty(title))
+                if (string.IsNullOrEmpty(title) || string.IsNullOrEmpty(accesstoken))
                     return null;
 
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accesstoken);
@@ -255,6 +253,37 @@ namespace UITFLIX.Services
             }
             catch (Exception ex)
             {
+                return null;
+            }
+        }
+
+        public async Task<JArray> GetRelatedVideos(string tag, string accesstoken)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(tag) || string.IsNullOrEmpty(accesstoken))
+                {
+                    return null;
+                }
+
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accesstoken);
+                string url = $"api/Video/GetRelatedVideos/tag={tag}";
+                HttpResponseMessage response = await httpClient.GetAsync(url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var res = await response.Content.ReadAsStringAsync();
+                    JArray jarray = JArray.Parse(res);
+                    return jarray;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
                 return null;
             }
         }

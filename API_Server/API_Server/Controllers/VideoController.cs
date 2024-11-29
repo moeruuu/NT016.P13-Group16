@@ -176,6 +176,14 @@ namespace API_Server.Controllers
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet("GetRelatedVideos/{tag}")]
+        public async Task<IActionResult> GetRelatedVideos([FromRoute] string tag)
+        {
+            var videos = await filmService.GetRelatedVideos(tag);
+            return Ok(videos);
+        }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPatch("Rating")]
         public async Task<IActionResult> Rating([FromBody] Rating rating)
         {

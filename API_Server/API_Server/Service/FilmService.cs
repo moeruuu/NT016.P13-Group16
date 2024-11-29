@@ -155,6 +155,17 @@ namespace API_Server.Service
             return watchedVideos;
         }
 
+        public async Task<List<Video>> GetRelatedVideos(string tag)
+        {
+            var sort = Builders<Video>.Sort
+                .Descending(v => v.Rating)
+                .Descending(v => v.UploadedDate);
+
+            var relatedVideosByTag = await videos.Find(Builders<Video>.Filter.Eq(v => v.Tag, tag)).Sort(sort).ToListAsync();
+            var relatedVideosWithoutTag = await videos.Find(Builders<Video>.Filter.Ne(v => v.Tag, tag)).Sort(sort).ToListAsync();
+            return relatedVideosByTag.Concat(relatedVideosWithoutTag).ToList();
+        }
+
         public async Task<bool> DeleteVideo(string id)
         {
             var filter = Builders<Video>.Filter.Eq(v => v.VideoId, ObjectId.Parse(id));
