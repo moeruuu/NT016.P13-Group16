@@ -96,6 +96,7 @@ namespace API_Server.Controllers
                         Email = userLogin.Email,
                         Profilepicture = userLogin.Profilepicture,
                         Bio = userLogin.Bio,
+                        Role = userLogin.Role,
                     }
                 });
             }

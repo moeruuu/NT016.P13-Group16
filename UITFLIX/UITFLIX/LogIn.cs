@@ -116,13 +116,17 @@ namespace UITFLIX
                 if (response.IsSuccessStatusCode)
                 {
                     this.Hide();
-                    //Home home = new Home(res);
                     var accesstoken = res["access_token"].ToString();
-                    // MessageBox.Show(accesstoken);
                     var videoService = new VideoService();
-                    //var user = new UserService();
-                    Home home = new Home(res, videoService, accesstoken);
-                    home.ShowDialog();
+                    if (res["user"]["role"].ToString() == "1")
+                    {
+                        Home home = new Home(res, videoService, accesstoken);
+                        home.ShowDialog();
+                    }
+                    else
+                    {
+                        new Admin(res, accesstoken).ShowDialog();
+                    }
                     this.Close();
                 }
                 else

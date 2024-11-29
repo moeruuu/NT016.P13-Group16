@@ -28,17 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Admin));
             tab1 = new TabControl();
             tabEmail = new TabPage();
-            lblName = new Label();
             btnReload = new Button();
-            dgvEmail = new DataGridView();
-            Column2 = new DataGridViewTextBoxColumn();
-            Column3 = new DataGridViewTextBoxColumn();
-            Column4 = new DataGridViewTextBoxColumn();
             tabUser = new TabPage();
-            label1 = new Label();
-            button1 = new Button();
+            btnDeleteUser = new Button();
             dgvUsers = new DataGridView();
             ColID = new DataGridViewTextBoxColumn();
             ColFullname = new DataGridViewTextBoxColumn();
@@ -46,20 +41,28 @@
             ColEmail = new DataGridViewTextBoxColumn();
             ColIsonline = new DataGridViewTextBoxColumn();
             tabVideo = new TabPage();
-            label2 = new Label();
-            button2 = new Button();
+            btnDeleteVideo = new Button();
             dgvVideo = new DataGridView();
             CoIVideoID = new DataGridViewTextBoxColumn();
             ColTag = new DataGridViewTextBoxColumn();
             ColVideoName = new DataGridViewTextBoxColumn();
             ColDate = new DataGridViewTextBoxColumn();
+            lblName = new Label();
+            logout = new PictureBox();
+            Column4 = new DataGridViewTextBoxColumn();
+            Column3 = new DataGridViewTextBoxColumn();
+            Column2 = new DataGridViewTextBoxColumn();
+            dgvEmail = new DataGridView();
+            panel1 = new Panel();
             tab1.SuspendLayout();
             tabEmail.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvEmail).BeginInit();
             tabUser.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvUsers).BeginInit();
             tabVideo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvVideo).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)logout).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvEmail).BeginInit();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // tab1
@@ -67,119 +70,62 @@
             tab1.Controls.Add(tabEmail);
             tab1.Controls.Add(tabUser);
             tab1.Controls.Add(tabVideo);
-            tab1.Dock = DockStyle.Fill;
+            tab1.Dock = DockStyle.Top;
             tab1.Location = new Point(0, 0);
             tab1.Name = "tab1";
             tab1.SelectedIndex = 0;
-            tab1.Size = new Size(1188, 751);
+            tab1.Size = new Size(1188, 767);
             tab1.TabIndex = 1;
             tab1.Tag = "";
             // 
             // tabEmail
             // 
             tabEmail.BackColor = Color.Azure;
-            tabEmail.Controls.Add(lblName);
             tabEmail.Controls.Add(btnReload);
             tabEmail.Controls.Add(dgvEmail);
             tabEmail.Location = new Point(4, 34);
             tabEmail.Name = "tabEmail";
             tabEmail.Padding = new Padding(3);
-            tabEmail.Size = new Size(1180, 713);
+            tabEmail.Size = new Size(1180, 729);
             tabEmail.TabIndex = 0;
             tabEmail.Text = "Emails";
             // 
-            // lblName
-            // 
-            lblName.AutoSize = true;
-            lblName.Font = new Font("Segoe UI", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-            lblName.ForeColor = Color.DarkCyan;
-            lblName.Location = new Point(3, 3);
-            lblName.Name = "lblName";
-            lblName.Size = new Size(112, 32);
-            lblName.TabIndex = 4;
-            lblName.Text = "Welcom,";
-            // 
             // btnReload
             // 
-            btnReload.BackColor = SystemColors.ButtonFace;
-            btnReload.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnReload.ForeColor = SystemColors.ActiveCaptionText;
-            btnReload.Location = new Point(1029, 18);
+            btnReload.BackColor = SystemColors.ButtonHighlight;
+            btnReload.Font = new Font("Cambria", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnReload.ForeColor = Color.MidnightBlue;
+            btnReload.Location = new Point(1048, 6);
             btnReload.Name = "btnReload";
-            btnReload.Size = new Size(124, 46);
+            btnReload.Size = new Size(124, 38);
             btnReload.TabIndex = 3;
             btnReload.Text = "ReLoad";
             btnReload.UseVisualStyleBackColor = false;
-            // 
-            // dgvEmail
-            // 
-            dgvEmail.BackgroundColor = SystemColors.ButtonHighlight;
-            dgvEmail.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvEmail.Columns.AddRange(new DataGridViewColumn[] { Column2, Column3, Column4 });
-            dgvEmail.Dock = DockStyle.Bottom;
-            dgvEmail.GridColor = Color.White;
-            dgvEmail.Location = new Point(3, 98);
-            dgvEmail.Name = "dgvEmail";
-            dgvEmail.RowHeadersWidth = 62;
-            dgvEmail.Size = new Size(1174, 612);
-            dgvEmail.TabIndex = 1;
-            // 
-            // Column2
-            // 
-            Column2.HeaderText = "From";
-            Column2.MinimumWidth = 8;
-            Column2.Name = "Column2";
-            Column2.Width = 300;
-            // 
-            // Column3
-            // 
-            Column3.HeaderText = "Subject";
-            Column3.MinimumWidth = 8;
-            Column3.Name = "Column3";
-            Column3.Width = 400;
-            // 
-            // Column4
-            // 
-            Column4.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            Column4.HeaderText = "DateTime";
-            Column4.MinimumWidth = 8;
-            Column4.Name = "Column4";
+            btnReload.Click += btnReload_Click;
             // 
             // tabUser
             // 
             tabUser.BackColor = Color.Azure;
-            tabUser.Controls.Add(label1);
-            tabUser.Controls.Add(button1);
+            tabUser.Controls.Add(btnDeleteUser);
             tabUser.Controls.Add(dgvUsers);
             tabUser.Location = new Point(4, 34);
             tabUser.Name = "tabUser";
             tabUser.Padding = new Padding(3);
-            tabUser.Size = new Size(1180, 713);
+            tabUser.Size = new Size(1180, 729);
             tabUser.TabIndex = 1;
             tabUser.Text = "Users ";
             // 
-            // label1
+            // btnDeleteUser
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-            label1.ForeColor = Color.DarkCyan;
-            label1.Location = new Point(3, 3);
-            label1.Name = "label1";
-            label1.Size = new Size(112, 32);
-            label1.TabIndex = 5;
-            label1.Text = "Welcom,";
-            // 
-            // button1
-            // 
-            button1.BackColor = SystemColors.ButtonFace;
-            button1.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button1.ForeColor = SystemColors.ActiveCaptionText;
-            button1.Location = new Point(1029, 28);
-            button1.Name = "button1";
-            button1.Size = new Size(124, 46);
-            button1.TabIndex = 4;
-            button1.Text = "Delete";
-            button1.UseVisualStyleBackColor = false;
+            btnDeleteUser.BackColor = SystemColors.ButtonHighlight;
+            btnDeleteUser.Font = new Font("Cambria", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnDeleteUser.ForeColor = Color.MidnightBlue;
+            btnDeleteUser.Location = new Point(1048, 6);
+            btnDeleteUser.Name = "btnDeleteUser";
+            btnDeleteUser.Size = new Size(124, 38);
+            btnDeleteUser.TabIndex = 4;
+            btnDeleteUser.Text = "Delete";
+            btnDeleteUser.UseVisualStyleBackColor = false;
             // 
             // dgvUsers
             // 
@@ -188,10 +134,10 @@
             dgvUsers.Columns.AddRange(new DataGridViewColumn[] { ColID, ColFullname, ColUsername, ColEmail, ColIsonline });
             dgvUsers.Dock = DockStyle.Bottom;
             dgvUsers.GridColor = Color.White;
-            dgvUsers.Location = new Point(3, 98);
+            dgvUsers.Location = new Point(3, 67);
             dgvUsers.Name = "dgvUsers";
             dgvUsers.RowHeadersWidth = 62;
-            dgvUsers.Size = new Size(1174, 612);
+            dgvUsers.Size = new Size(1174, 659);
             dgvUsers.TabIndex = 2;
             // 
             // ColID
@@ -232,38 +178,26 @@
             // tabVideo
             // 
             tabVideo.BackColor = Color.Azure;
-            tabVideo.Controls.Add(label2);
-            tabVideo.Controls.Add(button2);
+            tabVideo.Controls.Add(btnDeleteVideo);
             tabVideo.Controls.Add(dgvVideo);
             tabVideo.Location = new Point(4, 34);
             tabVideo.Name = "tabVideo";
             tabVideo.Padding = new Padding(3);
-            tabVideo.Size = new Size(1180, 713);
+            tabVideo.Size = new Size(1180, 729);
             tabVideo.TabIndex = 2;
             tabVideo.Text = "Videos";
             // 
-            // label2
+            // btnDeleteVideo
             // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-            label2.ForeColor = Color.DarkCyan;
-            label2.Location = new Point(3, 3);
-            label2.Name = "label2";
-            label2.Size = new Size(112, 32);
-            label2.TabIndex = 6;
-            label2.Text = "Welcom,";
-            // 
-            // button2
-            // 
-            button2.BackColor = SystemColors.ButtonFace;
-            button2.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button2.ForeColor = SystemColors.ActiveCaptionText;
-            button2.Location = new Point(1027, 21);
-            button2.Name = "button2";
-            button2.Size = new Size(124, 46);
-            button2.TabIndex = 5;
-            button2.Text = "Delete";
-            button2.UseVisualStyleBackColor = false;
+            btnDeleteVideo.BackColor = SystemColors.ButtonHighlight;
+            btnDeleteVideo.Font = new Font("Cambria", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnDeleteVideo.ForeColor = Color.MidnightBlue;
+            btnDeleteVideo.Location = new Point(1048, 6);
+            btnDeleteVideo.Name = "btnDeleteVideo";
+            btnDeleteVideo.Size = new Size(124, 38);
+            btnDeleteVideo.TabIndex = 5;
+            btnDeleteVideo.Text = "Delete";
+            btnDeleteVideo.UseVisualStyleBackColor = false;
             // 
             // dgvVideo
             // 
@@ -272,10 +206,10 @@
             dgvVideo.Columns.AddRange(new DataGridViewColumn[] { CoIVideoID, ColTag, ColVideoName, ColDate });
             dgvVideo.Dock = DockStyle.Bottom;
             dgvVideo.GridColor = Color.White;
-            dgvVideo.Location = new Point(3, 98);
+            dgvVideo.Location = new Point(3, 67);
             dgvVideo.Name = "dgvVideo";
             dgvVideo.RowHeadersWidth = 62;
-            dgvVideo.Size = new Size(1174, 612);
+            dgvVideo.Size = new Size(1174, 659);
             dgvVideo.TabIndex = 3;
             // 
             // CoIVideoID
@@ -306,26 +240,95 @@
             ColDate.MinimumWidth = 8;
             ColDate.Name = "ColDate";
             // 
+            // lblName
+            // 
+            lblName.AutoSize = true;
+            lblName.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblName.ForeColor = Color.MidnightBlue;
+            lblName.Location = new Point(12, 8);
+            lblName.Name = "lblName";
+            lblName.Size = new Size(97, 23);
+            lblName.TabIndex = 2;
+            lblName.Text = "Welcome, ";
+            // 
+            // logout
+            // 
+            logout.Image = (Image)resources.GetObject("logout.Image");
+            logout.Location = new Point(1151, 7);
+            logout.Name = "logout";
+            logout.Size = new Size(30, 30);
+            logout.SizeMode = PictureBoxSizeMode.StretchImage;
+            logout.TabIndex = 3;
+            logout.TabStop = false;
+            logout.Click += logout_Click;
+            // 
+            // Column4
+            // 
+            Column4.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            Column4.HeaderText = "DateTime";
+            Column4.MinimumWidth = 8;
+            Column4.Name = "Column4";
+            // 
+            // Column3
+            // 
+            Column3.HeaderText = "Subject";
+            Column3.MinimumWidth = 8;
+            Column3.Name = "Column3";
+            Column3.Width = 400;
+            // 
+            // Column2
+            // 
+            Column2.HeaderText = "From";
+            Column2.MinimumWidth = 8;
+            Column2.Name = "Column2";
+            Column2.Width = 300;
+            // 
+            // dgvEmail
+            // 
+            dgvEmail.BackgroundColor = SystemColors.ButtonHighlight;
+            dgvEmail.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvEmail.Columns.AddRange(new DataGridViewColumn[] { Column2, Column3, Column4 });
+            dgvEmail.Dock = DockStyle.Bottom;
+            dgvEmail.GridColor = Color.White;
+            dgvEmail.Location = new Point(3, 67);
+            dgvEmail.Name = "dgvEmail";
+            dgvEmail.RowHeadersWidth = 62;
+            dgvEmail.Size = new Size(1174, 659);
+            dgvEmail.TabIndex = 1;
+            // 
+            // panel1
+            // 
+            panel1.BackColor = Color.LightBlue;
+            panel1.Controls.Add(lblName);
+            panel1.Controls.Add(logout);
+            panel1.Dock = DockStyle.Bottom;
+            panel1.Location = new Point(0, 766);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(1188, 40);
+            panel1.TabIndex = 4;
+            // 
             // Admin
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Azure;
-            ClientSize = new Size(1188, 751);
+            ClientSize = new Size(1188, 806);
+            Controls.Add(panel1);
             Controls.Add(tab1);
+            Cursor = Cursors.Hand;
             Name = "Admin";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Admin";
             tab1.ResumeLayout(false);
             tabEmail.ResumeLayout(false);
-            tabEmail.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvEmail).EndInit();
             tabUser.ResumeLayout(false);
-            tabUser.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvUsers).EndInit();
             tabVideo.ResumeLayout(false);
-            tabVideo.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvVideo).EndInit();
+            ((System.ComponentModel.ISupportInitialize)logout).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvEmail).EndInit();
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -334,28 +337,28 @@
         private TabPage tabEmail;
         private TabPage tabUser;
         private TabPage tabVideo;
-        private DataGridView dgvEmail;
         private Button btnSend;
         private Button btnLogout;
         private Button btnReload;
         private DataGridView dgvUsers;
-        private DataGridViewTextBoxColumn Column2;
-        private DataGridViewTextBoxColumn Column3;
-        private DataGridViewTextBoxColumn Column4;
-        private Button button1;
+        private Button btnDeleteUser;
         private DataGridViewTextBoxColumn ColID;
         private DataGridViewTextBoxColumn ColFullname;
         private DataGridViewTextBoxColumn ColUsername;
         private DataGridViewTextBoxColumn ColEmail;
         private DataGridViewTextBoxColumn ColIsonline;
-        private Button button2;
+        private Button btnDeleteVideo;
         private DataGridView dgvVideo;
-        private Label lblName;
-        private Label label1;
-        private Label label2;
         private DataGridViewTextBoxColumn CoIVideoID;
         private DataGridViewTextBoxColumn ColTag;
         private DataGridViewTextBoxColumn ColVideoName;
         private DataGridViewTextBoxColumn ColDate;
+        private Label lblName;
+        private PictureBox logout;
+        private DataGridView dgvEmail;
+        private DataGridViewTextBoxColumn Column2;
+        private DataGridViewTextBoxColumn Column3;
+        private DataGridViewTextBoxColumn Column4;
+        private Panel panel1;
     }
 }

@@ -161,8 +161,8 @@ namespace API_Server.Service
                 .Descending(v => v.Rating)
                 .Descending(v => v.UploadedDate);
 
-            var relatedVideosByTag = await videos.Find(Builders<Video>.Filter.Eq(v => v.Tag, tag)).Sort(sort).ToListAsync();
-            var relatedVideosWithoutTag = await videos.Find(Builders<Video>.Filter.Ne(v => v.Tag, tag)).Sort(sort).ToListAsync();
+            var relatedVideosByTag = await videos.Find(Builders<Video>.Filter.Eq(v => v.Tag, tag)).Sort(sort).Limit(8).ToListAsync();
+            var relatedVideosWithoutTag = await videos.Find(Builders<Video>.Filter.Ne(v => v.Tag, tag)).Sort(sort).Limit(8).ToListAsync();
             return relatedVideosByTag.Concat(relatedVideosWithoutTag).ToList();
         }
 

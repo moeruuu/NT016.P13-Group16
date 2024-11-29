@@ -66,7 +66,7 @@ namespace UITFLIX
             searchtb.Text = " Search";
             searchtb.ForeColor = Color.CadetBlue;
             searchtb.Font = new Font(searchtb.Font, FontStyle.Italic);
-            searchtb.Font = new Font(searchtb.Font.FontFamily, 16);
+            searchtb.Font = new Font(searchtb.Font.FontFamily, 14);
             searchtb.ScrollBars = RichTextBoxScrollBars.None;
             //Mở new videos ngay khi mở form
             //btnnewvideo_Click(btnnewvideo, EventArgs.Empty);
@@ -195,7 +195,7 @@ namespace UITFLIX
         //Mở form play video
         private async void OpenPlayVIdeoForm(JToken video)
         {
-            MessageBox.Show(video.ToString());
+            //MessageBox.Show(video.ToString());
             PVideo videos = new PVideo(video, accesstoken, videoService, Userinfo);
             videos.ShowDialog();
         }
