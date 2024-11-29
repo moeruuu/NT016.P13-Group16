@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
+using System.Security.Cryptography.Xml;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR.Client;
@@ -17,6 +18,15 @@ namespace UITFLIX.Services
             BaseAddress = new Uri(@"https://localhost:7292/"),
             Timeout = TimeSpan.FromSeconds(60)
         };
+
+        private static readonly string huburl = @"https://localhost:7292/videohub";
+
+        private event Action<string>? RoomCreate;
+        private event Action<string>? RoomDelete;
+        private event Action<string>? UserJoin;
+        private event Action<string>? UserLeave;
+        public event Action<string>? PlayVideo;  
+        public event Action<string>? PauseVideo;
         public CoopService()
         {
 
