@@ -244,7 +244,7 @@ namespace UITFLIX
                         };
 
                         item.Click += (sender, e) => OpenPlayVIdeoForm(video);
-                        toolTip.SetToolTip(item, video["title"].ToString());
+                        toolTip.SetToolTip(item, $"[{video["tag"].ToString()}] {video["title"].ToString()}");
                         fpnVideos.Controls.Add(item);
                     }
                 }
@@ -311,7 +311,7 @@ namespace UITFLIX
                         };
 
                         item.Click += (sender, e) => OpenPlayVIdeoForm(video);
-                        toolTip.SetToolTip(item, video["title"].ToString());
+                        toolTip.SetToolTip(item, $"[{video["tag"].ToString()}] {video["title"].ToString()}");
                         fpnVideos.Controls.Add(item);
                     }
                 }
@@ -379,7 +379,7 @@ namespace UITFLIX
 
                         JToken reVid = video["video"]; 
                         item.Click += (sender, e) => OpenPlayVIdeoForm(reVid);
-                        toolTip.SetToolTip(item, video["video"]["title"].ToString());
+                        toolTip.SetToolTip(item, $"[{video["tag"].ToString()}] {video["title"].ToString()}");
                         fpnVideos.Controls.Add(item);
                     }
                 }

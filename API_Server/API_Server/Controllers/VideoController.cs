@@ -176,8 +176,8 @@ namespace API_Server.Controllers
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [HttpGet("GetRelatedVideos/{tag}")]
-        public async Task<IActionResult> GetRelatedVideos([FromRoute] string tag)
+        [HttpGet("GetRelatedVideos")]
+        public async Task<IActionResult> GetRelatedVideos([FromQuery] string tag)
         {
             var videos = await filmService.GetRelatedVideos(tag);
             return Ok(videos);

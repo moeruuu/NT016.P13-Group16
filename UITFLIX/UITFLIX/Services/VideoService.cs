@@ -267,7 +267,7 @@ namespace UITFLIX.Services
                 }
 
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accesstoken);
-                string url = $"api/Video/GetRelatedVideos/tag={tag}";
+                string url = $"api/Video/GetRelatedVideos?tag={tag}";
                 HttpResponseMessage response = await httpClient.GetAsync(url);
 
                 if (response.IsSuccessStatusCode)

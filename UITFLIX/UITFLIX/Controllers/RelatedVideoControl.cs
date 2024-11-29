@@ -89,10 +89,7 @@ namespace UITFLIX.Controllers
                 }
                 catch (Exception ex)
                 {
-                    pbImage.Invoke((Action)(() =>
-                    {
                         pbImage.Image = null;
-                    }));
                 }
             }
             else

@@ -160,10 +160,9 @@ namespace API_Server.Service
             var sort = Builders<Video>.Sort
                 .Descending(v => v.Rating)
                 .Descending(v => v.UploadedDate);
-
-            var relatedVideosByTag = await videos.Find(Builders<Video>.Filter.Eq(v => v.Tag, tag)).Sort(sort).Limit(8).ToListAsync();
-            var relatedVideosWithoutTag = await videos.Find(Builders<Video>.Filter.Ne(v => v.Tag, tag)).Sort(sort).Limit(8).ToListAsync();
-            return relatedVideosByTag.Concat(relatedVideosWithoutTag).ToList();
+            var relatedVideosByTag = await videos.Find(Builders<Video>.Filter.Eq(v => v.Tag, tag)).Sort(sort).ToListAsync();
+            var relatedVideosWithoutTag = await videos.Find(Builders<Video>.Filter.Ne(v => v.Tag, tag)).Sort(sort).ToListAsync();
+            return relatedVideosByTag.Concat(relatedVideosWithoutTag).Take(12).ToList();
         }
 
         public async Task<bool> DeleteVideo(string id)
