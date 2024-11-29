@@ -297,6 +297,7 @@
             // 
             // txtnamefilm1
             // 
+            txtnamefilm1.AllowDrop = true;
             txtnamefilm1.AutoSize = true;
             txtnamefilm1.Font = new Font("Cambria", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txtnamefilm1.Location = new Point(10, 13);

@@ -304,6 +304,7 @@ namespace UITFLIX
                     foreach (JToken video in jarray)
                     {
                         progressupload.Value++;
+                        if (video["rating"].ToString() == "0") continue;
 
                         VideoControl item = new VideoControl()
                         {
@@ -381,7 +382,7 @@ namespace UITFLIX
 
                         JToken reVid = video["video"];
                         item.Click += (sender, e) => OpenPlayVIdeoForm(reVid);
-                        toolTip.SetToolTip(item, $"[{video["tag"].ToString()}] {video["title"].ToString()}");
+                        toolTip.SetToolTip(item, $"[{video["video"]["tag"].ToString()}] {video["video"]["title"].ToString()}");
                         fpnVideos.Controls.Add(item);
                     }
                 }

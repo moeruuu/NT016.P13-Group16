@@ -91,7 +91,7 @@ namespace UITFLIX.Controllers
 
         private void VideoControl_MouseEnter(object sender, EventArgs e)
         {
-            this.BackColor = Color.PowderBlue;
+            this.BackColor = Color.CadetBlue;
         }
 
         private void VideoControl_MouseLeave(object sender, EventArgs e)
