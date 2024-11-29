@@ -51,7 +51,7 @@ namespace API_Server.SignalRHub
             var filter = Builders<Room>.Filter.Eq(r => r.RoomId, roomid);
             var update = Builders<Room>.Update.AddToSet(r => r.Participants, Context.ConnectionId);
 
-            foreach (var videos in room.VideoStatus)
+            foreach (var videos in room.videoQueues)
             {
                 await Clients.Caller.SendAsync("VideoStatus", videos.VideoID, videos);
             }
@@ -76,32 +76,44 @@ namespace API_Server.SignalRHub
                     await videoroom.DeleteOneAsync(filter);
                     await Clients.Caller.SendAsync("DeleteRoom", eachroom.RoomId);
                 }
+                else
+                {
+                    await Clients.Group(eachroom.RoomId).SendAsync("UserLeft", Context.ConnectionId);
+                }
 
             }
             await base.OnDisconnectedAsync(exception);
         }
 
-        public async Task PlayVideo(string roomid, string videoid)
+        public async Task PlayNextVideoFromQueue(string roomid)
         {
-            var videos = new VideoStatus
+            var room = await videoroom.Find(r => r.RoomId == roomid).FirstOrDefaultAsync();
+            if (room == null || room.VideoQueue.Count == 0)
             {
-                VideoID = videoid,
-                IsPlaying = true,
-                Progress = 0,
-            };
+                return;
+            }
 
-            var filter = Builders<Room>.Filter.Eq(r => r.RoomId, videoid);
-            var update = Builders<Room>.Update.AddToSet(r => r.VideoStatus, videos);
-            await videoroom.UpdateOneAsync(filter, update);
+            //lọc ra video chưa được phát
+            var nextVideo = room.VideoQueue.FirstOrDefault(v => !v.IsPlaying);
+            if (nextVideo != null)
+            {
+                //cập nhật trạng thái video thành đang phát
+                var filter = Builders<Room>.Filter.Eq(r => r.RoomId, roomid);
+                var update = Builders<Room>.Update.Set(r => r.videoQueues[-1].IsPlaying, true);
+                await videoroom.UpdateOneAsync(filter, update);
 
-            await Clients.Group(roomid).SendAsync("PlayVideo", videoid);
-
+                await Clients.Group(roomid).SendAsync("PlayVideo", nextVideo.VideoID);
+            }
+            else
+            {
+                await Clients.Group(roomid).SendAsync("NoVideoToPlay");
+            }
         }
 
         public async Task PauseVideo(string roomid, string videoid)
         {
             await videoroom.UpdateOneAsync(Builders<Room>.Filter.And
-                            (Builders<Room>.Filter.Eq(r => r.RoomId, roomid), Builders<Room>.Filter.ElemMatch(r => r.VideoStatus, v => v.VideoID == videoid)),
+                            (Builders<Room>.Filter.Eq(r => r.RoomId, roomid), Builders<Room>.Filter.ElemMatch(r => r.videoQueues, v => v.VideoID == videoid)),
                             Builders<Room>.Update.Set("VideoStatus.$.IsPlaying", false));
 
             await Clients.Group(roomid).SendAsync("PauseVideo", videoid);
@@ -110,10 +122,51 @@ namespace API_Server.SignalRHub
         public async Task UpdateProgress(string roomid, string videoid, double progress)
         {
             await videoroom.UpdateOneAsync(Builders<Room>.Filter.And
-                            (Builders<Room>.Filter.Eq(r => r.RoomId, roomid), Builders<Room>.Filter.ElemMatch(r => r.VideoStatus, v => v.VideoID == videoid)),
+                            (Builders<Room>.Filter.Eq(r => r.RoomId, roomid), Builders<Room>.Filter.ElemMatch(r => r.videoQueues, v => v.VideoID == videoid)),
                              Builders<Room>.Update.Set("VideoStatus.$.Progress", progress));
 
             await Clients.Group(roomid).SendAsync("UpdateProgress", videoid, progress);
+        }
+
+        public async Task AddVideoToQueue(string roomid, string videoid)
+        {
+            var room = await videoroom.Find(r => r.RoomId == roomid).FirstOrDefaultAsync();
+            if (room == null)
+            {
+                await Clients.Caller.SendAsync("RoomNotFound", roomid);
+                return;
+            }
+            var video = new VideoQueue
+            {
+                VideoID = videoid,
+                IsPlaying = false,
+                Progress = 0
+            };
+            var filter = Builders<Room>.Filter.Eq(r => r.RoomId, roomid);
+            var update = Builders<Room>.Update.Push(r => r.videoQueues, video);
+            await videoroom.UpdateOneAsync(filter, update);
+            await Clients.Group(roomid).SendAsync("VideoAddedToQueue", videoid);
+
+            if (room.VideoQueue.Count == 1)
+            {
+                await PlayNextVideoFromQueue(roomid);
+            }
+        }
+
+        public async Task SendMessage(string roomid, string userid, string message)
+        {
+            var chat = new MessageChat
+            {
+                UserID = userid,
+                Message = message,
+                DateSend = DateTime.Now
+            };
+
+            var filter = Builders<Room>.Filter.Eq(r => r.RoomId, roomid);
+            var update = Builders<Room>.Update.Push(r => r.Messages, chat);
+            await videoroom.UpdateOneAsync(filter, update);
+
+            await Clients.Group(roomid).SendAsync("ReceiveMessage", chat);
         }
 
     }

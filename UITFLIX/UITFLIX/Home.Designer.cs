@@ -457,6 +457,7 @@
             linkcreateroom.TabStop = true;
             linkcreateroom.Text = "Create a new room";
             linkcreateroom.Visible = false;
+            linkcreateroom.LinkClicked += linkcreateroom_LinkClicked;
             // 
             // btnchooseimage
             // 
