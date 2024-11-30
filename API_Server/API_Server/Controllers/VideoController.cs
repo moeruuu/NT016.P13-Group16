@@ -35,8 +35,8 @@ namespace API_Server.Controllers
                 {
                     return Unauthorized("Không thể xác thực người dùng.");
                 }
-                //var user = await userService.GetUserByID(UserId);
-                //ObjectId UserId = ObjectId.Parse("67337f1bc5297b798496ced9");
+                var user = await userService.GetUserByID(UserId);
+                ObjectId UserId = ObjectId.Parse("67337f1bc5297b798496ced9");
                 var addedVideo = await filmService.AddVideo(uploadVideo, UserId);
 
                 return Ok(new
@@ -117,7 +117,7 @@ namespace API_Server.Controllers
                 }
 
                 var res = await filmService.SaveWatchedVideo(UserId, watchedVideoDetailsModel);
-                if(res == true)
+                if (res == true)
                     return Ok();
                 else
                     return BadRequest("Không thể lưu");
@@ -217,6 +217,11 @@ namespace API_Server.Controllers
         {
             try
             {
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userId) || !ObjectId.TryParse(userId, out ObjectId UserId))
+                {
+                    return Unauthorized("Không thể xác thực người dùng.");
+                }
                 var (stream, video) = await filmService.DownloadVideo(id);
                 var mimeType = filmService.GetMimeType(Path.GetExtension(video.Url));
                 return File(stream, mimeType, $"{video.Title}.mp4");
@@ -224,7 +229,7 @@ namespace API_Server.Controllers
             }
             catch (FileNotFoundException)
             {
-                return NotFound("Không tìm thấy video.");
+                return NotFound(new { message = "Không tìm thấy video." });
             }
             catch (Exception ex)
             {

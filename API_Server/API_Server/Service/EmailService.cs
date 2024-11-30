@@ -17,7 +17,7 @@ namespace API_Server.Service
         public async Task SendEmail(EmailRequest request)
         {
             var email = new MimeMessage();
-            email.Sender = MailboxAddress.Parse(sender.EmailcuaUyenThy);
+            email.Sender = MailboxAddress.Parse(sender.EmailGroup16);
             email.To.Add(MailboxAddress.Parse(request.Email));
             email.Subject = request.Subject;
             var builder = new BodyBuilder();
@@ -25,7 +25,7 @@ namespace API_Server.Service
             email.Body = builder.ToMessageBody();
             using var smtp = new SmtpClient();
             smtp.Connect(sender.HostEmail, sender.Port, SecureSocketOptions.StartTls);
-            smtp.Authenticate(sender.EmailcuaUyenThy, sender.PasswordcuaUyenThy);
+            smtp.Authenticate(sender.EmailGroup16, sender.PasswordGroup16);
             await smtp.SendAsync(email);
             smtp.Disconnect(true);
         }

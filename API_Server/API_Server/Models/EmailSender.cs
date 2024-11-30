@@ -4,8 +4,8 @@
     {
         public string HostEmail { get; set; } 
         public int Port { get; set; }
-        public string EmailcuaUyenThy { get; set; }
-        public string PasswordcuaUyenThy { get; set; }
+        public string EmailGroup16 { get; set; }
+        public string PasswordGroup16 { get; set; }
         
     }
 }

@@ -273,8 +273,8 @@ namespace UITFLIX
             {
                 MessageBox.Show(ex.Message);
             }
-        } 
-        
+        }
+
         private void btnShowRelatedVideos_Click(object sender, EventArgs e)
         {
             if (btnShowRelatedVideos.ForeColor == Color.MidnightBlue)
@@ -330,6 +330,44 @@ namespace UITFLIX
         {
             if (text.Length > max) return text.Substring(0, max) + "...";
             else return text;
+        }
+
+        private async void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            try
+            {
+                var videoId = jvideo["id"]?.ToString();
+                using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+                {
+                    saveFileDialog.Filter = "Video Files (*.mp4)|*.mp4";
+                    saveFileDialog.Title = "Chọn nơi lưu video";
+                    saveFileDialog.FileName = "";
+
+                    if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        var selectedPath = saveFileDialog.FileName;
+
+                        var tempFilePath = await videoService.DownloadVideo(videoId, accesstoken);
+
+                        if (!string.IsNullOrEmpty(tempFilePath))
+                        {
+                            File.Copy(tempFilePath, selectedPath, true);
+
+                            MessageBox.Show($"Video đã được lưu tại: {selectedPath}", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                            //System.Diagnostics.Process.Start("explorer.exe", $"/select, \"{selectedPath}\"");
+                        }
+                        else
+                        {
+                            MessageBox.Show("Không thể tải video!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Đã xảy ra lỗi khi tải video: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

@@ -258,9 +258,20 @@ namespace API_Server.Service
 
             var videoFileId = new ObjectId(video.Url);
             var stream = new MemoryStream();
+            try
+            {
+                await gridFS.DownloadToStreamAsync(videoFileId, stream);
 
-            await gridFS.DownloadToStreamAsync(videoFileId, stream);
-            stream.Seek(0, SeekOrigin.Begin);
+                if (stream.Length == 0)
+                    throw new FileNotFoundException("File stream rỗng.");
+
+                stream.Seek(0, SeekOrigin.Begin);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Lỗi xảy ra khi donwload: {ex.Message}");
+                throw;
+            }
 
             return (stream, video);
         }
