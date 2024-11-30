@@ -96,7 +96,7 @@ namespace UITFLIX.Services
             }
             //authorize bằng token qua header
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accesstoken);
-            var response = await httpClient.GetAsync($"api/Video/GetVideo/{id}");
+            var response = await httpClient.GetAsync($"api/Video/PlayVideo/{id}");
             if (response.IsSuccessStatusCode)
             {
                 using (var stream = await response.Content.ReadAsStreamAsync())

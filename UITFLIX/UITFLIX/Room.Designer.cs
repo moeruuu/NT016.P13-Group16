@@ -31,10 +31,10 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Room));
             panel1 = new Panel();
             linkleaveroom = new LinkLabel();
-            label4 = new Label();
+            IDRoom = new Label();
             label3 = new Label();
             logo = new PictureBox();
-            axWindowsMediaPlayer1 = new AxWMPLib.AxWindowsMediaPlayer();
+            axWindowsMediaPlayer = new AxWMPLib.AxWindowsMediaPlayer();
             namefilm = new Label();
             label1 = new Label();
             listusers = new ListBox();
@@ -46,14 +46,14 @@
             rcmvideopanel = new FlowLayoutPanel();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)logo).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)axWindowsMediaPlayer1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)axWindowsMediaPlayer).BeginInit();
             SuspendLayout();
             // 
             // panel1
             // 
             panel1.BackColor = Color.PowderBlue;
             panel1.Controls.Add(linkleaveroom);
-            panel1.Controls.Add(label4);
+            panel1.Controls.Add(IDRoom);
             panel1.Controls.Add(label3);
             panel1.Controls.Add(logo);
             panel1.Dock = DockStyle.Top;
@@ -74,16 +74,16 @@
             linkleaveroom.TabStop = true;
             linkleaveroom.Text = "Leave room";
             // 
-            // label4
+            // IDRoom
             // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Cambria", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label4.ForeColor = Color.MidnightBlue;
-            label4.Location = new Point(108, 18);
-            label4.Name = "label4";
-            label4.Size = new Size(108, 26);
-            label4.TabIndex = 3;
-            label4.Text = "01234567";
+            IDRoom.AutoSize = true;
+            IDRoom.Font = new Font("Cambria", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            IDRoom.ForeColor = Color.MidnightBlue;
+            IDRoom.Location = new Point(108, 18);
+            IDRoom.Name = "IDRoom";
+            IDRoom.Size = new Size(108, 26);
+            IDRoom.TabIndex = 3;
+            IDRoom.Text = "01234567";
             // 
             // label3
             // 
@@ -106,14 +106,14 @@
             logo.TabIndex = 1;
             logo.TabStop = false;
             // 
-            // axWindowsMediaPlayer1
+            // axWindowsMediaPlayer
             // 
-            axWindowsMediaPlayer1.Enabled = true;
-            axWindowsMediaPlayer1.Location = new Point(12, 79);
-            axWindowsMediaPlayer1.Name = "axWindowsMediaPlayer1";
-            axWindowsMediaPlayer1.OcxState = (AxHost.State)resources.GetObject("axWindowsMediaPlayer1.OcxState");
-            axWindowsMediaPlayer1.Size = new Size(1280, 720);
-            axWindowsMediaPlayer1.TabIndex = 1;
+            axWindowsMediaPlayer.Enabled = true;
+            axWindowsMediaPlayer.Location = new Point(12, 79);
+            axWindowsMediaPlayer.Name = "axWindowsMediaPlayer";
+            axWindowsMediaPlayer.OcxState = (AxHost.State)resources.GetObject("axWindowsMediaPlayer.OcxState");
+            axWindowsMediaPlayer.Size = new Size(1280, 720);
+            axWindowsMediaPlayer.TabIndex = 1;
             // 
             // namefilm
             // 
@@ -224,7 +224,7 @@
             Controls.Add(listusers);
             Controls.Add(label1);
             Controls.Add(namefilm);
-            Controls.Add(axWindowsMediaPlayer1);
+            Controls.Add(axWindowsMediaPlayer);
             Controls.Add(panel1);
             ForeColor = Color.LightBlue;
             FormBorderStyle = FormBorderStyle.None;
@@ -234,7 +234,7 @@
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)logo).EndInit();
-            ((System.ComponentModel.ISupportInitialize)axWindowsMediaPlayer1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)axWindowsMediaPlayer).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -243,7 +243,7 @@
 
         private Panel panel1;
         private PictureBox logo;
-        private AxWMPLib.AxWindowsMediaPlayer axWindowsMediaPlayer1;
+        private AxWMPLib.AxWindowsMediaPlayer axWindowsMediaPlayer;
         private Label namefilm;
         private Label label1;
         private ListBox listusers;
@@ -252,7 +252,7 @@
         private Button btnsendmessage;
         private ListBox listqueuevideo;
         private Label label2;
-        private Label label4;
+        private Label IDRoom;
         private Label label3;
         private LinkLabel linkleaveroom;
         private FlowLayoutPanel rcmvideopanel;

@@ -36,7 +36,7 @@ namespace API_Server.Controllers
                     return Unauthorized("Không thể xác thực người dùng.");
                 }
                 var user = await userService.GetUserByID(UserId);
-                ObjectId UserId = ObjectId.Parse("67337f1bc5297b798496ced9");
+                //ObjectId UserId = ObjectId.Parse("67337f1bc5297b798496ced9");
                 var addedVideo = await filmService.AddVideo(uploadVideo, UserId);
 
                 return Ok(new
@@ -158,8 +158,9 @@ namespace API_Server.Controllers
             else return NotFound("Không có người dùng nào!");
         }
 
-        [HttpGet("GetVideo/{id}")]
-        public async Task<IActionResult> GetVideo(string id)
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet("PlayVideo/{id}")]
+        public async Task<IActionResult> PlayVideo(string id)
         {
             try
             {
@@ -168,6 +169,28 @@ namespace API_Server.Controllers
                 var mime = filmService.GetMimeType(extension);
                 var stream = await filmService.GetStreamByIDVideo(id);
                 return File(stream, mime);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet("GetVideo/{id}")]
+        public async Task<IActionResult> GetVideo([FromRoute]string id)
+        {
+            try
+            {
+                var video = await filmService.GetVideoByID(id);
+                if (video != null)
+                {
+                    return Ok(video);
+                }
+                else
+                {
+                    return NotFound();
+                }
             }
             catch (Exception ex)
             {
