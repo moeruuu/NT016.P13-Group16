@@ -331,6 +331,7 @@
             chat.Size = new Size(38, 24);
             chat.TabIndex = 2;
             chat.TabStop = false;
+            chat.Click += chat_Click;
             // 
             // tenphim
             // 

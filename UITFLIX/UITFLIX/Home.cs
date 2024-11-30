@@ -693,6 +693,12 @@ namespace UITFLIX
                 MessageBox.Show("qqjz");
             }*/
         }
+
+        private void chat_Click(object sender, EventArgs e)
+        {
+            Chat chat = new Chat();
+            chat.Show();
+        }
     }
 
 }
