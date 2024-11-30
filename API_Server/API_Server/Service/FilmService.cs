@@ -269,7 +269,7 @@ namespace API_Server.Service
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Lỗi xảy ra khi donwload: {ex.Message}");
+                //Console.WriteLine($"Lỗi xảy ra khi donwload: {ex.Message}");
                 throw;
             }
 
