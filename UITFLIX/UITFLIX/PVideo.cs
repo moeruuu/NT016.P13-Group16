@@ -341,7 +341,7 @@ namespace UITFLIX
                 {
                     saveFileDialog.Filter = "Video Files (*.mp4)|*.mp4";
                     saveFileDialog.Title = "Chọn nơi lưu video";
-                    saveFileDialog.FileName = $"{jvideo["title"]}.mp4";
+                    saveFileDialog.FileName = "";
 
                     if (saveFileDialog.ShowDialog() == DialogResult.OK)
                     {
@@ -355,7 +355,7 @@ namespace UITFLIX
 
                             MessageBox.Show($"Video đã được lưu tại: {selectedPath}", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                            System.Diagnostics.Process.Start("explorer.exe", $"/select, \"{selectedPath}\"");
+                            //System.Diagnostics.Process.Start("explorer.exe", $"/select, \"{selectedPath}\"");
                         }
                         else
                         {

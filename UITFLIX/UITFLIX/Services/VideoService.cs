@@ -324,7 +324,6 @@ namespace UITFLIX.Services
         {
             try
             {
-                //MessageBox.Show(id);
                 if (string.IsNullOrEmpty(accesstoken))
                 {
                     MessageBox.Show("Yêu cầu access token!");

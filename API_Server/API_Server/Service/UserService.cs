@@ -274,7 +274,6 @@ namespace API_Server.Service
 
         public string BodyEmail(string otp, string title, string message)
         {
-            //html viết mail tại tôi ngựa 
             string email = $@"
             <!DOCTYPE html>
             <html>
