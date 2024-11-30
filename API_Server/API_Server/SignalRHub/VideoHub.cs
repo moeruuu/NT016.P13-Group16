@@ -39,6 +39,12 @@ namespace API_Server.SignalRHub
 
         public async Task JoinRoom(string roomid)
         {
+            var userid = Context.User?.FindFirst("UserId")?.Value;
+            if (string.IsNullOrEmpty(userid))
+            {
+                await Clients.Caller.SendAsync("Error", "User is not authenticated.");
+                return;
+            }
             var room = videoroom.Find(v => v.RoomId == roomid).FirstOrDefault();
             if (room == null)
             {
@@ -88,13 +94,13 @@ namespace API_Server.SignalRHub
         public async Task PlayNextVideoFromQueue(string roomid)
         {
             var room = await videoroom.Find(r => r.RoomId == roomid).FirstOrDefaultAsync();
-            if (room == null || room.VideoQueue.Count == 0)
+            if (room == null || room.videoQueues.Count == 0)
             {
                 return;
             }
 
             //lọc ra video chưa được phát
-            var nextVideo = room.VideoQueue.FirstOrDefault(v => !v.IsPlaying);
+            var nextVideo = room.videoQueues.FirstOrDefault(v => !v.IsPlaying);
             if (nextVideo != null)
             {
                 //cập nhật trạng thái video thành đang phát
@@ -147,7 +153,7 @@ namespace API_Server.SignalRHub
             await videoroom.UpdateOneAsync(filter, update);
             await Clients.Group(roomid).SendAsync("VideoAddedToQueue", videoid);
 
-            if (room.VideoQueue.Count == 1)
+            if (room.videoQueues.Count == 1)
             {
                 await PlayNextVideoFromQueue(roomid);
             }

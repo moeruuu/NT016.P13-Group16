@@ -26,8 +26,6 @@ namespace API_Server.Data
 
         [BsonElement("HostId")]
         public string HostId { get; set; }
-        [BsonIgnore] //ko lưu trực tiếp vào MongoDB
-        public Queue<VideoStatus> VideoQueue { get; set; } = new Queue<VideoStatus>();
         [BsonElement("VideoQueue")]
         public List<VideoQueue> videoQueues { get; set; }
         [BsonElement("Message")]

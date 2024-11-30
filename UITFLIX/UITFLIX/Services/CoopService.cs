@@ -6,6 +6,7 @@ using System.Security.Cryptography.Xml;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.Win32;
 using Newtonsoft.Json.Linq;
 
 namespace UITFLIX.Services
@@ -21,15 +22,61 @@ namespace UITFLIX.Services
 
         private static readonly string huburl = @"https://localhost:7292/videohub";
 
-        private event Action<string>? RoomCreate;
-        private event Action<string>? RoomDelete;
-        private event Action<string>? UserJoin;
-        private event Action<string>? UserLeave;
-        public event Action<string>? PlayVideo;  
-        public event Action<string>? PauseVideo;
+        public event Action<string>? RoomCreated;
+        public event Action<string>? RoomDeleted;
+        public event Action<string>? UserJoined;
+        public event Action<string>? UserLeft;
+        public event Action<string>? VideoPlayed;
+        public event Action<string>? VideoPaused;
+        public event Action<string, string>? ChatReceived;
+        public event Action<string, string>? VideoAddedToQueue;
         public CoopService()
         {
+            connection = new HubConnectionBuilder().WithUrl(huburl).Build();
+            RegisterEvent();
+        }
 
+        private void RegisterEvent()
+        {
+           connection.On<string>("RoomCreated", roomid =>
+            {
+                RoomCreated?.Invoke(roomid);
+            });
+
+            connection.On<string>("RoomDeleted", roomid =>
+            {
+                RoomDeleted?.Invoke(roomid);
+            });
+
+            connection.On<string>("UserJoined", userid =>
+            {
+                UserJoined?.Invoke(userid);
+            });
+
+            connection.On<string>("UserLeft", userid =>
+            {
+                UserLeft?.Invoke(userid);
+            });
+
+            connection.On<string>("PlayVideo", videoid =>
+            {
+                VideoPlayed?.Invoke(videoid);
+            });
+
+            connection.On<string>("PauseVideo", videoid =>
+            {
+                VideoPaused?.Invoke(videoid);
+            });
+
+            connection.On<string, string>("Chat", (user, message) =>
+            {
+                ChatReceived?.Invoke(user, message);
+            });
+
+           connection.On<string, string>("AddVideoToQueue", (roomid, videoid) =>
+            {
+                VideoAddedToQueue?.Invoke(roomid, videoid);
+            });
         }
 
         public async Task<string> CreateRoom(string accesstoken)
@@ -59,9 +106,43 @@ namespace UITFLIX.Services
 
         }
 
-        private async void InitializeSignalR()
+        public async Task StartConnection()
         {
+            try
+            {
+                await connection.StartAsync();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
 
+        public async Task StopConnection()
+        {
+            try
+            {
+                await connection.StopAsync();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        public async Task SendMessageToRoom(string roomid, string user, string message)
+        {
+            await connection.SendAsync("SendMessage", roomid, user, message);
+        }
+
+        public async Task PlayNextVideo(string roomid)
+        {
+            await connection.SendAsync("PlayNextVideoFromQueue", roomid);
+        }
+
+        public async Task PauseVideo(string roomid, string videoid)
+        {
+            await connection.SendAsync("PauseVideo", roomid, videoid);
         }
     }
 }
