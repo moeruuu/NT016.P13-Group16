@@ -320,6 +320,46 @@ namespace UITFLIX.Services
             }
         }
 
+        public async Task<string> DownloadVideo(string id, string accesstoken)
+        {
+            try
+            {
+                //MessageBox.Show(id);
+                if (string.IsNullOrEmpty(accesstoken))
+                {
+                    MessageBox.Show("Yêu cầu access token!");
+                    return null;
+                }
+                if (string.IsNullOrEmpty(id))
+                {
+                    MessageBox.Show("Yêu cầu id video");
+                    return null;
+                }
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accesstoken);
+                var response = await httpClient.GetAsync($"api/Video/DownloadVideo/{id}", HttpCompletionOption.ResponseHeadersRead);
+                if (!response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show($"Lỗi khi tải video: {response.StatusCode}");
+                    return null;
+                }
+                using (var stream = await response.Content.ReadAsStreamAsync())
+                {
+                    string tempFilePath = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid()}.mp4");
+
+                    using (var fileStream = new FileStream(tempFilePath, FileMode.Create, FileAccess.Write, FileShare.None))
+                    {
+                        await stream.CopyToAsync(fileStream);
+                    }
+
+                    return tempFilePath;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Đã xảy ra lỗi khi tải video: {ex.Message}");
+            }
+        }
+
 
 
     }

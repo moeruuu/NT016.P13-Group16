@@ -136,6 +136,7 @@
             linkLabel1.TabIndex = 2;
             linkLabel1.TabStop = true;
             linkLabel1.Text = "Download video";
+            linkLabel1.LinkClicked += linkLabel1_LinkClicked;
             // 
             // txtnamefilm
             // 
