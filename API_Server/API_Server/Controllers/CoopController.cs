@@ -1,8 +1,14 @@
-﻿using API_Server.Service;
+﻿using API_Server.DTOs;
+using API_Server.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
+using API_Server.SignalRHub;
+using MongoDB.Bson;
+using System.Security.Claims;
+using API_Server.Data;
 
 namespace API_Server.Controllers
 {
@@ -13,34 +19,45 @@ namespace API_Server.Controllers
     {
 
         private readonly CoopService coopService;
+        private readonly UserService userService;
+        private readonly IHubContext<VideoHub> hub;
 
-        public CoopController(CoopService coopService)
+        public CoopController(CoopService coopService, IHubContext<VideoHub> hubContext)
         {
             this.coopService = coopService;
+            hub = hubContext;
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost("CreateRoom")]
-        public async Task<IActionResult> CreateRoom() {
+        public async Task<IActionResult> CreateRoom([FromBody] CreateRoomDTOs newroom) {
             try
             {
-                var id = await coopService.CreateIDRoom();
-                if (id != null)
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userId) || !ObjectId.TryParse(userId, out ObjectId UserId))
                 {
-                    return Ok(new {
-                        roomid = id
-                    });
+                    return Unauthorized("Không thể xác thực người dùng.");
                 }
-                else
+                var user = await userService.GetUserByID(UserId);
+
+                var createroom = await coopService.CreateRoom(newroom, user.UserId);
+                return Ok(new
                 {
-                    return BadRequest("Không thể tạo ID");
-                }
+                    Room = new
+                    {
+                        Id = createroom.Id,
+                        RoomId = createroom.RoomId,
+                        HostId = createroom.HostId,
+                        StartTime = createroom?.StartTime,
+
+                    }
+                }) ;
             }
             catch (Exception ex)
             {
-               return BadRequest(ex.Message);
+                return BadRequest(ex.Message);
             }
-           
+
         }
     }
 }

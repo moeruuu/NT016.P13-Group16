@@ -687,6 +687,9 @@ namespace UITFLIX
             if (roomid != null)
             {
                 MessageBox.Show("Your room id: " + roomid);
+                this.Hide();
+                new Room(accesstoken, roomid).ShowDialog();
+                this.Close();
             }
             /*else
             {

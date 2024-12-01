@@ -360,6 +360,28 @@ namespace UITFLIX.Services
         }
 
 
+        public async Task<JObject> GetVideoByID(string accesstoken, string id)
+        {
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accesstoken);
+            try
+            {
+                var status = await httpClient.GetAsync($"api/Video/GetVideo/{id}");
+                if (status.IsSuccessStatusCode)
+                {
+                    var response = await status.Content.ReadAsStringAsync();
+                    return JObject.Parse(response);
+                }
+                else
+                {
+                    return null;
+                }
+
+            }
+            catch(Exception ex)
+            {
+                return null;
+            }
+        }
 
     }
 }

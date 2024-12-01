@@ -176,7 +176,7 @@ namespace API_Server.Controllers
             }
         }
 
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet("GetVideo/{id}")]
         public async Task<IActionResult> GetVideo([FromRoute]string id)
         {

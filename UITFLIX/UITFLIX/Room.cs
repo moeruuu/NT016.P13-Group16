@@ -16,7 +16,7 @@ namespace UITFLIX
 {
     public partial class Room : Form
     {
-        
+
         private ToolTip toolTip;
         private readonly string accesstoken;
         private readonly VideoService videoService;
@@ -25,16 +25,20 @@ namespace UITFLIX
 
         private static JToken getvideo;
         private static string temp;
-        public Room(string token, VideoService video)
+        public Room(string token, string roomid)
         {
             InitializeComponent();
             accesstoken = token;
-            videoService = video;
+            videoService = new VideoService();
             toolTip = new ToolTip();
+            coopService = new CoopService();
+            this.roomid = roomid;
+
             ShowRCMVideo();
+
             IDRoom.Text = roomid;
             HookUpEvent();
-           
+
         }
         public async Task ShowRCMVideo()
         {
@@ -43,10 +47,10 @@ namespace UITFLIX
                 if (rcmvideopanel is FlowLayoutPanel panel)
                 {
 
-                    panel.WrapContents = false;     
+                    panel.WrapContents = false;
                     panel.AutoScroll = true;
-                    panel.FlowDirection = FlowDirection.LeftToRight; 
-                    panel.WrapContents = false;                    
+                    panel.FlowDirection = FlowDirection.LeftToRight;
+                    panel.WrapContents = false;
                 }
 
                 var jarray = await videoService.GetNewestVideosAsync(accesstoken);
@@ -62,13 +66,29 @@ namespace UITFLIX
                             Size = new Size(200, 200)
                         };
                         getvideo = video;
-                        //item.Click += (sender, e) => OpenNewForm(video);
+                        item.Click += (sender, e) => item.Click += async (sender, e) =>
+                        {
+                            try
+                            {
+
+                                string videoid = video["id"].ToString();
+                                var title = await AddToQueue(videoid);
+                                if (!string.IsNullOrEmpty(title))
+                                {
+                                    coopService.OnVideoAddedToQueue(roomid, videoid, title);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show($"Lỗi khi thêm video vào hàng đợi: {ex.Message}");
+                            }
+                        };
                         toolTip.SetToolTip(item, video["title"].ToString());
                         rcmvideopanel.Controls.Add(item);
                     }
                 }
             }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -88,14 +108,42 @@ namespace UITFLIX
         {
             coopService.RoomCreated += roomid => MessageBox.Show("Phòng đã được tạo!");
             coopService.RoomDeleted += roomid => MessageBox.Show("Phòng đã bị xóa!");
-            coopService.UserJoined += userid => listusers.Items.Add(userid);
-            coopService.UserLeft += userid => listusers.Items.Remove(userid);
+            coopService.UserJoined += userid =>
+            {
+                if (listusers.InvokeRequired)
+                {
+                    listusers.Invoke((MethodInvoker)(() => listusers.Items.Add(userid)));
+                }
+                else
+                {
+                    listusers.Items.Add(userid);
+                }
+            };
+            coopService.UserLeft += userid =>
+            {
+                if (listusers.InvokeRequired)
+                {
+                    listusers.Invoke((MethodInvoker)(() => listusers.Items.Remove(userid)));
+                }
+                else
+                {
+                    listusers.Items.Remove(userid);
+                }
+            };
             coopService.ChatReceived += (user, message) => listchatgroup.Items.Add($"{user}: {message}");
-            coopService.VideoAddedToQueue += (roomid, videoid) => listqueuevideo.Items.Add(videoid);
+            coopService.VideoAddedToQueue += (roomid, videoid, title) =>
+            {
+                if (this.roomid == roomid)
+                {
+                    listqueuevideo.Items.Add(title);
+                }
+            };
+            coopService.VideoPlayed += videoid => PlayVideo();
+            coopService.VideoPaused += videoid => PauseVideo();
 
-            coopService.StartConnection();
+            await coopService.StartConnection();
         }
-        
+
         public async Task PlayVideo()
         {
             try
@@ -120,5 +168,27 @@ namespace UITFLIX
             }
         }
 
+        public async Task<string> AddToQueue(string id)
+        {
+            try
+            {
+                var videoinfo = await videoService.GetVideoByID(accesstoken, id);
+                return videoinfo["title"].ToString();
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+
+        public async Task PauseVideo()
+        {
+            axWindowsMediaPlayer.Ctlcontrols.stop();
+        }
+
+        private void linkleaveroom_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+
+        }
     }
 }

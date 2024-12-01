@@ -29,7 +29,7 @@ namespace UITFLIX.Services
         public event Action<string>? VideoPlayed;
         public event Action<string>? VideoPaused;
         public event Action<string, string>? ChatReceived;
-        public event Action<string, string>? VideoAddedToQueue;
+        public event Action<string, string, string>? VideoAddedToQueue;
         public CoopService()
         {
             connection = new HubConnectionBuilder().WithUrl(huburl).Build();
@@ -73,9 +73,9 @@ namespace UITFLIX.Services
                 ChatReceived?.Invoke(user, message);
             });
 
-           connection.On<string, string>("AddVideoToQueue", (roomid, videoid) =>
+           connection.On<string, string, string>("AddVideoToQueue", (roomid, videoid, title) =>
             {
-                VideoAddedToQueue?.Invoke(roomid, videoid);
+                VideoAddedToQueue?.Invoke(roomid, videoid, title);
             });
         }
 
@@ -144,5 +144,11 @@ namespace UITFLIX.Services
         {
             await connection.SendAsync("PauseVideo", roomid, videoid);
         }
+
+        public void OnVideoAddedToQueue(string roomid, string videoid, string title)
+        {
+            VideoAddedToQueue?.Invoke(roomid, videoid, title);
+        }
+
     }
 }

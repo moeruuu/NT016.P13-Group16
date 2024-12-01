@@ -73,6 +73,7 @@
             linkleaveroom.TabIndex = 4;
             linkleaveroom.TabStop = true;
             linkleaveroom.Text = "Leave room";
+            linkleaveroom.LinkClicked += linkleaveroom_LinkClicked;
             // 
             // IDRoom
             // 

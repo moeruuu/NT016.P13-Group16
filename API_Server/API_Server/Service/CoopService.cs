@@ -1,46 +1,40 @@
 ﻿using MongoDB.Driver;
 using API_Server.Data;
 using Microsoft.Extensions.Configuration;
+using API_Server.DTOs;
+using MongoDB.Bson;
 namespace API_Server.Service
 {
     public class CoopService
     {
-        private readonly IMongoCollection<Room> roomcollection;
-        private readonly IConfiguration configuration;
-        public CoopService(IConfiguration configuration, IMongoDatabase db)
+        private readonly IMongoCollection<Room> rooms;
+
+        public CoopService(IMongoDatabase database)
         {
-           this.configuration = configuration;
-            roomcollection = db.GetCollection<Room>("Rooms");
+            rooms = database.GetCollection<Room>("Rooms");
         }
 
-        public async Task<string> CreateIDRoom()
+        public async Task<Room> CreateRoom(CreateRoomDTOs createRoom, ObjectId Userid)
         {
-            //Kiem tra xem co collection Rooms chua
-            var client = new MongoClient(configuration.GetSection("MongoDB:ConnectionString").Value);
-            var database = client.GetDatabase("DOAN");
-            var collectionname = await database.ListCollectionNamesAsync();
-            var collectionlist = await collectionname.ToListAsync(); 
-            bool roomexist = collectionlist.Any(name => name == "Rooms");
-            string randomid = "";
-            while (true)
+            string ID = new Random().Next().ToString("D8");
+            var filter = Builders<Room>.Filter.Eq(r=>r.RoomId, ID);
+            var checkroom = await rooms.Find(filter).FirstOrDefaultAsync();
+            if (checkroom != null)
             {
-                randomid = new Random().Next(1, 10000000).ToString("D8");
-                //if (roomcollecion.)
-                if (roomexist)
-                {
-                    var filter = Builders<Room>.Filter.Eq(r => r.RoomId, randomid);
-                    var find = await roomcollection.Find(filter).FirstOrDefaultAsync();
-                    if (find == null)
-                    {
-                        break;
-                    }
-                }
-                else { break; }
+                throw new Exception("Mã phòng đã tồn tại!");
             }
-            return randomid;
+            var CreateNewRoom = new Room
+            {
+                Id = ObjectId.GenerateNewId(),
+                RoomId = ID,
+                HostId = Userid.ToString(),
+                StartTime = DateTime.UtcNow,
 
+            };
+
+            await rooms.InsertOneAsync(CreateNewRoom);
+            return CreateNewRoom;
         }
-
     }
 
 }
