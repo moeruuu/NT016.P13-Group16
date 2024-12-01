@@ -30,7 +30,7 @@ namespace API_Server.Controllers
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost("CreateRoom")]
-        public async Task<IActionResult> CreateRoom([FromBody] CreateRoomDTOs newroom) {
+        public async Task<IActionResult> CreateRoom() {
             try
             {
                 var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -40,7 +40,7 @@ namespace API_Server.Controllers
                 }
                 var user = await userService.GetUserByID(UserId);
 
-                var createroom = await coopService.CreateRoom(newroom, user.UserId);
+                var createroom = await coopService.CreateRoom(user.UserId);
                 return Ok(new
                 {
                     Room = new
@@ -49,7 +49,6 @@ namespace API_Server.Controllers
                         RoomId = createroom.RoomId,
                         HostId = createroom.HostId,
                         StartTime = createroom?.StartTime,
-
                     }
                 }) ;
             }

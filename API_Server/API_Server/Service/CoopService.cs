@@ -14,7 +14,7 @@ namespace API_Server.Service
             rooms = database.GetCollection<Room>("Rooms");
         }
 
-        public async Task<Room> CreateRoom(CreateRoomDTOs createRoom, ObjectId Userid)
+        public async Task<Room> CreateRoom(ObjectId Userid)
         {
             string ID = new Random().Next().ToString("D8");
             var filter = Builders<Room>.Filter.Eq(r=>r.RoomId, ID);
