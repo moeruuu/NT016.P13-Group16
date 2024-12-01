@@ -17,7 +17,7 @@ namespace API_Server.Service
         public async Task<Room> CreateRoom(ObjectId Userid)
         {
             string ID = new Random().Next().ToString("D8");
-            var filter = Builders<Room>.Filter.Eq(r=>r.RoomId, ID);
+            var filter = Builders<Room>.Filter.Eq(r => r.RoomId, ID);
             var checkroom = await rooms.Find(filter).FirstOrDefaultAsync();
             if (checkroom != null)
             {
@@ -36,6 +36,20 @@ namespace API_Server.Service
             return CreateNewRoom;
         }
 
+        public async Task UserJoined(string roomid, ObjectId userid)
+        {
+            var filter = Builders<Room>.Filter.Eq(r => r.RoomId, roomid);
+            var update = Builders<Room>.Update.AddToSet(r => r.Participants, userid.ToString());
+            var result = await rooms.UpdateOneAsync(filter, update);
+            if (result.MatchedCount == 0)
+            {
+                throw new Exception("Không tìm thấy phòng");
+            }
+            if (result.MatchedCount == 0)
+            {
+                throw new Exception("Người dùng này đã tồn tại");
+            }
+        }
         public async Task<Room> GetRoomByID(string id)
         {
             var filter = Builders<Room>.Filter.Eq(r => r.RoomId, id);

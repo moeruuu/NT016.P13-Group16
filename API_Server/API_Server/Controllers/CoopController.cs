@@ -30,7 +30,8 @@ namespace API_Server.Controllers
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost("CreateRoom")]
-        public async Task<IActionResult> CreateRoom() {
+        public async Task<IActionResult> CreateRoom()
+        {
             try
             {
                 var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -50,7 +51,7 @@ namespace API_Server.Controllers
                         HostId = createroom.HostId,
                         StartTime = createroom?.StartTime,
                     }
-                }) ;
+                });
             }
             catch (Exception ex)
             {
@@ -61,20 +62,25 @@ namespace API_Server.Controllers
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost("JoinRoom")]
-        public async Task<IActionResult> JoinRoom([FromBody] UserJoinedDTOs userjoined)
+        public async Task<IActionResult> JoinRoom([FromBody] string roomid)
         {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (string.IsNullOrEmpty(userId) || !ObjectId.TryParse(userId, out ObjectId UserId))
+            try
             {
-                return Unauthorized("Không thể xác thực người dùng.");
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userId) || !ObjectId.TryParse(userId, out ObjectId UserId))
+                {
+                    return Unauthorized("Không thể xác thực người dùng.");
+                }
+                var user = await userService.GetUserByID(UserId);
+                await coopService.UserJoined(roomid, user.UserId);
+                await hub.Clients.Group(roomid).SendAsync("ReceiveNotification", $"{user.Fullname} has joined.");
+
+                return Ok($"{user.Fullname} joined the room {roomid}");
             }
-            var user = await userService.GetUserByID(UserId);
-            if (coopService.GetRoomByID(userjoined.roomid) == null)
+            catch (Exception ex)
             {
-                return NotFound("Không tìm thấy phòng");
+                return BadRequest($"Failed to join room [{roomid}]");
             }
-            await hub.Clients.Group(userjoined.roomid).SendAsync("ReceiveNotification", $"{user.Fullname} has joined.");
-            return Ok($"{user.Fullname} joined the room {userjoined.roomid}");
         }
     }
 }
