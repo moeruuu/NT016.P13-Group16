@@ -69,11 +69,12 @@ namespace API_Server.Controllers
                 return Unauthorized("Không thể xác thực người dùng.");
             }
             var user = await userService.GetUserByID(UserId);
-            await hub.Clients.Group(userjoined.roomid).SendAsync("ReceiveNotification", $"{user.Fullname} has joined.");
-            return Ok(new
+            if (coopService.GetRoomByID(userjoined.roomid) == null)
             {
-                Message = $"{user.Fullname} joined the room {userjoined.roomid}"
-            }) ;
+                return NotFound("Không tìm thấy phòng");
+            }
+            await hub.Clients.Group(userjoined.roomid).SendAsync("ReceiveNotification", $"{user.Fullname} has joined.");
+            return Ok($"{user.Fullname} joined the room {userjoined.roomid}");
         }
     }
 }

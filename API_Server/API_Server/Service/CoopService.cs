@@ -36,7 +36,16 @@ namespace API_Server.Service
             return CreateNewRoom;
         }
 
-        
+        public async Task<Room> GetRoomByID(string id)
+        {
+            var filter = Builders<Room>.Filter.Eq(r => r.RoomId, id);
+            var room = await rooms.Find(filter).FirstOrDefaultAsync();
+            if (room == null)
+            {
+                return null;
+            }
+            return room;
+        }
     }
 
 }
