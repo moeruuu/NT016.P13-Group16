@@ -8,6 +8,10 @@ namespace API_Server.DTOs
         public string Randomidroom { get; set; }
         public string HostId { get; set; }
         public DateTime StartTime { get; set; }
+    }
 
+    public class UserJoinedDTOs
+    {
+        public string roomid { get; set; }
     }
 }

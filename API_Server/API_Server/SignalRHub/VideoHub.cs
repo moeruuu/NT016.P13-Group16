@@ -10,7 +10,15 @@ namespace API_Server.SignalRHub
 {
     public class VideoHub : Hub
     {
-       
+        public async Task CreateRoom(string roomid)
+        {
+            await Clients.All.SendAsync("RoomCreated", roomid);
+        }
 
+        public async Task JoinedRoom(string roomid, string fullname)
+        {
+            await Groups.AddToGroupAsync(Context.ConnectionId, roomid);
+            await Clients.Group(roomid).SendAsync("ReceiveNotification", $"{fullname} has joined.");
+        }
     }
 }

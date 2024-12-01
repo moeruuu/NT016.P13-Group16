@@ -59,5 +59,22 @@ namespace API_Server.Controllers
             }
 
         }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPost("JoinRoom")]
+        public async Task<IActionResult> JoinRoom([FromBody] UserJoinedDTOs userjoined)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId) || !ObjectId.TryParse(userId, out ObjectId UserId))
+            {
+                return Unauthorized("Không thể xác thực người dùng.");
+            }
+            var user = await userService.GetUserByID(UserId);
+            await hub.Clients.Group(userjoined.roomid).SendAsync("ReceiveNotification", $"{user.Fullname} has joined.");
+            return Ok(new
+            {
+                Message = $"{user.Fullname} joined the room {userjoined.roomid}"
+            }) ;
+        }
     }
 }
