@@ -45,11 +45,28 @@ namespace API_Server.Service
             {
                 throw new Exception("Không tìm thấy phòng");
             }
-            if (result.MatchedCount == 0)
+            if (result.ModifiedCount == 0)
             {
                 throw new Exception("Người dùng này đã tồn tại");
             }
         }
+
+        public async Task UserLeft(string roomid, ObjectId userid)
+        {
+            var filter = Builders<Room>.Filter.Eq(r=>r.RoomId, roomid);
+            var update = Builders<Room>.Update.Pull(r=>r.Participants, userid.ToString());
+
+            var result = await rooms.UpdateOneAsync(filter, update);
+            if (result.MatchedCount == 0)
+            {
+                throw new Exception("Không tìm thấy phòng");
+            }
+            if (result.ModifiedCount == 0)
+            {
+                throw new Exception("Người này không có trong phòng");
+            }
+        }
+
         public async Task<Room> GetRoomByID(string id)
         {
             var filter = Builders<Room>.Filter.Eq(r => r.RoomId, id);

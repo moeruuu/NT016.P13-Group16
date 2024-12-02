@@ -75,11 +75,43 @@ namespace API_Server.Controllers
                 await coopService.UserJoined(roomid, user.UserId);
                 await hub.Clients.Group(roomid).SendAsync("ReceiveNotification", $"{user.Fullname} has joined.");
 
-                return Ok($"{user.Fullname} joined the room {roomid}");
+                return Ok(new
+                {
+                    Message = $"{user.Fullname} joined the room {roomid}",
+                    Roomid = roomid,
+                    UserId = userId,
+                });
             }
             catch (Exception ex)
             {
                 return BadRequest($"Failed to join room [{roomid}]");
+            }
+        }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPost("LeaveRoom")]
+        public async Task<IActionResult> LeaveRoom([FromBody] string roomid)
+        {
+            try
+            {
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userId) || !ObjectId.TryParse(userId, out ObjectId UserId))
+                {
+                    return Unauthorized("Không thể xác thực người dùng.");
+                }
+                var user = await userService.GetUserByID(UserId);
+                await coopService.UserLeft(roomid, UserId);
+                await hub.Clients.Group(roomid).SendAsync("ReceiveNotification", $"{user.Fullname} has left room");
+                return Ok(new
+                {
+                    Message = $"{user.Fullname} has left room {roomid}",
+                    Roomid = roomid,
+                    UserId = userId,
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Failed to leave room [{roomid}]");
             }
         }
     }

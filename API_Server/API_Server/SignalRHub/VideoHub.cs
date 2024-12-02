@@ -15,10 +15,18 @@ namespace API_Server.SignalRHub
             await Clients.All.SendAsync("RoomCreated", roomid);
         }
 
-        public async Task JoinedRoom(string roomid, string fullname)
+        public async Task JoinedRoom(string roomid)
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, roomid);
+            var fullname = Context.User?.Identity?.Name ?? Context.ConnectionId;
             await Clients.Group(roomid).SendAsync("ReceiveNotification", $"{fullname} has joined.");
+        }
+
+        public async Task LeaveRoom(string roomid)
+        {
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, roomid);
+            var username = Context.User?.Identity?.Name ?? Context.ConnectionId;
+            await Clients.Group(roomid).SendAsync("ReceiveNotifiction", $"{username} has left the room {roomid}");
         }
     }
 }
