@@ -31,6 +31,7 @@ namespace UITFLIX
         private readonly UserService userService;
         private readonly VideoService videoService;
         private readonly CoopService coopService;
+        private readonly ChatService chatService;
 
         private static string selectedvideofile;
         private static string selectedimagefile;
@@ -56,7 +57,8 @@ namespace UITFLIX
             coopService = new CoopService();
             Userinfo = in4;
             videoService = video;
-            accesstoken = token;
+            accesstoken = token; 
+            chatService = new ChatService(token);
             setUserinfo();
 
             leftborderBtn = new Panel();
@@ -699,7 +701,8 @@ namespace UITFLIX
 
         private void chat_Click(object sender, EventArgs e)
         {
-            Chat chat = new Chat();
+            string token = accesstoken.ToString();
+            Chat chat = new Chat(Userinfo, token);
             chat.Show();
         }
     }

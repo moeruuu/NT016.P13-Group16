@@ -42,8 +42,8 @@
             textBoxName = new TextBox();
             textBoxEmail = new TextBox();
             textBoxSubject = new TextBox();
-            textBox5 = new TextBox();
-            richTextBoxMessage = new RichTextBox();
+            textBoxAttachmentPath = new TextBox();
+            richTextBoxBody = new RichTextBox();
             buttonBrowse = new Button();
             buttonSend = new Button();
             abovepanel.SuspendLayout();
@@ -77,11 +77,11 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Cambria", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.Font = new Font("Cambria", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.MidnightBlue;
             label1.Location = new Point(78, 21);
             label1.Name = "label1";
-            label1.Size = new Size(115, 27);
+            label1.Size = new Size(121, 27);
             label1.TabIndex = 2;
             label1.Text = "Contact us";
             // 
@@ -160,16 +160,16 @@
             labelmessage.ForeColor = Color.MidnightBlue;
             labelmessage.Location = new Point(29, 259);
             labelmessage.Name = "labelmessage";
-            labelmessage.Size = new Size(84, 23);
+            labelmessage.Size = new Size(54, 23);
             labelmessage.TabIndex = 6;
-            labelmessage.Text = "Message";
+            labelmessage.Text = "Body";
             // 
             // labelattachment
             // 
             labelattachment.AutoSize = true;
             labelattachment.Font = new Font("Cambria", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             labelattachment.ForeColor = Color.MidnightBlue;
-            labelattachment.Location = new Point(34, 470);
+            labelattachment.Location = new Point(34, 456);
             labelattachment.Name = "labelattachment";
             labelattachment.Size = new Size(111, 23);
             labelattachment.TabIndex = 7;
@@ -202,46 +202,48 @@
             textBoxSubject.Size = new Size(279, 29);
             textBoxSubject.TabIndex = 10;
             // 
-            // textBox5
+            // textBoxAttachmentPath
             // 
-            textBox5.Font = new Font("Cambria", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox5.ForeColor = Color.MidnightBlue;
-            textBox5.Location = new Point(158, 470);
-            textBox5.Name = "textBox5";
-            textBox5.Size = new Size(279, 29);
-            textBox5.TabIndex = 12;
+            textBoxAttachmentPath.Font = new Font("Cambria", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxAttachmentPath.ForeColor = Color.MidnightBlue;
+            textBoxAttachmentPath.Location = new Point(158, 456);
+            textBoxAttachmentPath.Name = "textBoxAttachmentPath";
+            textBoxAttachmentPath.Size = new Size(279, 29);
+            textBoxAttachmentPath.TabIndex = 12;
             // 
-            // richTextBoxMessage
+            // richTextBoxBody
             // 
-            richTextBoxMessage.Font = new Font("Cambria", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            richTextBoxMessage.ForeColor = Color.MidnightBlue;
-            richTextBoxMessage.Location = new Point(158, 273);
-            richTextBoxMessage.Name = "richTextBoxMessage";
-            richTextBoxMessage.Size = new Size(279, 166);
-            richTextBoxMessage.TabIndex = 13;
-            richTextBoxMessage.Text = "";
+            richTextBoxBody.Font = new Font("Cambria", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            richTextBoxBody.ForeColor = Color.MidnightBlue;
+            richTextBoxBody.Location = new Point(158, 258);
+            richTextBoxBody.Name = "richTextBoxBody";
+            richTextBoxBody.Size = new Size(279, 166);
+            richTextBoxBody.TabIndex = 13;
+            richTextBoxBody.Text = "";
             // 
             // buttonBrowse
             // 
             buttonBrowse.Font = new Font("Cambria", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             buttonBrowse.ForeColor = Color.MidnightBlue;
-            buttonBrowse.Location = new Point(459, 472);
+            buttonBrowse.Location = new Point(459, 458);
             buttonBrowse.Name = "buttonBrowse";
             buttonBrowse.Size = new Size(94, 29);
             buttonBrowse.TabIndex = 14;
             buttonBrowse.Text = "Browse";
             buttonBrowse.UseVisualStyleBackColor = true;
+            buttonBrowse.Click += buttonBrowse_Click;
             // 
             // buttonSend
             // 
             buttonSend.Font = new Font("Cambria", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             buttonSend.ForeColor = Color.MidnightBlue;
-            buttonSend.Location = new Point(158, 523);
+            buttonSend.Location = new Point(158, 510);
             buttonSend.Name = "buttonSend";
             buttonSend.Size = new Size(94, 29);
             buttonSend.TabIndex = 15;
             buttonSend.Text = "Send";
             buttonSend.UseVisualStyleBackColor = true;
+            buttonSend.Click += buttonSend_Click;
             // 
             // Chat
             // 
@@ -252,8 +254,8 @@
             ControlBox = false;
             Controls.Add(buttonSend);
             Controls.Add(buttonBrowse);
-            Controls.Add(richTextBoxMessage);
-            Controls.Add(textBox5);
+            Controls.Add(richTextBoxBody);
+            Controls.Add(textBoxAttachmentPath);
             Controls.Add(textBoxSubject);
             Controls.Add(textBoxEmail);
             Controls.Add(textBoxName);
@@ -267,6 +269,7 @@
             FormBorderStyle = FormBorderStyle.None;
             Name = "Chat";
             Text = "Chat";
+            Load += Chat_Load;
             abovepanel.ResumeLayout(false);
             abovepanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)logo).EndInit();
@@ -291,8 +294,8 @@
         private TextBox textBoxName;
         private TextBox textBoxEmail;
         private TextBox textBoxSubject;
-        private TextBox textBox5;
-        private RichTextBox richTextBoxMessage;
+        private TextBox textBoxAttachmentPath;
+        private RichTextBox richTextBoxBody;
         private Button buttonBrowse;
         private Button buttonSend;
     }
