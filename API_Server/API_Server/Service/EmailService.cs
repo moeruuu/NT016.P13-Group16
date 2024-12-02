@@ -2,6 +2,7 @@
 using MailKit;
 using Microsoft.Extensions.Options;
 using MimeKit;
+using MimeKit.Utils;
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using Org.BouncyCastle.Crypto.Macs;
@@ -92,6 +93,10 @@ namespace API_Server.Service
                 {
                     HtmlBody = htmlContent
                 };
+                if (!string.IsNullOrEmpty(request.AttachmentPath) && File.Exists(request.AttachmentPath))
+                {
+                    builder.Attachments.Add(request.AttachmentPath);
+                }
                 email.Body = builder.ToMessageBody();
                 using var smtp = new SmtpClient();
                 await smtp.ConnectAsync(sender.HostEmail, sender.Port, SecureSocketOptions.StartTls);
