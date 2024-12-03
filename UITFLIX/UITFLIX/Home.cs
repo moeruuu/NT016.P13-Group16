@@ -72,8 +72,9 @@ namespace UITFLIX
             searchtb.Font = new Font(searchtb.Font, FontStyle.Italic);
             searchtb.Font = new Font(searchtb.Font.FontFamily, 14);
             searchtb.ScrollBars = RichTextBoxScrollBars.None;
+
             //Mở new videos ngay khi mở form
-            //btnnewvideo_Click(btnnewvideo, EventArgs.Empty);
+            this.Load += (s, e) => btnnewvideo.PerformClick();
         }
 
         //set info user
@@ -378,7 +379,7 @@ namespace UITFLIX
                         VideoControl item = new VideoControl()
                         {
                             Title = SetLabelText(video["video"]["title"].ToString(), 14),
-                            Sub = "Watched at: " + video["watchedTime"].ToObject<DateTime>().ToUniversalTime().ToString("dd/MM/yyyy"),
+                            Sub = "Watched on: " + video["watchedTime"].ToObject<DateTime>().ToUniversalTime().ToString("dd/MM/yyyy"),
                             ImageUrl = video["video"]["urlImage"].ToString()
                         };
 

@@ -226,7 +226,6 @@
             txtBio.TabIndex = 7;
             txtBio.Text = "";
             txtBio.Visible = false;
-            txtBio.Enter += txtBio_Enter;
             // 
             // btnSavePwd
             // 
@@ -373,6 +372,8 @@
             Controls.Add(btnUpdateInfo);
             Controls.Add(btnSavePwd);
             ForeColor = Color.LightBlue;
+            FormBorderStyle = FormBorderStyle.None;
+            HelpButton = true;
             Margin = new Padding(2);
             Name = "UpdateInformation";
             StartPosition = FormStartPosition.CenterScreen;
