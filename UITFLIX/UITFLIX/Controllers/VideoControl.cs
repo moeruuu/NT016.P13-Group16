@@ -77,15 +77,25 @@ namespace UITFLIX.Controllers
                 }
                 catch (Exception ex)
                 {
-                    pbImage.Invoke((Action)(() =>
+                    string defaulturl = "https://i.imgur.com/uEAsJtz.png";
+                    Image image = null;
+                    using (var client = new HttpClient())
                     {
-                        pbImage.Image = null;
-                    }));
+                        var bytes = client.GetByteArrayAsync(defaulturl).Result;
+                        using (var ms = new MemoryStream(bytes))
+                        {
+                            image = Image.FromStream(ms);
+                        }
+                    }
+                    pbImage.Image = image;
                 }
             }
             else
             {
-                pbImage.Image = null; // URL không hợp lệ
+                pbImage.Invoke((Action)(() =>
+                {
+                    pbImage.Image = null; // URL không hợp lệ
+                }));
             }
         }
 

@@ -2,6 +2,7 @@
 using MailKit;
 using Microsoft.Extensions.Options;
 using MimeKit;
+using MimeKit.Utils;
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using Org.BouncyCastle.Crypto.Macs;
@@ -47,8 +48,8 @@ namespace API_Server.Service
             try
             {
                 var email = new MimeMessage();
-                email.Sender = MailboxAddress.Parse(sender.EmailGroup16);
-                email.To.Add(MailboxAddress.Parse(request.Email));
+                email.Sender = MailboxAddress.Parse(request.Email);
+                email.To.Add(MailboxAddress.Parse(sender.EmailGroup16));
                 email.Subject = $"[Liên hệ mới từ {request.Name}] {request.Subject}";
                 var htmlContent = $@"
                 <!DOCTYPE html>
@@ -92,6 +93,10 @@ namespace API_Server.Service
                 {
                     HtmlBody = htmlContent
                 };
+                if (!string.IsNullOrEmpty(request.AttachmentPath) && File.Exists(request.AttachmentPath))
+                {
+                    builder.Attachments.Add(request.AttachmentPath);
+                }
                 email.Body = builder.ToMessageBody();
                 using var smtp = new SmtpClient();
                 await smtp.ConnectAsync(sender.HostEmail, sender.Port, SecureSocketOptions.StartTls);

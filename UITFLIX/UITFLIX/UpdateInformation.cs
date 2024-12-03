@@ -32,7 +32,10 @@ namespace UITFLIX
             AccessToken = accessToken;
             userService = new UserService();
             txtFullname.Text = userinfo["user"]["fullname"].ToString();
-            txtBio.Text = userinfo["user"]["bio"].ToString();
+            if (userinfo["user"]["bio"].ToString() == "< Người dùng này cạn lời rồi ... >" || userinfo["user"]["bio"] == null)
+                txtBio.Text = string.Empty;
+            else
+                txtBio.Text = userinfo["user"]["bio"].ToString();
             //MessageBox.Show(userinfo.ToString());
         }
 
@@ -71,7 +74,6 @@ namespace UITFLIX
                     Avatar.Image = LoadDefaultImage();
                 }
             }
-
         }
 
         private Image LoadDefaultImage()
@@ -206,13 +208,6 @@ namespace UITFLIX
             if (selectedimagefile != null)
                 Avatar.Image = System.Drawing.Image.FromFile(selectedimagefile);
         }
-        private void txtBio_Enter(object sender, EventArgs e)
-        {
-            if (txtBio.Text == "< Người dùng này cạn lời rồi ... >")
-            {
-                txtBio.Text = "";
-            }
-        }
 
         private async void btnUpdateInfo_Click(object sender, EventArgs e)
         {
@@ -221,14 +216,11 @@ namespace UITFLIX
 
             if (fullname == string.Empty)
             {
-                MessageBox.Show("Fullname không thể để trống. Vui lòng nhập tên đầy đủ", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Fullname không thể để trống. Vui lòng nhập tên đầy đủ của bạn", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
             if (bio == string.Empty)
-            {
                 bio = "< Người dùng này cạn lời rồi ... >";
-                txtBio.ForeColor = Color.SkyBlue;
-            }
             try
             {
                 var response = await userService.UpdateInformation(fullname, bio, selectedimagefile, AccessToken);
@@ -270,7 +262,12 @@ namespace UITFLIX
 
         private void logo_Click(object sender, EventArgs e)
         {
-            if (txtBio.ToString().Trim() != userinfo["user"]["bio"].ToString() || txtFullname.ToString().Trim() != userinfo["user"]["fullname"].ToString() || selectedimagefile != null)
+            string bio = txtBio.Text.Trim();
+            if (txtBio.Text.Trim() == string.Empty)
+                bio = "< Người dùng này cạn lời rồi ... >";
+            if (bio == "" && userinfo["user"]["bio"] == null)
+                return;
+            if (bio != userinfo["user"]["bio"].ToString() || txtFullname.Text.Trim() != userinfo["user"]["fullname"].ToString() || selectedimagefile != "Not Null")
             {
                 var res = MessageBox.Show("Bạn chưa lưu thay đổi. Bạn vẫn muốn thoát chứ?", "Information", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (res == DialogResult.Yes)
@@ -284,6 +281,13 @@ namespace UITFLIX
                 {
                     return;
                 }
+            }
+            else
+            {
+                this.Hide();
+                VideoService videos = new VideoService();
+                new Home(userinfo, videos, AccessToken).ShowDialog();
+                this.Close();
             }
         }
 
@@ -363,6 +367,9 @@ namespace UITFLIX
             }
         }
 
+        private void UpdateInformation_Load(object sender, EventArgs e)
+        {
 
+        }
     }
 }

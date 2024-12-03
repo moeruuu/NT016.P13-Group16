@@ -232,6 +232,7 @@ namespace API_Server.Service
                     Password = tempUser.Password,
                     Email = tempUser.Email,
                     Role = 1,
+                    Bio = "< Người dùng này cạn lời rồi ... >",
                 };
                 await users.InsertOneAsync(newUser);
                 /*nguoidung.TryRemove(currentEmail, out _);

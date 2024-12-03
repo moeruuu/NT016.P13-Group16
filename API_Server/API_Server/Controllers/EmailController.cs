@@ -10,6 +10,7 @@ using System.Security.Claims;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Net.Mail;
 using System.Net;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace API_Server.Controllers
 {
@@ -35,15 +36,20 @@ namespace API_Server.Controllers
             try
             {
                 var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                var userEmail = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
                 if (string.IsNullOrEmpty(userId) || !ObjectId.TryParse(userId, out ObjectId UserId))
                 {
                     return Unauthorized("Không thể xác thực người dùng.");
+                }
+                if (string.IsNullOrEmpty(userEmail) || !emailRequest.IsValidEmail(userEmail))
+                {
+                    return Unauthorized("Không thể xác thực email người dùng.");
                 }
                 if (!emailRequest.IsValid())
                 {
                     return BadRequest("Thông tin email không đầy đủ hoặc không hợp lệ.");
                 }
-
+                emailRequest.Email = userEmail;
                 await emailService.SendContactEmail(emailRequest);
                 return Ok("Email đã được gửi thành công!");
             }

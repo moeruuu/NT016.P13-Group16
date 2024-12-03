@@ -31,6 +31,7 @@ namespace UITFLIX
         private readonly UserService userService;
         private readonly VideoService videoService;
         private readonly CoopService coopService;
+        private readonly ChatService chatService;
 
         private static string selectedvideofile;
         private static string selectedimagefile;
@@ -56,7 +57,8 @@ namespace UITFLIX
             coopService = new CoopService();
             Userinfo = in4;
             videoService = video;
-            accesstoken = token;
+            accesstoken = token; 
+            chatService = new ChatService(token);
             setUserinfo();
 
             leftborderBtn = new Panel();
@@ -70,8 +72,9 @@ namespace UITFLIX
             searchtb.Font = new Font(searchtb.Font, FontStyle.Italic);
             searchtb.Font = new Font(searchtb.Font.FontFamily, 14);
             searchtb.ScrollBars = RichTextBoxScrollBars.None;
+
             //Mở new videos ngay khi mở form
-            //btnnewvideo_Click(btnnewvideo, EventArgs.Empty);
+            this.Load += (s, e) => btnnewvideo.PerformClick();
         }
 
         //set info user
@@ -376,7 +379,7 @@ namespace UITFLIX
                         VideoControl item = new VideoControl()
                         {
                             Title = SetLabelText(video["video"]["title"].ToString(), 14),
-                            Sub = "Watched at: " + video["watchedTime"].ToObject<DateTime>().ToUniversalTime().ToString("dd/MM/yyyy"),
+                            Sub = "Watched on: " + video["watchedTime"].ToObject<DateTime>().ToUniversalTime().ToString("dd/MM/yyyy"),
                             ImageUrl = video["video"]["urlImage"].ToString()
                         };
 
@@ -699,7 +702,8 @@ namespace UITFLIX
 
         private void chat_Click(object sender, EventArgs e)
         {
-            Chat chat = new Chat();
+            string token = accesstoken.ToString();
+            Chat chat = new Chat(Userinfo, token);
             chat.Show();
         }
     }

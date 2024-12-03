@@ -8,6 +8,7 @@ namespace API_Server.Models
         public string Name { get; set; }
         public string Subject { get; set; }
         public string Body { get; set; }
+        public string AttachmentPath { get; set; }
         public bool IsValid()
         {
             return !string.IsNullOrEmpty(Email) && IsValidEmail(Email) &&
@@ -16,7 +17,7 @@ namespace API_Server.Models
                    !string.IsNullOrEmpty(Body);
         }
 
-        private bool IsValidEmail(string email)
+        public bool IsValidEmail(string email)
         {
             var emailRegex = new Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
             return emailRegex.IsMatch(email);
