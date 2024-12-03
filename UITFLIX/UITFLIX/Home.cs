@@ -686,15 +686,15 @@ namespace UITFLIX
             var roomid = await coopService.CreateRoom(accesstoken);
             if (roomid != null)
             {
-                MessageBox.Show("Your room id: " + roomid);
+                MessageBox.Show("Your room id: " + roomid["roomId"].ToString());
                 this.Hide();
-                new Room(accesstoken, roomid).ShowDialog();
+                new Room(accesstoken, roomid["room"]["roomId"].ToString()).ShowDialog();
                 this.Close();
             }
-            /*else
+            else
             {
                 MessageBox.Show("qqjz");
-            }*/
+            }
         }
 
         private void chat_Click(object sender, EventArgs e)

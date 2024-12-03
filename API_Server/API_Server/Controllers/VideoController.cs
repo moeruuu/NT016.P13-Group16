@@ -224,14 +224,21 @@ namespace API_Server.Controllers
             {
                 return Unauthorized("Không thể xác thực người dùng.");
             }
-            var Delete = await filmService.DeleteVideo(IDVideo);
-            if (Delete)
+            try
             {
-                return Ok("Xóa video thành công!");
+                var Delete = await filmService.DeleteVideo(IDVideo);
+                if (Delete)
+                {
+                    return Ok("Xóa video thành công!");
+                }
+                else
+                {
+                    return NotFound("Không tìm thấy video");
+                }
             }
-            else
+            catch(Exception ex)
             {
-                return NotFound("Không tìm thấy video");
+                return BadRequest(ex.Message);
             }
         }
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]

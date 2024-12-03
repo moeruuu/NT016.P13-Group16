@@ -9,6 +9,7 @@ using API_Server.SignalRHub;
 using MongoDB.Bson;
 using System.Security.Claims;
 using API_Server.Data;
+using MongoDB.Driver;
 
 namespace API_Server.Controllers
 {
@@ -39,9 +40,13 @@ namespace API_Server.Controllers
                 {
                     return Unauthorized("Không thể xác thực người dùng.");
                 }
-                var user = await userService.GetUserByID(UserId);
+               /* var user = await userService.GetUserByID(UserId);
+                if (user == null)
+                {
+                    return NotFound("Không tìm thấy");
+                }*/
 
-                var createroom = await coopService.CreateRoom(user.UserId);
+                var createroom = await coopService.CreateRoom(UserId);
                 return Ok(new
                 {
                     Room = new
@@ -55,7 +60,7 @@ namespace API_Server.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(ex.Message + "\n" + ex.StackTrace);
             }
 
         }
@@ -104,7 +109,7 @@ namespace API_Server.Controllers
                 await hub.Clients.Group(roomid).SendAsync("ReceiveNotification", $"{user.Fullname} has left room");
                 return Ok(new
                 {
-                    Message = $"{user.Fullname} has left room {roomid}",
+                    Message = $"{user.Fullname} has left room [{roomid}]",
                     Roomid = roomid,
                     UserId = userId,
                 });
@@ -112,6 +117,25 @@ namespace API_Server.Controllers
             catch (Exception ex)
             {
                 return BadRequest($"Failed to leave room [{roomid}]");
+            }
+        }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPost("DeleteRoom")]
+        public async Task<IActionResult> DeleteRoom(string roomid)
+        {
+            try
+            {
+                var checkroom = await coopService.DeleteRoom(roomid);
+                if (checkroom)
+                {
+                    return Ok($"Phòng [{roomid}] đã bị xóa!");
+                }
+                return BadRequest();
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
         }
     }

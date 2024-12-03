@@ -4,10 +4,13 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Security.Cryptography.Xml;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Win32;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+
 
 namespace UITFLIX.Services
 {
@@ -38,68 +41,45 @@ namespace UITFLIX.Services
 
         private void RegisterEvent()
         {
-           connection.On<string>("RoomCreated", roomid =>
+            connection.On<string>("RoomCreated", roomId =>
             {
-                RoomCreated?.Invoke(roomid);
+                RoomCreated?.Invoke(roomId);
             });
 
-            connection.On<string>("RoomDeleted", roomid =>
+            connection.On<string>("UserJoined", userId =>
             {
-                RoomDeleted?.Invoke(roomid);
-            });
-
-            connection.On<string>("UserJoined", userid =>
-            {
-                UserJoined?.Invoke(userid);
-            });
-
-            connection.On<string>("UserLeft", userid =>
-            {
-                UserLeft?.Invoke(userid);
-            });
-
-            connection.On<string>("PlayVideo", videoid =>
-            {
-                VideoPlayed?.Invoke(videoid);
-            });
-
-            connection.On<string>("PauseVideo", videoid =>
-            {
-                VideoPaused?.Invoke(videoid);
-            });
-
-            connection.On<string, string>("Chat", (user, message) =>
-            {
-                ChatReceived?.Invoke(user, message);
-            });
-
-           connection.On<string, string, string>("AddVideoToQueue", (roomid, videoid, title) =>
-            {
-                VideoAddedToQueue?.Invoke(roomid, videoid, title);
+                UserJoined?.Invoke(userId);
             });
         }
 
-        public async Task<string> CreateRoom(string accesstoken)
+        public async Task<JObject> CreateRoom(string accesstoken)
         {
             try
             {
+                if (connection.State != HubConnectionState.Connected)
+                {
+                    await StartConnection(); 
+                }
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accesstoken);
                 var response = await httpClient.PostAsync("api/Coop/CreateRoom", null);
+                var res = await response.Content.ReadAsStringAsync();
                 if (response.IsSuccessStatusCode)
                 {
-                    var res = await response.Content.ReadAsStringAsync();
+                    
                     JObject jobject = JObject.Parse(res);
-                   // MessageBox.Show(res.ToString());
-                    return jobject["roomid"].ToString();
+                    //await connection.InvokeAsync("RoomCreated", jobject["room"]["roomId"].ToString());
+                    //MessageBox.Show(jobject.ToString());
+                    return jobject;
                 }
                 else
                 {
+                    MessageBox.Show(response.ToString());  
                     return null;
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
                 return null;
             }
 
@@ -130,24 +110,31 @@ namespace UITFLIX.Services
             }
         }
 
-        public async Task SendMessageToRoom(string roomid, string user, string message)
+        public async Task<JObject> JoinRoom(string roomid, string accesstoken)
         {
-            await connection.SendAsync("SendMessage", roomid, user, message);
-        }
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accesstoken);
+            var joinroom = new
+            {
+                roomid = roomid,
+            };
+            try
+            {
+                var json = JsonConvert.SerializeObject(joinroom);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await httpClient.PostAsync("api/Coop/UserJoined", content);
+                var res = await response.Content.ReadAsStringAsync();
+                if (response.IsSuccessStatusCode)
+                {
+                    return JObject.Parse(res); 
+                }
+                return null;
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return null;
+            }
 
-        public async Task PlayNextVideo(string roomid)
-        {
-            await connection.SendAsync("PlayNextVideoFromQueue", roomid);
-        }
-
-        public async Task PauseVideo(string roomid, string videoid)
-        {
-            await connection.SendAsync("PauseVideo", roomid, videoid);
-        }
-
-        public void OnVideoAddedToQueue(string roomid, string videoid, string title)
-        {
-            VideoAddedToQueue?.Invoke(roomid, videoid, title);
         }
 
     }

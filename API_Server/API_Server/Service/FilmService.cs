@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using MongoDB.Driver.GridFS;
 using System.Net.WebSockets;
+using Microsoft.AspNetCore.Http.HttpResults;
 namespace API_Server.Service
 {
     public class FilmService
@@ -167,7 +168,24 @@ namespace API_Server.Service
 
         public async Task<bool> DeleteVideo(string id)
         {
-            var filter = Builders<Video>.Filter.Eq(v => v.VideoId, ObjectId.Parse(id));
+            var filter = Builders<Video>.Filter.Eq(v => v.id, id);
+            var getfilm = await GetVideoByID(id);
+
+            if (getfilm == null)
+            {
+                return false;
+            }
+            /*Console.WriteLine($"ID hợp lệ: {id}");
+            Console.WriteLine(getfilm.ToString());*/
+            var filefilter = Builders<GridFSFileInfo>.Filter.Eq(info => info.Length, getfilm.Size);
+            var file = await gridFS.Find(filefilter).FirstOrDefaultAsync();
+            //Console.WriteLine(file.ToString());
+
+            if (file == null)
+            {
+                return false; 
+            }
+            await gridFS.DeleteAsync(file.Id);
             var result = await videos.DeleteOneAsync(filter);
             return result.DeletedCount > 0;
         }

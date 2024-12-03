@@ -3,6 +3,7 @@ using API_Server.Data;
 using Microsoft.Extensions.Configuration;
 using API_Server.DTOs;
 using MongoDB.Bson;
+using System.Net.WebSockets;
 namespace API_Server.Service
 {
     public class CoopService
@@ -67,6 +68,20 @@ namespace API_Server.Service
             }
         }
 
+        public async Task<bool> DeleteRoom(string roomid)
+        {
+            var filter = Builders<Room>.Filter.Eq(r=>r.RoomId, roomid);
+            var room = await rooms.Find(filter).FirstOrDefaultAsync();
+            if (room == null)
+            {
+                throw new Exception("Phòng này không tồn tại");
+            }
+            if (room.Participants.Count == 0)
+            {
+                return true;
+            }
+            return false;
+        }
         public async Task<Room> GetRoomByID(string id)
         {
             var filter = Builders<Room>.Filter.Eq(r => r.RoomId, id);
@@ -77,6 +92,8 @@ namespace API_Server.Service
             }
             return room;
         }
+
+
     }
 
 }

@@ -28,5 +28,10 @@ namespace API_Server.SignalRHub
             var username = Context.User?.Identity?.Name ?? Context.ConnectionId;
             await Clients.Group(roomid).SendAsync("ReceiveNotifiction", $"{username} has left the room {roomid}");
         }
+
+        public async Task DeleteRoom(string roomid)
+        {
+            await Clients.All.SendAsync("RoomDeleted", roomid);
+        }
     }
 }
