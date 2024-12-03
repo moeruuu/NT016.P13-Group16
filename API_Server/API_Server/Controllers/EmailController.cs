@@ -36,7 +36,7 @@ namespace API_Server.Controllers
             try
             {
                 var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                var userEmail = User.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Email)?.Value;
+                var userEmail = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
                 if (string.IsNullOrEmpty(userId) || !ObjectId.TryParse(userId, out ObjectId UserId))
                 {
                     return Unauthorized("Không thể xác thực người dùng.");

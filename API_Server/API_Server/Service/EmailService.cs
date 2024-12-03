@@ -48,8 +48,8 @@ namespace API_Server.Service
             try
             {
                 var email = new MimeMessage();
-                email.Sender = MailboxAddress.Parse(sender.EmailGroup16);
-                email.To.Add(MailboxAddress.Parse(request.Email));
+                email.Sender = MailboxAddress.Parse(request.Email);
+                email.To.Add(MailboxAddress.Parse(sender.EmailGroup16));
                 email.Subject = $"[Liên hệ mới từ {request.Name}] {request.Subject}";
                 var htmlContent = $@"
                 <!DOCTYPE html>
