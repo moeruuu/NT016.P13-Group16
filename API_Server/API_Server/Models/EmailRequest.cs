@@ -17,7 +17,7 @@ namespace API_Server.Models
                    !string.IsNullOrEmpty(Body);
         }
 
-        private bool IsValidEmail(string email)
+        public bool IsValidEmail(string email)
         {
             var emailRegex = new Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
             return emailRegex.IsMatch(email);
