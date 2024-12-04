@@ -91,7 +91,7 @@ namespace UITFLIX
             for (int i = 0; i <= 100; i++)
             {
                 progressBar1.Value = i;
-                await Task.Delay(15);
+                await Task.Delay(17);
             }
         }
 
