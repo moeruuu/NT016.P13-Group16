@@ -57,7 +57,7 @@ namespace UITFLIX
             coopService = new CoopService();
             Userinfo = in4;
             videoService = video;
-            accesstoken = token; 
+            accesstoken = token;
             chatService = new ChatService(token);
             setUserinfo();
 
@@ -705,6 +705,15 @@ namespace UITFLIX
             string token = accesstoken.ToString();
             Chat chat = new Chat(Userinfo, token);
             chat.Show();
+        }
+
+        private async void Home_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            var LogOutModel = new
+            {
+                Id = Userinfo["user"]["id"].ToString()
+            };
+            var response = await userService.LogOut(LogOutModel, accesstoken);
         }
     }
 
