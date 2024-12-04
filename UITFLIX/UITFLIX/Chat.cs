@@ -66,7 +66,7 @@ namespace UITFLIX
                     chatModel.AttachmentPath = attachmentPath;
                 }
                 string jsonData = JsonConvert.SerializeObject(chatModel);
-                MessageBox.Show(jsonData);
+                //MessageBox.Show(jsonData);
                 var response = await chatService.SendEmailAsync(chatModel);
                 MessageBox.Show(response, "Kết quả", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
