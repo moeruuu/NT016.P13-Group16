@@ -33,6 +33,7 @@ namespace UITFLIX
 
         private void iconPictureBoxHome_Click(object sender, EventArgs e)
         {
+            this.Close();
         }
 
         private void logo_Click(object sender, EventArgs e)
