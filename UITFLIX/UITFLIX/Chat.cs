@@ -87,7 +87,7 @@ namespace UITFLIX
         {
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
-                openFileDialog.Filter = "All Files|*.*";
+                openFileDialog.Filter = "Text and Image Files|*.txt;*.jpg;*.jpeg;*.png;*.bmp;*.gif;*.doc; *.docx";
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     string selectedFilePath = openFileDialog.FileName;
@@ -100,6 +100,15 @@ namespace UITFLIX
                     if (fileInfo.Length > 10 * 1024 * 1024)
                     {
                         MessageBox.Show("Tệp đính kèm không được vượt quá 10 MB!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+                    string[] allowedExtensions = { ".txt", ".jpg", ".jpeg", ".png", ".bmp", ".gif", ".doc", ".docx" };
+                    string fileExtension = fileInfo.Extension.ToLower();
+
+                    if (!allowedExtensions.Contains(fileExtension))
+                    {
+                        MessageBox.Show("Chỉ cho phép tệp văn bản (*.txt), hình ảnh (*.jpg, *.jpeg, *.png, *.bmp, *.gif) hoặc word (*.doc, *.docx)!",
+                                        "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
                     textBoxAttachmentPath.Text = selectedFilePath;
