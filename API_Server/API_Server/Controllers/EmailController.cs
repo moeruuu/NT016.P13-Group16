@@ -21,14 +21,12 @@ namespace API_Server.Controllers
     {
         private readonly EmailService emailService;
         private readonly UserService userService;
-        private readonly EmailLogService emailLogService;
 
 
-        public EmailController(EmailService emailService, UserService userService, EmailLogService emailLogService)
+        public EmailController(EmailService emailService, UserService userService)
         {
             this.emailService = emailService;
             this.userService = userService;
-            this.emailLogService = emailLogService;
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
@@ -52,17 +50,8 @@ namespace API_Server.Controllers
                 {
                     return BadRequest("Thông tin email không đầy đủ hoặc không hợp lệ.");
                 }
-                //emailRequest.Email = userEmail;
+                emailRequest.Email = userEmail;
                 await emailService.SendContactEmail(emailRequest);
-                var log = new SentEmail
-                {
-                    SenderEmail = userEmail,
-                    RecipientEmail = emailRequest.Email,
-                    Subject = emailRequest.Subject,
-                    Body = emailRequest.Body,
-                    SentAt = DateTime.UtcNow
-                };
-                await emailLogService.LogSentEmail(log);
                 return Ok("Email đã được gửi thành công!");
             }
             catch (Exception ex)
@@ -71,38 +60,7 @@ namespace API_Server.Controllers
             }
         }
 
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [HttpGet("GetSentEmailsBySender")]
-        public async Task<IActionResult> GetSentEmailsBySender([FromQuery] string senderEmail)
-        {
-            try
-            {
-                var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
-                if (userRole == null || !userRole.Equals("Admin", StringComparison.OrdinalIgnoreCase))
-                {
-                    return Forbid("Bạn không có quyền truy cập tài nguyên này.");
-                }
-                if (string.IsNullOrEmpty(senderEmail))
-                {
-                    return BadRequest("Email của người gửi không được trống.");
-                }
-                var userEmail = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
-                if (string.IsNullOrEmpty(userEmail))
-                {
-                    return Unauthorized("Không thể xác thực email người dùng.");
-                }
-                var emails = await emailLogService.GetSentEmailsBySender(senderEmail);
-                if (emails == null || emails.Count == 0)
-                {
-                    return NotFound($"Không tìm thấy email nào cho người gửi: {senderEmail}");
-                }
-                return Ok(emails);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"Lỗi: {ex.Message}");
-            }
-        }
+ 
 
 
     }

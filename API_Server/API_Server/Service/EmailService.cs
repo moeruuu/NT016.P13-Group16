@@ -17,12 +17,11 @@ namespace API_Server.Service
 {
     public class EmailService
     {
-        private readonly EmailLogService emailLogService;
+
         private readonly EmailSender sender;
-        public EmailService(IOptions<EmailSender> options, EmailLogService emailLogService)
+        public EmailService(IOptions<EmailSender> options)
         {
             this.sender = options.Value;
-            this.emailLogService = emailLogService;
         }
 
         public async Task SendEmail(EmailRequest request)
@@ -112,15 +111,6 @@ namespace API_Server.Service
                 await smtp.SendAsync(email);
                 await smtp.DisconnectAsync(true);
 
-                var sentEmail = new SentEmail
-                {
-                    SenderEmail = sender.EmailGroup16,
-                    RecipientEmail = request.Email,
-                    Subject = request.Subject,
-                    Body = request.Body,
-                    SentAt = DateTime.UtcNow
-                };
-                await emailLogService.LogSentEmail(sentEmail);
             }
             catch (Exception ex)
             {
