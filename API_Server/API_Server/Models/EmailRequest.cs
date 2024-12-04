@@ -8,7 +8,7 @@ namespace API_Server.Models
         public string Name { get; set; }
         public string Subject { get; set; }
         public string Body { get; set; }
-        public string AttachmentPath { get; set; }
+        public string? AttachmentPath { get; set; }
         public bool IsValid()
         {
             return !string.IsNullOrEmpty(Email) && IsValidEmail(Email) &&

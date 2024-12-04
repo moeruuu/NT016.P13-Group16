@@ -4,16 +4,20 @@ using Microsoft.Extensions.Options;
 using MimeKit;
 using MimeKit.Utils;
 using MailKit.Net.Smtp;
+using MailKit.Net.Imap;
 using MailKit.Security;
 using Org.BouncyCastle.Crypto.Macs;
 using static System.Net.Mime.MediaTypeNames;
 using System.Drawing;
 using System;
+using Org.BouncyCastle.Tls;
+using API_Server.Data;
 
 namespace API_Server.Service
 {
     public class EmailService
     {
+
         private readonly EmailSender sender;
         public EmailService(IOptions<EmailSender> options)
         {
@@ -36,6 +40,8 @@ namespace API_Server.Service
                 await smtp.AuthenticateAsync(sender.EmailGroup16, sender.PasswordGroup16);
                 await smtp.SendAsync(email);
                 await smtp.DisconnectAsync(true);
+
+
             }
             catch (Exception ex)
             {
@@ -50,6 +56,7 @@ namespace API_Server.Service
                 var email = new MimeMessage();
                 email.Sender = MailboxAddress.Parse(request.Email);
                 email.To.Add(MailboxAddress.Parse(sender.EmailGroup16));
+                //email.Bcc.Add(MailboxAddress.Parse(request.Email));
                 email.Subject = $"[Liên hệ mới từ {request.Name}] {request.Subject}";
                 var htmlContent = $@"
                 <!DOCTYPE html>
@@ -103,6 +110,7 @@ namespace API_Server.Service
                 await smtp.AuthenticateAsync(sender.EmailGroup16, sender.PasswordGroup16);
                 await smtp.SendAsync(email);
                 await smtp.DisconnectAsync(true);
+
             }
             catch (Exception ex)
             {
@@ -110,6 +118,7 @@ namespace API_Server.Service
             }
 
         }
+       
     }
 }
 

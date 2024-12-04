@@ -46,6 +46,7 @@
             richTextBoxBody = new RichTextBox();
             buttonBrowse = new Button();
             buttonSend = new Button();
+            progressBar1 = new ProgressBar();
             abovepanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)logo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)iconPictureBoxChat).BeginInit();
@@ -181,6 +182,7 @@
             textBoxName.ForeColor = Color.MidnightBlue;
             textBoxName.Location = new Point(158, 98);
             textBoxName.Name = "textBoxName";
+            textBoxName.ReadOnly = true;
             textBoxName.Size = new Size(279, 29);
             textBoxName.TabIndex = 8;
             // 
@@ -190,6 +192,7 @@
             textBoxEmail.ForeColor = Color.MidnightBlue;
             textBoxEmail.Location = new Point(158, 150);
             textBoxEmail.Name = "textBoxEmail";
+            textBoxEmail.ReadOnly = true;
             textBoxEmail.Size = new Size(279, 29);
             textBoxEmail.TabIndex = 9;
             // 
@@ -208,6 +211,7 @@
             textBoxAttachmentPath.ForeColor = Color.MidnightBlue;
             textBoxAttachmentPath.Location = new Point(158, 456);
             textBoxAttachmentPath.Name = "textBoxAttachmentPath";
+            textBoxAttachmentPath.ReadOnly = true;
             textBoxAttachmentPath.Size = new Size(279, 29);
             textBoxAttachmentPath.TabIndex = 12;
             // 
@@ -245,6 +249,14 @@
             buttonSend.UseVisualStyleBackColor = true;
             buttonSend.Click += buttonSend_Click;
             // 
+            // progressBar1
+            // 
+            progressBar1.ForeColor = Color.CadetBlue;
+            progressBar1.Location = new Point(56, 573);
+            progressBar1.Name = "progressBar1";
+            progressBar1.Size = new Size(528, 29);
+            progressBar1.TabIndex = 16;
+            // 
             // Chat
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -252,6 +264,7 @@
             BackColor = Color.LightBlue;
             ClientSize = new Size(582, 601);
             ControlBox = false;
+            Controls.Add(progressBar1);
             Controls.Add(buttonSend);
             Controls.Add(buttonBrowse);
             Controls.Add(richTextBoxBody);
@@ -298,5 +311,6 @@
         private RichTextBox richTextBoxBody;
         private Button buttonBrowse;
         private Button buttonSend;
+        private ProgressBar progressBar1;
     }
 }
