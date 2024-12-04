@@ -66,16 +66,33 @@ namespace UITFLIX
                 {
                     chatModel.AttachmentPath = attachmentPath;
                 }
+                buttonSend.Enabled = false;
+                progressBar1.Visible = true;
+                progressBar1.Value = 0;
+                var sendEmailTask = chatService.SendEmailAsync(chatModel);
+                var progressTask = UpdateProgressBarAsync();
+                await Task.WhenAll(sendEmailTask, progressTask);
                 string jsonData = JsonConvert.SerializeObject(chatModel);
                 //MessageBox.Show(jsonData);
-                var response = await chatService.SendEmailAsync(chatModel);
-                MessageBox.Show(response, "Kết quả", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Gửi email thành công!", "Kết quả", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                progressBar1.Visible = false;
+                buttonSend.Enabled = true;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                progressBar1.Visible = false;
+                buttonSend.Enabled = true;
             }
 
+        }
+        private async Task UpdateProgressBarAsync()
+        {
+            for (int i = 0; i <= 100; i++)
+            {
+                progressBar1.Value = i;
+                await Task.Delay(30);
+            }
         }
 
         private void Chat_Load(object sender, EventArgs e)
