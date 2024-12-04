@@ -151,6 +151,10 @@ namespace API_Server.Service
             }
 
             string hashNewPwd = HashPassword(newpassword);
+            if (hashNewPwd == existUser.Password)
+            {
+                throw new Exception("Không thể đổi thành mật khẩu cũ");
+            }
             var update = Builders<User>.Update.Set(u => u.Password, hashNewPwd);
 
             var result = await users.UpdateOneAsync(filter, update);

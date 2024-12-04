@@ -148,5 +148,27 @@ namespace UITFLIX.Services
                 return ex.Message;
             }
         }
+
+        public async Task<JObject> GetUserByID(string id, string accesstoken)
+        {
+            try
+            {
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accesstoken);
+
+                var response = await httpClient.GetAsync($"/api/User/GetUserByID/{id}");
+                var res = await response.Content.ReadAsStringAsync();
+                if (response.IsSuccessStatusCode)
+                {
+                    return JObject.Parse(res);
+                }
+                MessageBox.Show(response.ToString());
+                return null;
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show($"{ex.Message}");
+                return null;
+            }
+        }
     }
 }

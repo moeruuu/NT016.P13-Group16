@@ -86,7 +86,7 @@ builder.Services.AddAuthentication(options =>
             {
                 context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                 context.Response.ContentType = "application/json";
-                return context.Response.WriteAsync("{\"message\":\"Không thể xác thực người dùng.\"}");
+                return context.Response.WriteAsJsonAsync(new { message = "Unauthorized access." });
             },
             OnTokenValidated = context =>
             {

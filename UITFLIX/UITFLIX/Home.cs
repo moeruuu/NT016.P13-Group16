@@ -12,6 +12,8 @@ using System.Reflection;
 using UITFLIX.Models;
 using UITFLIX.Services;
 using UITFLIX.Controllers;
+using UITFLIX.Models;
+using Microsoft.VisualBasic.ApplicationServices;
 
 namespace UITFLIX
 {
@@ -54,7 +56,7 @@ namespace UITFLIX
             InitializeComponent();
             toolTip = new ToolTip();
             userService = new UserService();
-            coopService = new CoopService();
+            coopService = new CoopService(accesstoken);
             Userinfo = in4;
             videoService = video;
             accesstoken = token;
@@ -689,7 +691,7 @@ namespace UITFLIX
             var roomid = await coopService.CreateRoom(accesstoken);
             if (roomid != null)
             {
-                MessageBox.Show("Your room id: " + roomid["roomId"].ToString());
+                //MessageBox.Show("Your room id: " + roomid["room"]["roomId"].ToString());
                 this.Hide();
                 new Room(accesstoken, roomid["room"]["roomId"].ToString()).ShowDialog();
                 this.Close();

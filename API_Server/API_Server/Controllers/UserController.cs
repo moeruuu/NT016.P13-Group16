@@ -276,7 +276,18 @@ namespace API_Server.Controllers
             var user = await userService.GetUserByID(id);
             if (user != null)
             {
-                return Ok(user);
+                return Ok(new{
+                    User = new
+                    {
+                        ID = user.UserId.ToString(),
+                        Fullname = user.Fullname,
+                        Username = user.Username,
+                        Email = user.Email,
+                        Profilepicture = user.Profilepicture,
+                        Bio = user.Bio,
+                        Role = user.Role,
+                    }
+                });
             }
             else return NotFound("Không tìm thấy người dùng!");
         }
