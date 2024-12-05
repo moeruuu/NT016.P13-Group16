@@ -94,6 +94,29 @@ namespace API_Server.Controllers
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPost("AddVideo")]
+        public async Task<IActionResult> AddVideo(AddVideoDTOs videoDTOs)
+        {
+            try
+            {
+                var result = await coopService.AddVideo(videoDTOs);
+                if (result)
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest("Không có thay đổi nào");
+                }
+
+            }
+            catch(Exception ex) 
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost("LeaveRoom")]
         public async Task<IActionResult> LeaveRoom([FromBody] string roomid)
         {

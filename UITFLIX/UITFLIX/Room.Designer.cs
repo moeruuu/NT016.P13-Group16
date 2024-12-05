@@ -37,7 +37,6 @@
             axWindowsMediaPlayer = new AxWMPLib.AxWindowsMediaPlayer();
             namefilm = new Label();
             label1 = new Label();
-            listusers = new ListBox();
             listchatgroup = new ListBox();
             txtChat = new TextBox();
             btnsendmessage = new Button();
@@ -139,26 +138,15 @@
             label1.TabIndex = 3;
             label1.Text = "New videos you should watch:";
             // 
-            // listusers
-            // 
-            listusers.Font = new Font("Cambria", 10F);
-            listusers.ForeColor = Color.MidnightBlue;
-            listusers.FormattingEnabled = true;
-            listusers.ItemHeight = 23;
-            listusers.Location = new Point(1323, 79);
-            listusers.Name = "listusers";
-            listusers.Size = new Size(435, 211);
-            listusers.TabIndex = 5;
-            // 
             // listchatgroup
             // 
             listchatgroup.Font = new Font("Cambria", 10F);
             listchatgroup.ForeColor = Color.MidnightBlue;
             listchatgroup.FormattingEnabled = true;
             listchatgroup.ItemHeight = 23;
-            listchatgroup.Location = new Point(1323, 324);
+            listchatgroup.Location = new Point(1323, 79);
             listchatgroup.Name = "listchatgroup";
-            listchatgroup.Size = new Size(435, 418);
+            listchatgroup.Size = new Size(435, 671);
             listchatgroup.TabIndex = 6;
             // 
             // txtChat
@@ -222,7 +210,6 @@
             Controls.Add(btnsendmessage);
             Controls.Add(txtChat);
             Controls.Add(listchatgroup);
-            Controls.Add(listusers);
             Controls.Add(label1);
             Controls.Add(namefilm);
             Controls.Add(axWindowsMediaPlayer);
@@ -247,7 +234,6 @@
         private AxWMPLib.AxWindowsMediaPlayer axWindowsMediaPlayer;
         private Label namefilm;
         private Label label1;
-        private ListBox listusers;
         private ListBox listchatgroup;
         private TextBox txtChat;
         private Button btnsendmessage;

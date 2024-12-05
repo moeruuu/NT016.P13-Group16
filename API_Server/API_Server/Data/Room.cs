@@ -2,20 +2,6 @@
 using MongoDB.Bson.Serialization.Attributes;
 namespace API_Server.Data
 {
-
-    public class VideoQueue
-    {
-        public string VideoID { get; set; }
-        public bool IsPlaying { get; set; }
-        public double Progress { get; set; }
-    }
-
-    public class MessageChat
-    {
-        public string UserID { get; set; }
-        public string Message { get; set; }
-        public DateTime DateSend { get; set; }
-    }
     public class Room
     {
         [BsonId]
@@ -27,9 +13,8 @@ namespace API_Server.Data
         [BsonElement("HostId")]
         public string HostId { get; set; }
         [BsonElement("VideoQueue")]
-        public List<VideoQueue> videoQueues { get; set; }
-        [BsonElement("Message")]
-        public List<MessageChat> Messages { get; set; }
+        public List<string> videoQueues { get; set; }
+
         [BsonElement("ParticipantId")]
         public List<string> Participants { get; set; } = new List<string>();
 

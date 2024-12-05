@@ -93,6 +93,21 @@ namespace API_Server.Service
             return room;
         }
 
+        public async Task<bool> AddVideo(AddVideoDTOs videos)
+        {
+            try
+            {
+                var filter = Builders<Room>.Filter.Eq(r => r.RoomId, videos.roomid);
+                var update = Builders<Room>.Update.Push(r => r.videoQueues, videos.videoid);
+                var rs = await rooms.UpdateOneAsync(filter, update);
+                return rs.ModifiedCount > 0;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+        }
 
     }
 

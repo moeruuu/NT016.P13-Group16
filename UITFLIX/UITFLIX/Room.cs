@@ -45,6 +45,7 @@ namespace UITFLIX
             this.roomid = roomid;
             IDRoom.Text = roomid;
             IntializeEvent();
+            namefilm.Text = "";
         }
 
         public async Task IntializeEvent()
@@ -86,7 +87,6 @@ namespace UITFLIX
                 listchatgroup.Items.Add(messages);
 
             });
-            
         }
 
 
@@ -130,9 +130,9 @@ namespace UITFLIX
         {
             try
             {
-                await connection.InvokeAsync("JoinRoom", roomid);
                 var jobject = await coopService.JoinRoom(roomid, accesstoken);
                 userinfo = await userService.GetUserByID(jobject["userid"].ToString(), accesstoken);
+                await connection.InvokeAsync("JoinRoom", roomid);
             }
             catch (Exception ex)
             {
