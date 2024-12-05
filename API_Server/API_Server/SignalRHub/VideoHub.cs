@@ -10,28 +10,29 @@ namespace API_Server.SignalRHub
 {
     public class VideoHub : Hub
     {
+
         public async Task CreateRoom(string roomid)
         {
+            Console.WriteLine($"RoomCreated event fired with roomId: {roomid}");
             await Clients.All.SendAsync("RoomCreated", roomid);
+
+
         }
 
         public async Task JoinedRoom(string roomid)
         {
-            await Groups.AddToGroupAsync(Context.ConnectionId, roomid);
-            var fullname = Context.User?.Identity?.Name ?? Context.ConnectionId;
-            await Clients.Group(roomid).SendAsync("ReceiveNotification", $"{fullname} has joined.");
+            try
+            {
+                await Groups.AddToGroupAsync(Context.ConnectionId, roomid);
+                var fullname = Context.User?.Identity?.Name ?? Context.ConnectionId;
+                await Clients.Group(roomid).SendAsync("ReceiveNotification", $"{fullname} has joined.");
+            }
+            catch (Exception ex)
+            {
+                //Console.WriteLine(ex.Message);
+            }
         }
 
-        public async Task LeaveRoom(string roomid)
-        {
-            await Groups.RemoveFromGroupAsync(Context.ConnectionId, roomid);
-            var username = Context.User?.Identity?.Name ?? Context.ConnectionId;
-            await Clients.Group(roomid).SendAsync("ReceiveNotifiction", $"{username} has left the room {roomid}");
-        }
 
-        public async Task DeleteRoom(string roomid)
-        {
-            await Clients.All.SendAsync("RoomDeleted", roomid);
-        }
     }
 }

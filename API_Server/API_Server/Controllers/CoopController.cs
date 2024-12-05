@@ -20,7 +20,6 @@ namespace API_Server.Controllers
     {
 
         private readonly CoopService coopService;
-        private readonly UserService userService;
         private readonly IHubContext<VideoHub> hub;
 
         public CoopController(CoopService coopService, IHubContext<VideoHub> hubContext)
@@ -47,6 +46,7 @@ namespace API_Server.Controllers
                 }*/
 
                 var createroom = await coopService.CreateRoom(UserId);
+                await hub.Clients.All.SendAsync("RoomCreated", createroom.RoomId);
                 return Ok(new
                 {
                     Room = new
@@ -67,7 +67,7 @@ namespace API_Server.Controllers
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost("JoinRoom")]
-        public async Task<IActionResult> JoinRoom([FromBody] string roomid)
+        public async Task<IActionResult> JoinRoom([FromBody] UserJoinedDTOs userJoinedDTOs)
         {
             try
             {
@@ -76,20 +76,20 @@ namespace API_Server.Controllers
                 {
                     return Unauthorized("Không thể xác thực người dùng.");
                 }
-                var user = await userService.GetUserByID(UserId);
-                await coopService.UserJoined(roomid, user.UserId);
-                await hub.Clients.Group(roomid).SendAsync("ReceiveNotification", $"{user.Fullname} has joined.");
+                await coopService.UserJoined(userJoinedDTOs.roomid, UserId);
+                await hub.Clients.Group(userJoinedDTOs.roomid).SendAsync("ReceiveNotification", $"{UserId} has joined.");
 
                 return Ok(new
                 {
-                    Message = $"{user.Fullname} joined the room {roomid}",
-                    Roomid = roomid,
-                    UserId = userId,
+                    Message = $"{UserId} joined the room {userJoinedDTOs.roomid}",
+                    Roomid = userJoinedDTOs.roomid,
+                    Userid = userId,
                 });
             }
             catch (Exception ex)
             {
-                return BadRequest($"Failed to join room [{roomid}]");
+                //Console.WriteLine(ex.Message + "\n" + ex.StackTrace);
+                return BadRequest($"Failed to join room [{userJoinedDTOs.roomid}] {ex.Message} \n {ex.StackTrace}");
             }
         }
 
@@ -104,12 +104,11 @@ namespace API_Server.Controllers
                 {
                     return Unauthorized("Không thể xác thực người dùng.");
                 }
-                var user = await userService.GetUserByID(UserId);
                 await coopService.UserLeft(roomid, UserId);
-                await hub.Clients.Group(roomid).SendAsync("ReceiveNotification", $"{user.Fullname} has left room");
+                await hub.Clients.Group(roomid).SendAsync("ReceiveNotification", $"{UserId} has left room");
                 return Ok(new
                 {
-                    Message = $"{user.Fullname} has left room [{roomid}]",
+                    Message = $"{UserId} has left room [{roomid}]",
                     Roomid = roomid,
                     UserId = userId,
                 });

@@ -1,9 +1,11 @@
 ﻿using FontAwesome.Sharp;
+using Microsoft.AspNetCore.SignalR.Client;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -27,46 +29,30 @@ namespace UITFLIX
         private static JToken getvideo;
         private static string temp;
 
-        
+
         public Room(string token, string roomid)
         {
             InitializeComponent();
             accesstoken = token;
             videoService = new VideoService();
             toolTip = new ToolTip();
-            coopService = new CoopService();
+            coopService = new CoopService(accesstoken);
             userService = new UserService();
             this.roomid = roomid;
-
-            ShowRCMVideo();
-
-
-
             IDRoom.Text = roomid;
 
+            ShowRCMVideo();
+            UserJoined(roomid);
+
         }
 
-        public async Task CreateRoom()
-        {
-            coopService.RoomCreated += roomId =>
-            {
-                MessageBox.Show($"Room {roomId} has been created!");
-            };
 
-            coopService.UserJoined += fullname =>
-            {
-                listusers.Items.Add( fullname );
-            };
-
-            await coopService.StartConnection();
-        }
         public async Task ShowRCMVideo()
         {
             try
             {
                 if (rcmvideopanel is FlowLayoutPanel panel)
                 {
-
                     panel.WrapContents = false;
                     panel.AutoScroll = true;
                     panel.FlowDirection = FlowDirection.LeftToRight;
@@ -83,10 +69,9 @@ namespace UITFLIX
                             Title = SetLabelText(video["title"].ToString(), 12),
                             Sub = video["uploadedDate"].ToObject<DateTime>().ToUniversalTime().ToString("dd/MM/yyyy"),
                             ImageUrl = video["urlImage"].ToString(),
-                            Size = new Size(200, 200)
+                            Size = new Size(215, 200)
                         };
                         getvideo = video;
-                        //item.Click += (sender, e) =>
                         toolTip.SetToolTip(item, video["title"].ToString());
                         rcmvideopanel.Controls.Add(item);
                     }
@@ -103,17 +88,19 @@ namespace UITFLIX
             try
             {
                 var jobject = await coopService.JoinRoom(roomid, accesstoken);
-               // var user = await userService.GetUse
-                if (jobject != null)
+                var userinfo = await userService.GetUserByID(jobject["userid"].ToString(), accesstoken);
+
+                if (userinfo != null)
                 {
-                    listchatgroup.Items.Add($"đã tham gia phòng");
+                    Invoke((Action)(() => { listchatgroup.Items.Add($"{userinfo["user"]["fullname"]} đã tham gia phòng"); }));
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
         }
+
         private string SetLabelText(string text, int max)
         {
             if (text.Length > max)
@@ -125,6 +112,5 @@ namespace UITFLIX
                 return text;
             }
         }
-       
     }
 }

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using UITFLIX.Models;
 
 
 namespace UITFLIX.Services
@@ -25,6 +26,8 @@ namespace UITFLIX.Services
 
         private static readonly string huburl = @"https://localhost:7292/videohub";
 
+        private readonly string token;
+
         public event Action<string>? RoomCreated;
         public event Action<string>? RoomDeleted;
         public event Action<string>? UserJoined;
@@ -33,23 +36,32 @@ namespace UITFLIX.Services
         public event Action<string>? VideoPaused;
         public event Action<string, string>? ChatReceived;
         public event Action<string, string, string>? VideoAddedToQueue;
-        public CoopService()
+        public CoopService(string gettoken)
         {
-            connection = new HubConnectionBuilder().WithUrl(huburl).Build();
+            token = gettoken;
+            //MessageBox.Show(token.accesstoken);
+            connection = new HubConnectionBuilder()
+            .WithUrl(huburl, options =>
+            {
+                options.AccessTokenProvider = () => Task.FromResult(token);
+            }).Build();
             RegisterEvent();
         }
 
         private void RegisterEvent()
         {
-            connection.On<string>("RoomCreated", roomId =>
+            connection.On<string>("RoomCreated", roomid =>
             {
-                RoomCreated?.Invoke(roomId);
+                MessageBox.Show($"RoomCreated event triggered for room: {roomid}");
+                RoomCreated?.Invoke(roomid);
+
             });
 
-            connection.On<string>("UserJoined", userId =>
+            connection.On<string>("ReceiveNotification", message =>
             {
-                UserJoined?.Invoke(userId);
+                MessageBox.Show(message); 
             });
+
         }
 
         public async Task<JObject> CreateRoom(string accesstoken)
@@ -61,14 +73,12 @@ namespace UITFLIX.Services
                     await StartConnection(); 
                 }
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accesstoken);
-                var response = await httpClient.PostAsync("api/Coop/CreateRoom", null);
+                var response = await httpClient.PostAsync("/api/Coop/CreateRoom", null);
                 var res = await response.Content.ReadAsStringAsync();
                 if (response.IsSuccessStatusCode)
                 {
                     
                     JObject jobject = JObject.Parse(res);
-                    //await connection.InvokeAsync("RoomCreated", jobject["room"]["roomId"].ToString());
-                    //MessageBox.Show(jobject.ToString());
                     return jobject;
                 }
                 else
@@ -90,11 +100,14 @@ namespace UITFLIX.Services
         {
             try
             {
-                await connection.StartAsync();
+                if (connection.State == HubConnectionState.Disconnected)
+                {
+                    await connection.StartAsync();
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
             }
         }
 
@@ -121,7 +134,7 @@ namespace UITFLIX.Services
             {
                 var json = JsonConvert.SerializeObject(joinroom);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await httpClient.PostAsync("api/Coop/UserJoined", content);
+                var response = await httpClient.PostAsync("/api/Coop/JoinRoom", content);
                 var res = await response.Content.ReadAsStringAsync();
                 if (response.IsSuccessStatusCode)
                 {
@@ -131,7 +144,7 @@ namespace UITFLIX.Services
             }
             catch(Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
                 return null;
             }
 
