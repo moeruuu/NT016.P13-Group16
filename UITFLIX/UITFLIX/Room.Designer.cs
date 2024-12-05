@@ -39,7 +39,7 @@
             label1 = new Label();
             listusers = new ListBox();
             listchatgroup = new ListBox();
-            textBox1 = new TextBox();
+            txtChat = new TextBox();
             btnsendmessage = new Button();
             listqueuevideo = new ListBox();
             label2 = new Label();
@@ -161,14 +161,14 @@
             listchatgroup.Size = new Size(435, 418);
             listchatgroup.TabIndex = 6;
             // 
-            // textBox1
+            // txtChat
             // 
-            textBox1.Font = new Font("Cambria", 10F);
-            textBox1.ForeColor = Color.MidnightBlue;
-            textBox1.Location = new Point(1323, 768);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(354, 31);
-            textBox1.TabIndex = 7;
+            txtChat.Font = new Font("Cambria", 10F);
+            txtChat.ForeColor = Color.MidnightBlue;
+            txtChat.Location = new Point(1323, 768);
+            txtChat.Name = "txtChat";
+            txtChat.Size = new Size(354, 31);
+            txtChat.TabIndex = 7;
             // 
             // btnsendmessage
             // 
@@ -180,6 +180,7 @@
             btnsendmessage.TabIndex = 8;
             btnsendmessage.Text = "SEND";
             btnsendmessage.UseVisualStyleBackColor = true;
+            btnsendmessage.Click += btnsendmessage_Click;
             // 
             // listqueuevideo
             // 
@@ -219,7 +220,7 @@
             Controls.Add(label2);
             Controls.Add(listqueuevideo);
             Controls.Add(btnsendmessage);
-            Controls.Add(textBox1);
+            Controls.Add(txtChat);
             Controls.Add(listchatgroup);
             Controls.Add(listusers);
             Controls.Add(label1);
@@ -248,7 +249,7 @@
         private Label label1;
         private ListBox listusers;
         private ListBox listchatgroup;
-        private TextBox textBox1;
+        private TextBox txtChat;
         private Button btnsendmessage;
         private ListBox listqueuevideo;
         private Label label2;

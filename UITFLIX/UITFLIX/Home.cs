@@ -56,7 +56,7 @@ namespace UITFLIX
             InitializeComponent();
             toolTip = new ToolTip();
             userService = new UserService();
-            coopService = new CoopService(accesstoken);
+            coopService = new CoopService();
             Userinfo = in4;
             videoService = video;
             accesstoken = token;

@@ -6,6 +6,7 @@ using System.Security.Cryptography.Xml;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Win32;
 using Newtonsoft.Json;
@@ -17,7 +18,6 @@ namespace UITFLIX.Services
 {
     public class CoopService
     {
-        private HubConnection connection;
         public static readonly HttpClient httpClient = new HttpClient
         {
             BaseAddress = new Uri(@"https://localhost:7292/"),
@@ -26,7 +26,6 @@ namespace UITFLIX.Services
 
         private static readonly string huburl = @"https://localhost:7292/videohub";
 
-        private readonly string token;
 
         public event Action<string>? RoomCreated;
         public event Action<string>? RoomDeleted;
@@ -36,42 +35,24 @@ namespace UITFLIX.Services
         public event Action<string>? VideoPaused;
         public event Action<string, string>? ChatReceived;
         public event Action<string, string, string>? VideoAddedToQueue;
-        public CoopService(string gettoken)
+        public CoopService()
         {
-            token = gettoken;
             //MessageBox.Show(token.accesstoken);
-            connection = new HubConnectionBuilder()
+           /* connection = new HubConnectionBuilder()
             .WithUrl(huburl, options =>
             {
                 options.AccessTokenProvider = () => Task.FromResult(token);
-            }).Build();
-            RegisterEvent();
+            }).Build();*/
+            //RegisterEvent();
         }
 
-        private void RegisterEvent()
-        {
-            connection.On<string>("RoomCreated", roomid =>
-            {
-                MessageBox.Show($"RoomCreated event triggered for room: {roomid}");
-                RoomCreated?.Invoke(roomid);
+       
 
-            });
-
-            connection.On<string>("ReceiveNotification", message =>
-            {
-                MessageBox.Show(message); 
-            });
-
-        }
-
+        
         public async Task<JObject> CreateRoom(string accesstoken)
         {
             try
             {
-                if (connection.State != HubConnectionState.Connected)
-                {
-                    await StartConnection(); 
-                }
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accesstoken);
                 var response = await httpClient.PostAsync("/api/Coop/CreateRoom", null);
                 var res = await response.Content.ReadAsStringAsync();
@@ -95,7 +76,7 @@ namespace UITFLIX.Services
 
 
         }
-
+/*
         public async Task StartConnection()
         {
             try
@@ -110,8 +91,8 @@ namespace UITFLIX.Services
                 MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
             }
         }
-
-        public async Task StopConnection()
+*/
+       /* public async Task StopConnection()
         {
             try
             {
@@ -121,7 +102,7 @@ namespace UITFLIX.Services
             {
                 MessageBox.Show(ex.Message);
             }
-        }
+        }*/
 
         public async Task<JObject> JoinRoom(string roomid, string accesstoken)
         {

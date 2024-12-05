@@ -13,26 +13,22 @@ namespace API_Server.SignalRHub
 
         public async Task CreateRoom(string roomid)
         {
-            Console.WriteLine($"RoomCreated event fired with roomId: {roomid}");
+            //Console.WriteLine($"RoomCreated event fired with roomId: {roomid}");
             await Clients.All.SendAsync("RoomCreated", roomid);
 
 
         }
 
-        public async Task JoinedRoom(string roomid)
+        public async Task JoinRoom(string roomid)
         {
-            try
-            {
-                await Groups.AddToGroupAsync(Context.ConnectionId, roomid);
-                var fullname = Context.User?.Identity?.Name ?? Context.ConnectionId;
-                await Clients.Group(roomid).SendAsync("ReceiveNotification", $"{fullname} has joined.");
-            }
-            catch (Exception ex)
-            {
-                //Console.WriteLine(ex.Message);
-            }
+            await Groups.AddToGroupAsync(Context.ConnectionId, roomid);
+
         }
 
+        public async Task SendMessage(string fullname, string roomid, string message)
+        {
+            await Clients.Group(roomid).SendAsync("ReceivedMessage", fullname, message);
+        }
 
     }
 }

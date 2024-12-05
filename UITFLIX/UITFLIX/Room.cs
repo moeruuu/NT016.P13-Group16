@@ -29,6 +29,10 @@ namespace UITFLIX
         private static JToken getvideo;
         private static string temp;
 
+        private static JObject userinfo;
+
+        private HubConnection connection;
+        private static readonly string huburl = @"https://localhost:7292/videohub";
 
         public Room(string token, string roomid)
         {
@@ -36,14 +40,53 @@ namespace UITFLIX
             accesstoken = token;
             videoService = new VideoService();
             toolTip = new ToolTip();
-            coopService = new CoopService(accesstoken);
+            coopService = new CoopService();
             userService = new UserService();
             this.roomid = roomid;
             IDRoom.Text = roomid;
+            IntializeEvent();
+        }
 
-            ShowRCMVideo();
-            UserJoined(roomid);
+        public async Task IntializeEvent()
+        {
+            connection = new HubConnectionBuilder()
+                    .WithUrl(huburl)
+                    .Build();
+            await StartConnection();
+            await UserJoined(roomid);
+            await RegisterEvent();
+            //connection.Closed += Connection_Closed;
+            await ShowRCMVideo();
+            await connection.InvokeAsync("SendMessage", userinfo["user"]["fullname"].ToString(), roomid, "has joined room!");
+        }
+        private async Task StartConnection()
+        {
+            try
+            {
+                await connection.StartAsync();
+                listchatgroup.Items.Add("Connection Started");
+            }
+            catch (Exception ex)
+            {
+                listchatgroup.Items.Add($"{ex.Message}");
+            }
+        }
 
+        public async Task Connection_Closed(Exception? arg)
+        {
+            await Task.Delay(new Random().Next(0, 5) * 1000);
+            await connection.StartAsync();
+        }
+        private async Task RegisterEvent()
+        {
+
+            connection.On<string, string>("ReceivedMessage", (user, message) =>
+            {
+                string messages = $"{user}: {message}";
+                listchatgroup.Items.Add(messages);
+
+            });
+            
         }
 
 
@@ -87,13 +130,9 @@ namespace UITFLIX
         {
             try
             {
+                await connection.InvokeAsync("JoinRoom", roomid);
                 var jobject = await coopService.JoinRoom(roomid, accesstoken);
-                var userinfo = await userService.GetUserByID(jobject["userid"].ToString(), accesstoken);
-
-                if (userinfo != null)
-                {
-                    Invoke((Action)(() => { listchatgroup.Items.Add($"{userinfo["user"]["fullname"]} đã tham gia phòng"); }));
-                }
+                userinfo = await userService.GetUserByID(jobject["userid"].ToString(), accesstoken);
             }
             catch (Exception ex)
             {
@@ -111,6 +150,12 @@ namespace UITFLIX
             {
                 return text;
             }
+        }
+
+        private async void btnsendmessage_Click(object sender, EventArgs e)
+        {
+            await connection.InvokeAsync("SendMessage", userinfo["user"]["fullname"].ToString(), roomid, txtChat.Text);
+            txtChat.Clear();
         }
     }
 }
