@@ -50,7 +50,6 @@ namespace UITFLIX
 
         public async Task IntializeEvent()
         {
-            this.Enabled = false;
             connection = new HubConnectionBuilder()
                     .WithUrl(huburl)
                     .Build();
@@ -60,7 +59,6 @@ namespace UITFLIX
             //connection.Closed += Connection_Closed;
             await ShowRCMVideo();
             await connection.InvokeAsync("SendMessage", userinfo["user"]["fullname"].ToString(), roomid, "has joined room!");
-            this.Enabled = true;
         }
         private async Task StartConnection()
         {

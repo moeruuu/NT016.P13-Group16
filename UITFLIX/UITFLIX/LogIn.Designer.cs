@@ -67,22 +67,22 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Script MT Bold", 14F, FontStyle.Bold);
+            label1.Font = new Font("Palatino Linotype", 13F, FontStyle.Bold);
             label1.ForeColor = Color.DarkCyan;
             label1.Location = new Point(37, 208);
             label1.Name = "label1";
-            label1.Size = new Size(420, 34);
+            label1.Size = new Size(450, 35);
             label1.TabIndex = 2;
             label1.Text = "Watch your favorite movies anytime,";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Font = new Font("Script MT Bold", 14F, FontStyle.Bold);
+            label2.Font = new Font("Palatino Linotype", 13F, FontStyle.Bold);
             label2.ForeColor = Color.DarkCyan;
             label2.Location = new Point(235, 243);
             label2.Name = "label2";
-            label2.Size = new Size(290, 34);
+            label2.Size = new Size(292, 35);
             label2.TabIndex = 3;
             label2.Text = "anywhere with UITflix!";
             // 
