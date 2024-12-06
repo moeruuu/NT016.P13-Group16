@@ -77,5 +77,10 @@ namespace API_Server.SignalRHub
             }
         }
 
+        public async Task PlayVideo(string roomid, string videoid)
+        {
+            await Clients.Group(roomid).SendAsync("ReceivedVideo", videoid);
+        }
+
     }
 }

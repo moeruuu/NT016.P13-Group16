@@ -167,5 +167,22 @@ namespace UITFLIX.Services
                 return false;
             }
         }
+
+        public async Task<JArray> GetVideoQueue(string accesstoken, string roomid)
+        {
+            try
+            {
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accesstoken);
+                var response = await httpClient.DeleteAsync($"/api/Coop/GetVideoQueue/{roomid}");
+                var res = await response.Content.ReadAsStringAsync();
+                JObject jobject = JObject.Parse(res);
+                return JArray.Parse(jobject.ToString());
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return null;
+            }
+        }
     }
 }

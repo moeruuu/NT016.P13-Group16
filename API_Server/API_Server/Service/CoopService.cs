@@ -121,6 +121,19 @@ namespace API_Server.Service
 
         }
 
+        public async Task<List<string>> GetListVideo(string roomid)
+        {
+            try
+            {
+                var filter = Builders<Room>.Filter.Eq(r => r.RoomId, roomid);
+                var getroom = await rooms.Find(filter).FirstOrDefaultAsync();
+                return getroom.videoQueues;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        } 
     }
 
 }

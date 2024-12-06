@@ -239,5 +239,10 @@ namespace UITFLIX
                 }
             }
         }
+
+        private async Task PlayVideo()
+        {
+
+        }
     }
 }

@@ -171,6 +171,28 @@ namespace API_Server.Controllers
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet("GetVideoQueue/{roomid}")]
+        public async Task<IActionResult> GetVideoQueue([FromRoute] string roomid)
+        {
+            try
+            {
+                var getlist = await coopService.GetListVideo(roomid);
+                if (getlist != null)
+                {
+                    return Ok(new
+                    {
+                        getlist
+                    });
+                }
+                return NotFound("Không tìm thấy video");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpDelete("DeleteRoom/{roomid}")]
         public async Task<IActionResult> DeleteRoom([FromRoute]string roomid)
         {
