@@ -40,12 +40,17 @@
             listchatgroup = new ListBox();
             txtChat = new TextBox();
             btnsendmessage = new Button();
-            listqueuevideo = new ListBox();
             label2 = new Label();
             rcmvideopanel = new FlowLayoutPanel();
+            dgvQueue = new DataGridView();
+            ColumnNum = new DataGridViewTextBoxColumn();
+            ColumnTitle = new DataGridViewTextBoxColumn();
+            ColumnTag = new DataGridViewTextBoxColumn();
+            listusers = new ListBox();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)logo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)axWindowsMediaPlayer).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvQueue).BeginInit();
             SuspendLayout();
             // 
             // panel1
@@ -144,9 +149,9 @@
             listchatgroup.ForeColor = Color.MidnightBlue;
             listchatgroup.FormattingEnabled = true;
             listchatgroup.ItemHeight = 23;
-            listchatgroup.Location = new Point(1323, 79);
+            listchatgroup.Location = new Point(1323, 263);
             listchatgroup.Name = "listchatgroup";
-            listchatgroup.Size = new Size(435, 671);
+            listchatgroup.Size = new Size(435, 487);
             listchatgroup.TabIndex = 6;
             // 
             // txtChat
@@ -170,15 +175,6 @@
             btnsendmessage.UseVisualStyleBackColor = true;
             btnsendmessage.Click += btnsendmessage_Click;
             // 
-            // listqueuevideo
-            // 
-            listqueuevideo.FormattingEnabled = true;
-            listqueuevideo.ItemHeight = 25;
-            listqueuevideo.Location = new Point(1323, 914);
-            listqueuevideo.Name = "listqueuevideo";
-            listqueuevideo.Size = new Size(435, 254);
-            listqueuevideo.TabIndex = 9;
-            // 
             // label2
             // 
             label2.AutoSize = true;
@@ -198,15 +194,62 @@
             rcmvideopanel.Size = new Size(1280, 254);
             rcmvideopanel.TabIndex = 11;
             // 
+            // dgvQueue
+            // 
+            dgvQueue.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvQueue.Columns.AddRange(new DataGridViewColumn[] { ColumnNum, ColumnTitle, ColumnTag });
+            dgvQueue.GridColor = Color.MidnightBlue;
+            dgvQueue.Location = new Point(1323, 914);
+            dgvQueue.Name = "dgvQueue";
+            dgvQueue.RowHeadersWidth = 62;
+            dgvQueue.Size = new Size(435, 254);
+            dgvQueue.TabIndex = 12;
+            // 
+            // ColumnNum
+            // 
+            ColumnNum.HeaderText = "No.";
+            ColumnNum.MinimumWidth = 8;
+            ColumnNum.Name = "ColumnNum";
+            ColumnNum.ReadOnly = true;
+            ColumnNum.Width = 80;
+            // 
+            // ColumnTitle
+            // 
+            ColumnTitle.HeaderText = "Title";
+            ColumnTitle.MinimumWidth = 8;
+            ColumnTitle.Name = "ColumnTitle";
+            ColumnTitle.ReadOnly = true;
+            ColumnTitle.Width = 250;
+            // 
+            // ColumnTag
+            // 
+            ColumnTag.HeaderText = "Tag";
+            ColumnTag.MinimumWidth = 8;
+            ColumnTag.Name = "ColumnTag";
+            ColumnTag.ReadOnly = true;
+            ColumnTag.Width = 150;
+            // 
+            // listusers
+            // 
+            listusers.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            listusers.ForeColor = Color.MidnightBlue;
+            listusers.FormattingEnabled = true;
+            listusers.ItemHeight = 23;
+            listusers.Location = new Point(1323, 79);
+            listusers.Name = "listusers";
+            listusers.Size = new Size(435, 165);
+            listusers.TabIndex = 13;
+            // 
             // Room
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightBlue;
             ClientSize = new Size(1787, 1200);
+            Controls.Add(listusers);
+            Controls.Add(dgvQueue);
             Controls.Add(rcmvideopanel);
             Controls.Add(label2);
-            Controls.Add(listqueuevideo);
             Controls.Add(btnsendmessage);
             Controls.Add(txtChat);
             Controls.Add(listchatgroup);
@@ -223,6 +266,7 @@
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)logo).EndInit();
             ((System.ComponentModel.ISupportInitialize)axWindowsMediaPlayer).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvQueue).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -237,11 +281,15 @@
         private ListBox listchatgroup;
         private TextBox txtChat;
         private Button btnsendmessage;
-        private ListBox listqueuevideo;
         private Label label2;
         private Label IDRoom;
         private Label label3;
         private LinkLabel linkleaveroom;
         private FlowLayoutPanel rcmvideopanel;
+        private DataGridView dgvQueue;
+        private DataGridViewTextBoxColumn ColumnNum;
+        private DataGridViewTextBoxColumn ColumnTitle;
+        private DataGridViewTextBoxColumn ColumnTag;
+        private ListBox listusers;
     }
 }

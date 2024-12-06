@@ -37,18 +37,8 @@ namespace UITFLIX.Services
         public event Action<string, string, string>? VideoAddedToQueue;
         public CoopService()
         {
-            //MessageBox.Show(token.accesstoken);
-           /* connection = new HubConnectionBuilder()
-            .WithUrl(huburl, options =>
-            {
-                options.AccessTokenProvider = () => Task.FromResult(token);
-            }).Build();*/
-            //RegisterEvent();
         }
 
-       
-
-        
         public async Task<JObject> CreateRoom(string accesstoken)
         {
             try
@@ -76,33 +66,6 @@ namespace UITFLIX.Services
 
 
         }
-/*
-        public async Task StartConnection()
-        {
-            try
-            {
-                if (connection.State == HubConnectionState.Disconnected)
-                {
-                    await connection.StartAsync();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
-            }
-        }
-*/
-       /* public async Task StopConnection()
-        {
-            try
-            {
-                await connection.StopAsync();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }*/
 
         public async Task<JObject> JoinRoom(string roomid, string accesstoken)
         {
@@ -131,5 +94,27 @@ namespace UITFLIX.Services
 
         }
 
+        public async Task<bool> AddVideo(string accesstoken, string videoid, string roomid)
+        {
+            try
+            {
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accesstoken);
+                var ID = new
+                {
+                    roomid = roomid,
+                    videoid = videoid
+                };
+                var json = JsonConvert.SerializeObject(ID);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await httpClient.PostAsync("/api/Coop/AddVideo", content);
+               // MessageBox.Show(response.ToString());
+                return response.IsSuccessStatusCode;
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return false;
+            }
+        }
     }
 }

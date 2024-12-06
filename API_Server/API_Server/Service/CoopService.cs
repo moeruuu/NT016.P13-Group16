@@ -17,7 +17,7 @@ namespace API_Server.Service
 
         public async Task<Room> CreateRoom(ObjectId Userid)
         {
-            string ID = new Random().Next().ToString("D8");
+            string ID = new Random().Next().ToString("D6");
             var filter = Builders<Room>.Filter.Eq(r => r.RoomId, ID);
             var checkroom = await rooms.Find(filter).FirstOrDefaultAsync();
             if (checkroom != null)
@@ -104,6 +104,7 @@ namespace API_Server.Service
             }
             catch (Exception ex)
             {
+               // Console.WriteLine(ex.Message);
                 return false;
             }
 

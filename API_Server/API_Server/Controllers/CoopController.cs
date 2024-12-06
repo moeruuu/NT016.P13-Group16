@@ -20,12 +20,10 @@ namespace API_Server.Controllers
     {
 
         private readonly CoopService coopService;
-        private readonly IHubContext<VideoHub> hub;
 
-        public CoopController(CoopService coopService, IHubContext<VideoHub> hubContext)
+        public CoopController(CoopService coopService)
         {
             this.coopService = coopService;
-            hub = hubContext;
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
@@ -46,7 +44,7 @@ namespace API_Server.Controllers
                 }*/
 
                 var createroom = await coopService.CreateRoom(UserId);
-                await hub.Clients.All.SendAsync("RoomCreated", createroom.RoomId);
+               // await hub.Clients.All.SendAsync("RoomCreated", createroom.RoomId);
                 return Ok(new
                 {
                     Room = new
@@ -77,7 +75,7 @@ namespace API_Server.Controllers
                     return Unauthorized("Không thể xác thực người dùng.");
                 }
                 await coopService.UserJoined(userJoinedDTOs.roomid, UserId);
-                await hub.Clients.Group(userJoinedDTOs.roomid).SendAsync("ReceiveNotification", $"{UserId} has joined.");
+               // await hub.Clients.Group(userJoinedDTOs.roomid).SendAsync("ReceiveNotification", $"{UserId} has joined.");
 
                 return Ok(new
                 {
@@ -128,7 +126,7 @@ namespace API_Server.Controllers
                     return Unauthorized("Không thể xác thực người dùng.");
                 }
                 await coopService.UserLeft(roomid, UserId);
-                await hub.Clients.Group(roomid).SendAsync("ReceiveNotification", $"{UserId} has left room");
+                //await hub.Clients.Group(roomid).SendAsync("ReceiveNotification", $"{UserId} has left room");
                 return Ok(new
                 {
                     Message = $"{UserId} has left room [{roomid}]",

@@ -87,6 +87,36 @@ namespace UITFLIX
                 listchatgroup.Items.Add(messages);
 
             });
+
+            connection.On<List<string>>("ReceiveMovies", async movies =>
+                {
+                    try
+                    {
+                        dgvQueue.Rows.Clear();
+                        for (int i = 0; i < movies.Count(); i++)
+                        {
+                            var getmovie = await videoService.GetVideoByID(accesstoken, movies[i]);
+                            if (getmovie != null && getmovie.ContainsKey("title") && getmovie.ContainsKey("tag"))
+                            {
+                                dgvQueue.RowsDefaultCellStyle.ForeColor = Color.MidnightBlue;
+                                dgvQueue.RowsDefaultCellStyle.BackColor = Color.White;
+                                //MessageBox.Show(getmovie.ToString());
+                                dgvQueue.Invoke(new Action(() =>
+                                {
+                                    dgvQueue.Rows.Add(
+                                        dgvQueue.Rows.Count,
+                                        getmovie["title"].ToString(),
+                                        getmovie["tag"].ToString()
+                                    );
+                                }));
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
+                    }
+                });
         }
 
 
@@ -115,6 +145,7 @@ namespace UITFLIX
                             Size = new Size(215, 200)
                         };
                         getvideo = video;
+                        item.Click += (sender, e) => AddVideo(video["id"].ToString());
                         toolTip.SetToolTip(item, video["title"].ToString());
                         rcmvideopanel.Controls.Add(item);
                     }
@@ -156,6 +187,20 @@ namespace UITFLIX
         {
             await connection.InvokeAsync("SendMessage", userinfo["user"]["fullname"].ToString(), roomid, txtChat.Text);
             txtChat.Clear();
+        }
+
+        private async void AddVideo(string videoid)
+        {
+            var res = await coopService.AddVideo(accesstoken, videoid, roomid);
+            if (res)
+            {
+                await connection.InvokeAsync("AddMovie", roomid, videoid);
+                await connection.InvokeAsync("SendMessage", userinfo["user"]["fullname"].ToString(), roomid, "has added a video!");
+            }
+            else
+            {
+                MessageBox.Show("Không thể thêm video");
+            }
         }
     }
 }

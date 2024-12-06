@@ -13,7 +13,7 @@ namespace API_Server.Data
         [BsonElement("HostId")]
         public string HostId { get; set; }
         [BsonElement("VideoQueue")]
-        public List<string> videoQueues { get; set; }
+        public List<string> videoQueues { get; set; } = new List<string>();
 
         [BsonElement("ParticipantId")]
         public List<string> Participants { get; set; } = new List<string>();

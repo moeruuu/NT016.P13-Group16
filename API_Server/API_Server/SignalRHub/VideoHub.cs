@@ -12,7 +12,8 @@ namespace API_Server.SignalRHub
     public class VideoHub : Hub
     {
         static int usercount = 0;
-        static string getroom;
+        private static readonly object Lock = new object();
+        private static Dictionary<string, List<string>> roommovies = new Dictionary<string, List<string>>();
         public async Task CreateRoom(string roomid)
         {
             await Clients.All.SendAsync("RoomCreated", roomid);
@@ -34,5 +35,26 @@ namespace API_Server.SignalRHub
             await Clients.Group(roomid).SendAsync("ReceivedMessage", fullname, message);
         }
 
+        public async Task GetMovies(string roomid)
+        {
+            lock (Lock)
+            {
+                if (!roommovies.ContainsKey(roomid))
+                {
+                    roommovies[roomid] = new List<string>();
+                }
+            }
+            await Clients.Caller.SendAsync("ReceiveMovies", roommovies[roomid]);
+        }
+
+        public async Task AddMovie(string roomid, string movie)
+        {
+            if (!roommovies.ContainsKey(roomid))
+            {
+                roommovies[roomid] = new List<string>();
+            }
+            roommovies[roomid].Add(movie);
+            await Clients.Group(roomid).SendAsync("ReceiveMovies", roommovies[roomid]);
+        }
     }
 }
