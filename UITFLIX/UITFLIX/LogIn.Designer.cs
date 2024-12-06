@@ -39,7 +39,6 @@
             iconPictureBox2 = new FontAwesome.Sharp.IconPictureBox();
             btnlogin = new Button();
             linksignup = new LinkLabel();
-            lbwait = new Label();
             linkforgetpass = new LinkLabel();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)iconPictureBox1).BeginInit();
@@ -62,28 +61,28 @@
             txtUsername.BorderStyle = BorderStyle.None;
             txtUsername.Location = new Point(103, 394);
             txtUsername.Name = "txtUsername";
-            txtUsername.Size = new Size(394, 20);
+            txtUsername.Size = new Size(394, 24);
             txtUsername.TabIndex = 1;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Microsoft Sans Serif", 14F);
+            label1.Font = new Font("Script MT Bold", 14F, FontStyle.Bold);
             label1.ForeColor = Color.DarkCyan;
             label1.Location = new Point(37, 208);
             label1.Name = "label1";
-            label1.Size = new Size(393, 29);
+            label1.Size = new Size(420, 34);
             label1.TabIndex = 2;
             label1.Text = "Watch your favorite movies anytime,";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Font = new Font("Microsoft Sans Serif", 14F);
+            label2.Font = new Font("Script MT Bold", 14F, FontStyle.Bold);
             label2.ForeColor = Color.DarkCyan;
             label2.Location = new Point(235, 243);
             label2.Name = "label2";
-            label2.Size = new Size(246, 29);
+            label2.Size = new Size(290, 34);
             label2.TabIndex = 3;
             label2.Text = "anywhere with UITflix!";
             // 
@@ -109,7 +108,7 @@
             txtPassword.BorderStyle = BorderStyle.None;
             txtPassword.Location = new Point(103, 481);
             txtPassword.Name = "txtPassword";
-            txtPassword.Size = new Size(394, 20);
+            txtPassword.Size = new Size(394, 24);
             txtPassword.TabIndex = 5;
             // 
             // iconPictureBox1
@@ -159,21 +158,11 @@
             linksignup.LinkColor = Color.CadetBlue;
             linksignup.Location = new Point(37, 543);
             linksignup.Name = "linksignup";
-            linksignup.Size = new Size(139, 20);
+            linksignup.Size = new Size(164, 23);
             linksignup.TabIndex = 10;
             linksignup.TabStop = true;
             linksignup.Text = "Tạo tài khoản mới";
             linksignup.LinkClicked += linksignup_LinkClicked;
-            // 
-            // lbwait
-            // 
-            lbwait.AutoSize = true;
-            lbwait.ForeColor = Color.DarkCyan;
-            lbwait.Location = new Point(179, 610);
-            lbwait.Name = "lbwait";
-            lbwait.Size = new Size(13, 20);
-            lbwait.TabIndex = 11;
-            lbwait.Text = " ";
             // 
             // linkforgetpass
             // 
@@ -182,7 +171,7 @@
             linkforgetpass.LinkColor = Color.CadetBlue;
             linkforgetpass.Location = new Point(37, 596);
             linkforgetpass.Name = "linkforgetpass";
-            linkforgetpass.Size = new Size(124, 20);
+            linkforgetpass.Size = new Size(147, 23);
             linkforgetpass.TabIndex = 12;
             linkforgetpass.TabStop = true;
             linkforgetpass.Text = "Quên mật khẩu?";
@@ -190,12 +179,11 @@
             // 
             // LogIn
             // 
-            AutoScaleDimensions = new SizeF(9F, 20F);
+            AutoScaleDimensions = new SizeF(11F, 23F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightBlue;
             ClientSize = new Size(540, 659);
             Controls.Add(linkforgetpass);
-            Controls.Add(lbwait);
             Controls.Add(btnlogin);
             Controls.Add(iconPictureBox2);
             Controls.Add(iconPictureBox1);
@@ -233,7 +221,6 @@
         private FontAwesome.Sharp.IconPictureBox iconPictureBox2;
         private Button btnlogin;
         private LinkLabel linksignup;
-        private Label lbwait;
         private LinkLabel linkforgetpass;
     }
 }

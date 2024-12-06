@@ -90,8 +90,7 @@ namespace UITFLIX
 
         private async void btnlogin_Click(object sender, EventArgs e)
         {
-            lbwait.Enabled = false;
-            lbwait.Text = "Waiting for login...";
+            this.Enabled = false;
             string username = txtUsername.Text;
             string password = txtPassword.Text;
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
@@ -111,6 +110,7 @@ namespace UITFLIX
                 var response = await httpClient.PostAsync("/api/User/LogIn", content);
                 var info = await response.Content.ReadAsStringAsync();
                 JObject res = JObject.Parse(info);
+                this.Enabled = true;
                 //MessageBox.Show(Userinfo.ToString());
                 //MessageBox.Show(response.ToString());
                 if (response.IsSuccessStatusCode)
