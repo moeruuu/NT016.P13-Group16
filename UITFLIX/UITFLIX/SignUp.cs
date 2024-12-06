@@ -157,7 +157,6 @@ namespace UITFLIX
 
         private async void btnsignup_Click(object sender, EventArgs e)
         {
-            this.Enabled = false;
             lbwait.Text = "Waiting for sign up...";
             btnsignup.Enabled = false;
             string fullname = txtFullname.Text.Trim();
@@ -193,7 +192,6 @@ namespace UITFLIX
                 password = password,
             };
             var response = await userService.Register(SignUp);
-            this.Enabled = true;
             //JObject status = JObject.Parse(response);
             if (response.Contains("thành công!", StringComparison.OrdinalIgnoreCase))
             {

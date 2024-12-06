@@ -73,7 +73,7 @@ namespace UITFLIX.Services
             {
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accesstoken);
                 var res = await httpClient.GetAsync($"/api/Coop/FindRoom/{roomid}");
-                MessageBox.Show(res.ToString());
+                //MessageBox.Show(res.ToString());
                 return res.IsSuccessStatusCode;
             }
             catch(Exception ex) {
@@ -125,6 +125,49 @@ namespace UITFLIX.Services
                 return response.IsSuccessStatusCode;
             }
             catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return false;
+            }
+        }
+
+        public async Task<bool> LeaveRoom(string accesstoken, string roomid)
+        {
+            try
+            {
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accesstoken);
+                var room = new
+                {
+                    roomid = roomid
+                };
+                var json = JsonConvert.SerializeObject(room);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await httpClient.PostAsync("/api/Coop/LeaveRoom", content);
+                //MessageBox.Show(response.ToString());
+                return response.IsSuccessStatusCode;
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return false;
+            }
+        }
+
+        public async Task<bool> DeleteRoom(string accesstoken, string roomid)
+        {
+            try
+            {
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accesstoken);
+                var room = new
+                {
+                    roomid = roomid
+                };
+                var json = JsonConvert.SerializeObject(room);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await httpClient.PostAsync("/api/Coop/DeleteRoom", content);
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
                 return false;

@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Room));
             panel1 = new Panel();
+            lbname = new Label();
             linkleaveroom = new LinkLabel();
             IDRoom = new Label();
             label3 = new Label();
@@ -55,15 +56,27 @@
             // panel1
             // 
             panel1.BackColor = Color.PowderBlue;
+            panel1.Controls.Add(lbname);
             panel1.Controls.Add(linkleaveroom);
             panel1.Controls.Add(IDRoom);
             panel1.Controls.Add(label3);
             panel1.Controls.Add(logo);
             panel1.Dock = DockStyle.Top;
+            panel1.Font = new Font("Cambria", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
             panel1.Size = new Size(1787, 64);
             panel1.TabIndex = 0;
+            // 
+            // lbname
+            // 
+            lbname.AutoSize = true;
+            lbname.Font = new Font("Cambria", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lbname.ForeColor = Color.MidnightBlue;
+            lbname.Location = new Point(77, 35);
+            lbname.Name = "lbname";
+            lbname.Size = new Size(0, 21);
+            lbname.TabIndex = 5;
             // 
             // linkleaveroom
             // 
@@ -72,17 +85,18 @@
             linkleaveroom.LinkColor = Color.White;
             linkleaveroom.Location = new Point(1679, 39);
             linkleaveroom.Name = "linkleaveroom";
-            linkleaveroom.Size = new Size(105, 25);
+            linkleaveroom.Size = new Size(102, 21);
             linkleaveroom.TabIndex = 4;
             linkleaveroom.TabStop = true;
             linkleaveroom.Text = "Leave room";
+            linkleaveroom.LinkClicked += linkleaveroom_LinkClicked;
             // 
             // IDRoom
             // 
             IDRoom.AutoSize = true;
             IDRoom.Font = new Font("Cambria", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
             IDRoom.ForeColor = Color.MidnightBlue;
-            IDRoom.Location = new Point(108, 18);
+            IDRoom.Location = new Point(108, 9);
             IDRoom.Name = "IDRoom";
             IDRoom.Size = new Size(108, 26);
             IDRoom.TabIndex = 3;
@@ -93,7 +107,7 @@
             label3.AutoSize = true;
             label3.Font = new Font("Cambria", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label3.ForeColor = Color.MidnightBlue;
-            label3.Location = new Point(77, 18);
+            label3.Location = new Point(77, 9);
             label3.Name = "label3";
             label3.Size = new Size(40, 26);
             label3.TabIndex = 2;
@@ -144,13 +158,13 @@
             // 
             // listchatgroup
             // 
-            listchatgroup.Font = new Font("Cambria", 10F);
+            listchatgroup.Font = new Font("Cambria", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
             listchatgroup.ForeColor = Color.MidnightBlue;
             listchatgroup.FormattingEnabled = true;
-            listchatgroup.ItemHeight = 23;
+            listchatgroup.ItemHeight = 26;
             listchatgroup.Location = new Point(1323, 79);
             listchatgroup.Name = "listchatgroup";
-            listchatgroup.Size = new Size(435, 671);
+            listchatgroup.Size = new Size(435, 654);
             listchatgroup.TabIndex = 6;
             // 
             // txtChat
@@ -234,6 +248,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightBlue;
             ClientSize = new Size(1787, 1200);
+            ControlBox = false;
             Controls.Add(dgvQueue);
             Controls.Add(rcmvideopanel);
             Controls.Add(label2);
@@ -277,5 +292,6 @@
         private DataGridViewTextBoxColumn ColumnNum;
         private DataGridViewTextBoxColumn ColumnTitle;
         private DataGridViewTextBoxColumn ColumnTag;
+        private Label lbname;
     }
 }

@@ -34,7 +34,7 @@ namespace UITFLIX
         private HubConnection connection;
         private static readonly string huburl = @"https://localhost:7292/videohub";
 
-        public Room(string token, string roomid)
+        public Room(string token, string roomid, JObject in4)
         {
             InitializeComponent();
             accesstoken = token;
@@ -42,6 +42,9 @@ namespace UITFLIX
             toolTip = new ToolTip();
             coopService = new CoopService();
             userService = new UserService();
+
+            userinfo = in4;
+
             this.roomid = roomid;
             IDRoom.Text = roomid;
             IntializeEvent();
@@ -55,6 +58,7 @@ namespace UITFLIX
                     .Build();
             await StartConnection();
             await UserJoined(roomid);
+            lbname.Text = userinfo["user"]["fullname"].ToString();
             await RegisterEvent();
             //connection.Closed += Connection_Closed;
             await ShowRCMVideo();
@@ -84,7 +88,10 @@ namespace UITFLIX
             connection.On<string, string>("ReceivedMessage", (user, message) =>
             {
                 string messages = $"{user}: {message}";
-                listchatgroup.Items.Add(messages);
+                listchatgroup.Invoke(new Action(() =>
+                {
+                    listchatgroup.Items.Add(messages);
+                }));
 
             });
 
@@ -99,7 +106,6 @@ namespace UITFLIX
                             if (getmovie != null && getmovie.ContainsKey("title") && getmovie.ContainsKey("tag"))
                             {
                                 dgvQueue.RowsDefaultCellStyle.ForeColor = Color.MidnightBlue;
-                                dgvQueue.RowsDefaultCellStyle.BackColor = Color.White;
                                 //MessageBox.Show(getmovie.ToString());
                                 dgvQueue.Invoke(new Action(() =>
                                 {
@@ -206,9 +212,30 @@ namespace UITFLIX
                     MessageBox.Show("Không thể thêm video");
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+        }
+
+        private async void linkleaveroom_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            var res = MessageBox.Show("Do you wanna leave room?", "Question", MessageBoxButtons.YesNo);
+            if (res == DialogResult.Yes)
+            {
+                var response = await coopService.LeaveRoom(accesstoken, roomid);
+                if (response)
+                {
+                    await connection.InvokeAsync("SendMessage", userinfo["user"]["fullname"].ToString(), roomid, "has left room");
+                    await connection.InvokeAsync("LeaveRoom", roomid);
+                    this.Hide();
+                    new Home(userinfo, null, accesstoken).ShowDialog();
+                    var checkroom = await coopService.DeleteRoom(accesstoken, roomid);
+                    if (checkroom)
+                    {
+                        await connection.InvokeAsync("DeleteRoom", roomid);
+                    }
+                }
             }
         }
     }

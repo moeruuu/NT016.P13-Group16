@@ -147,7 +147,7 @@ namespace API_Server.Controllers
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost("LeaveRoom")]
-        public async Task<IActionResult> LeaveRoom([FromBody] string roomid)
+        public async Task<IActionResult> LeaveRoom([FromBody] UserJoinedDTOs leftDTOs)
         {
             try
             {
@@ -156,18 +156,17 @@ namespace API_Server.Controllers
                 {
                     return Unauthorized("Không thể xác thực người dùng.");
                 }
-                await coopService.UserLeft(roomid, UserId);
-                //await hub.Clients.Group(roomid).SendAsync("ReceiveNotification", $"{UserId} has left room");
+                await coopService.UserLeft(leftDTOs.roomid, userId);
                 return Ok(new
                 {
-                    Message = $"{UserId} has left room [{roomid}]",
-                    Roomid = roomid,
+                    Message = $"{UserId} has left room [{leftDTOs.roomid}]",
+                    Roomid = leftDTOs.roomid,
                     UserId = userId,
                 });
             }
             catch (Exception ex)
             {
-                return BadRequest($"Failed to leave room [{roomid}]");
+                return BadRequest($"Failed to leave room [{leftDTOs.roomid}]");
             }
         }
 

@@ -6,6 +6,7 @@ using API_Server.Data;
 using System.Text.RegularExpressions;
 using API_Server.Service;
 using System.Runtime.CompilerServices;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace API_Server.SignalRHub
 {
@@ -56,6 +57,24 @@ namespace API_Server.SignalRHub
             }
             roommovies[roomid].Add(movie);
             await Clients.Group(roomid).SendAsync("ReceiveMovies", roommovies[roomid]);
+        }
+
+        public async Task LeaveRoom(string roomid)
+        {
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, roomid);
+        }
+
+        public async Task DeleteRoom(string roomid)
+        {
+            if (roommovies.ContainsKey(roomid))
+            {
+                roommovies.Remove(roomid);
+            }
+          
+            if (roomusers.ContainsKey(roomid))
+            {
+                roomusers.Remove(roomid);
+            }
         }
 
     }

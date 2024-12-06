@@ -90,7 +90,6 @@ namespace UITFLIX
 
         private async void btnlogin_Click(object sender, EventArgs e)
         {
-            this.Enabled = false;
             string username = txtUsername.Text;
             string password = txtPassword.Text;
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
@@ -100,6 +99,7 @@ namespace UITFLIX
             }
             try
             {
+                this.Enabled = false;
                 var User = new
                 {
                     username = username,

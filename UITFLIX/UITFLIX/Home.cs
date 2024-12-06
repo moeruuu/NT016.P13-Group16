@@ -693,7 +693,7 @@ namespace UITFLIX
             {
                 //MessageBox.Show("Your room id: " + roomid["room"]["roomId"].ToString());
                 this.Hide();
-                new Room(accesstoken, roomid["room"]["roomId"].ToString()).ShowDialog();
+                new Room(accesstoken, roomid["room"]["roomId"].ToString(), Userinfo).ShowDialog();
                 this.Close();
             }
             else
@@ -732,7 +732,7 @@ namespace UITFLIX
                 if (res)
                 {
                     this.Hide();
-                    new Room(accesstoken, tbidroom.Text.Trim()).ShowDialog();
+                    new Room(accesstoken, tbidroom.Text.Trim(), Userinfo).ShowDialog();
                     this.Close();
                 }
             }

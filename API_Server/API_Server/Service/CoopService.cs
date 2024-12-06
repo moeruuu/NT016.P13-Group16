@@ -61,10 +61,10 @@ namespace API_Server.Service
             }
         }
 
-        public async Task UserLeft(string roomid, ObjectId userid)
+        public async Task UserLeft(string roomid, string userid)
         {
             var filter = Builders<Room>.Filter.Eq(r => r.RoomId, roomid);
-            var update = Builders<Room>.Update.Pull(r => r.Participants, userid.ToString());
+            var update = Builders<Room>.Update.Pull(r => r.Participants, userid);
 
             var result = await rooms.UpdateOneAsync(filter, update);
             if (result.MatchedCount == 0)
