@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using API_Server.DTOs;
 using MongoDB.Bson;
 using System.Net.WebSockets;
+using API_Server.Models;
 namespace API_Server.Service
 {
     public class CoopService
@@ -87,7 +88,8 @@ namespace API_Server.Service
             }
             if (room.Participants.Count == 0)
             {
-                return true;
+                var res = await rooms.DeleteOneAsync(filter);
+                return res.DeletedCount > 0;
             }
             return false;
         }
