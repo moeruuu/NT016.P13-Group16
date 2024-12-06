@@ -46,7 +46,6 @@
             ColumnNum = new DataGridViewTextBoxColumn();
             ColumnTitle = new DataGridViewTextBoxColumn();
             ColumnTag = new DataGridViewTextBoxColumn();
-            listusers = new ListBox();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)logo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)axWindowsMediaPlayer).BeginInit();
@@ -149,9 +148,9 @@
             listchatgroup.ForeColor = Color.MidnightBlue;
             listchatgroup.FormattingEnabled = true;
             listchatgroup.ItemHeight = 23;
-            listchatgroup.Location = new Point(1323, 263);
+            listchatgroup.Location = new Point(1323, 79);
             listchatgroup.Name = "listchatgroup";
-            listchatgroup.Size = new Size(435, 487);
+            listchatgroup.Size = new Size(435, 671);
             listchatgroup.TabIndex = 6;
             // 
             // txtChat
@@ -229,24 +228,12 @@
             ColumnTag.ReadOnly = true;
             ColumnTag.Width = 150;
             // 
-            // listusers
-            // 
-            listusers.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            listusers.ForeColor = Color.MidnightBlue;
-            listusers.FormattingEnabled = true;
-            listusers.ItemHeight = 23;
-            listusers.Location = new Point(1323, 79);
-            listusers.Name = "listusers";
-            listusers.Size = new Size(435, 165);
-            listusers.TabIndex = 13;
-            // 
             // Room
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightBlue;
             ClientSize = new Size(1787, 1200);
-            Controls.Add(listusers);
             Controls.Add(dgvQueue);
             Controls.Add(rcmvideopanel);
             Controls.Add(label2);
@@ -290,6 +277,5 @@
         private DataGridViewTextBoxColumn ColumnNum;
         private DataGridViewTextBoxColumn ColumnTitle;
         private DataGridViewTextBoxColumn ColumnTag;
-        private ListBox listusers;
     }
 }

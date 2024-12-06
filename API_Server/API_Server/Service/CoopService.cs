@@ -17,7 +17,7 @@ namespace API_Server.Service
 
         public async Task<Room> CreateRoom(ObjectId Userid)
         {
-            string ID = new Random().Next().ToString("D6");
+            string ID = new Random().Next(0, 100000).ToString("D6");
             var filter = Builders<Room>.Filter.Eq(r => r.RoomId, ID);
             var checkroom = await rooms.Find(filter).FirstOrDefaultAsync();
             if (checkroom != null)
@@ -37,6 +37,15 @@ namespace API_Server.Service
             return CreateNewRoom;
         }
 
+        public async Task<bool> FindRoom(string roomid, string userid)
+        {
+            var filter = Builders<Room>.Filter.And(
+            Builders<Room>.Filter.Eq(r => r.RoomId, roomid),
+            Builders<Room>.Filter.Not(Builders<Room>.Filter.AnyEq(r => r.Participants, userid))
+            );
+            var find = await rooms.Find(filter).FirstOrDefaultAsync();
+            return find != null;
+        }
         public async Task UserJoined(string roomid, ObjectId userid)
         {
             var filter = Builders<Room>.Filter.Eq(r => r.RoomId, roomid);
@@ -54,8 +63,8 @@ namespace API_Server.Service
 
         public async Task UserLeft(string roomid, ObjectId userid)
         {
-            var filter = Builders<Room>.Filter.Eq(r=>r.RoomId, roomid);
-            var update = Builders<Room>.Update.Pull(r=>r.Participants, userid.ToString());
+            var filter = Builders<Room>.Filter.Eq(r => r.RoomId, roomid);
+            var update = Builders<Room>.Update.Pull(r => r.Participants, userid.ToString());
 
             var result = await rooms.UpdateOneAsync(filter, update);
             if (result.MatchedCount == 0)
@@ -70,7 +79,7 @@ namespace API_Server.Service
 
         public async Task<bool> DeleteRoom(string roomid)
         {
-            var filter = Builders<Room>.Filter.Eq(r=>r.RoomId, roomid);
+            var filter = Builders<Room>.Filter.Eq(r => r.RoomId, roomid);
             var room = await rooms.Find(filter).FirstOrDefaultAsync();
             if (room == null)
             {
@@ -104,7 +113,7 @@ namespace API_Server.Service
             }
             catch (Exception ex)
             {
-               // Console.WriteLine(ex.Message);
+                // Console.WriteLine(ex.Message);
                 return false;
             }
 

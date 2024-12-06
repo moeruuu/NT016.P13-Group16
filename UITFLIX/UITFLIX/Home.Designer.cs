@@ -442,6 +442,7 @@
             btnidroom.Text = "Join";
             btnidroom.UseVisualStyleBackColor = true;
             btnidroom.Visible = false;
+            btnidroom.Click += btnidroom_Click;
             // 
             // linkcreateroom
             // 
@@ -572,7 +573,7 @@
             // 
             fpnVideos.AutoScroll = true;
             fpnVideos.Location = new Point(360, 149);
-            fpnVideos.Margin = new Padding(4, 4, 4, 4);
+            fpnVideos.Margin = new Padding(4);
             fpnVideos.Name = "fpnVideos";
             fpnVideos.Size = new Size(982, 578);
             fpnVideos.TabIndex = 39;

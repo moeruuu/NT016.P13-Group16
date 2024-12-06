@@ -37,14 +37,14 @@ namespace API_Server.Controllers
                 {
                     return Unauthorized("Không thể xác thực người dùng.");
                 }
-               /* var user = await userService.GetUserByID(UserId);
-                if (user == null)
-                {
-                    return NotFound("Không tìm thấy");
-                }*/
+                /* var user = await userService.GetUserByID(UserId);
+                 if (user == null)
+                 {
+                     return NotFound("Không tìm thấy");
+                 }*/
 
                 var createroom = await coopService.CreateRoom(UserId);
-               // await hub.Clients.All.SendAsync("RoomCreated", createroom.RoomId);
+                // await hub.Clients.All.SendAsync("RoomCreated", createroom.RoomId);
                 return Ok(new
                 {
                     Room = new
@@ -59,6 +59,37 @@ namespace API_Server.Controllers
             catch (Exception ex)
             {
                 return BadRequest(ex.Message + "\n" + ex.StackTrace);
+            }
+
+        }
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet("FindRoom/{id}")]
+        public async Task<IActionResult> FindRoom([FromRoute] string id)
+        {
+            try
+            {
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userId) || !ObjectId.TryParse(userId, out ObjectId UserId))
+                {
+                    return Unauthorized("Không thể xác thực người dùng.");
+                }
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return NotFound("Không tìm thấy user");
+                }
+                var res = await coopService.FindRoom(id, userId);
+                if (res)
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest("Người dùng đã ở trong phòng");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
 
         }

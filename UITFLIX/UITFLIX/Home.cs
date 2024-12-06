@@ -717,6 +717,31 @@ namespace UITFLIX
             };
             var response = await userService.LogOut(LogOutModel, accesstoken);
         }
+
+        private async void btnidroom_Click(object sender, EventArgs e)
+        {
+            //MessageBox.Show("Check");
+            try
+            {
+                if (tbidroom.Text == null)
+                {
+                    MessageBox.Show("Vui lòng nhập ID phòng!");
+                    return;
+                }
+                var res = await coopService.FindRoom(accesstoken, tbidroom.Text.Trim());
+                if (res)
+                {
+                    this.Hide();
+                    new Room(accesstoken, tbidroom.Text.Trim()).ShowDialog();
+                    this.Close();
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+        }
     }
 
 }

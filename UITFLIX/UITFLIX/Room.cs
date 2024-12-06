@@ -50,6 +50,7 @@ namespace UITFLIX
 
         public async Task IntializeEvent()
         {
+            this.Enabled = false;
             connection = new HubConnectionBuilder()
                     .WithUrl(huburl)
                     .Build();
@@ -59,6 +60,7 @@ namespace UITFLIX
             //connection.Closed += Connection_Closed;
             await ShowRCMVideo();
             await connection.InvokeAsync("SendMessage", userinfo["user"]["fullname"].ToString(), roomid, "has joined room!");
+            this.Enabled = true;
         }
         private async Task StartConnection()
         {
@@ -191,15 +193,24 @@ namespace UITFLIX
 
         private async void AddVideo(string videoid)
         {
-            var res = await coopService.AddVideo(accesstoken, videoid, roomid);
-            if (res)
+            try
             {
-                await connection.InvokeAsync("AddMovie", roomid, videoid);
-                await connection.InvokeAsync("SendMessage", userinfo["user"]["fullname"].ToString(), roomid, "has added a video!");
+                this.Enabled = false;
+                var res = await coopService.AddVideo(accesstoken, videoid, roomid);
+                this.Enabled = true;
+                if (res)
+                {
+                    await connection.InvokeAsync("AddMovie", roomid, videoid);
+                    await connection.InvokeAsync("SendMessage", userinfo["user"]["fullname"].ToString(), roomid, "has added a video!");
+                }
+                else
+                {
+                    MessageBox.Show("Không thể thêm video");
+                }
             }
-            else
+            catch(Exception ex)
             {
-                MessageBox.Show("Không thể thêm video");
+                MessageBox.Show(ex.Message);
             }
         }
     }

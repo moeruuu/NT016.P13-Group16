@@ -67,6 +67,20 @@ namespace UITFLIX.Services
 
         }
 
+        public async Task<bool> FindRoom(string accesstoken, string roomid)
+        {
+            try
+            {
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accesstoken);
+                var res = await httpClient.GetAsync($"/api/Coop/FindRoom/{roomid}");
+                MessageBox.Show(res.ToString());
+                return res.IsSuccessStatusCode;
+            }
+            catch(Exception ex) {
+                MessageBox.Show(ex.Message);
+                return false;
+            }
+        }
         public async Task<JObject> JoinRoom(string roomid, string accesstoken)
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accesstoken);
