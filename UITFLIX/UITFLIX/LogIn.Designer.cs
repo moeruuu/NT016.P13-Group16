@@ -61,7 +61,7 @@
             txtUsername.BorderStyle = BorderStyle.None;
             txtUsername.Location = new Point(103, 394);
             txtUsername.Name = "txtUsername";
-            txtUsername.Size = new Size(394, 24);
+            txtUsername.Size = new Size(394, 20);
             txtUsername.TabIndex = 1;
             // 
             // label1
@@ -71,7 +71,7 @@
             label1.ForeColor = Color.DarkCyan;
             label1.Location = new Point(37, 208);
             label1.Name = "label1";
-            label1.Size = new Size(450, 35);
+            label1.Size = new Size(382, 29);
             label1.TabIndex = 2;
             label1.Text = "Watch your favorite movies anytime,";
             // 
@@ -80,9 +80,9 @@
             label2.AutoSize = true;
             label2.Font = new Font("Palatino Linotype", 13F, FontStyle.Bold);
             label2.ForeColor = Color.DarkCyan;
-            label2.Location = new Point(235, 243);
+            label2.Location = new Point(221, 246);
             label2.Name = "label2";
-            label2.Size = new Size(292, 35);
+            label2.Size = new Size(249, 29);
             label2.TabIndex = 3;
             label2.Text = "anywhere with UITflix!";
             // 
@@ -108,7 +108,7 @@
             txtPassword.BorderStyle = BorderStyle.None;
             txtPassword.Location = new Point(103, 481);
             txtPassword.Name = "txtPassword";
-            txtPassword.Size = new Size(394, 24);
+            txtPassword.Size = new Size(394, 20);
             txtPassword.TabIndex = 5;
             // 
             // iconPictureBox1
@@ -158,7 +158,7 @@
             linksignup.LinkColor = Color.CadetBlue;
             linksignup.Location = new Point(37, 543);
             linksignup.Name = "linksignup";
-            linksignup.Size = new Size(164, 23);
+            linksignup.Size = new Size(139, 20);
             linksignup.TabIndex = 10;
             linksignup.TabStop = true;
             linksignup.Text = "Tạo tài khoản mới";
@@ -171,7 +171,7 @@
             linkforgetpass.LinkColor = Color.CadetBlue;
             linkforgetpass.Location = new Point(37, 596);
             linkforgetpass.Name = "linkforgetpass";
-            linkforgetpass.Size = new Size(147, 23);
+            linkforgetpass.Size = new Size(124, 20);
             linkforgetpass.TabIndex = 12;
             linkforgetpass.TabStop = true;
             linkforgetpass.Text = "Quên mật khẩu?";
@@ -179,7 +179,7 @@
             // 
             // LogIn
             // 
-            AutoScaleDimensions = new SizeF(11F, 23F);
+            AutoScaleDimensions = new SizeF(9F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightBlue;
             ClientSize = new Size(540, 659);

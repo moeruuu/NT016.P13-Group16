@@ -99,7 +99,6 @@ namespace UITFLIX
             }
             try
             {
-                this.Enabled = false;
                 var User = new
                 {
                     username = username,
@@ -110,7 +109,6 @@ namespace UITFLIX
                 var response = await httpClient.PostAsync("/api/User/LogIn", content);
                 var info = await response.Content.ReadAsStringAsync();
                 JObject res = JObject.Parse(info);
-                this.Enabled = true;
                 //MessageBox.Show(Userinfo.ToString());
                 //MessageBox.Show(response.ToString());
                 if (response.IsSuccessStatusCode)

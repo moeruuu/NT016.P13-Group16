@@ -64,7 +64,7 @@ namespace UITFLIX
             setUserinfo();
 
             leftborderBtn = new Panel();
-            leftborderBtn.Size = new Size(10, 105);
+            leftborderBtn.Size = new Size(10, 84);
             leftside.Controls.Add(leftborderBtn);
             DrawCircular(Avatar);
             toolTip.SetToolTip(Username, in4["user"]["fullname"].ToString());
@@ -225,7 +225,6 @@ namespace UITFLIX
             {
                 this.Enabled = false;
                 progressupload.Minimum = 0;
-
                 var jarray = await videoService.GetNewestVideosAsync(accesstoken);
                 if (jarray != null)
                 {
@@ -692,9 +691,9 @@ namespace UITFLIX
             if (roomid != null)
             {
                 //MessageBox.Show("Your room id: " + roomid["room"]["roomId"].ToString());
-                this.Hide();
+                //this.Hide();
                 new Room(accesstoken, roomid["room"]["roomId"].ToString(), Userinfo).ShowDialog();
-                this.Close();
+                //this.Close();
             }
             else
             {
@@ -731,9 +730,9 @@ namespace UITFLIX
                 var res = await coopService.FindRoom(accesstoken, tbidroom.Text.Trim());
                 if (res)
                 {
-                    this.Hide();
+                    //this.Hide();
                     new Room(accesstoken, tbidroom.Text.Trim(), Userinfo).ShowDialog();
-                    this.Close();
+                    //this.Close();
                 }
             }
             catch(Exception ex)

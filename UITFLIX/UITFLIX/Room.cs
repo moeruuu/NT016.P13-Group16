@@ -76,12 +76,12 @@ namespace UITFLIX
                 listchatgroup.Items.Add($"{ex.Message}");
             }
         }
-
+/*
         public async Task Connection_Closed(Exception? arg)
         {
             await Task.Delay(new Random().Next(0, 5) * 1000);
             await connection.StartAsync();
-        }
+        }*/
         private async Task RegisterEvent()
         {
 
@@ -148,7 +148,7 @@ namespace UITFLIX
                             Title = SetLabelText(video["title"].ToString(), 12),
                             Sub = video["uploadedDate"].ToObject<DateTime>().ToUniversalTime().ToString("dd/MM/yyyy"),
                             ImageUrl = video["urlImage"].ToString(),
-                            Size = new Size(215, 200)
+                            Size = new Size(175, 220)
                         };
                         getvideo = video;
                         item.Click += (sender, e) => AddVideo(video["id"].ToString());
@@ -228,8 +228,9 @@ namespace UITFLIX
                 {
                     await connection.InvokeAsync("SendMessage", userinfo["user"]["fullname"].ToString(), roomid, "has left room");
                     await connection.InvokeAsync("LeaveRoom", roomid);
-                    this.Hide();
-                    new Home(userinfo, null, accesstoken).ShowDialog();
+                    /*this.Hide();
+                    new Home(userinfo, null, accesstoken).ShowDialog();*/
+                    this.Close();
                     var checkroom = await coopService.DeleteRoom(accesstoken, roomid);
                     if (checkroom)
                     {

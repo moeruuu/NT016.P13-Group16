@@ -163,12 +163,13 @@ namespace UITFLIX.Services
                 }
                 else
                 {
+                    MessageBox.Show(response.ToString());
                     return null;
                 }
             }
             catch (Exception ex)
             {
-                // MessageBox.Show($"{ex.Message}\n{ex.StackTrace}");
+                MessageBox.Show($"{ex.Message}\n{ex.StackTrace}");
                 return null;
             }
         }

@@ -171,8 +171,8 @@ namespace API_Server.Controllers
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [HttpPost("DeleteRoom")]
-        public async Task<IActionResult> DeleteRoom(string roomid)
+        [HttpDelete("DeleteRoom/{roomid}")]
+        public async Task<IActionResult> DeleteRoom([FromRoute]string roomid)
         {
             try
             {

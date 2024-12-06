@@ -158,13 +158,7 @@ namespace UITFLIX.Services
             try
             {
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accesstoken);
-                var room = new
-                {
-                    roomid = roomid
-                };
-                var json = JsonConvert.SerializeObject(room);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await httpClient.PostAsync("/api/Coop/DeleteRoom", content);
+                var response = await httpClient.DeleteAsync($"/api/Coop/DeleteRoom/{roomid}");
                 return response.IsSuccessStatusCode;
             }
             catch (Exception ex)

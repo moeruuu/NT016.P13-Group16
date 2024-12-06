@@ -64,8 +64,9 @@
             panel1.Dock = DockStyle.Top;
             panel1.Font = new Font("Cambria", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             panel1.Location = new Point(0, 0);
+            panel1.Margin = new Padding(2);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1787, 64);
+            panel1.Size = new Size(1490, 53);
             panel1.TabIndex = 0;
             // 
             // lbname
@@ -73,19 +74,22 @@
             lbname.AutoSize = true;
             lbname.Font = new Font("Cambria", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lbname.ForeColor = Color.MidnightBlue;
-            lbname.Location = new Point(77, 35);
+            lbname.Location = new Point(62, 28);
+            lbname.Margin = new Padding(2, 0, 2, 0);
             lbname.Name = "lbname";
-            lbname.Size = new Size(0, 21);
+            lbname.Size = new Size(0, 17);
             lbname.TabIndex = 5;
             // 
             // linkleaveroom
             // 
             linkleaveroom.ActiveLinkColor = Color.MidnightBlue;
             linkleaveroom.AutoSize = true;
+            linkleaveroom.Font = new Font("Cambria", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkleaveroom.LinkColor = Color.White;
-            linkleaveroom.Location = new Point(1679, 39);
+            linkleaveroom.Location = new Point(1376, 28);
+            linkleaveroom.Margin = new Padding(2, 0, 2, 0);
             linkleaveroom.Name = "linkleaveroom";
-            linkleaveroom.Size = new Size(102, 21);
+            linkleaveroom.Size = new Size(112, 23);
             linkleaveroom.TabIndex = 4;
             linkleaveroom.TabStop = true;
             linkleaveroom.Text = "Leave room";
@@ -96,9 +100,10 @@
             IDRoom.AutoSize = true;
             IDRoom.Font = new Font("Cambria", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
             IDRoom.ForeColor = Color.MidnightBlue;
-            IDRoom.Location = new Point(108, 9);
+            IDRoom.Location = new Point(91, 7);
+            IDRoom.Margin = new Padding(2, 0, 2, 0);
             IDRoom.Name = "IDRoom";
-            IDRoom.Size = new Size(108, 26);
+            IDRoom.Size = new Size(98, 22);
             IDRoom.TabIndex = 3;
             IDRoom.Text = "01234567";
             // 
@@ -107,9 +112,10 @@
             label3.AutoSize = true;
             label3.Font = new Font("Cambria", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label3.ForeColor = Color.MidnightBlue;
-            label3.Location = new Point(77, 9);
+            label3.Location = new Point(62, 7);
+            label3.Margin = new Padding(2, 0, 2, 0);
             label3.Name = "label3";
-            label3.Size = new Size(40, 26);
+            label3.Size = new Size(34, 22);
             label3.TabIndex = 2;
             label3.Text = "ID:";
             // 
@@ -117,8 +123,9 @@
             // 
             logo.Image = (Image)resources.GetObject("logo.Image");
             logo.Location = new Point(0, 0);
+            logo.Margin = new Padding(2);
             logo.Name = "logo";
-            logo.Size = new Size(64, 64);
+            logo.Size = new Size(51, 51);
             logo.SizeMode = PictureBoxSizeMode.StretchImage;
             logo.TabIndex = 1;
             logo.TabStop = false;
@@ -127,9 +134,10 @@
             // 
             axWindowsMediaPlayer.Enabled = true;
             axWindowsMediaPlayer.Location = new Point(12, 79);
+            axWindowsMediaPlayer.Margin = new Padding(2);
             axWindowsMediaPlayer.Name = "axWindowsMediaPlayer";
             axWindowsMediaPlayer.OcxState = (AxHost.State)resources.GetObject("axWindowsMediaPlayer.OcxState");
-            axWindowsMediaPlayer.Size = new Size(1280, 720);
+            axWindowsMediaPlayer.Size = new Size(1060, 561);
             axWindowsMediaPlayer.TabIndex = 1;
             // 
             // namefilm
@@ -138,9 +146,10 @@
             namefilm.BackColor = Color.Transparent;
             namefilm.Font = new Font("Cambria", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             namefilm.ForeColor = Color.White;
-            namefilm.Location = new Point(12, 802);
+            namefilm.Location = new Point(12, 642);
+            namefilm.Margin = new Padding(2, 0, 2, 0);
             namefilm.Name = "namefilm";
-            namefilm.Size = new Size(124, 28);
+            namefilm.Size = new Size(105, 23);
             namefilm.TabIndex = 2;
             namefilm.Text = "Name film";
             // 
@@ -150,9 +159,10 @@
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.White;
-            label1.Location = new Point(12, 884);
+            label1.Location = new Point(10, 707);
+            label1.Margin = new Padding(2, 0, 2, 0);
             label1.Name = "label1";
-            label1.Size = new Size(269, 23);
+            label1.Size = new Size(228, 20);
             label1.TabIndex = 3;
             label1.Text = "New videos you should watch:";
             // 
@@ -161,28 +171,31 @@
             listchatgroup.Font = new Font("Cambria", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
             listchatgroup.ForeColor = Color.MidnightBlue;
             listchatgroup.FormattingEnabled = true;
-            listchatgroup.ItemHeight = 26;
-            listchatgroup.Location = new Point(1323, 79);
+            listchatgroup.ItemHeight = 21;
+            listchatgroup.Location = new Point(1101, 79);
+            listchatgroup.Margin = new Padding(2);
             listchatgroup.Name = "listchatgroup";
-            listchatgroup.Size = new Size(435, 654);
+            listchatgroup.Size = new Size(349, 529);
             listchatgroup.TabIndex = 6;
             // 
             // txtChat
             // 
             txtChat.Font = new Font("Cambria", 10F);
             txtChat.ForeColor = Color.MidnightBlue;
-            txtChat.Location = new Point(1323, 768);
+            txtChat.Location = new Point(1102, 614);
+            txtChat.Margin = new Padding(2);
             txtChat.Name = "txtChat";
-            txtChat.Size = new Size(354, 31);
+            txtChat.Size = new Size(284, 27);
             txtChat.TabIndex = 7;
             // 
             // btnsendmessage
             // 
             btnsendmessage.Font = new Font("Cambria", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnsendmessage.ForeColor = Color.MidnightBlue;
-            btnsendmessage.Location = new Point(1683, 768);
+            btnsendmessage.Location = new Point(1390, 614);
+            btnsendmessage.Margin = new Padding(2);
             btnsendmessage.Name = "btnsendmessage";
-            btnsendmessage.Size = new Size(75, 34);
+            btnsendmessage.Size = new Size(60, 27);
             btnsendmessage.TabIndex = 8;
             btnsendmessage.Text = "SEND";
             btnsendmessage.UseVisualStyleBackColor = true;
@@ -194,17 +207,19 @@
             label2.BackColor = Color.Transparent;
             label2.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label2.ForeColor = Color.White;
-            label2.Location = new Point(1323, 884);
+            label2.Location = new Point(1102, 707);
+            label2.Margin = new Padding(2, 0, 2, 0);
             label2.Name = "label2";
-            label2.Size = new Size(131, 23);
+            label2.Size = new Size(109, 20);
             label2.TabIndex = 10;
             label2.Text = "Queue videos:";
             // 
             // rcmvideopanel
             // 
-            rcmvideopanel.Location = new Point(12, 914);
+            rcmvideopanel.Location = new Point(10, 731);
+            rcmvideopanel.Margin = new Padding(2);
             rcmvideopanel.Name = "rcmvideopanel";
-            rcmvideopanel.Size = new Size(1280, 254);
+            rcmvideopanel.Size = new Size(1062, 248);
             rcmvideopanel.TabIndex = 11;
             // 
             // dgvQueue
@@ -212,10 +227,11 @@
             dgvQueue.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvQueue.Columns.AddRange(new DataGridViewColumn[] { ColumnNum, ColumnTitle, ColumnTag });
             dgvQueue.GridColor = Color.MidnightBlue;
-            dgvQueue.Location = new Point(1323, 914);
+            dgvQueue.Location = new Point(1102, 731);
+            dgvQueue.Margin = new Padding(2);
             dgvQueue.Name = "dgvQueue";
             dgvQueue.RowHeadersWidth = 62;
-            dgvQueue.Size = new Size(435, 254);
+            dgvQueue.Size = new Size(348, 248);
             dgvQueue.TabIndex = 12;
             // 
             // ColumnNum
@@ -244,10 +260,10 @@
             // 
             // Room
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightBlue;
-            ClientSize = new Size(1787, 1200);
+            ClientSize = new Size(1490, 1000);
             ControlBox = false;
             Controls.Add(dgvQueue);
             Controls.Add(rcmvideopanel);
@@ -261,6 +277,7 @@
             Controls.Add(panel1);
             ForeColor = Color.LightBlue;
             FormBorderStyle = FormBorderStyle.None;
+            Margin = new Padding(2);
             Name = "Room";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "CreateRoom";

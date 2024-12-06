@@ -89,7 +89,7 @@
             leftside.Location = new Point(0, 0);
             leftside.Margin = new Padding(2);
             leftside.Name = "leftside";
-            leftside.Size = new Size(300, 769);
+            leftside.Size = new Size(240, 615);
             leftside.TabIndex = 0;
             // 
             // btncoop
@@ -103,11 +103,11 @@
             btncoop.IconColor = Color.White;
             btncoop.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btncoop.ImageAlign = ContentAlignment.MiddleLeft;
-            btncoop.Location = new Point(0, 664);
+            btncoop.Location = new Point(0, 531);
             btncoop.Margin = new Padding(2);
             btncoop.Name = "btncoop";
-            btncoop.Padding = new Padding(10, 0, 20, 0);
-            btncoop.Size = new Size(300, 105);
+            btncoop.Padding = new Padding(8, 0, 16, 0);
+            btncoop.Size = new Size(241, 84);
             btncoop.TabIndex = 6;
             btncoop.Text = "Watch Together";
             btncoop.TextImageRelation = TextImageRelation.ImageBeforeText;
@@ -125,11 +125,11 @@
             btnupload.IconColor = Color.White;
             btnupload.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnupload.ImageAlign = ContentAlignment.MiddleLeft;
-            btnupload.Location = new Point(0, 552);
+            btnupload.Location = new Point(0, 442);
             btnupload.Margin = new Padding(2);
             btnupload.Name = "btnupload";
-            btnupload.Padding = new Padding(10, 0, 20, 0);
-            btnupload.Size = new Size(300, 105);
+            btnupload.Padding = new Padding(8, 0, 16, 0);
+            btnupload.Size = new Size(241, 84);
             btnupload.TabIndex = 5;
             btnupload.Text = "Upload Video";
             btnupload.TextImageRelation = TextImageRelation.ImageBeforeText;
@@ -147,11 +147,11 @@
             btnwatchedvideo.IconColor = Color.White;
             btnwatchedvideo.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnwatchedvideo.ImageAlign = ContentAlignment.MiddleLeft;
-            btnwatchedvideo.Location = new Point(0, 442);
+            btnwatchedvideo.Location = new Point(0, 354);
             btnwatchedvideo.Margin = new Padding(2);
             btnwatchedvideo.Name = "btnwatchedvideo";
-            btnwatchedvideo.Padding = new Padding(10, 0, 20, 0);
-            btnwatchedvideo.Size = new Size(300, 105);
+            btnwatchedvideo.Padding = new Padding(8, 0, 16, 0);
+            btnwatchedvideo.Size = new Size(241, 84);
             btnwatchedvideo.TabIndex = 4;
             btnwatchedvideo.Text = "Watched Video";
             btnwatchedvideo.TextImageRelation = TextImageRelation.ImageBeforeText;
@@ -169,11 +169,11 @@
             btntopvideo.IconColor = Color.White;
             btntopvideo.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btntopvideo.ImageAlign = ContentAlignment.MiddleLeft;
-            btntopvideo.Location = new Point(0, 331);
+            btntopvideo.Location = new Point(0, 265);
             btntopvideo.Margin = new Padding(2);
             btntopvideo.Name = "btntopvideo";
-            btntopvideo.Padding = new Padding(10, 0, 20, 0);
-            btntopvideo.Size = new Size(300, 105);
+            btntopvideo.Padding = new Padding(8, 0, 16, 0);
+            btntopvideo.Size = new Size(241, 84);
             btntopvideo.TabIndex = 3;
             btntopvideo.Text = "Top Rated Video";
             btntopvideo.TextImageRelation = TextImageRelation.ImageBeforeText;
@@ -191,11 +191,11 @@
             btnnewvideo.IconColor = Color.White;
             btnnewvideo.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnnewvideo.ImageAlign = ContentAlignment.MiddleLeft;
-            btnnewvideo.Location = new Point(0, 220);
+            btnnewvideo.Location = new Point(0, 176);
             btnnewvideo.Margin = new Padding(2);
             btnnewvideo.Name = "btnnewvideo";
-            btnnewvideo.Padding = new Padding(10, 0, 20, 0);
-            btnnewvideo.Size = new Size(300, 105);
+            btnnewvideo.Padding = new Padding(8, 0, 16, 0);
+            btnnewvideo.Size = new Size(241, 84);
             btnnewvideo.TabIndex = 2;
             btnnewvideo.Text = "New video";
             btnnewvideo.TextImageRelation = TextImageRelation.ImageBeforeText;
@@ -210,7 +210,7 @@
             avatarpanel.Location = new Point(0, 0);
             avatarpanel.Margin = new Padding(2);
             avatarpanel.Name = "avatarpanel";
-            avatarpanel.Size = new Size(300, 214);
+            avatarpanel.Size = new Size(240, 171);
             avatarpanel.TabIndex = 0;
             // 
             // Username
@@ -220,10 +220,10 @@
             Username.AutoSize = true;
             Username.Font = new Font("Cambria", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
             Username.LinkColor = Color.White;
-            Username.Location = new Point(84, 169);
+            Username.Location = new Point(67, 135);
             Username.Margin = new Padding(2, 0, 2, 0);
             Username.Name = "Username";
-            Username.Size = new Size(107, 26);
+            Username.Size = new Size(92, 22);
             Username.TabIndex = 3;
             Username.TabStop = true;
             Username.Text = "Username";
@@ -232,10 +232,10 @@
             // Avatar
             // 
             Avatar.BackgroundImageLayout = ImageLayout.Stretch;
-            Avatar.Location = new Point(71, 12);
+            Avatar.Location = new Point(57, 10);
             Avatar.Margin = new Padding(2);
             Avatar.Name = "Avatar";
-            Avatar.Size = new Size(140, 140);
+            Avatar.Size = new Size(112, 112);
             Avatar.SizeMode = PictureBoxSizeMode.StretchImage;
             Avatar.TabIndex = 2;
             Avatar.TabStop = false;
@@ -247,10 +247,10 @@
             toppanel.Controls.Add(searchtb);
             toppanel.Controls.Add(logo);
             toppanel.Dock = DockStyle.Top;
-            toppanel.Location = new Point(300, 0);
+            toppanel.Location = new Point(240, 0);
             toppanel.Margin = new Padding(2);
             toppanel.Name = "toppanel";
-            toppanel.Size = new Size(1042, 150);
+            toppanel.Size = new Size(834, 120);
             toppanel.TabIndex = 1;
             // 
             // btnSearch
@@ -258,10 +258,10 @@
             btnSearch.BackgroundImage = Properties.Resources.search;
             btnSearch.BackgroundImageLayout = ImageLayout.Zoom;
             btnSearch.Cursor = Cursors.Hand;
-            btnSearch.Location = new Point(932, 51);
+            btnSearch.Location = new Point(746, 41);
             btnSearch.Margin = new Padding(2);
             btnSearch.Name = "btnSearch";
-            btnSearch.Size = new Size(50, 52);
+            btnSearch.Size = new Size(40, 42);
             btnSearch.TabIndex = 2;
             btnSearch.TabStop = false;
             btnSearch.Click += btnSearch_Click;
@@ -271,11 +271,11 @@
             searchtb.BackColor = Color.White;
             searchtb.Font = new Font("Cambria", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
             searchtb.ForeColor = Color.CadetBlue;
-            searchtb.Location = new Point(171, 55);
+            searchtb.Location = new Point(137, 44);
             searchtb.Margin = new Padding(2);
             searchtb.Multiline = false;
             searchtb.Name = "searchtb";
-            searchtb.Size = new Size(746, 43);
+            searchtb.Size = new Size(598, 35);
             searchtb.TabIndex = 1;
             searchtb.Text = "";
             searchtb.Enter += searchtb_Enter;
@@ -284,10 +284,10 @@
             // logo
             // 
             logo.Image = Properties.Resources.UITFLIX;
-            logo.Location = new Point(28, 12);
+            logo.Location = new Point(22, 10);
             logo.Margin = new Padding(2);
             logo.Name = "logo";
-            logo.Size = new Size(139, 135);
+            logo.Size = new Size(111, 108);
             logo.SizeMode = PictureBoxSizeMode.Zoom;
             logo.TabIndex = 0;
             logo.TabStop = false;
@@ -297,10 +297,10 @@
             btnchoosefile.Cursor = Cursors.Hand;
             btnchoosefile.Font = new Font("Cambria", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnchoosefile.ForeColor = Color.MidnightBlue;
-            btnchoosefile.Location = new Point(334, 170);
+            btnchoosefile.Location = new Point(267, 136);
             btnchoosefile.Margin = new Padding(2);
             btnchoosefile.Name = "btnchoosefile";
-            btnchoosefile.Size = new Size(168, 45);
+            btnchoosefile.Size = new Size(134, 36);
             btnchoosefile.TabIndex = 21;
             btnchoosefile.Text = "Chọn tệp";
             btnchoosefile.UseVisualStyleBackColor = true;
@@ -312,10 +312,10 @@
             fileimage.AutoSize = true;
             fileimage.Font = new Font("Cambria", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             fileimage.ForeColor = Color.MidnightBlue;
-            fileimage.Location = new Point(1044, 176);
+            fileimage.Location = new Point(835, 141);
             fileimage.Margin = new Padding(2, 0, 2, 0);
             fileimage.Name = "fileimage";
-            fileimage.Size = new Size(76, 28);
+            fileimage.Size = new Size(62, 23);
             fileimage.TabIndex = 22;
             fileimage.Text = "label1";
             fileimage.Visible = false;
@@ -325,10 +325,10 @@
             chat.BackgroundImage = Properties.Resources._5962463;
             chat.BackgroundImageLayout = ImageLayout.Zoom;
             chat.Cursor = Cursors.Hand;
-            chat.Location = new Point(946, 8);
+            chat.Location = new Point(757, 6);
             chat.Margin = new Padding(2);
             chat.Name = "chat";
-            chat.Size = new Size(48, 30);
+            chat.Size = new Size(38, 24);
             chat.TabIndex = 2;
             chat.TabStop = false;
             chat.Click += chat_Click;
@@ -338,10 +338,10 @@
             tenphim.AutoSize = true;
             tenphim.Font = new Font("Cambria", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             tenphim.ForeColor = Color.MidnightBlue;
-            tenphim.Location = new Point(394, 248);
+            tenphim.Location = new Point(315, 198);
             tenphim.Margin = new Padding(2, 0, 2, 0);
             tenphim.Name = "tenphim";
-            tenphim.Size = new Size(107, 28);
+            tenphim.Size = new Size(90, 23);
             tenphim.TabIndex = 23;
             tenphim.Text = "Tên phim";
             tenphim.Visible = false;
@@ -351,10 +351,10 @@
             noidung.AutoSize = true;
             noidung.Font = new Font("Cambria", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             noidung.ForeColor = Color.MidnightBlue;
-            noidung.Location = new Point(394, 315);
+            noidung.Location = new Point(315, 252);
             noidung.Margin = new Padding(2, 0, 2, 0);
             noidung.Name = "noidung";
-            noidung.Size = new Size(104, 28);
+            noidung.Size = new Size(88, 23);
             noidung.TabIndex = 24;
             noidung.Text = "Nội dung";
             noidung.Visible = false;
@@ -363,10 +363,10 @@
             // 
             tbnamefilm.Font = new Font("Cambria", 11F);
             tbnamefilm.ForeColor = Color.MidnightBlue;
-            tbnamefilm.Location = new Point(550, 248);
+            tbnamefilm.Location = new Point(440, 198);
             tbnamefilm.Margin = new Padding(2);
             tbnamefilm.Name = "tbnamefilm";
-            tbnamefilm.Size = new Size(412, 33);
+            tbnamefilm.Size = new Size(330, 29);
             tbnamefilm.TabIndex = 25;
             tbnamefilm.Visible = false;
             // 
@@ -374,10 +374,10 @@
             // 
             tbdescription.Font = new Font("Cambria", 11F);
             tbdescription.ForeColor = Color.MidnightBlue;
-            tbdescription.Location = new Point(550, 320);
+            tbdescription.Location = new Point(440, 256);
             tbdescription.Margin = new Padding(2);
             tbdescription.Name = "tbdescription";
-            tbdescription.Size = new Size(712, 260);
+            tbdescription.Size = new Size(570, 209);
             tbdescription.TabIndex = 26;
             tbdescription.Text = "";
             tbdescription.Visible = false;
@@ -387,10 +387,10 @@
             btnuploadvideo.Cursor = Cursors.Hand;
             btnuploadvideo.Font = new Font("Cambria", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnuploadvideo.ForeColor = Color.MidnightBlue;
-            btnuploadvideo.Location = new Point(838, 599);
+            btnuploadvideo.Location = new Point(670, 479);
             btnuploadvideo.Margin = new Padding(2);
             btnuploadvideo.Name = "btnuploadvideo";
-            btnuploadvideo.Size = new Size(168, 45);
+            btnuploadvideo.Size = new Size(134, 36);
             btnuploadvideo.TabIndex = 27;
             btnuploadvideo.Text = "Upload";
             btnuploadvideo.UseVisualStyleBackColor = true;
@@ -399,20 +399,20 @@
             // 
             // progressupload
             // 
-            progressupload.Location = new Point(6, 9);
+            progressupload.Location = new Point(5, 7);
             progressupload.Margin = new Padding(2);
             progressupload.Name = "progressupload";
-            progressupload.Size = new Size(935, 29);
+            progressupload.Size = new Size(748, 23);
             progressupload.TabIndex = 28;
             // 
             // tbidroom
             // 
             tbidroom.Font = new Font("Cambria", 11F);
             tbidroom.ForeColor = Color.MidnightBlue;
-            tbidroom.Location = new Point(632, 359);
+            tbidroom.Location = new Point(506, 287);
             tbidroom.Margin = new Padding(2);
             tbidroom.Name = "tbidroom";
-            tbidroom.Size = new Size(416, 33);
+            tbidroom.Size = new Size(334, 29);
             tbidroom.TabIndex = 29;
             tbidroom.Visible = false;
             // 
@@ -421,10 +421,10 @@
             idroom.AutoSize = true;
             idroom.Font = new Font("Cambria", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             idroom.ForeColor = Color.MidnightBlue;
-            idroom.Location = new Point(785, 314);
+            idroom.Location = new Point(628, 251);
             idroom.Margin = new Padding(2, 0, 2, 0);
             idroom.Name = "idroom";
-            idroom.Size = new Size(108, 28);
+            idroom.Size = new Size(87, 23);
             idroom.TabIndex = 30;
             idroom.Text = "ID ROOM";
             idroom.Visible = false;
@@ -434,10 +434,10 @@
             btnidroom.Cursor = Cursors.Hand;
             btnidroom.Font = new Font("Cambria", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnidroom.ForeColor = Color.MidnightBlue;
-            btnidroom.Location = new Point(762, 408);
+            btnidroom.Location = new Point(610, 326);
             btnidroom.Margin = new Padding(2);
             btnidroom.Name = "btnidroom";
-            btnidroom.Size = new Size(176, 45);
+            btnidroom.Size = new Size(141, 36);
             btnidroom.TabIndex = 31;
             btnidroom.Text = "Join";
             btnidroom.UseVisualStyleBackColor = true;
@@ -451,10 +451,10 @@
             linkcreateroom.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkcreateroom.ForeColor = Color.MidnightBlue;
             linkcreateroom.LinkColor = Color.MidnightBlue;
-            linkcreateroom.Location = new Point(328, 735);
+            linkcreateroom.Location = new Point(262, 588);
             linkcreateroom.Margin = new Padding(2, 0, 2, 0);
             linkcreateroom.Name = "linkcreateroom";
-            linkcreateroom.Size = new Size(171, 23);
+            linkcreateroom.Size = new Size(145, 20);
             linkcreateroom.TabIndex = 32;
             linkcreateroom.TabStop = true;
             linkcreateroom.Text = "Create a new room";
@@ -466,10 +466,10 @@
             btnchooseimage.Cursor = Cursors.Hand;
             btnchooseimage.Font = new Font("Cambria", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnchooseimage.ForeColor = Color.MidnightBlue;
-            btnchooseimage.Location = new Point(838, 169);
+            btnchooseimage.Location = new Point(670, 135);
             btnchooseimage.Margin = new Padding(2);
             btnchooseimage.Name = "btnchooseimage";
-            btnchooseimage.Size = new Size(168, 45);
+            btnchooseimage.Size = new Size(134, 36);
             btnchooseimage.TabIndex = 33;
             btnchooseimage.Text = "Chọn ảnh";
             btnchooseimage.UseVisualStyleBackColor = true;
@@ -481,10 +481,10 @@
             filevideo.AutoSize = true;
             filevideo.Font = new Font("Cambria", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             filevideo.ForeColor = Color.MidnightBlue;
-            filevideo.Location = new Point(549, 178);
+            filevideo.Location = new Point(439, 142);
             filevideo.Margin = new Padding(2, 0, 2, 0);
             filevideo.Name = "filevideo";
-            filevideo.Size = new Size(76, 28);
+            filevideo.Size = new Size(62, 23);
             filevideo.TabIndex = 34;
             filevideo.Text = "label1";
             filevideo.Visible = false;
@@ -494,10 +494,10 @@
             information.AutoSize = true;
             information.Font = new Font("Cambria", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
             information.ForeColor = SystemColors.ButtonHighlight;
-            information.Location = new Point(612, 422);
+            information.Location = new Point(490, 338);
             information.Margin = new Padding(2, 0, 2, 0);
             information.Name = "information";
-            information.Size = new Size(398, 28);
+            information.Size = new Size(329, 23);
             information.TabIndex = 35;
             information.Text = "Hiện tại chưa có video bạn cần tìm...";
             information.Visible = false;
@@ -510,20 +510,20 @@
             bottompanel.Controls.Add(progressupload);
             bottompanel.Controls.Add(chat);
             bottompanel.Dock = DockStyle.Bottom;
-            bottompanel.Location = new Point(300, 725);
+            bottompanel.Location = new Point(240, 580);
             bottompanel.Margin = new Padding(2);
             bottompanel.Name = "bottompanel";
-            bottompanel.Size = new Size(1042, 44);
+            bottompanel.Size = new Size(834, 35);
             bottompanel.TabIndex = 36;
             // 
             // logout
             // 
             logout.Cursor = Cursors.Hand;
             logout.Image = (Image)resources.GetObject("logout.Image");
-            logout.Location = new Point(999, 6);
+            logout.Location = new Point(799, 5);
             logout.Margin = new Padding(2);
             logout.Name = "logout";
-            logout.Size = new Size(35, 35);
+            logout.Size = new Size(28, 28);
             logout.SizeMode = PictureBoxSizeMode.StretchImage;
             logout.TabIndex = 31;
             logout.TabStop = false;
@@ -534,10 +534,10 @@
             waiting.AutoSize = true;
             waiting.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             waiting.ForeColor = Color.MidnightBlue;
-            waiting.Location = new Point(6, 9);
+            waiting.Location = new Point(5, 7);
             waiting.Margin = new Padding(2, 0, 2, 0);
             waiting.Name = "waiting";
-            waiting.Size = new Size(170, 23);
+            waiting.Size = new Size(143, 20);
             waiting.TabIndex = 29;
             waiting.Text = "Waiting for video...";
             waiting.Visible = false;
@@ -547,10 +547,10 @@
             tag.AutoSize = true;
             tag.Font = new Font("Cambria", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             tag.ForeColor = Color.MidnightBlue;
-            tag.Location = new Point(978, 249);
+            tag.Location = new Point(782, 199);
             tag.Margin = new Padding(2, 0, 2, 0);
             tag.Name = "tag";
-            tag.Size = new Size(95, 28);
+            tag.Size = new Size(79, 23);
             tag.TabIndex = 37;
             tag.Text = "Thể loại";
             tag.Visible = false;
@@ -561,10 +561,10 @@
             cbtag.ForeColor = Color.MidnightBlue;
             cbtag.FormattingEnabled = true;
             cbtag.Items.AddRange(new object[] { "Âm nhạc", "Ẩm thực", "Công nghệ", "Điện ảnh", "Giải trí", "Hoạt hình", "Học tập", "Làm đẹp", "Thể thao", "Tin tức", "Trò Chơi", "Vlog" });
-            cbtag.Location = new Point(1079, 248);
+            cbtag.Location = new Point(863, 198);
             cbtag.Margin = new Padding(2);
             cbtag.Name = "cbtag";
-            cbtag.Size = new Size(182, 31);
+            cbtag.Size = new Size(146, 28);
             cbtag.Sorted = true;
             cbtag.TabIndex = 38;
             cbtag.Visible = false;
@@ -572,18 +572,17 @@
             // fpnVideos
             // 
             fpnVideos.AutoScroll = true;
-            fpnVideos.Location = new Point(360, 149);
-            fpnVideos.Margin = new Padding(4);
+            fpnVideos.Location = new Point(288, 119);
             fpnVideos.Name = "fpnVideos";
-            fpnVideos.Size = new Size(982, 578);
+            fpnVideos.Size = new Size(786, 462);
             fpnVideos.TabIndex = 39;
             // 
             // Home
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightBlue;
-            ClientSize = new Size(1342, 769);
+            ClientSize = new Size(1074, 615);
             ControlBox = false;
             Controls.Add(cbtag);
             Controls.Add(tag);
