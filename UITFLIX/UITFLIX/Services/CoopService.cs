@@ -26,15 +26,6 @@ namespace UITFLIX.Services
 
         private static readonly string huburl = @"https://localhost:7292/videohub";
 
-
-        public event Action<string>? RoomCreated;
-        public event Action<string>? RoomDeleted;
-        public event Action<string>? UserJoined;
-        public event Action<string>? UserLeft;
-        public event Action<string>? VideoPlayed;
-        public event Action<string>? VideoPaused;
-        public event Action<string, string>? ChatReceived;
-        public event Action<string, string, string>? VideoAddedToQueue;
         public CoopService()
         {
         }
@@ -126,7 +117,7 @@ namespace UITFLIX.Services
             }
             catch(Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
                 return false;
             }
         }
@@ -168,19 +159,29 @@ namespace UITFLIX.Services
             }
         }
 
-        public async Task<JArray> GetVideoQueue(string accesstoken, string roomid)
+        public async Task<List<string>> GetVideoQueue(string accesstoken, string roomid)
         {
             try
             {
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accesstoken);
-                var response = await httpClient.DeleteAsync($"/api/Coop/GetVideoQueue/{roomid}");
-                var res = await response.Content.ReadAsStringAsync();
-                JObject jobject = JObject.Parse(res);
-                return JArray.Parse(jobject.ToString());
+                var response = await httpClient.GetAsync($"/api/Coop/GetVideoQueue/{roomid}");
+                if (response.IsSuccessStatusCode)
+                {
+                    var res = await response.Content.ReadAsStringAsync();
+                    JObject jobject = JObject.Parse(res);
+                    var videolist = (JArray)jobject["getlist"];
+                    List<string> videoid = videolist.Select(id => id.ToString().Trim('"')).ToList();
+                    return videoid;
+                }
+                else
+                {
+                    MessageBox.Show(response.ToString());
+                    return null;
+                }
             }
             catch(Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
                 return null;
             }
         }

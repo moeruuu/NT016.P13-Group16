@@ -1,4 +1,5 @@
 ﻿using FontAwesome.Sharp;
+using Microsoft.AspNetCore.Connections.Features;
 using Microsoft.AspNetCore.SignalR.Client;
 using Newtonsoft.Json.Linq;
 using System;
@@ -12,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using UITFLIX.Controllers;
+using UITFLIX.Models;
 using UITFLIX.Services;
 
 namespace UITFLIX
@@ -27,9 +29,10 @@ namespace UITFLIX
         private readonly UserService userService;
 
         private static JToken getvideo;
-        private static string temp;
+        private int index = 0;
 
         private static JObject userinfo;
+        private static List<string> videoqueue;
 
         private HubConnection connection;
         private static readonly string huburl = @"https://localhost:7292/videohub";
@@ -49,6 +52,9 @@ namespace UITFLIX
             IDRoom.Text = roomid;
             IntializeEvent();
             namefilm.Text = "";
+            this.axWindowsMediaPlayer = new AxWMPLib.AxWindowsMediaPlayer();
+            axWindowsMediaPlayer.PlayStateChange += OnPlayStateChange;
+
         }
 
         public async Task IntializeEvent()
@@ -69,6 +75,7 @@ namespace UITFLIX
             try
             {
                 await connection.StartAsync();
+                listchatgroup.ForeColor = Color.Red;
                 listchatgroup.Items.Add("Connection Started");
             }
             catch (Exception ex)
@@ -76,12 +83,6 @@ namespace UITFLIX
                 listchatgroup.Items.Add($"{ex.Message}");
             }
         }
-/*
-        public async Task Connection_Closed(Exception? arg)
-        {
-            await Task.Delay(new Random().Next(0, 5) * 1000);
-            await connection.StartAsync();
-        }*/
         private async Task RegisterEvent()
         {
 
@@ -90,9 +91,17 @@ namespace UITFLIX
                 string messages = $"{user}: {message}";
                 listchatgroup.Invoke(new Action(() =>
                 {
+                    listchatgroup.ForeColor = Color.MidnightBlue;
                     listchatgroup.Items.Add(messages);
-                }));
 
+                }));
+                if (message == "is playing.")
+                {
+                    namefilm.Invoke(new Action(() =>
+                    {
+                        namefilm.Text = user;
+                    }));
+                }
             });
 
             connection.On<List<string>>("ReceiveMovies", async movies =>
@@ -123,9 +132,44 @@ namespace UITFLIX
                         MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
                     }
                 });
+
+            connection.On<string>("ReceivedPlayVideo", async videoid =>
+            {
+                try
+                {
+                    var stream = await videoService.PlayVideo(videoid, accesstoken);
+                    if (stream != null)
+                    {
+
+                        axWindowsMediaPlayer.BeginInvoke(new Action(() =>
+                        {
+                            axWindowsMediaPlayer.Ctlcontrols.stop();
+                            axWindowsMediaPlayer.URL = null;
+                            axWindowsMediaPlayer.URL = stream;
+                            axWindowsMediaPlayer.Ctlcontrols.play();
+                        }));
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("Test");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
+                }
+            });
         }
 
-
+        private void OnPlayStateChange(object sender, AxWMPLib._WMPOCXEvents_PlayStateChangeEvent e)
+        {
+            MessageBox.Show("check");
+            if (e.newState == (int)WMPLib.WMPPlayState.wmppsMediaEnded || axWindowsMediaPlayer.playState == WMPLib.WMPPlayState.wmppsStopped)
+            {
+                PlayVideo();
+            }
+        }
         public async Task ShowRCMVideo()
         {
             try
@@ -159,7 +203,7 @@ namespace UITFLIX
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
             }
         }
 
@@ -206,6 +250,10 @@ namespace UITFLIX
                 {
                     await connection.InvokeAsync("AddMovie", roomid, videoid);
                     await connection.InvokeAsync("SendMessage", userinfo["user"]["fullname"].ToString(), roomid, "has added a video!");
+                    if (dgvQueue.Rows.Count == 1)
+                    {
+                        PlayVideo();
+                    }
                 }
                 else
                 {
@@ -214,7 +262,7 @@ namespace UITFLIX
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
             }
         }
 
@@ -242,7 +290,41 @@ namespace UITFLIX
 
         private async Task PlayVideo()
         {
+            videoqueue = await coopService.GetVideoQueue(accesstoken, roomid);
+            if (videoqueue == null)
+            {
+                return;
+            }
+            await PlayNextVideo();
+        }
 
+        private async Task PlayNextVideo()
+        {
+            if (videoqueue == null || videoqueue.Count == 0)
+            {
+                return;
+            }
+
+            try
+            {
+                var videoid = videoqueue[index].ToString();
+                //MessageBox.Show(videoid);
+                if (videoid != null)
+                {
+                    await connection.InvokeAsync("PlayVideo", roomid, videoid);
+                    var getmovie = await videoService.GetVideoByID(accesstoken, videoid);
+
+                    if (getmovie != null)
+                    {
+                        await connection.InvokeAsync("SendMessage", getmovie["title"].ToString(), roomid, $"is playing.");
+                    }
+                }
+                index++;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Không thể phát video! \n" + ex.Message);
+            }
         }
     }
 }

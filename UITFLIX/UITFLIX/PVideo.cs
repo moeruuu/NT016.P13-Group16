@@ -68,6 +68,11 @@ namespace UITFLIX
         {
             try
             {
+                if (axWindowsMediaPlayer.playState != WMPLib.WMPPlayState.wmppsPlaying && axWindowsMediaPlayer.playState != WMPLib.WMPPlayState.wmppsPaused)
+                {
+                    this.Cursor = Cursors.WaitCursor;
+                }
+                this.Cursor = Cursors.Default;
                 axWindowsMediaPlayer.Ctlcontrols.stop();
                 axWindowsMediaPlayer.URL = null;
                 var id = jvideo["id"].ToString();

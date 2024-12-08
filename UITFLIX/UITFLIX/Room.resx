@@ -1188,16 +1188,6 @@
         QgghhBAi10gX/H832dtCd5VFkQAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="axWindowsMediaPlayer.OcxState" mimetype="application/x-microsoft.net.object.binary.base64">
-    <value>
-        AAEAAAD/////AQAAAAAAAAAMAgAAAEZTeXN0ZW0uV2luZG93cy5Gb3JtcywgQ3VsdHVyZT1uZXV0cmFs
-        LCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5BQEAAAAhU3lzdGVtLldpbmRvd3MuRm9ybXMu
-        QXhIb3N0K1N0YXRlAQAAAAREYXRhBwICAAAACQMAAAAPAwAAALcAAAACAQAAAAEAAAAAAAAAAAAAAACi
-        AAAAAQMAAAgAAAAAAAUAAAAAAAAA8D8DAAAAAAAFAAAAAAAAAAAACAACAAAAAAADAAEAAAALAP//AwAA
-        AAAACwD//wgAAgAAAAAAAwAyAAAACwAAAAgACgAAAGYAdQBsAGwAAAALAAAACwAAAAsA//8LAP//CwAA
-        AAgAAgAAAAAACAACAAAAAAAIAAIAAAAAAAgAAgAAAAAACwAAACsFAACWAQAACw==
-</value>
-  </data>
   <metadata name="ColumnNum.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -1207,4 +1197,23 @@
   <metadata name="ColumnTag.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <metadata name="ColumnNum.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="ColumnTitle.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="ColumnTag.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="axWindowsMediaPlayer.OcxState" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAEZTeXN0ZW0uV2luZG93cy5Gb3JtcywgQ3VsdHVyZT1uZXV0cmFs
+        LCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5BQEAAAAhU3lzdGVtLldpbmRvd3MuRm9ybXMu
+        QXhIb3N0K1N0YXRlAQAAAAREYXRhBwICAAAACQMAAAAPAwAAALcAAAACAQAAAAEAAAAAAAAAAAAAAACi
+        AAAAAQMAAAgAAAAAAAUAAAAAAAAA8D8DAAAAAAAFAAAAAAAAAAAACAACAAAAAAADAAEAAAALAP//AwAA
+        AAAACwD//wgAAgAAAAAAAwAyAAAACwAAAAgACgAAAGYAdQBsAGwAAAALAAAACwAAAAsA//8LAP//CwAA
+        AAgAAgAAAAAACAACAAAAAAAIAAIAAAAAAAgAAgAAAAAACwAAADQGAADnAQAACw==
+</value>
+  </data>
 </root>

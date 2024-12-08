@@ -734,6 +734,10 @@ namespace UITFLIX
                     new Room(accesstoken, tbidroom.Text.Trim(), Userinfo).ShowDialog();
                     //this.Close();
                 }
+                else
+                {
+                    MessageBox.Show("Phòng này không tồn tại!");
+                }
             }
             catch(Exception ex)
             {

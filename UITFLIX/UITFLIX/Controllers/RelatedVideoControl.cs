@@ -87,7 +87,7 @@ namespace UITFLIX.Controllers
                         }
                     }
                 }
-                catch (Exception ex)
+                catch
                 {
                         pbImage.Image = null;
                 }

@@ -35,7 +35,6 @@
             IDRoom = new Label();
             label3 = new Label();
             logo = new PictureBox();
-            axWindowsMediaPlayer = new AxWMPLib.AxWindowsMediaPlayer();
             namefilm = new Label();
             label1 = new Label();
             listchatgroup = new ListBox();
@@ -47,10 +46,11 @@
             ColumnNum = new DataGridViewTextBoxColumn();
             ColumnTitle = new DataGridViewTextBoxColumn();
             ColumnTag = new DataGridViewTextBoxColumn();
+            axWindowsMediaPlayer = new AxWMPLib.AxWindowsMediaPlayer();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)logo).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)axWindowsMediaPlayer).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvQueue).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)axWindowsMediaPlayer).BeginInit();
             SuspendLayout();
             // 
             // panel1
@@ -130,23 +130,13 @@
             logo.TabIndex = 1;
             logo.TabStop = false;
             // 
-            // axWindowsMediaPlayer
-            // 
-            axWindowsMediaPlayer.Enabled = true;
-            axWindowsMediaPlayer.Location = new Point(12, 79);
-            axWindowsMediaPlayer.Margin = new Padding(2);
-            axWindowsMediaPlayer.Name = "axWindowsMediaPlayer";
-            axWindowsMediaPlayer.OcxState = (AxHost.State)resources.GetObject("axWindowsMediaPlayer.OcxState");
-            axWindowsMediaPlayer.Size = new Size(1060, 561);
-            axWindowsMediaPlayer.TabIndex = 1;
-            // 
             // namefilm
             // 
             namefilm.AutoSize = true;
             namefilm.BackColor = Color.Transparent;
             namefilm.Font = new Font("Cambria", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             namefilm.ForeColor = Color.White;
-            namefilm.Location = new Point(12, 642);
+            namefilm.Location = new Point(12, 644);
             namefilm.Margin = new Padding(2, 0, 2, 0);
             namefilm.Name = "namefilm";
             namefilm.Size = new Size(105, 23);
@@ -258,6 +248,15 @@
             ColumnTag.ReadOnly = true;
             ColumnTag.Width = 150;
             // 
+            // axWindowsMediaPlayer
+            // 
+            axWindowsMediaPlayer.Enabled = true;
+            axWindowsMediaPlayer.Location = new Point(12, 79);
+            axWindowsMediaPlayer.Name = "axWindowsMediaPlayer";
+            axWindowsMediaPlayer.OcxState = (AxHost.State)resources.GetObject("axWindowsMediaPlayer.OcxState");
+            axWindowsMediaPlayer.Size = new Size(1060, 562);
+            axWindowsMediaPlayer.TabIndex = 13;
+            // 
             // Room
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -265,6 +264,7 @@
             BackColor = Color.LightBlue;
             ClientSize = new Size(1490, 1000);
             ControlBox = false;
+            Controls.Add(axWindowsMediaPlayer);
             Controls.Add(dgvQueue);
             Controls.Add(rcmvideopanel);
             Controls.Add(label2);
@@ -273,7 +273,6 @@
             Controls.Add(listchatgroup);
             Controls.Add(label1);
             Controls.Add(namefilm);
-            Controls.Add(axWindowsMediaPlayer);
             Controls.Add(panel1);
             ForeColor = Color.LightBlue;
             FormBorderStyle = FormBorderStyle.None;
@@ -284,8 +283,8 @@
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)logo).EndInit();
-            ((System.ComponentModel.ISupportInitialize)axWindowsMediaPlayer).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvQueue).EndInit();
+            ((System.ComponentModel.ISupportInitialize)axWindowsMediaPlayer).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -294,7 +293,6 @@
 
         private Panel panel1;
         private PictureBox logo;
-        private AxWMPLib.AxWindowsMediaPlayer axWindowsMediaPlayer;
         private Label namefilm;
         private Label label1;
         private ListBox listchatgroup;
@@ -310,5 +308,6 @@
         private DataGridViewTextBoxColumn ColumnTitle;
         private DataGridViewTextBoxColumn ColumnTag;
         private Label lbname;
+        private AxWMPLib.AxWindowsMediaPlayer axWindowsMediaPlayer;
     }
 }

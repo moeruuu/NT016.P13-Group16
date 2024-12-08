@@ -181,8 +181,10 @@ namespace API_Server.Controllers
                 {
                     return Ok(new
                     {
-                        getlist
+                        Message = "Danh sach video",
+                        getlist = getlist.ToList()
                     });
+
                 }
                 return NotFound("Không tìm thấy video");
             }
