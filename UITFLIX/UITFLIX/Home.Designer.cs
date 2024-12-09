@@ -232,7 +232,7 @@
             // Avatar
             // 
             Avatar.BackgroundImageLayout = ImageLayout.Stretch;
-            Avatar.Location = new Point(57, 10);
+            Avatar.Location = new Point(64, 10);
             Avatar.Margin = new Padding(2);
             Avatar.Name = "Avatar";
             Avatar.Size = new Size(112, 112);
