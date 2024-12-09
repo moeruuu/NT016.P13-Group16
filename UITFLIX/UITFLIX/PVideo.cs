@@ -42,13 +42,11 @@ namespace UITFLIX
             Userinfo = user;
             txtnamefilm.Text = jvideo["title"].ToString();
             txtnamefilm1.Text = jvideo["title"].ToString();
-            //tbdes.Text = "DESCRIPTION: \n";
             tbdes.Text += jvideo["description"].ToString();
             setlabelrateandnum(jvideo["rating"].ToString(), jvideo["numRate"].ToString());
 
             LoadVideo();
             LoadRalatedVideos();
-            //axWindowsMediaPlayer.uiMode = "None";
         }
 
         public void setlabelrateandnum(string rating, string numrate)
@@ -68,11 +66,7 @@ namespace UITFLIX
         {
             try
             {
-                if (axWindowsMediaPlayer.playState != WMPLib.WMPPlayState.wmppsPlaying && axWindowsMediaPlayer.playState != WMPLib.WMPPlayState.wmppsPaused)
-                {
-                    this.Cursor = Cursors.WaitCursor;
-                }
-                this.Cursor = Cursors.Default;
+                this.Cursor = Cursors.WaitCursor;
                 axWindowsMediaPlayer.Ctlcontrols.stop();
                 axWindowsMediaPlayer.URL = null;
                 var id = jvideo["id"].ToString();
@@ -82,9 +76,8 @@ namespace UITFLIX
                     temp = stream;
                     axWindowsMediaPlayer.URL = stream;
                     axWindowsMediaPlayer.Ctlcontrols.play();
-                    //MessageBox.Show(temp.ToString());
+                    this.Cursor = Cursors.Default;
                 }
-
                 await videoService.SaveWatchedVideo(jvideo["id"].ToString(), accesstoken);
             }
             catch (Exception ex)

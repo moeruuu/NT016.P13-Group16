@@ -99,6 +99,7 @@ namespace UITFLIX
             }
             try
             {
+                this.Cursor = Cursors.WaitCursor;
                 var User = new
                 {
                     username = username,
@@ -131,6 +132,7 @@ namespace UITFLIX
                 {
                     MessageBox.Show(info);
                 }
+                this.Cursor= Cursors.Default;
             }
             catch (Exception ex)
             {

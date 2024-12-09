@@ -181,8 +181,7 @@ namespace API_Server.Controllers
                 {
                     return Ok(new
                     {
-                        Message = "Danh sach video",
-                        getlist = getlist.ToList()
+                        getlist
                     });
 
                 }

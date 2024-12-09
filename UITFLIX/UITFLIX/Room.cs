@@ -141,14 +141,18 @@ namespace UITFLIX
                     if (stream != null)
                     {
 
-                        axWindowsMediaPlayer.BeginInvoke(new Action(() =>
+                        if (!axWindowsMediaPlayer.IsHandleCreated)
                         {
+                            axWindowsMediaPlayer.CreateControl();
+                        }
+
+                       /* axWindowsMediaPlayer.BeginInvoke(new Action(() =>
+                        {*/
                             axWindowsMediaPlayer.Ctlcontrols.stop();
                             axWindowsMediaPlayer.URL = null;
                             axWindowsMediaPlayer.URL = stream;
                             axWindowsMediaPlayer.Ctlcontrols.play();
-                        }));
-
+                        //}));
                     }
                     else
                     {
@@ -164,9 +168,10 @@ namespace UITFLIX
 
         private void OnPlayStateChange(object sender, AxWMPLib._WMPOCXEvents_PlayStateChangeEvent e)
         {
-            MessageBox.Show("check");
+            //MessageBox.Show("check");
             if (e.newState == (int)WMPLib.WMPPlayState.wmppsMediaEnded || axWindowsMediaPlayer.playState == WMPLib.WMPPlayState.wmppsStopped)
             {
+               // MessageBox.Show("Video ended or stopped. Playing next video...");
                 PlayVideo();
             }
         }
@@ -268,6 +273,10 @@ namespace UITFLIX
 
         private async void linkleaveroom_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            if (axWindowsMediaPlayer.playState == WMPLib.WMPPlayState.wmppsPlaying)
+            {
+                axWindowsMediaPlayer.Ctlcontrols.stop();
+            }
             var res = MessageBox.Show("Do you wanna leave room?", "Question", MessageBoxButtons.YesNo);
             if (res == DialogResult.Yes)
             {

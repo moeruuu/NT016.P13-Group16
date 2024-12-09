@@ -191,19 +191,28 @@ namespace UITFLIX
                 email = email,
                 password = password,
             };
-            var response = await userService.Register(SignUp);
-            //JObject status = JObject.Parse(response);
-            if (response.Contains("thành công!", StringComparison.OrdinalIgnoreCase))
+            try
             {
-                this.Hide();
-                VerifyOTP otp = new VerifyOTP(0, null, null);
-                otp.ShowDialog();
-                this.Close();
+                this.Cursor = Cursors.WaitCursor;
+                var response = await userService.Register(SignUp);
+                //JObject status = JObject.Parse(response);
+                if (response.Contains("thành công!", StringComparison.OrdinalIgnoreCase))
+                {
+                    this.Hide();
+                    VerifyOTP otp = new VerifyOTP(0, null, null);
+                    otp.ShowDialog();
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show(response, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                this.Cursor = Cursors.Default;
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show(response, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                MessageBox.Show(ex.Message);
             }
         }
 
