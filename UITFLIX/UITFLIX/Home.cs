@@ -83,6 +83,7 @@ namespace UITFLIX
         private void setUserinfo()
         {
             Username.Text = Userinfo["user"]["fullname"].ToString();
+            Username.Location = new Point((avatarpanel.Width-Username.Width)/2, Username.Location.Y);
             LoadImageFromUrl(Userinfo["user"]["profilepicture"].ToString());
         }
 

@@ -83,7 +83,7 @@
             // 
             // logo
             // 
-            logo.Cursor = Cursors.WaitCursor;
+            logo.Cursor = Cursors.Hand;
             logo.Image = (Image)resources.GetObject("logo.Image");
             logo.Location = new Point(0, 0);
             logo.Margin = new Padding(2);
