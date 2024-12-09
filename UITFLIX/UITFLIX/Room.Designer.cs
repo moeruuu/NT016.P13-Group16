@@ -46,11 +46,9 @@
             ColumnNum = new DataGridViewTextBoxColumn();
             ColumnTitle = new DataGridViewTextBoxColumn();
             ColumnTag = new DataGridViewTextBoxColumn();
-            axWindowsMediaPlayer = new AxWMPLib.AxWindowsMediaPlayer();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)logo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvQueue).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)axWindowsMediaPlayer).BeginInit();
             SuspendLayout();
             // 
             // panel1
@@ -248,15 +246,6 @@
             ColumnTag.ReadOnly = true;
             ColumnTag.Width = 150;
             // 
-            // axWindowsMediaPlayer
-            // 
-            axWindowsMediaPlayer.Enabled = true;
-            axWindowsMediaPlayer.Location = new Point(12, 79);
-            axWindowsMediaPlayer.Name = "axWindowsMediaPlayer";
-            axWindowsMediaPlayer.OcxState = (AxHost.State)resources.GetObject("axWindowsMediaPlayer.OcxState");
-            axWindowsMediaPlayer.Size = new Size(1060, 562);
-            axWindowsMediaPlayer.TabIndex = 13;
-            // 
             // Room
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -264,7 +253,6 @@
             BackColor = Color.LightBlue;
             ClientSize = new Size(1490, 1000);
             ControlBox = false;
-            Controls.Add(axWindowsMediaPlayer);
             Controls.Add(dgvQueue);
             Controls.Add(rcmvideopanel);
             Controls.Add(label2);
@@ -284,7 +272,6 @@
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)logo).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvQueue).EndInit();
-            ((System.ComponentModel.ISupportInitialize)axWindowsMediaPlayer).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -308,6 +295,5 @@
         private DataGridViewTextBoxColumn ColumnTitle;
         private DataGridViewTextBoxColumn ColumnTag;
         private Label lbname;
-        private AxWMPLib.AxWindowsMediaPlayer axWindowsMediaPlayer;
     }
 }

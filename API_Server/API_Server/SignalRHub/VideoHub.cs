@@ -82,5 +82,10 @@ namespace API_Server.SignalRHub
             await Clients.Group(roomid).SendAsync("ReceivedPlayVideo", videoid);
         }
 
+        public async Task SyncPlaybackPosition(string roomid, double position)
+        {
+            await Clients.Group(roomid).SendAsync("ReceivePlaybackPosition", position);
+        }
+
     }
 }
