@@ -311,7 +311,7 @@ namespace UITFLIX
                             ImageUrl = video["urlImage"].ToString()
                         };
 
-                        //item.Click += (sender, e) => OpenPlayVIdeoForm(video); 
+                        item.Click += (sender, e) => OpenPlayVIdeoForm(video); 
                         toolTip.SetToolTip(item, video["title"].ToString());
                         flpRelatedVideos.Controls.Add(item);
                     }
@@ -328,6 +328,14 @@ namespace UITFLIX
         {
             if (text.Length > max) return text.Substring(0, max) + "...";
             else return text;
+        }
+
+        private async void OpenPlayVIdeoForm(JToken video)
+        {
+            this.Close();
+            this.Hide();
+            PVideo videos = new PVideo(video, accesstoken, videoService, Userinfo);
+            videos.ShowDialog();
         }
 
         private async void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
