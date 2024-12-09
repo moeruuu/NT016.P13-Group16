@@ -80,7 +80,7 @@
             label2.AutoSize = true;
             label2.Font = new Font("Palatino Linotype", 13F, FontStyle.Bold);
             label2.ForeColor = Color.DarkCyan;
-            label2.Location = new Point(221, 246);
+            label2.Location = new Point(248, 248);
             label2.Name = "label2";
             label2.Size = new Size(249, 29);
             label2.TabIndex = 3;
@@ -169,7 +169,7 @@
             linkforgetpass.ActiveLinkColor = Color.CornflowerBlue;
             linkforgetpass.AutoSize = true;
             linkforgetpass.LinkColor = Color.CadetBlue;
-            linkforgetpass.Location = new Point(37, 596);
+            linkforgetpass.Location = new Point(37, 583);
             linkforgetpass.Name = "linkforgetpass";
             linkforgetpass.Size = new Size(124, 20);
             linkforgetpass.TabIndex = 12;
