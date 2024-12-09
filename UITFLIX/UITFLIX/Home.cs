@@ -79,14 +79,14 @@ namespace UITFLIX
             this.Load += (s, e) => btnnewvideo.PerformClick();
         }
 
-        //set info user
+        //Set info user
         private void setUserinfo()
         {
             Username.Text = Userinfo["user"]["fullname"].ToString();
             LoadImageFromUrl(Userinfo["user"]["profilepicture"].ToString());
         }
 
-        //lấy tên user tối đa =)))
+        //Lấy tên user tối đa =)))
         private string SetLabelText(string text, int max)
         {
             if (text.Length > max) return text.Substring(0, max) + "...";
@@ -164,7 +164,7 @@ namespace UITFLIX
             public static Color color5 = Color.FromArgb(255, 153, 153);
         }
 
-        //chọn option tabbar
+        //Chọn option tabbar
         private void ActiveButton(object senderBtn, Color color)
         {
             DisableButton();
@@ -207,7 +207,7 @@ namespace UITFLIX
             videos.ShowDialog();
         }
 
-        //tab New Video
+        //Tab New Video
         private async void btnnewvideo_Click(object sender, EventArgs e)
         {
             ActiveButton(sender, RGBColors.color1);
@@ -273,7 +273,7 @@ namespace UITFLIX
 
         }
 
-        //tab Top Video
+        //Tab Top Video
         private async void btntopvideo_Click(object sender, EventArgs e)
         {
             ActiveButton(sender, RGBColors.color2);
@@ -341,7 +341,7 @@ namespace UITFLIX
             }
         }
 
-        //tab Watched Video
+        //Tab Watched Video
         private async void btnwatchedvideo_Click(object sender, EventArgs e)
         {
             ActiveButton(sender, RGBColors.color3);
@@ -409,7 +409,7 @@ namespace UITFLIX
             }
         }
 
-        //tab Upload Video
+        //Tab Upload Video
         private void btnupload_Click(object sender, EventArgs e)
         {
             ActiveButton(sender, RGBColors.color4);
@@ -573,7 +573,7 @@ namespace UITFLIX
 
         }
 
-        //button search
+        //Button search
         private async void btnSearch_Click(object sender, EventArgs e)
         {
             progressupload.Visible = true;
@@ -659,7 +659,7 @@ namespace UITFLIX
             }
         }
 
-        //LogOut
+        //Logout
         private async void logout_Click(object sender, EventArgs e)
         {
             var res = MessageBox.Show("Bạn có muốn thoát?", "Thoát", MessageBoxButtons.YesNo);
@@ -685,6 +685,7 @@ namespace UITFLIX
             }
         }
 
+        //Tạo room xem coop
         private async void linkcreateroom_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             var roomid = await coopService.CreateRoom(accesstoken);
@@ -701,6 +702,7 @@ namespace UITFLIX
             }
         }
 
+        //Chat với admin
         private void chat_Click(object sender, EventArgs e)
         {
             string token = accesstoken.ToString();
@@ -717,6 +719,7 @@ namespace UITFLIX
             var response = await userService.LogOut(LogOutModel, accesstoken);
         }
 
+        //Nhập id room c
         private async void btnidroom_Click(object sender, EventArgs e)
         {
             //MessageBox.Show("Check");

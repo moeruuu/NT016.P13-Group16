@@ -31,7 +31,6 @@ namespace UITFLIX
 
         void Settingnames()
         {
-            lblName.Text += userinfo["user"]["fullname"].ToString();
         }
 
         private async void logout_Click(object sender, EventArgs e)
@@ -57,11 +56,6 @@ namespace UITFLIX
                     return;
                 }
             }
-        }
-
-        private void btnReload_Click(object sender, EventArgs e)
-        {
-
         }
     }
 
