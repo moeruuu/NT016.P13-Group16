@@ -82,7 +82,7 @@ namespace UITFLIX.Services
             }
         }
 
-        public async Task<string> PlayVideo( string id, string accesstoken)
+        public async Task<string?> PlayVideo( string id, string accesstoken)
         {
             if (string.IsNullOrEmpty(accesstoken))
             {
@@ -116,7 +116,7 @@ namespace UITFLIX.Services
             }
         }        
 
-        public async Task<JArray> SearchVideos(string title, string accesstoken)
+        public async Task<JArray?> SearchVideos(string title, string accesstoken)
         {
             try
             {
@@ -144,7 +144,7 @@ namespace UITFLIX.Services
             }
         }
 
-        public async Task<JArray> GetNewestVideosAsync(string accesstoken)
+        public async Task<JArray?> GetNewestVideosAsync(string accesstoken)
         {
             try
             {
@@ -174,7 +174,7 @@ namespace UITFLIX.Services
             }
         }
 
-        public async Task<JArray> GetTopVideos(string accesstoken)
+        public async Task<JArray?> GetTopVideos(string accesstoken)
         {
             try
             {
@@ -230,7 +230,7 @@ namespace UITFLIX.Services
             }
         }
 
-        public async Task<JArray> GetWatchedVideos(string accesstoken)
+        public async Task<JArray?> GetWatchedVideos(string accesstoken)
         {
             try
             {
@@ -252,13 +252,13 @@ namespace UITFLIX.Services
                     return null;
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 return null;
             }
         }
 
-        public async Task<JArray> GetRelatedVideos(string tag, string accesstoken)
+        public async Task<JArray?> GetRelatedVideos(string tag, string accesstoken)
         {
             try
             {
@@ -289,7 +289,7 @@ namespace UITFLIX.Services
             }
         }
 
-        public async Task<string> Rating(string id, int num, string accesstoken)
+        public async Task<string?> Rating(string id, int num, string accesstoken)
         {
             try
             {
@@ -321,7 +321,7 @@ namespace UITFLIX.Services
             }
         }
 
-        public async Task<string> DownloadVideo(string id, string accesstoken)
+        public async Task<string?> DownloadVideo(string id, string accesstoken)
         {
             try
             {
@@ -361,7 +361,7 @@ namespace UITFLIX.Services
         }
 
 
-        public async Task<JObject> GetVideoByID(string accesstoken, string id)
+        public async Task<JObject?> GetVideoByID(string accesstoken, string id)
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accesstoken);
             try

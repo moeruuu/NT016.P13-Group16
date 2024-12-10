@@ -22,7 +22,6 @@ namespace API_Server.Controllers
         private readonly EmailService emailService;
         private readonly UserService userService;
 
-
         public EmailController(EmailService emailService, UserService userService)
         {
             this.emailService = emailService;
@@ -31,7 +30,6 @@ namespace API_Server.Controllers
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost("Contact")]
-
         public async Task<IActionResult> Contact([FromBody] EmailRequest emailRequest)
         {
             try
@@ -60,7 +58,20 @@ namespace API_Server.Controllers
             }
         }
 
- 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        [HttpGet("GetEmails")]
+        public async Task<IActionResult> GetEmails()
+        {
+            try
+            {
+                var emails = await emailService.GetEmails();
+                return Ok(emails);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Lỗi: {ex.Message}");
+            }
+        }
 
 
     }

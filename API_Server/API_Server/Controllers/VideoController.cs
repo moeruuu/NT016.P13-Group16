@@ -16,9 +16,9 @@ namespace API_Server.Controllers
     [ApiController]
     public class VideoController : ControllerBase
     {
-        private readonly FilmService filmService;
+        private readonly VideoService filmService;
         private readonly UserService userService;
-        public VideoController(FilmService filmService, UserService user)
+        public VideoController(VideoService filmService, UserService user)
         {
             this.filmService = filmService;
             userService = user;

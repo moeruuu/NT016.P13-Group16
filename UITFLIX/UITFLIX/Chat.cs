@@ -16,14 +16,14 @@ namespace UITFLIX
 {
     public partial class Chat : Form
     {
-        private ChatService chatService;
+        private MailService chatService;
         private JObject _userInfo;
         private string _accessToken;
         public Chat(JObject userInfo, string accessToken)
         {
             InitializeComponent();
             _userInfo = userInfo;;
-            chatService = new ChatService(accessToken);
+            chatService = new MailService(accessToken);
         }
 
         private void iconPictureBoxChat_Click(object sender, EventArgs e)

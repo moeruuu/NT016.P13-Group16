@@ -220,7 +220,7 @@
             Username.AutoSize = true;
             Username.Font = new Font("Cambria", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
             Username.LinkColor = Color.White;
-            Username.Location = new Point(57, 135);
+            Username.Location = new Point(75, 135);
             Username.Margin = new Padding(2, 0, 2, 0);
             Username.Name = "Username";
             Username.Size = new Size(92, 22);

@@ -48,7 +48,7 @@ builder.Services.AddSingleton<IMongoDatabase>(sp =>
 });
 
 builder.Services.Configure<EmailSender>(builder.Configuration.GetSection("EmailSettings"));
-builder.Services.AddScoped<FilmService>();
+builder.Services.AddScoped<VideoService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<EmailService>();
 builder.Services.AddScoped<ImgurService>();

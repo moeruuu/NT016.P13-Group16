@@ -12,7 +12,6 @@ using System.Reflection;
 using UITFLIX.Models;
 using UITFLIX.Services;
 using UITFLIX.Controllers;
-using UITFLIX.Models;
 using Microsoft.VisualBasic.ApplicationServices;
 
 namespace UITFLIX
@@ -33,7 +32,7 @@ namespace UITFLIX
         private readonly UserService userService;
         private readonly VideoService videoService;
         private readonly CoopService coopService;
-        private readonly ChatService chatService;
+        private readonly MailService chatService;
 
         private static string selectedvideofile;
         private static string selectedimagefile;
@@ -60,7 +59,7 @@ namespace UITFLIX
             Userinfo = in4;
             videoService = video;
             accesstoken = token;
-            chatService = new ChatService(token);
+            chatService = new MailService(token);
             setUserinfo();
 
             leftborderBtn = new Panel();
@@ -120,7 +119,6 @@ namespace UITFLIX
                         if (ms != null && ms.CanRead)
                         {
                             ms.Seek(0, SeekOrigin.Begin);
-
                             Image image = Image.FromStream(ms);
                             Avatar.Image = Image.FromStream(ms);
                         }
