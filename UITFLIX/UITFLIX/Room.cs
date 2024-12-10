@@ -1,4 +1,5 @@
-﻿using FontAwesome.Sharp;
+﻿using AxWMPLib;
+using FontAwesome.Sharp;
 using Microsoft.AspNetCore.Connections.Features;
 using Microsoft.AspNetCore.SignalR.Client;
 using Newtonsoft.Json.Linq;
@@ -15,6 +16,7 @@ using System.Windows.Forms;
 using UITFLIX.Controllers;
 using UITFLIX.Models;
 using UITFLIX.Services;
+using WMPLib;
 
 namespace UITFLIX
 {
@@ -34,6 +36,10 @@ namespace UITFLIX
         private static JObject userinfo;
         private static List<string> videoqueue;
 
+        private System.Windows.Forms.Timer playback;
+        private AxWindowsMediaPlayer axWindowsMediaPlayerVideo;
+
+
         private HubConnection connection;
         private static readonly string huburl = @"https://localhost:7292/videohub";
 
@@ -50,10 +56,14 @@ namespace UITFLIX
 
             this.roomid = roomid;
             IDRoom.Text = roomid;
+            //this.Controls.Remove(axWindowsMediaPlayer);
+            this.axWindowsMediaPlayerVideo = new AxWMPLib.AxWindowsMediaPlayer();
+            this.Controls.Add(axWindowsMediaPlayerVideo);
+            axWindowsMediaPlayerVideo.Size = new Size(1060, 562);
+            axWindowsMediaPlayerVideo.Location = new Point(12, 79);
             IntializeEvent();
             namefilm.Text = "";
-            this.axWindowsMediaPlayer = new AxWMPLib.AxWindowsMediaPlayer();
-            axWindowsMediaPlayer.PlayStateChange += OnPlayStateChange;
+            axWindowsMediaPlayerVideo.PlayStateChange += OnPlayStateChange;
 
         }
 
@@ -64,6 +74,10 @@ namespace UITFLIX
                     .Build();
             await StartConnection();
             await UserJoined(roomid);
+            if (!axWindowsMediaPlayerVideo.IsHandleCreated)
+            {
+                var handle = axWindowsMediaPlayerVideo.Handle; 
+            }
             lbname.Text = userinfo["user"]["fullname"].ToString();
             await RegisterEvent();
             //connection.Closed += Connection_Closed;
@@ -140,40 +154,55 @@ namespace UITFLIX
                     var stream = await videoService.PlayVideo(videoid, accesstoken);
                     if (stream != null)
                     {
-
-                        if (!axWindowsMediaPlayer.IsHandleCreated)
+                        axWindowsMediaPlayerVideo.Invoke(new Action(() =>
                         {
-                            axWindowsMediaPlayer.CreateControl();
-                        }
-
-                       /* axWindowsMediaPlayer.BeginInvoke(new Action(() =>
-                        {*/
-                            axWindowsMediaPlayer.Ctlcontrols.stop();
-                            axWindowsMediaPlayer.URL = null;
-                            axWindowsMediaPlayer.URL = stream;
-                            axWindowsMediaPlayer.Ctlcontrols.play();
-                        //}));
+                            axWindowsMediaPlayerVideo.Ctlcontrols.stop();
+                            axWindowsMediaPlayerVideo.URL = null;
+                            axWindowsMediaPlayerVideo.URL = stream;
+                            axWindowsMediaPlayerVideo.Ctlcontrols.play();
+                        }));
                     }
                     else
                     {
                         MessageBox.Show("Test");
                     }
+                    this.Cursor= Cursors.Default;
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
                 }
             });
-        }
 
+            connection.On<double>("ReceivePlaybackPosition", position =>
+            {
+                if (Math.Abs(axWindowsMediaPlayerVideo.Ctlcontrols.currentPosition - position) > 1)
+                {
+                    axWindowsMediaPlayerVideo.Ctlcontrols.currentPosition = position;
+                }
+            });
+        }
         private void OnPlayStateChange(object sender, AxWMPLib._WMPOCXEvents_PlayStateChangeEvent e)
         {
             //MessageBox.Show("check");
-            if (e.newState == (int)WMPLib.WMPPlayState.wmppsMediaEnded || axWindowsMediaPlayer.playState == WMPLib.WMPPlayState.wmppsStopped)
+            if (e.newState == (int)WMPLib.WMPPlayState.wmppsMediaEnded || axWindowsMediaPlayerVideo.playState == WMPLib.WMPPlayState.wmppsStopped)
             {
-               // MessageBox.Show("Video ended or stopped. Playing next video...");
+                // MessageBox.Show("Video ended or stopped. Playing next video...");
                 PlayVideo();
             }
+            if (e.newState == (int)WMPLib.WMPPlayState.wmppsPlaying)
+            {
+                StartSyncTimer();
+            }
+            else if (e.newState == (int)WMPLib.WMPPlayState.wmppsStopped || e.newState == (int)WMPLib.WMPPlayState.wmppsPaused)
+            {
+                StopSyncTimer();
+            }
+        }
+
+        private void StopSyncTimer()
+        {
+            playback?.Stop();
         }
         public async Task ShowRCMVideo()
         {
@@ -273,10 +302,6 @@ namespace UITFLIX
 
         private async void linkleaveroom_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (axWindowsMediaPlayer.playState == WMPLib.WMPPlayState.wmppsPlaying)
-            {
-                axWindowsMediaPlayer.Ctlcontrols.stop();
-            }
             var res = MessageBox.Show("Do you wanna leave room?", "Question", MessageBoxButtons.YesNo);
             if (res == DialogResult.Yes)
             {
@@ -297,6 +322,19 @@ namespace UITFLIX
             }
         }
 
+        private void StartSyncTimer()
+        {
+            playback = new System.Windows.Forms.Timer { Interval = 1000 }; //Gui video moi 1s
+            playback.Tick += async (sender, e) =>
+            {
+                if (connection.State == HubConnectionState.Connected)
+                {
+                    double currentposition = axWindowsMediaPlayerVideo.Ctlcontrols.currentPosition;
+                    await connection.InvokeAsync("SyncPlaybackPosition", roomid, currentposition);
+                }
+            };
+            playback.Start();
+        }
         private async Task PlayVideo()
         {
             videoqueue = await coopService.GetVideoQueue(accesstoken, roomid);
@@ -304,6 +342,8 @@ namespace UITFLIX
             {
                 return;
             }
+
+            this.Cursor = Cursors.WaitCursor;
             await PlayNextVideo();
         }
 

@@ -172,6 +172,7 @@
             // 
             // bottompanel
             // 
+            bottompanel.Controls.Add(panel1);
             bottompanel.Controls.Add(star5);
             bottompanel.Controls.Add(star4);
             bottompanel.Controls.Add(star3);
@@ -280,7 +281,6 @@
             // 
             // leftbottm
             // 
-            leftbottm.Controls.Add(panel1);
             leftbottm.Controls.Add(tbdes);
             leftbottm.Controls.Add(txtnamefilm1);
             leftbottm.Dock = DockStyle.Left;
@@ -289,7 +289,7 @@
             leftbottm.Location = new Point(0, 0);
             leftbottm.Margin = new Padding(2);
             leftbottm.Name = "leftbottm";
-            leftbottm.Size = new Size(638, 132);
+            leftbottm.Size = new Size(627, 132);
             leftbottm.TabIndex = 0;
             leftbottm.UseWaitCursor = true;
             // 
