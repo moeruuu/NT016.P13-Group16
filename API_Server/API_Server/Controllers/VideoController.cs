@@ -16,11 +16,11 @@ namespace API_Server.Controllers
     [ApiController]
     public class VideoController : ControllerBase
     {
-        private readonly VideoService filmService;
+        private readonly VideoService videoService;
         private readonly UserService userService;
-        public VideoController(VideoService filmService, UserService user)
+        public VideoController(VideoService videoService, UserService user)
         {
-            this.filmService = filmService;
+            this.videoService = videoService;
             userService = user;
         }
 
@@ -37,7 +37,7 @@ namespace API_Server.Controllers
                 }
                 var user = await userService.GetUserByID(UserId);
                 //ObjectId UserId = ObjectId.Parse("67337f1bc5297b798496ced9");
-                var addedVideo = await filmService.AddVideo(uploadVideo, UserId);
+                var addedVideo = await videoService.AddVideo(uploadVideo, UserId);
 
                 return Ok(new
                 {
@@ -75,7 +75,7 @@ namespace API_Server.Controllers
                     return BadRequest("Vui lòng ghi tên video cần tìm kiếm.");
                 }
 
-                var videos = await filmService.SearchVideos(title);
+                var videos = await videoService.SearchVideos(title);
                 if (videos == null || videos.Count == 0)
                 {
                     return NotFound("Không tìm thấy video.");
@@ -92,7 +92,7 @@ namespace API_Server.Controllers
         [HttpGet("GetNewestVideos")]
         public async Task<ActionResult<List<Video>>> GetNewestVideo()
         {
-            var videos = await filmService.GetNewestVideos();
+            var videos = await videoService.GetNewestVideos();
             return Ok(videos);
         }
 
@@ -100,7 +100,7 @@ namespace API_Server.Controllers
         [HttpGet("GetTopVideos")]
         public async Task<IActionResult> GetTopVideo()
         {
-            var videos = await filmService.GetTopVideos();
+            var videos = await videoService.GetTopVideos();
             return Ok(videos);
         }
 
@@ -116,7 +116,7 @@ namespace API_Server.Controllers
                     return Unauthorized("Không thể xác thực người dùng.");
                 }
 
-                var res = await filmService.SaveWatchedVideo(UserId, watchedVideoDetailsModel);
+                var res = await videoService.SaveWatchedVideo(UserId, watchedVideoDetailsModel);
                 if (res == true)
                     return Ok();
                 else
@@ -139,7 +139,7 @@ namespace API_Server.Controllers
                 {
                     return Unauthorized("Không thể xác thực người dùng.");
                 }
-                var videos = await filmService.GetWatchedVideos(UserId);
+                var videos = await videoService.GetWatchedVideos(UserId);
                 return Ok(videos);
             }
             catch
@@ -150,12 +150,12 @@ namespace API_Server.Controllers
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         [HttpGet("GetAllVideos")]
-        public async Task<ActionResult<List<Video>>> GetAllVideos()
+        public async Task<IActionResult> GetAllVideos()
         {
-            var videos = await filmService.GetAllVideos();
+            var videos = await videoService.GetAllVideos();
             if (videos != null || videos.Count != 0)
                 return Ok(videos);
-            else return NotFound("Không có người dùng nào!");
+            else return NotFound("Không tìm thấy video nào cả");
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
@@ -164,10 +164,10 @@ namespace API_Server.Controllers
         {
             try
             {
-                var video = await filmService.GetVideoByID(id);
+                var video = await videoService.GetVideoByID(id);
                 var extension = Path.GetExtension(video.Url).ToLower();
-                var mime = filmService.GetMimeType(extension);
-                var stream = await filmService.GetStreamByIDVideo(id);
+                var mime = videoService.GetMimeType(extension);
+                var stream = await videoService.GetStreamByIDVideo(id);
                 return File(stream, mime);
             }
             catch (Exception ex)
@@ -182,7 +182,7 @@ namespace API_Server.Controllers
         {
             try
             {
-                var video = await filmService.GetVideoByID(id);
+                var video = await videoService.GetVideoByID(id);
                 if (video != null)
                 {
                     return Ok(video);
@@ -202,7 +202,7 @@ namespace API_Server.Controllers
         [HttpGet("GetRelatedVideos")]
         public async Task<IActionResult> GetRelatedVideos([FromQuery] string tag)
         {
-            var videos = await filmService.GetRelatedVideos(tag);
+            var videos = await videoService.GetRelatedVideos(tag);
             return Ok(videos);
         }
 
@@ -210,7 +210,7 @@ namespace API_Server.Controllers
         [HttpPatch("Rating")]
         public async Task<IActionResult> Rating([FromBody] Rating rating)
         {
-            var getvideorate = await filmService.Rating(rating);
+            var getvideorate = await videoService.Rating(rating);
             return Ok(getvideorate);
 
         }
@@ -226,7 +226,7 @@ namespace API_Server.Controllers
             }
             try
             {
-                var Delete = await filmService.DeleteVideo(IDVideo);
+                var Delete = await videoService.DeleteVideo(IDVideo);
                 if (Delete)
                 {
                     return Ok("Xóa video thành công!");
@@ -252,8 +252,8 @@ namespace API_Server.Controllers
                 {
                     return Unauthorized("Không thể xác thực người dùng.");
                 }
-                var (stream, video) = await filmService.DownloadVideo(id);
-                var mimeType = filmService.GetMimeType(Path.GetExtension(video.Url));
+                var (stream, video) = await videoService.DownloadVideo(id);
+                var mimeType = videoService.GetMimeType(Path.GetExtension(video.Url));
                 return File(stream, mimeType, $"{video.Title}.mp4");
 
             }
