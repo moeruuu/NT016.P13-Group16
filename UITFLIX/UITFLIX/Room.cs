@@ -12,6 +12,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Forms;
 using UITFLIX.Controllers;
 using UITFLIX.Models;
@@ -23,7 +24,7 @@ namespace UITFLIX
     public partial class Room : Form
     {
 
-        private ToolTip toolTip;
+        private System.Windows.Forms.ToolTip toolTip;
         private readonly string accesstoken;
         private readonly VideoService videoService;
         private readonly string roomid;
@@ -48,7 +49,7 @@ namespace UITFLIX
             InitializeComponent();
             accesstoken = token;
             videoService = new VideoService();
-            toolTip = new ToolTip();
+            toolTip = new System.Windows.Forms.ToolTip();
             coopService = new CoopService();
             userService = new UserService();
 
@@ -61,6 +62,7 @@ namespace UITFLIX
             this.Controls.Add(axWindowsMediaPlayerVideo);
             axWindowsMediaPlayerVideo.Size = new Size(1060, 562);
             axWindowsMediaPlayerVideo.Location = new Point(12, 79);
+
             IntializeEvent();
             namefilm.Text = "";
             axWindowsMediaPlayerVideo.PlayStateChange += OnPlayStateChange;
@@ -89,12 +91,11 @@ namespace UITFLIX
             try
             {
                 await connection.StartAsync();
-                listchatgroup.ForeColor = Color.Red;
-                listchatgroup.Items.Add("Connection Started");
+                listchatgroup.Text = "Connection Started";
             }
             catch (Exception ex)
             {
-                listchatgroup.Items.Add($"{ex.Message}");
+                listchatgroup.Text = $"{ex.Message}";
             }
         }
         private async Task RegisterEvent()
@@ -105,8 +106,8 @@ namespace UITFLIX
                 string messages = $"{user}: {message}";
                 listchatgroup.Invoke(new Action(() =>
                 {
-                    listchatgroup.ForeColor = Color.MidnightBlue;
-                    listchatgroup.Items.Add(messages);
+                    //listchatgroup.Items.Add(messages);
+                    listchatgroup.Text +="\n"+ messages;
 
                 }));
                 if (message == "is playing.")
@@ -126,12 +127,13 @@ namespace UITFLIX
                         for (int i = 0; i < movies.Count(); i++)
                         {
                             var getmovie = await videoService.GetVideoByID(accesstoken, movies[i]);
-                            if (getmovie != null && getmovie.ContainsKey("title") && getmovie.ContainsKey("tag"))
+                            if (getmovie != null)
                             {
-                                dgvQueue.RowsDefaultCellStyle.ForeColor = Color.MidnightBlue;
                                 //MessageBox.Show(getmovie.ToString());
                                 dgvQueue.Invoke(new Action(() =>
                                 {
+
+                                    dgvQueue.ForeColor = Color.MidnightBlue;
                                     dgvQueue.Rows.Add(
                                         dgvQueue.Rows.Count,
                                         getmovie["title"].ToString(),
@@ -182,6 +184,7 @@ namespace UITFLIX
                 }
             });
         }
+
         private void OnPlayStateChange(object sender, AxWMPLib._WMPOCXEvents_PlayStateChangeEvent e)
         {
             //MessageBox.Show("check");
@@ -194,7 +197,7 @@ namespace UITFLIX
             {
                 StartSyncTimer();
             }
-            else if (e.newState == (int)WMPLib.WMPPlayState.wmppsStopped || e.newState == (int)WMPLib.WMPPlayState.wmppsPaused)
+            else if (e.newState == (int)WMPLib.WMPPlayState.wmppsStopped)
             {
                 StopSyncTimer();
             }
@@ -305,6 +308,7 @@ namespace UITFLIX
             var res = MessageBox.Show("Do you wanna leave room?", "Question", MessageBoxButtons.YesNo);
             if (res == DialogResult.Yes)
             {
+                axWindowsMediaPlayerVideo.Ctlcontrols.pause();
                 var response = await coopService.LeaveRoom(accesstoken, roomid);
                 if (response)
                 {
@@ -356,19 +360,22 @@ namespace UITFLIX
 
             try
             {
-                var videoid = videoqueue[index].ToString();
-                //MessageBox.Show(videoid);
-                if (videoid != null)
+                while (videoqueue.Count > index)
                 {
-                    await connection.InvokeAsync("PlayVideo", roomid, videoid);
-                    var getmovie = await videoService.GetVideoByID(accesstoken, videoid);
-
-                    if (getmovie != null)
+                    var videoid = videoqueue[index].ToString();
+                    //MessageBox.Show(videoid);
+                    if (videoid != null)
                     {
-                        await connection.InvokeAsync("SendMessage", getmovie["title"].ToString(), roomid, $"is playing.");
+                        await connection.InvokeAsync("PlayVideo", roomid, videoid);
+                        var getmovie = await videoService.GetVideoByID(accesstoken, videoid);
+
+                        if (getmovie != null)
+                        {
+                            await connection.InvokeAsync("SendMessage", getmovie["title"].ToString(), roomid, $"is playing.");
+                        }
                     }
+                    index++;
                 }
-                index++;
             }
             catch (Exception ex)
             {

@@ -37,6 +37,7 @@
             txtnamefilm = new Label();
             logo = new PictureBox();
             bottompanel = new Panel();
+            panel1 = new Panel();
             star5 = new PictureBox();
             star4 = new PictureBox();
             star3 = new PictureBox();
@@ -45,7 +46,6 @@
             total = new Label();
             averrate = new Label();
             leftbottm = new Panel();
-            panel1 = new Panel();
             tbdes = new RichTextBox();
             txtnamefilm1 = new Label();
             axWindowsMediaPlayer = new AxWMPLib.AxWindowsMediaPlayer();
@@ -191,6 +191,16 @@
             bottompanel.TabIndex = 2;
             bottompanel.UseWaitCursor = true;
             // 
+            // panel1
+            // 
+            panel1.BackColor = Color.MidnightBlue;
+            panel1.Location = new Point(631, 5);
+            panel1.Margin = new Padding(2);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(2, 120);
+            panel1.TabIndex = 2;
+            panel1.UseWaitCursor = true;
+            // 
             // star5
             // 
             star5.Cursor = Cursors.Hand;
@@ -293,16 +303,6 @@
             leftbottm.TabIndex = 0;
             leftbottm.UseWaitCursor = true;
             // 
-            // panel1
-            // 
-            panel1.BackColor = Color.MidnightBlue;
-            panel1.Location = new Point(631, 5);
-            panel1.Margin = new Padding(2);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(2, 120);
-            panel1.TabIndex = 2;
-            panel1.UseWaitCursor = true;
-            // 
             // tbdes
             // 
             tbdes.BorderStyle = BorderStyle.None;
@@ -363,6 +363,7 @@
             Controls.Add(bottompanel);
             Controls.Add(panel2);
             FormBorderStyle = FormBorderStyle.FixedDialog;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(2);
             Name = "PVideo";
             StartPosition = FormStartPosition.CenterScreen;

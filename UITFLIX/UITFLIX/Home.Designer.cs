@@ -605,6 +605,7 @@
             Controls.Add(tbdescription);
             Controls.Add(fpnVideos);
             FormBorderStyle = FormBorderStyle.None;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(2);
             MaximizeBox = false;
             MdiChildrenMinimizedAnchorBottom = false;

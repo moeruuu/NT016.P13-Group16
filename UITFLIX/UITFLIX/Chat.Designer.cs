@@ -280,6 +280,7 @@
             Controls.Add(iconPictureBoxHome);
             Controls.Add(abovepanel);
             FormBorderStyle = FormBorderStyle.None;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Chat";
             Text = "Chat";
             Load += Chat_Load;

@@ -374,6 +374,7 @@
             ForeColor = Color.LightBlue;
             FormBorderStyle = FormBorderStyle.None;
             HelpButton = true;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(2);
             Name = "UpdateInformation";
             StartPosition = FormStartPosition.CenterScreen;

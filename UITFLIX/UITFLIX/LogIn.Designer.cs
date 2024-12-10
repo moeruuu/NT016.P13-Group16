@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LogIn));
             pictureBox1 = new PictureBox();
             txtUsername = new TextBox();
             label1 = new Label();
@@ -197,6 +198,7 @@
             Controls.Add(linksignup);
             Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             FormBorderStyle = FormBorderStyle.None;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "LogIn";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "LogIn";

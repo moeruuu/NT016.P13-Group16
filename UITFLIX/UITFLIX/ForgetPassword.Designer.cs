@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ForgetPassword));
             txtCfPass = new TextBox();
             txtNewPass = new TextBox();
             txtEmail = new TextBox();
@@ -139,6 +140,7 @@
             Controls.Add(lbNewpass);
             Controls.Add(lbEmail);
             FormBorderStyle = FormBorderStyle.FixedDialog;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "ForgetPassword";

@@ -37,7 +37,6 @@
             logo = new PictureBox();
             namefilm = new Label();
             label1 = new Label();
-            listchatgroup = new ListBox();
             txtChat = new TextBox();
             btnsendmessage = new Button();
             label2 = new Label();
@@ -46,6 +45,7 @@
             ColumnNum = new DataGridViewTextBoxColumn();
             ColumnTitle = new DataGridViewTextBoxColumn();
             ColumnTag = new DataGridViewTextBoxColumn();
+            listchatgroup = new RichTextBox();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)logo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvQueue).BeginInit();
@@ -61,10 +61,10 @@
             panel1.Controls.Add(logo);
             panel1.Dock = DockStyle.Top;
             panel1.Font = new Font("Cambria", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            panel1.Location = new Point(0, 0);
+            panel1.Location = new Point(10, 0);
             panel1.Margin = new Padding(2);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1490, 53);
+            panel1.Size = new Size(1480, 53);
             panel1.TabIndex = 0;
             // 
             // lbname
@@ -134,7 +134,7 @@
             namefilm.BackColor = Color.Transparent;
             namefilm.Font = new Font("Cambria", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             namefilm.ForeColor = Color.White;
-            namefilm.Location = new Point(12, 644);
+            namefilm.Location = new Point(22, 644);
             namefilm.Margin = new Padding(2, 0, 2, 0);
             namefilm.Name = "namefilm";
             namefilm.Size = new Size(105, 23);
@@ -147,24 +147,12 @@
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.White;
-            label1.Location = new Point(10, 707);
+            label1.Location = new Point(20, 707);
             label1.Margin = new Padding(2, 0, 2, 0);
             label1.Name = "label1";
             label1.Size = new Size(228, 20);
             label1.TabIndex = 3;
             label1.Text = "New videos you should watch:";
-            // 
-            // listchatgroup
-            // 
-            listchatgroup.Font = new Font("Cambria", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            listchatgroup.ForeColor = Color.MidnightBlue;
-            listchatgroup.FormattingEnabled = true;
-            listchatgroup.ItemHeight = 21;
-            listchatgroup.Location = new Point(1101, 79);
-            listchatgroup.Margin = new Padding(2);
-            listchatgroup.Name = "listchatgroup";
-            listchatgroup.Size = new Size(349, 529);
-            listchatgroup.TabIndex = 6;
             // 
             // txtChat
             // 
@@ -195,7 +183,7 @@
             label2.BackColor = Color.Transparent;
             label2.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label2.ForeColor = Color.White;
-            label2.Location = new Point(1102, 707);
+            label2.Location = new Point(1112, 707);
             label2.Margin = new Padding(2, 0, 2, 0);
             label2.Name = "label2";
             label2.Size = new Size(109, 20);
@@ -246,6 +234,19 @@
             ColumnTag.ReadOnly = true;
             ColumnTag.Width = 150;
             // 
+            // listchatgroup
+            // 
+            listchatgroup.BorderStyle = BorderStyle.FixedSingle;
+            listchatgroup.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            listchatgroup.ForeColor = Color.MidnightBlue;
+            listchatgroup.Location = new Point(1101, 79);
+            listchatgroup.Name = "listchatgroup";
+            listchatgroup.ReadOnly = true;
+            listchatgroup.ScrollBars = RichTextBoxScrollBars.Horizontal;
+            listchatgroup.Size = new Size(349, 529);
+            listchatgroup.TabIndex = 13;
+            listchatgroup.Text = "";
+            // 
             // Room
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -253,19 +254,21 @@
             BackColor = Color.LightBlue;
             ClientSize = new Size(1490, 1000);
             ControlBox = false;
+            Controls.Add(listchatgroup);
             Controls.Add(dgvQueue);
             Controls.Add(rcmvideopanel);
             Controls.Add(label2);
             Controls.Add(btnsendmessage);
             Controls.Add(txtChat);
-            Controls.Add(listchatgroup);
             Controls.Add(label1);
             Controls.Add(namefilm);
             Controls.Add(panel1);
             ForeColor = Color.LightBlue;
             FormBorderStyle = FormBorderStyle.None;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(2);
             Name = "Room";
+            Padding = new Padding(10, 0, 0, 0);
             StartPosition = FormStartPosition.CenterScreen;
             Text = "CreateRoom";
             panel1.ResumeLayout(false);
@@ -282,7 +285,6 @@
         private PictureBox logo;
         private Label namefilm;
         private Label label1;
-        private ListBox listchatgroup;
         private TextBox txtChat;
         private Button btnsendmessage;
         private Label label2;
@@ -295,5 +297,6 @@
         private DataGridViewTextBoxColumn ColumnTitle;
         private DataGridViewTextBoxColumn ColumnTag;
         private Label lbname;
+        private RichTextBox listchatgroup;
     }
 }

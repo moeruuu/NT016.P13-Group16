@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VerifyOTP));
             tbotp = new TextBox();
             label1 = new Label();
             btnverify = new Button();
@@ -37,9 +38,10 @@
             // 
             tbotp.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             tbotp.ForeColor = Color.FromArgb(0, 64, 64);
-            tbotp.Location = new Point(104, 85);
+            tbotp.Location = new Point(83, 68);
+            tbotp.Margin = new Padding(2, 2, 2, 2);
             tbotp.Name = "tbotp";
-            tbotp.Size = new Size(393, 31);
+            tbotp.Size = new Size(315, 27);
             tbotp.TabIndex = 0;
             // 
             // label1
@@ -47,9 +49,10 @@
             label1.AutoSize = true;
             label1.Font = new Font("Cambria", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.FromArgb(0, 64, 64);
-            label1.Location = new Point(104, 43);
+            label1.Location = new Point(83, 34);
+            label1.Margin = new Padding(2, 0, 2, 0);
             label1.Name = "label1";
-            label1.Size = new Size(62, 28);
+            label1.Size = new Size(51, 23);
             label1.TabIndex = 1;
             label1.Text = "OTP:";
             // 
@@ -57,9 +60,10 @@
             // 
             btnverify.Font = new Font("Cambria", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnverify.ForeColor = Color.FromArgb(0, 64, 64);
-            btnverify.Location = new Point(195, 131);
+            btnverify.Location = new Point(156, 105);
+            btnverify.Margin = new Padding(2, 2, 2, 2);
             btnverify.Name = "btnverify";
-            btnverify.Size = new Size(237, 34);
+            btnverify.Size = new Size(190, 27);
             btnverify.TabIndex = 2;
             btnverify.Text = "Xác nhận";
             btnverify.UseVisualStyleBackColor = true;
@@ -67,13 +71,15 @@
             // 
             // VerifyOTP
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightBlue;
-            ClientSize = new Size(580, 212);
+            ClientSize = new Size(464, 170);
             Controls.Add(btnverify);
             Controls.Add(label1);
             Controls.Add(tbotp);
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            Margin = new Padding(2, 2, 2, 2);
             Name = "VerifyOTP";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "VerifyOTP";
