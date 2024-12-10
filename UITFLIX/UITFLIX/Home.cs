@@ -12,7 +12,6 @@ using System.Reflection;
 using UITFLIX.Models;
 using UITFLIX.Services;
 using UITFLIX.Controllers;
-using UITFLIX.Models;
 using Microsoft.VisualBasic.ApplicationServices;
 
 namespace UITFLIX
@@ -120,7 +119,6 @@ namespace UITFLIX
                         if (ms != null && ms.CanRead)
                         {
                             ms.Seek(0, SeekOrigin.Begin);
-
                             Image image = Image.FromStream(ms);
                             Avatar.Image = Image.FromStream(ms);
                         }

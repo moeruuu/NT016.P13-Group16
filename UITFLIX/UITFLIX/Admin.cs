@@ -1,15 +1,17 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
+﻿using FontAwesome.Sharp;
+using Newtonsoft.Json.Linq;
+using System.Drawing.Drawing2D;
+using System.Net;
 using System.Windows.Forms;
+using Newtonsoft.Json;
+using System.Diagnostics.Eventing.Reader;
+using System.Net.Http.Headers;
+using MongoDB.Bson;
+using System.ComponentModel;
+using System.Reflection;
+using UITFLIX.Models;
 using UITFLIX.Services;
+using Microsoft.VisualBasic.ApplicationServices;
 
 namespace UITFLIX
 {
@@ -19,20 +21,103 @@ namespace UITFLIX
         private readonly string accesstoken;
 
         private readonly UserService userService;
+
+        public static Point? adminLocation;
         public Admin(JObject user, string token)
         {
+            if (adminLocation.HasValue)
+            {
+                this.StartPosition = FormStartPosition.Manual;
+                this.Location = adminLocation.Value;
+            }
+            else
+            {
+                this.StartPosition = FormStartPosition.CenterScreen;
+            }
+
             InitializeComponent();
             userinfo = user;
             accesstoken = token;
             userService = new UserService();
-            Settingnames();
 
+            tbSearch.Text = " Search";
+            tbSearch.ForeColor = Color.CadetBlue;
+            tbSearch.Font = new Font(tbSearch.Font, FontStyle.Italic);
+            tbSearch.Font = new Font(tbSearch.Font.FontFamily, 14);
+            tbSearch.ScrollBars = RichTextBoxScrollBars.None;
+
+            SetInfo();
         }
 
-        void Settingnames()
+        //Set info
+        public void SetInfo()
         {
+            lbName.Text = userinfo["user"]["fullname"].ToString();
+            lbName.Location = new Point(pbAvatar.Location.X - lbName.Width - 4, lbName.Location.Y);
+            DrawCircular(pbAvatar);
+            LoadImageFromUrl(userinfo["user"]["profilepicture"].ToString());
         }
 
+        //Set avatar
+        public void DrawCircular(PictureBox pictureBox)
+        {
+            int width = pictureBox.Width;
+            int height = pictureBox.Height;
+
+            GraphicsPath circlePath = new GraphicsPath();
+            circlePath.AddEllipse(0, 0, width, height);
+            pictureBox.Region = new Region(circlePath);
+        }
+
+        private async void LoadImageFromUrl(string imageUrl)
+        {
+            using (var client = new HttpClient())
+            {
+                // Kiểm tra URL hợp lệ không
+                if (Uri.TryCreate(imageUrl, UriKind.Absolute, out var uriResult)
+                    && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps))
+                {
+                    var imageBytes = await client.GetByteArrayAsync(imageUrl);
+                    using (var ms = new MemoryStream(imageBytes))
+                    {
+                        if (ms != null && ms.CanRead)
+                        {
+                            ms.Seek(0, SeekOrigin.Begin);
+                            Image image = Image.FromStream(ms);
+                            pbAvatar.Image = Image.FromStream(ms);
+                        }
+                    }
+                }
+                else
+                {
+                    pbAvatar.Image = LoadDefaultImage();
+                }
+            }
+        }
+
+        private Image LoadDefaultImage()
+        {
+            string defaulturl = "https://i.pinimg.com/736x/62/ee/b3/62eeb37155f0df95a708586aed9165c5.jpg";
+            using (var client = new HttpClient())
+            {
+                var bytes = client.GetByteArrayAsync(defaulturl).Result;
+                using (var ms = new MemoryStream(bytes))
+                {
+                    return Image.FromStream(ms);
+                }
+            }
+        }
+
+        //Mở form update info
+        private void lbName_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            adminLocation = this.Location;
+            new UpdateInformation(userinfo, accesstoken).ShowDialog();
+            this.Close();
+        }
+
+        //Nút logout
         private async void logout_Click(object sender, EventArgs e)
         {
             var res = MessageBox.Show("Bạn có muốn thoát?", "Thoát", MessageBoxButtons.YesNo);

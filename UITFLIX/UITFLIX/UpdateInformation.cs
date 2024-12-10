@@ -237,8 +237,16 @@ namespace UITFLIX
                 if (res == System.Windows.Forms.DialogResult.Yes)
                 {
                     this.Hide();
-                    VideoService videoService = new VideoService();
-                    new Home(userinfo, videoService, AccessToken).ShowDialog();
+                    if (userinfo["user"]["role"].ToString() == "1")
+                    {
+                        VideoService videos = new VideoService();
+                        new Home(userinfo, videos, AccessToken).ShowDialog();
+                    }
+                    else
+                    {
+                        Admin admin = new Admin(userinfo, AccessToken);
+                        admin.ShowDialog();
+                    }
                     this.Close();
                 }
                 else
@@ -273,8 +281,16 @@ namespace UITFLIX
                 if (res == DialogResult.Yes)
                 {
                     this.Hide();
-                    VideoService videos = new VideoService();
-                    new Home(userinfo, videos, AccessToken).ShowDialog();
+                    if (userinfo["user"]["role"].ToString() == "1")
+                    {
+                        VideoService videos = new VideoService();
+                        new Home(userinfo, videos, AccessToken).ShowDialog();
+                    }
+                    else
+                    {
+                        Admin admin = new Admin(userinfo, AccessToken);
+                        admin.ShowDialog();
+                    }    
                     this.Close();
                 }
                 else
@@ -285,8 +301,16 @@ namespace UITFLIX
             else
             {
                 this.Hide();
-                VideoService videos = new VideoService();
-                new Home(userinfo, videos, AccessToken).ShowDialog();
+                if (userinfo["user"]["role"].ToString() == "1")
+                {
+                    VideoService videos = new VideoService();
+                    new Home(userinfo, videos, AccessToken).ShowDialog();
+                }
+                else
+                {
+                    Admin admin = new Admin(userinfo, AccessToken);
+                    admin.ShowDialog();
+                }
                 this.Close();
             }
         }
@@ -367,9 +391,5 @@ namespace UITFLIX
             }
         }
 
-        private void UpdateInformation_Load(object sender, EventArgs e)
-        {
-
-        }
     }
 }
