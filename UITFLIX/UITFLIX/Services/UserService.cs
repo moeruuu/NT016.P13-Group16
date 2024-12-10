@@ -170,5 +170,27 @@ namespace UITFLIX.Services
                 return null;
             }
         }
+        public async Task<JArray?> GetUsers(string accessToken)
+        {
+            try
+            {
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+                var response = await httpClient.GetAsync($"/api/User/GetAll");
+                if (response.IsSuccessStatusCode)
+                {
+                    var users = await response.Content.ReadAsStringAsync();
+                    JArray jarray = JArray.Parse(users);
+                    return jarray;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex.Message}");
+                return null;
+            }
+        }
+
     }
 }

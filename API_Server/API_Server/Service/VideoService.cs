@@ -294,6 +294,10 @@ namespace API_Server.Service
             return (stream, video);
         }
 
-
+        public async Task<object> GetNumOfVideos(ObjectId userID)
+        {
+            var filter = Builders<Video>.Filter.Eq(v => v.UploaderID, userID);
+            return videos.CountDocuments(filter);
+        }
     }
 }

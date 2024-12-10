@@ -186,9 +186,53 @@ namespace UITFLIX
         }
 
         //Load tab Users
-        private void UsersLoading()
+        private async void UsersLoading()
         {
+            dgvUsers.Rows.Clear();
+            progressBar.Visible = true;
+            progressBar.Style = ProgressBarStyle.Marquee;
+            var jArray = await userService.GetUsers(accesstoken);
+            int num = 1;
 
+            try
+            {
+                foreach (var user in jArray)
+                {
+                    string id = "******" + user["id"].ToString().Substring(user["id"].ToString().Length - 6);
+
+                    string online;
+                    if (user["user"]["isOnline"].ToString() == "False")
+                        online = "OFF";
+                    else
+                        online = "ON";
+
+                    dgvUsers.Rows.Add(num, id, user["user"]["email"], user["user"]["username"], user["user"]["fullname"], online, user["videosCount"] + " videos");
+                    num++;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex.Message}\n{ex.StackTrace}");
+            }
+
+            progressBar.Visible = false;
+            dgvUsers.CellFormatting += dgvUsers_CellFormatting;
+        }
+
+        private void dgvUsers_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (dgvUsers.Columns[e.ColumnIndex].Name == "Online")
+            {
+                var cellValue = e.Value?.ToString();
+                if (cellValue == "ON")
+                {
+                    e.CellStyle.ForeColor = Color.Green;
+                }
+                else if (cellValue == "OFF")
+                {
+                    e.CellStyle.ForeColor = Color.Red;
+                }
+            }
         }
 
         //Load tab Videos

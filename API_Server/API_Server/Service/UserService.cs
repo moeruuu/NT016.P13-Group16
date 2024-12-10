@@ -13,12 +13,15 @@ using System.Collections.Concurrent;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System;
+using API_Server.Service;
+
 namespace API_Server.Service
 {
     public class UserService
     {
         private readonly IMongoCollection<User> users;
         private readonly EmailService emailService;
+        private readonly VideoService videoService;
         //Dùng static để biến không thay đổi
         private static string currentEmail;
         private static string currentOTP;
@@ -26,11 +29,12 @@ namespace API_Server.Service
         //Lưu dữ liệu tạm thời
         private static readonly ConcurrentDictionary<string, User> nguoidung = new ConcurrentDictionary<string, User>();
         private readonly ImgurService imgurService;
-        public UserService(IMongoDatabase database, EmailService emailService, ImgurService imgurService)
+        public UserService(IMongoDatabase database, EmailService emailService, ImgurService imgurService, VideoService videoService)
         {
             users = database.GetCollection<User>("Users");
             this.emailService = emailService;
             this.imgurService = imgurService;
+            this.videoService = videoService;
         }
 
         public async Task<User> Register(UserSignUpDTOs SignupDTOs)
@@ -391,9 +395,26 @@ namespace API_Server.Service
             }
             return existingUser;
         }
-        public async Task<List<User>> GetAllUsers()
+        public async Task<List<object>> GetAllUsers()
         {
-            return await users.Find(new BsonDocument()).ToListAsync();
+            var filter = Builders<User>.Filter.Eq(u => u.Role, 1);
+            var usersList =  await users.Find(filter).ToListAsync();
+
+            var newUsersList = new List<object>();
+            foreach(var user in usersList)
+            {
+                var bsonDocument = user.ToBsonDocument();
+                var id = bsonDocument["_id"].AsObjectId.ToString();
+                var videosCount = await videoService.GetNumOfVideos(user.UserId);
+                newUsersList.Add(new
+                {
+                    Id = id,
+                    User = user,
+                    VideosCount = videosCount
+                });
+            }    
+
+            return newUsersList;
         }
     }
 }

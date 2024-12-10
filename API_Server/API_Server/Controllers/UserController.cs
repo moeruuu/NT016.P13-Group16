@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Security.Claims;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using Newtonsoft.Json.Linq;
 
 namespace API_Server.Controllers
 {
@@ -261,7 +262,7 @@ namespace API_Server.Controllers
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         [HttpGet("GetAll")]
-        public async Task<ActionResult<List<User>>> GetAllUsers()
+        public async Task<IActionResult> GetAllUsers()
         {
             var users = await userService.GetAllUsers();
             if (users != null || users.Count != 0)
