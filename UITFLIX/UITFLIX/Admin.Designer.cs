@@ -396,7 +396,6 @@
             dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle5.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             dataGridViewCellStyle5.ForeColor = Color.MidnightBlue;
-            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.False;
             Content.DefaultCellStyle = dataGridViewCellStyle5;
             Content.HeaderText = "Content";
             Content.MinimumWidth = 6;
@@ -623,7 +622,7 @@
             dataGridViewCellStyle18.SelectionBackColor = Color.CadetBlue;
             dataGridViewCellStyle18.SelectionForeColor = Color.White;
             UploadedUser.DefaultCellStyle = dataGridViewCellStyle18;
-            UploadedUser.HeaderText = "Username";
+            UploadedUser.HeaderText = "Uploader";
             UploadedUser.MinimumWidth = 6;
             UploadedUser.Name = "UploadedUser";
             UploadedUser.ReadOnly = true;
@@ -764,6 +763,8 @@
             dataGridViewCellStyle26.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle26.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             dataGridViewCellStyle26.ForeColor = Color.MidnightBlue;
+            dataGridViewCellStyle26.Format = "T";
+            dataGridViewCellStyle26.NullValue = null;
             StartTime.DefaultCellStyle = dataGridViewCellStyle26;
             StartTime.HeaderText = "Start Time";
             StartTime.MinimumWidth = 6;
@@ -795,7 +796,6 @@
             Controls.Add(panelUnder);
             Controls.Add(panelData);
             Controls.Add(panelInfo);
-            Cursor = Cursors.Hand;
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(2);
@@ -852,11 +852,6 @@
         private DataGridView dgvUsers;
         private DataGridView dgvVideos;
         private DataGridView dgvRooms;
-        private DataGridViewTextBoxColumn NumRoom;
-        private DataGridViewTextBoxColumn RoomID;
-        private DataGridViewTextBoxColumn Host;
-        private DataGridViewTextBoxColumn StartTime;
-        private DataGridViewTextBoxColumn NumOfParticipants;
         private ProgressBar progressBar;
         private RichTextBox tbSearch;
         private PictureBox btnSearch;
@@ -869,15 +864,20 @@
         private DataGridViewTextBoxColumn Fullname;
         private DataGridViewTextBoxColumn Online;
         private DataGridViewTextBoxColumn UploadedVideos;
-        private DataGridViewTextBoxColumn Date;
-        private DataGridViewTextBoxColumn From;
-        private DataGridViewTextBoxColumn Subject;
-        private DataGridViewTextBoxColumn Content;
         private DataGridViewTextBoxColumn Num;
         private DataGridViewTextBoxColumn VideoID;
         private DataGridViewTextBoxColumn UploadedUser;
         private DataGridViewTextBoxColumn UploadedDate;
         private DataGridViewTextBoxColumn Tiltle;
         private DataGridViewTextBoxColumn Rating;
+        private DataGridViewTextBoxColumn Date;
+        private DataGridViewTextBoxColumn From;
+        private DataGridViewTextBoxColumn Subject;
+        private DataGridViewTextBoxColumn Content;
+        private DataGridViewTextBoxColumn NumRoom;
+        private DataGridViewTextBoxColumn RoomID;
+        private DataGridViewTextBoxColumn Host;
+        private DataGridViewTextBoxColumn StartTime;
+        private DataGridViewTextBoxColumn NumOfParticipants;
     }
 }

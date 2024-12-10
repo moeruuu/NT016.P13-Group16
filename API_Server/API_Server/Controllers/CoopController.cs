@@ -211,5 +211,15 @@ namespace API_Server.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        [HttpGet("GetAllRooms")]
+        public async Task<IActionResult> GetAllRooms()
+        {
+            var rooms = await coopService.GetAllRooms();
+            if (rooms != null || rooms.Count != 0)
+                return Ok(rooms);
+            else return NotFound("Không tìm thấy phòng nào cả");
+        }
     }
 }

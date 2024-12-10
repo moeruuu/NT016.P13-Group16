@@ -393,8 +393,8 @@ namespace UITFLIX.Services
                 var response = await httpClient.GetAsync($"/api/Video/GetAllVideos");
                 if (response.IsSuccessStatusCode)
                 {
-                    var users = await response.Content.ReadAsStringAsync();
-                    JArray jarray = JArray.Parse(users);
+                    var videos = await response.Content.ReadAsStringAsync();
+                    JArray jarray = JArray.Parse(videos);
                     return jarray;
                 }
                 return null;

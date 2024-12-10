@@ -26,9 +26,7 @@ namespace UITFLIX.Services
 
         private static readonly string huburl = @"https://localhost:7292/videohub";
 
-        public CoopService()
-        {
-        }
+        public CoopService() { }
 
         public async Task<JObject> CreateRoom(string accesstoken)
         {
@@ -54,8 +52,6 @@ namespace UITFLIX.Services
                 MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
                 return null;
             }
-
-
         }
 
         public async Task<bool> FindRoom(string accesstoken, string roomid)
@@ -72,6 +68,7 @@ namespace UITFLIX.Services
                 return false;
             }
         }
+
         public async Task<JObject> JoinRoom(string roomid, string accesstoken)
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accesstoken);
@@ -182,6 +179,28 @@ namespace UITFLIX.Services
             catch(Exception ex)
             {
                 MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
+                return null;
+            }
+        }
+
+        public async Task<JArray?> GetRooms(string accessToken)
+        {
+            try
+            {
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+                var response = await httpClient.GetAsync($"/api/Coop/GetAllRooms");
+                if (response.IsSuccessStatusCode)
+                {
+                    var rooms = await response.Content.ReadAsStringAsync();
+                    JArray jarray = JArray.Parse(rooms);
+                    return jarray;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex.Message}");
                 return null;
             }
         }

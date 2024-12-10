@@ -23,6 +23,7 @@ namespace UITFLIX
         private readonly UserService userService;
         private readonly VideoService videoService;
         private readonly MailService mailService;
+        private readonly CoopService coopService;
 
         public static Point? adminLocation;
         public Admin(JObject user, string token)
@@ -43,6 +44,7 @@ namespace UITFLIX
             userService = new UserService();
             videoService = new VideoService();
             mailService = new MailService(accesstoken);
+            coopService = new CoopService();
 
             tbSearch.Text = " Search";
             tbSearch.ForeColor = Color.CadetBlue;
@@ -287,9 +289,34 @@ namespace UITFLIX
         }
 
         //Load tab Rooms
-        private void RoomsLoading()
+        private async void RoomsLoading()
         {
+            dgvRooms.Rows.Clear();
+            progressBar.Visible = true;
+            progressBar.Style = ProgressBarStyle.Marquee;
+            var jArray = await coopService.GetRooms(accesstoken);
+            int num = 1;
 
+            if (jArray == null)
+            {
+                progressBar.Visible = false;
+                return;
+            }
+
+            try
+            {
+                foreach (var room in jArray)
+                {
+                    dgvRooms.Rows.Add(num, room["room"]["roomId"], room["host"], room["room"]["startTime"], room["participants"]);
+                    num++;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex.Message}\n{ex.StackTrace}");
+            }
+
+            progressBar.Visible = false;
         }
     }
 
