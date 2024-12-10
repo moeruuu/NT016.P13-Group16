@@ -6,12 +6,14 @@ using MimeKit.Utils;
 using MailKit.Net.Smtp;
 using MailKit.Net.Imap;
 using MailKit.Security;
+using MailKit.Search;
 using Org.BouncyCastle.Crypto.Macs;
 using static System.Net.Mime.MediaTypeNames;
 using System.Drawing;
 using System;
 using Org.BouncyCastle.Tls;
 using API_Server.Data;
+using API_Server.DTOs;
 
 namespace API_Server.Service
 {
@@ -40,8 +42,6 @@ namespace API_Server.Service
                 await smtp.AuthenticateAsync(sender.EmailGroup16, sender.PasswordGroup16);
                 await smtp.SendAsync(email);
                 await smtp.DisconnectAsync(true);
-
-
             }
             catch (Exception ex)
             {
@@ -49,6 +49,7 @@ namespace API_Server.Service
             }
 
         }
+
         public async Task SendContactEmail(EmailRequest request)
         {
             try
@@ -119,6 +120,41 @@ namespace API_Server.Service
 
         }
        
+        public async Task<List<EmailDTOs>> GetEmails()
+        {
+            try
+            {
+                using (var client = new ImapClient())
+                {
+                    await client.ConnectAsync("imap.gmail.com", 993, true);
+                    await client.AuthenticateAsync($"{sender.EmailGroup16}", $"{sender.PasswordGroup16}");
+
+                    var inbox = client.Inbox;
+                    await inbox.OpenAsync(FolderAccess.ReadOnly);
+
+                    var emails = new List<EmailDTOs>();
+                    foreach (var uid in await inbox.SearchAsync(SearchQuery.All))
+                    {
+                        var message = await inbox.GetMessageAsync(uid);
+
+                        emails.Add(new EmailDTOs
+                        {
+                            Date = message.Date.DateTime,
+                            From = message.From.ToString(),
+                            Subject = message.Subject,
+                            Body = message.TextBody
+                        });
+                    }
+
+                    await client.DisconnectAsync(true);
+                    return emails;
+                }
+            }
+            catch(Exception ex)
+            {
+                throw new Exception($"Có lỗi xảy ra khi tải email: {ex.Message}");
+            }
+        }
     }
 }
 

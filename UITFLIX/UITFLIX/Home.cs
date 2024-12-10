@@ -32,7 +32,7 @@ namespace UITFLIX
         private readonly UserService userService;
         private readonly VideoService videoService;
         private readonly CoopService coopService;
-        private readonly ChatService chatService;
+        private readonly MailService chatService;
 
         private static string selectedvideofile;
         private static string selectedimagefile;
@@ -59,7 +59,7 @@ namespace UITFLIX
             Userinfo = in4;
             videoService = video;
             accesstoken = token;
-            chatService = new ChatService(token);
+            chatService = new MailService(token);
             setUserinfo();
 
             leftborderBtn = new Panel();

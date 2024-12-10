@@ -10,10 +10,12 @@ using static System.Net.WebRequestMethods;
 using MongoDB.Bson;
 using System.Windows.Documents;
 using System.Windows.Forms;
+using UITFLIX.Models;
+using System.Windows.Media.Media3D;
 
 namespace UITFLIX.Services
 {
-    public class ChatService
+    public class MailService
     {
         public static readonly HttpClient httpClient = new HttpClient
         {
@@ -22,7 +24,7 @@ namespace UITFLIX.Services
         };
         private readonly string _accessToken;
 
-        public ChatService(string accessToken)
+        public MailService(string accessToken)
         {
             _accessToken = accessToken;
             httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", _accessToken);
@@ -50,6 +52,26 @@ namespace UITFLIX.Services
             }
         }
 
+        public async Task<JArray?> GetEmails()
+        {
+            try
+            {
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _accessToken);
+
+                var response = await httpClient.GetAsync($"/api/Email/GetEmails");
+                if (response.IsSuccessStatusCode)
+                {
+                    var emails = await response.Content.ReadAsStringAsync();
+                    JArray jarray = JArray.Parse(emails);
+                    return jarray;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
 
     }
 }

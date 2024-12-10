@@ -21,6 +21,7 @@ namespace UITFLIX
         private readonly string accesstoken;
 
         private readonly UserService userService;
+        private readonly MailService mailService;
 
         public static Point? adminLocation;
         public Admin(JObject user, string token)
@@ -39,12 +40,15 @@ namespace UITFLIX
             userinfo = user;
             accesstoken = token;
             userService = new UserService();
+            mailService = new MailService(accesstoken);
 
             tbSearch.Text = " Search";
             tbSearch.ForeColor = Color.CadetBlue;
             tbSearch.Font = new Font(tbSearch.Font, FontStyle.Italic);
             tbSearch.Font = new Font(tbSearch.Font.FontFamily, 14);
             tbSearch.ScrollBars = RichTextBoxScrollBars.None;
+
+            dgvEmails.AutoGenerateColumns = false;
 
             SetInfo();
         }
@@ -141,6 +145,62 @@ namespace UITFLIX
                     return;
                 }
             }
+        }
+
+        //Chọn tab
+        private void tcData_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int selectedIndex = tcData.SelectedIndex;
+            if (selectedIndex == 0 || selectedIndex == -1)
+                EmailsLoading();
+            else if (selectedIndex == 1)
+                UsersLoading();
+            else if (selectedIndex == 2)
+                VideosLoading();
+            else if (selectedIndex == 3)
+                RoomsLoading();
+        }
+
+        //Load tab Emails
+        private async void EmailsLoading()
+        {
+            dgvEmails.Rows.Clear();
+            progressBar.Visible = true;
+            progressBar.Style = ProgressBarStyle.Marquee;
+            var jArray = await mailService.GetEmails();
+
+            try
+            {
+                foreach (var email in jArray)
+                {
+                    dgvEmails.Rows.Add(email["date"], email["from"], email["subject"], email["body"]);
+                    dgvEmails.Sort(dgvEmails.Columns["Date"], ListSortDirection.Descending);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex.Message}\n{ex.StackTrace}");
+            }
+
+            progressBar.Visible = false;
+        }
+
+        //Load tab Users
+        private void UsersLoading()
+        {
+
+        }
+
+        //Load tab Videos
+        private void VideosLoading()
+        {
+
+        }
+
+        //Load tab Rooms
+        private void RoomsLoading()
+        {
+
         }
     }
 

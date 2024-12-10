@@ -10,7 +10,7 @@ using System.Net.WebSockets;
 using Microsoft.AspNetCore.Http.HttpResults;
 namespace API_Server.Service
 {
-    public class FilmService
+    public class VideoService
     {
         private readonly IMongoCollection<WatchedVideo> watchedList;
         private readonly IMongoCollection<Video> videos;
@@ -18,7 +18,7 @@ namespace API_Server.Service
         private readonly ImgurService imgurService;
         private readonly IGridFSBucket gridFS;
 
-        public FilmService(IConfiguration configuration, ImgurService imgurService)
+        public VideoService(IConfiguration configuration, ImgurService imgurService)
         {
             var client = new MongoClient(configuration.GetSection("MongoDB:ConnectionString").Value);
             var database = client.GetDatabase("DOAN");

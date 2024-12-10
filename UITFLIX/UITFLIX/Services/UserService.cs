@@ -149,7 +149,7 @@ namespace UITFLIX.Services
             }
         }
 
-        public async Task<JObject> GetUserByID(string id, string accesstoken)
+        public async Task<JObject?> GetUserByID(string id, string accesstoken)
         {
             try
             {
