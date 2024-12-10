@@ -173,6 +173,13 @@ namespace UITFLIX
             progressBar.Style = ProgressBarStyle.Marquee;
             var jArray = await mailService.GetEmails();
 
+            if (jArray == null)
+            {
+                lbNoEmail.Visible = true;
+                progressBar.Visible = false;
+                return;
+            }
+
             try
             {
                 foreach (var email in jArray)
@@ -197,6 +204,13 @@ namespace UITFLIX
             progressBar.Style = ProgressBarStyle.Marquee;
             var jArray = await userService.GetUsers(accesstoken);
             int num = 1;
+
+            if (jArray == null)
+            {
+                lbNoUser.Visible = true;
+                progressBar.Visible = false;
+                return;
+            }
 
             try
             {
@@ -247,6 +261,13 @@ namespace UITFLIX
             progressBar.Style = ProgressBarStyle.Marquee;
             var jArray = await videoService.GetVideos(accesstoken);
             int num = 1;
+
+            if (jArray == null)
+            {
+                lbNoVideo.Visible = true;
+                progressBar.Visible = false;
+                return;
+            }
 
             try
             {
@@ -299,6 +320,7 @@ namespace UITFLIX
 
             if (jArray == null)
             {
+                lbNoRoom.Visible = true;
                 progressBar.Visible = false;
                 return;
             }
