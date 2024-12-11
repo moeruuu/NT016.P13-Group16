@@ -197,17 +197,8 @@ namespace API_Server.Service
 
         public async Task<bool> DeleteUser(ObjectId userid)
         {
-            /*var Filter = Builders<User>.Filter.Eq(u => u.Username, username);
-            var checkuser = await users.Find(Filter).FirstOrDefaultAsync();*/
             var delete = await users.DeleteOneAsync(u => u.UserId == userid);
-            if (delete.DeletedCount == 0)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            return delete.DeletedCount > 0;
         }
 
         public async Task<Object> CheckOTP(VerifyOTPDTOs otpDTOs)
@@ -416,5 +407,6 @@ namespace API_Server.Service
 
             return newUsersList;
         }
+
     }
 }

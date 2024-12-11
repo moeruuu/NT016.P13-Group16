@@ -277,7 +277,8 @@ namespace API_Server.Controllers
             var user = await userService.GetUserByID(id);
             if (user != null)
             {
-                return Ok(new{
+                return Ok(new
+                {
                     User = new
                     {
                         ID = user.UserId.ToString(),
@@ -314,5 +315,23 @@ namespace API_Server.Controllers
             }
         }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        [HttpDelete("Delete-User/{id}")]
+        public async Task<IActionResult> DeleteUser([FromRoute] ObjectId UserID)
+        {
+            try
+            {
+                var delete = await userService.DeleteUser(UserID);
+                if (delete == true)
+                {
+                    return Ok("Thành công");
+                }
+                else return NotFound("Không tìm thấy người dùng!");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

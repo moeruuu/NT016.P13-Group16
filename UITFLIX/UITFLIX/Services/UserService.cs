@@ -192,5 +192,21 @@ namespace UITFLIX.Services
             }
         }
 
+        public async Task<string?> DeleteUser(string userID, string accessToken)
+        {
+            try
+            {
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+                var response = await httpClient.GetAsync($"/api/User/Delete-User/{userID}");
+                return await response.Content.ReadAsStringAsync();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex.Message}");
+                return null;
+            }
+        }
+
     }
 }

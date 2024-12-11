@@ -29,33 +29,33 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Admin));
-            DataGridViewCellStyle dataGridViewCellStyle28 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle29 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle30 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle31 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle32 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle33 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle34 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle35 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle36 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle37 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle38 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle39 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle40 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle41 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle42 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle43 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle44 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle45 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle46 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle47 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle48 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle49 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle50 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle51 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle52 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle53 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle54 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle13 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle14 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle15 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle16 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle17 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle18 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle19 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle20 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle21 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle22 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle23 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle24 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle25 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle26 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle27 = new DataGridViewCellStyle();
             logout = new PictureBox();
             panelUnder = new Panel();
             iconRemove = new FontAwesome.Sharp.IconPictureBox();
@@ -72,12 +72,14 @@
             tbSearch = new RichTextBox();
             tcData = new TabControl();
             tabEmails = new TabPage();
+            lbNoEmail = new Label();
             dgvEmails = new DataGridView();
             Date = new DataGridViewTextBoxColumn();
             From = new DataGridViewTextBoxColumn();
             Subject = new DataGridViewTextBoxColumn();
             Content = new DataGridViewTextBoxColumn();
             tabUsers = new TabPage();
+            lbNoUser = new Label();
             dgvUsers = new DataGridView();
             No = new DataGridViewTextBoxColumn();
             UserID = new DataGridViewTextBoxColumn();
@@ -87,6 +89,7 @@
             Online = new DataGridViewTextBoxColumn();
             UploadedVideos = new DataGridViewTextBoxColumn();
             tabVideos = new TabPage();
+            lbNoVideo = new Label();
             dgvVideos = new DataGridView();
             Num = new DataGridViewTextBoxColumn();
             VideoID = new DataGridViewTextBoxColumn();
@@ -102,9 +105,6 @@
             Host = new DataGridViewTextBoxColumn();
             StartTime = new DataGridViewTextBoxColumn();
             NumOfParticipants = new DataGridViewTextBoxColumn();
-            lbNoVideo = new Label();
-            lbNoUser = new Label();
-            lbNoEmail = new Label();
             ((System.ComponentModel.ISupportInitialize)logout).BeginInit();
             panelUnder.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)iconRemove).BeginInit();
@@ -169,6 +169,7 @@
             iconRemove.Size = new Size(24, 24);
             iconRemove.TabIndex = 7;
             iconRemove.TabStop = false;
+            iconRemove.Click += iconRemove_Click;
             // 
             // iconRefresh
             // 
@@ -328,6 +329,18 @@
             tabEmails.TabIndex = 0;
             tabEmails.Text = "Emails";
             // 
+            // lbNoEmail
+            // 
+            lbNoEmail.AutoSize = true;
+            lbNoEmail.Font = new Font("Cambria", 16.2F, FontStyle.Italic, GraphicsUnit.Point, 0);
+            lbNoEmail.ForeColor = Color.DarkSlateGray;
+            lbNoEmail.Location = new Point(398, 258);
+            lbNoEmail.Name = "lbNoEmail";
+            lbNoEmail.Size = new Size(312, 33);
+            lbNoEmail.TabIndex = 5;
+            lbNoEmail.Text = "404 NO EMAIL FOUND :((";
+            lbNoEmail.Visible = false;
+            // 
             // dgvEmails
             // 
             dgvEmails.AllowUserToAddRows = false;
@@ -337,14 +350,14 @@
             dgvEmails.BackgroundColor = Color.LightBlue;
             dgvEmails.BorderStyle = BorderStyle.None;
             dgvEmails.CellBorderStyle = DataGridViewCellBorderStyle.None;
-            dataGridViewCellStyle28.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle28.BackColor = Color.CadetBlue;
-            dataGridViewCellStyle28.Font = new Font("Cambria", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle28.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle28.SelectionBackColor = Color.CadetBlue;
-            dataGridViewCellStyle28.SelectionForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle28.WrapMode = DataGridViewTriState.True;
-            dgvEmails.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle28;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = Color.CadetBlue;
+            dataGridViewCellStyle1.Font = new Font("Cambria", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = Color.CadetBlue;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvEmails.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvEmails.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvEmails.Columns.AddRange(new DataGridViewColumn[] { Date, From, Subject, Content });
             dgvEmails.Dock = DockStyle.Fill;
@@ -362,11 +375,11 @@
             // 
             // Date
             // 
-            dataGridViewCellStyle29.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle29.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle29.ForeColor = Color.MidnightBlue;
-            dataGridViewCellStyle29.Format = "g";
-            Date.DefaultCellStyle = dataGridViewCellStyle29;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle2.ForeColor = Color.MidnightBlue;
+            dataGridViewCellStyle2.Format = "g";
+            Date.DefaultCellStyle = dataGridViewCellStyle2;
             Date.HeaderText = "Date";
             Date.MinimumWidth = 6;
             Date.Name = "Date";
@@ -376,10 +389,10 @@
             // 
             // From
             // 
-            dataGridViewCellStyle30.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle30.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle30.ForeColor = Color.MidnightBlue;
-            From.DefaultCellStyle = dataGridViewCellStyle30;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle3.ForeColor = Color.MidnightBlue;
+            From.DefaultCellStyle = dataGridViewCellStyle3;
             From.HeaderText = "From";
             From.MinimumWidth = 6;
             From.Name = "From";
@@ -389,10 +402,10 @@
             // 
             // Subject
             // 
-            dataGridViewCellStyle31.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle31.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle31.ForeColor = Color.MidnightBlue;
-            Subject.DefaultCellStyle = dataGridViewCellStyle31;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle4.ForeColor = Color.MidnightBlue;
+            Subject.DefaultCellStyle = dataGridViewCellStyle4;
             Subject.HeaderText = "Subject";
             Subject.MinimumWidth = 6;
             Subject.Name = "Subject";
@@ -402,10 +415,10 @@
             // 
             // Content
             // 
-            dataGridViewCellStyle32.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle32.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle32.ForeColor = Color.MidnightBlue;
-            Content.DefaultCellStyle = dataGridViewCellStyle32;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle5.ForeColor = Color.MidnightBlue;
+            Content.DefaultCellStyle = dataGridViewCellStyle5;
             Content.HeaderText = "Content";
             Content.MinimumWidth = 6;
             Content.Name = "Content";
@@ -424,6 +437,18 @@
             tabUsers.TabIndex = 1;
             tabUsers.Text = "Users";
             // 
+            // lbNoUser
+            // 
+            lbNoUser.AutoSize = true;
+            lbNoUser.Font = new Font("Cambria", 16.2F, FontStyle.Italic, GraphicsUnit.Point, 0);
+            lbNoUser.ForeColor = Color.DarkSlateGray;
+            lbNoUser.Location = new Point(398, 258);
+            lbNoUser.Name = "lbNoUser";
+            lbNoUser.Size = new Size(298, 33);
+            lbNoUser.TabIndex = 5;
+            lbNoUser.Text = "404 NO USER FOUND :((";
+            lbNoUser.Visible = false;
+            // 
             // dgvUsers
             // 
             dgvUsers.AllowUserToAddRows = false;
@@ -433,14 +458,14 @@
             dgvUsers.BackgroundColor = Color.LightBlue;
             dgvUsers.BorderStyle = BorderStyle.None;
             dgvUsers.CellBorderStyle = DataGridViewCellBorderStyle.None;
-            dataGridViewCellStyle33.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle33.BackColor = SystemColors.Control;
-            dataGridViewCellStyle33.Font = new Font("Cambria", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle33.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle33.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle33.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle33.WrapMode = DataGridViewTriState.True;
-            dgvUsers.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle33;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle6.BackColor = SystemColors.Control;
+            dataGridViewCellStyle6.Font = new Font("Cambria", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle6.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle6.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.True;
+            dgvUsers.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
             dgvUsers.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvUsers.Columns.AddRange(new DataGridViewColumn[] { No, UserID, Email, Username, Fullname, Online, UploadedVideos });
             dgvUsers.Dock = DockStyle.Fill;
@@ -455,13 +480,14 @@
             dgvUsers.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvUsers.Size = new Size(1103, 549);
             dgvUsers.TabIndex = 1;
+            dgvUsers.CellClick += dgvUsers_CellClick;
             // 
             // No
             // 
-            dataGridViewCellStyle34.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle34.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle34.ForeColor = Color.MidnightBlue;
-            No.DefaultCellStyle = dataGridViewCellStyle34;
+            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle7.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle7.ForeColor = Color.MidnightBlue;
+            No.DefaultCellStyle = dataGridViewCellStyle7;
             No.HeaderText = "No.";
             No.MinimumWidth = 6;
             No.Name = "No";
@@ -471,10 +497,10 @@
             // 
             // UserID
             // 
-            dataGridViewCellStyle35.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle35.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle35.ForeColor = Color.MidnightBlue;
-            UserID.DefaultCellStyle = dataGridViewCellStyle35;
+            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle8.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle8.ForeColor = Color.MidnightBlue;
+            UserID.DefaultCellStyle = dataGridViewCellStyle8;
             UserID.HeaderText = "UserID";
             UserID.MinimumWidth = 6;
             UserID.Name = "UserID";
@@ -484,10 +510,10 @@
             // 
             // Email
             // 
-            dataGridViewCellStyle36.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle36.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle36.ForeColor = Color.MidnightBlue;
-            Email.DefaultCellStyle = dataGridViewCellStyle36;
+            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle9.ForeColor = Color.MidnightBlue;
+            Email.DefaultCellStyle = dataGridViewCellStyle9;
             Email.HeaderText = "Email";
             Email.MinimumWidth = 6;
             Email.Name = "Email";
@@ -497,10 +523,10 @@
             // 
             // Username
             // 
-            dataGridViewCellStyle37.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle37.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle37.ForeColor = Color.MidnightBlue;
-            Username.DefaultCellStyle = dataGridViewCellStyle37;
+            dataGridViewCellStyle10.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle10.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle10.ForeColor = Color.MidnightBlue;
+            Username.DefaultCellStyle = dataGridViewCellStyle10;
             Username.HeaderText = "Username";
             Username.MinimumWidth = 6;
             Username.Name = "Username";
@@ -510,10 +536,10 @@
             // 
             // Fullname
             // 
-            dataGridViewCellStyle38.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle38.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle38.ForeColor = Color.MidnightBlue;
-            Fullname.DefaultCellStyle = dataGridViewCellStyle38;
+            dataGridViewCellStyle11.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle11.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle11.ForeColor = Color.MidnightBlue;
+            Fullname.DefaultCellStyle = dataGridViewCellStyle11;
             Fullname.HeaderText = "Fullname";
             Fullname.MinimumWidth = 6;
             Fullname.Name = "Fullname";
@@ -523,10 +549,10 @@
             // 
             // Online
             // 
-            dataGridViewCellStyle39.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle39.Font = new Font("Cambria", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle39.ForeColor = Color.MidnightBlue;
-            Online.DefaultCellStyle = dataGridViewCellStyle39;
+            dataGridViewCellStyle12.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle12.Font = new Font("Cambria", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle12.ForeColor = Color.MidnightBlue;
+            Online.DefaultCellStyle = dataGridViewCellStyle12;
             Online.HeaderText = "Online";
             Online.MinimumWidth = 6;
             Online.Name = "Online";
@@ -536,10 +562,10 @@
             // 
             // UploadedVideos
             // 
-            dataGridViewCellStyle40.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle40.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle40.ForeColor = Color.MidnightBlue;
-            UploadedVideos.DefaultCellStyle = dataGridViewCellStyle40;
+            dataGridViewCellStyle13.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle13.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle13.ForeColor = Color.MidnightBlue;
+            UploadedVideos.DefaultCellStyle = dataGridViewCellStyle13;
             UploadedVideos.HeaderText = "Uploaded Videos";
             UploadedVideos.MinimumWidth = 6;
             UploadedVideos.Name = "UploadedVideos";
@@ -558,25 +584,37 @@
             tabVideos.TabIndex = 2;
             tabVideos.Text = "Videos";
             // 
+            // lbNoVideo
+            // 
+            lbNoVideo.AutoSize = true;
+            lbNoVideo.Font = new Font("Cambria", 16.2F, FontStyle.Italic, GraphicsUnit.Point, 0);
+            lbNoVideo.ForeColor = Color.DarkSlateGray;
+            lbNoVideo.Location = new Point(398, 258);
+            lbNoVideo.Name = "lbNoVideo";
+            lbNoVideo.Size = new Size(310, 33);
+            lbNoVideo.TabIndex = 5;
+            lbNoVideo.Text = "404 NO VIDEO FOUND :((";
+            lbNoVideo.Visible = false;
+            // 
             // dgvVideos
             // 
             dgvVideos.AllowUserToAddRows = false;
             dgvVideos.AllowUserToDeleteRows = false;
             dgvVideos.AllowUserToResizeColumns = false;
             dgvVideos.AllowUserToResizeRows = false;
-            dataGridViewCellStyle41.BackColor = Color.LightBlue;
-            dgvVideos.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle41;
+            dataGridViewCellStyle14.BackColor = Color.LightBlue;
+            dgvVideos.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle14;
             dgvVideos.BackgroundColor = Color.LightBlue;
             dgvVideos.BorderStyle = BorderStyle.None;
             dgvVideos.CellBorderStyle = DataGridViewCellBorderStyle.None;
-            dataGridViewCellStyle42.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle42.BackColor = SystemColors.Control;
-            dataGridViewCellStyle42.Font = new Font("Cambria", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle42.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle42.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle42.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle42.WrapMode = DataGridViewTriState.True;
-            dgvVideos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle42;
+            dataGridViewCellStyle15.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle15.BackColor = SystemColors.Control;
+            dataGridViewCellStyle15.Font = new Font("Cambria", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle15.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle15.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle15.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle15.WrapMode = DataGridViewTriState.True;
+            dgvVideos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle15;
             dgvVideos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvVideos.Columns.AddRange(new DataGridViewColumn[] { Num, VideoID, UploadedUser, UploadedDate, Tiltle, Rating });
             dgvVideos.Dock = DockStyle.Fill;
@@ -591,16 +629,17 @@
             dgvVideos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvVideos.Size = new Size(1103, 549);
             dgvVideos.TabIndex = 2;
+            dgvVideos.CellClick += dgvVideos_CellClick;
             // 
             // Num
             // 
-            dataGridViewCellStyle43.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle43.BackColor = Color.LightBlue;
-            dataGridViewCellStyle43.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle43.ForeColor = Color.MidnightBlue;
-            dataGridViewCellStyle43.SelectionBackColor = Color.CadetBlue;
-            dataGridViewCellStyle43.SelectionForeColor = Color.White;
-            Num.DefaultCellStyle = dataGridViewCellStyle43;
+            dataGridViewCellStyle16.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle16.BackColor = Color.LightBlue;
+            dataGridViewCellStyle16.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle16.ForeColor = Color.MidnightBlue;
+            dataGridViewCellStyle16.SelectionBackColor = Color.CadetBlue;
+            dataGridViewCellStyle16.SelectionForeColor = Color.White;
+            Num.DefaultCellStyle = dataGridViewCellStyle16;
             Num.HeaderText = "No.";
             Num.MinimumWidth = 6;
             Num.Name = "Num";
@@ -610,13 +649,13 @@
             // 
             // VideoID
             // 
-            dataGridViewCellStyle44.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle44.BackColor = Color.LightBlue;
-            dataGridViewCellStyle44.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle44.ForeColor = Color.MidnightBlue;
-            dataGridViewCellStyle44.SelectionBackColor = Color.CadetBlue;
-            dataGridViewCellStyle44.SelectionForeColor = Color.White;
-            VideoID.DefaultCellStyle = dataGridViewCellStyle44;
+            dataGridViewCellStyle17.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle17.BackColor = Color.LightBlue;
+            dataGridViewCellStyle17.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle17.ForeColor = Color.MidnightBlue;
+            dataGridViewCellStyle17.SelectionBackColor = Color.CadetBlue;
+            dataGridViewCellStyle17.SelectionForeColor = Color.White;
+            VideoID.DefaultCellStyle = dataGridViewCellStyle17;
             VideoID.HeaderText = "VideoID";
             VideoID.MinimumWidth = 6;
             VideoID.Name = "VideoID";
@@ -626,13 +665,13 @@
             // 
             // UploadedUser
             // 
-            dataGridViewCellStyle45.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle45.BackColor = Color.LightBlue;
-            dataGridViewCellStyle45.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle45.ForeColor = Color.MidnightBlue;
-            dataGridViewCellStyle45.SelectionBackColor = Color.CadetBlue;
-            dataGridViewCellStyle45.SelectionForeColor = Color.White;
-            UploadedUser.DefaultCellStyle = dataGridViewCellStyle45;
+            dataGridViewCellStyle18.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle18.BackColor = Color.LightBlue;
+            dataGridViewCellStyle18.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle18.ForeColor = Color.MidnightBlue;
+            dataGridViewCellStyle18.SelectionBackColor = Color.CadetBlue;
+            dataGridViewCellStyle18.SelectionForeColor = Color.White;
+            UploadedUser.DefaultCellStyle = dataGridViewCellStyle18;
             UploadedUser.HeaderText = "Uploader";
             UploadedUser.MinimumWidth = 6;
             UploadedUser.Name = "UploadedUser";
@@ -642,15 +681,15 @@
             // 
             // UploadedDate
             // 
-            dataGridViewCellStyle46.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle46.BackColor = Color.LightBlue;
-            dataGridViewCellStyle46.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle46.ForeColor = Color.MidnightBlue;
-            dataGridViewCellStyle46.Format = "g";
-            dataGridViewCellStyle46.NullValue = null;
-            dataGridViewCellStyle46.SelectionBackColor = Color.CadetBlue;
-            dataGridViewCellStyle46.SelectionForeColor = Color.White;
-            UploadedDate.DefaultCellStyle = dataGridViewCellStyle46;
+            dataGridViewCellStyle19.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle19.BackColor = Color.LightBlue;
+            dataGridViewCellStyle19.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle19.ForeColor = Color.MidnightBlue;
+            dataGridViewCellStyle19.Format = "g";
+            dataGridViewCellStyle19.NullValue = null;
+            dataGridViewCellStyle19.SelectionBackColor = Color.CadetBlue;
+            dataGridViewCellStyle19.SelectionForeColor = Color.White;
+            UploadedDate.DefaultCellStyle = dataGridViewCellStyle19;
             UploadedDate.HeaderText = "Uploaded Date";
             UploadedDate.MinimumWidth = 6;
             UploadedDate.Name = "UploadedDate";
@@ -660,15 +699,15 @@
             // 
             // Tiltle
             // 
-            dataGridViewCellStyle47.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle47.BackColor = Color.LightBlue;
-            dataGridViewCellStyle47.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle47.ForeColor = Color.MidnightBlue;
-            dataGridViewCellStyle47.NullValue = null;
-            dataGridViewCellStyle47.SelectionBackColor = Color.CadetBlue;
-            dataGridViewCellStyle47.SelectionForeColor = Color.White;
-            dataGridViewCellStyle47.WrapMode = DataGridViewTriState.False;
-            Tiltle.DefaultCellStyle = dataGridViewCellStyle47;
+            dataGridViewCellStyle20.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle20.BackColor = Color.LightBlue;
+            dataGridViewCellStyle20.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle20.ForeColor = Color.MidnightBlue;
+            dataGridViewCellStyle20.NullValue = null;
+            dataGridViewCellStyle20.SelectionBackColor = Color.CadetBlue;
+            dataGridViewCellStyle20.SelectionForeColor = Color.White;
+            dataGridViewCellStyle20.WrapMode = DataGridViewTriState.False;
+            Tiltle.DefaultCellStyle = dataGridViewCellStyle20;
             Tiltle.HeaderText = "Title";
             Tiltle.MinimumWidth = 6;
             Tiltle.Name = "Tiltle";
@@ -678,14 +717,14 @@
             // 
             // Rating
             // 
-            dataGridViewCellStyle48.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle48.BackColor = Color.LightBlue;
-            dataGridViewCellStyle48.Font = new Font("Cambria", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle48.ForeColor = Color.MidnightBlue;
-            dataGridViewCellStyle48.NullValue = null;
-            dataGridViewCellStyle48.SelectionBackColor = Color.CadetBlue;
-            dataGridViewCellStyle48.SelectionForeColor = Color.White;
-            Rating.DefaultCellStyle = dataGridViewCellStyle48;
+            dataGridViewCellStyle21.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle21.BackColor = Color.LightBlue;
+            dataGridViewCellStyle21.Font = new Font("Cambria", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle21.ForeColor = Color.MidnightBlue;
+            dataGridViewCellStyle21.NullValue = null;
+            dataGridViewCellStyle21.SelectionBackColor = Color.CadetBlue;
+            dataGridViewCellStyle21.SelectionForeColor = Color.White;
+            Rating.DefaultCellStyle = dataGridViewCellStyle21;
             Rating.HeaderText = "Rating";
             Rating.MinimumWidth = 6;
             Rating.Name = "Rating";
@@ -725,14 +764,14 @@
             dgvRooms.BackgroundColor = Color.LightBlue;
             dgvRooms.BorderStyle = BorderStyle.None;
             dgvRooms.CellBorderStyle = DataGridViewCellBorderStyle.None;
-            dataGridViewCellStyle49.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle49.BackColor = SystemColors.Control;
-            dataGridViewCellStyle49.Font = new Font("Cambria", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle49.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle49.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle49.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle49.WrapMode = DataGridViewTriState.True;
-            dgvRooms.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle49;
+            dataGridViewCellStyle22.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle22.BackColor = SystemColors.Control;
+            dataGridViewCellStyle22.Font = new Font("Cambria", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle22.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle22.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle22.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle22.WrapMode = DataGridViewTriState.True;
+            dgvRooms.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle22;
             dgvRooms.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvRooms.Columns.AddRange(new DataGridViewColumn[] { NumRoom, RoomID, Host, StartTime, NumOfParticipants });
             dgvRooms.Dock = DockStyle.Fill;
@@ -748,10 +787,10 @@
             // 
             // NumRoom
             // 
-            dataGridViewCellStyle50.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle50.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle50.ForeColor = Color.MidnightBlue;
-            NumRoom.DefaultCellStyle = dataGridViewCellStyle50;
+            dataGridViewCellStyle23.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle23.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle23.ForeColor = Color.MidnightBlue;
+            NumRoom.DefaultCellStyle = dataGridViewCellStyle23;
             NumRoom.HeaderText = "No.";
             NumRoom.MinimumWidth = 6;
             NumRoom.Name = "NumRoom";
@@ -760,10 +799,10 @@
             // 
             // RoomID
             // 
-            dataGridViewCellStyle51.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle51.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle51.ForeColor = Color.MidnightBlue;
-            RoomID.DefaultCellStyle = dataGridViewCellStyle51;
+            dataGridViewCellStyle24.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle24.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle24.ForeColor = Color.MidnightBlue;
+            RoomID.DefaultCellStyle = dataGridViewCellStyle24;
             RoomID.HeaderText = "RoomID";
             RoomID.MinimumWidth = 6;
             RoomID.Name = "RoomID";
@@ -772,10 +811,10 @@
             // 
             // Host
             // 
-            dataGridViewCellStyle52.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle52.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle52.ForeColor = Color.MidnightBlue;
-            Host.DefaultCellStyle = dataGridViewCellStyle52;
+            dataGridViewCellStyle25.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle25.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle25.ForeColor = Color.MidnightBlue;
+            Host.DefaultCellStyle = dataGridViewCellStyle25;
             Host.HeaderText = "Host";
             Host.MinimumWidth = 6;
             Host.Name = "Host";
@@ -784,12 +823,12 @@
             // 
             // StartTime
             // 
-            dataGridViewCellStyle53.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle53.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle53.ForeColor = Color.MidnightBlue;
-            dataGridViewCellStyle53.Format = "T";
-            dataGridViewCellStyle53.NullValue = null;
-            StartTime.DefaultCellStyle = dataGridViewCellStyle53;
+            dataGridViewCellStyle26.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle26.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle26.ForeColor = Color.MidnightBlue;
+            dataGridViewCellStyle26.Format = "T";
+            dataGridViewCellStyle26.NullValue = null;
+            StartTime.DefaultCellStyle = dataGridViewCellStyle26;
             StartTime.HeaderText = "Start Time";
             StartTime.MinimumWidth = 6;
             StartTime.Name = "StartTime";
@@ -798,53 +837,17 @@
             // 
             // NumOfParticipants
             // 
-            dataGridViewCellStyle54.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle54.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle54.ForeColor = Color.MidnightBlue;
-            dataGridViewCellStyle54.NullValue = null;
-            dataGridViewCellStyle54.WrapMode = DataGridViewTriState.True;
-            NumOfParticipants.DefaultCellStyle = dataGridViewCellStyle54;
+            dataGridViewCellStyle27.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle27.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle27.ForeColor = Color.MidnightBlue;
+            dataGridViewCellStyle27.NullValue = null;
+            dataGridViewCellStyle27.WrapMode = DataGridViewTriState.True;
+            NumOfParticipants.DefaultCellStyle = dataGridViewCellStyle27;
             NumOfParticipants.HeaderText = "Num of Participants";
             NumOfParticipants.MinimumWidth = 6;
             NumOfParticipants.Name = "NumOfParticipants";
             NumOfParticipants.Resizable = DataGridViewTriState.False;
             NumOfParticipants.Width = 243;
-            // 
-            // lbNoVideo
-            // 
-            lbNoVideo.AutoSize = true;
-            lbNoVideo.Font = new Font("Cambria", 16.2F, FontStyle.Italic, GraphicsUnit.Point, 0);
-            lbNoVideo.ForeColor = Color.DarkSlateGray;
-            lbNoVideo.Location = new Point(398, 258);
-            lbNoVideo.Name = "lbNoVideo";
-            lbNoVideo.Size = new Size(310, 33);
-            lbNoVideo.TabIndex = 5;
-            lbNoVideo.Text = "404 NO VIDEO FOUND :((";
-            lbNoVideo.Visible = false;
-            // 
-            // lbNoUser
-            // 
-            lbNoUser.AutoSize = true;
-            lbNoUser.Font = new Font("Cambria", 16.2F, FontStyle.Italic, GraphicsUnit.Point, 0);
-            lbNoUser.ForeColor = Color.DarkSlateGray;
-            lbNoUser.Location = new Point(398, 258);
-            lbNoUser.Name = "lbNoUser";
-            lbNoUser.Size = new Size(298, 33);
-            lbNoUser.TabIndex = 5;
-            lbNoUser.Text = "404 NO USER FOUND :((";
-            lbNoUser.Visible = false;
-            // 
-            // lbNoEmail
-            // 
-            lbNoEmail.AutoSize = true;
-            lbNoEmail.Font = new Font("Cambria", 16.2F, FontStyle.Italic, GraphicsUnit.Point, 0);
-            lbNoEmail.ForeColor = Color.DarkSlateGray;
-            lbNoEmail.Location = new Point(398, 258);
-            lbNoEmail.Name = "lbNoEmail";
-            lbNoEmail.Size = new Size(312, 33);
-            lbNoEmail.TabIndex = 5;
-            lbNoEmail.Text = "404 NO EMAIL FOUND :((";
-            lbNoEmail.Visible = false;
             // 
             // Admin
             // 

@@ -406,5 +406,21 @@ namespace UITFLIX.Services
             }
         }
 
+        public async Task<string?> DeleteVideo(string videoID, string accessToken)
+        {
+            try
+            {
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+                var response = await httpClient.GetAsync($"/api/Video/Delete-Video/{videoID}");
+                return await response.Content.ReadAsStringAsync();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex.Message}");
+                return null;
+            }
+        }
+
     }
 }
