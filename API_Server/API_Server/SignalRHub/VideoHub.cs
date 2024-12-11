@@ -87,5 +87,11 @@ namespace API_Server.SignalRHub
             await Clients.Group(roomid).SendAsync("ReceivePlaybackPosition", position);
         }
 
+        public async Task DeleteVideoFromQueue(string roomid, string videoid)
+        {
+            roommovies[roomid].Remove(videoid);
+            await Clients.Caller.SendAsync("ReceiveDeletedMovies", roommovies[roomid]);
+        }
+
     }
 }
