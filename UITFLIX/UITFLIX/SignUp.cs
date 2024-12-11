@@ -195,6 +195,7 @@ namespace UITFLIX
             {
                 this.Cursor = Cursors.WaitCursor;
                 var response = await userService.Register(SignUp);
+                this.Cursor = Cursors.Default;
                 //JObject status = JObject.Parse(response);
                 if (response.Contains("thành công!", StringComparison.OrdinalIgnoreCase))
                 {
@@ -208,7 +209,6 @@ namespace UITFLIX
                     MessageBox.Show(response, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                this.Cursor = Cursors.Default;
             }
             catch (Exception ex)
             {

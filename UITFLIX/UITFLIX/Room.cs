@@ -57,7 +57,7 @@ namespace UITFLIX
 
             this.roomid = roomid;
             IDRoom.Text = roomid;
-            //this.Controls.Remove(axWindowsMediaPlayer);
+
             this.axWindowsMediaPlayerVideo = new AxWMPLib.AxWindowsMediaPlayer();
             this.Controls.Add(axWindowsMediaPlayerVideo);
             axWindowsMediaPlayerVideo.Size = new Size(1060, 562);
@@ -78,7 +78,7 @@ namespace UITFLIX
             await UserJoined(roomid);
             if (!axWindowsMediaPlayerVideo.IsHandleCreated)
             {
-                var handle = axWindowsMediaPlayerVideo.Handle; 
+                var handle = axWindowsMediaPlayerVideo.Handle;
             }
             lbname.Text = userinfo["user"]["fullname"].ToString();
             await RegisterEvent();
@@ -107,7 +107,7 @@ namespace UITFLIX
                 listchatgroup.Invoke(new Action(() =>
                 {
                     //listchatgroup.Items.Add(messages);
-                    listchatgroup.Text +="\n"+ messages;
+                    listchatgroup.Text += "\n" + messages;
 
                 }));
                 if (message == "is playing.")
@@ -158,6 +158,7 @@ namespace UITFLIX
                     {
                         axWindowsMediaPlayerVideo.Invoke(new Action(() =>
                         {
+                            axWindowsMediaPlayerVideo.uiMode = "none";
                             axWindowsMediaPlayerVideo.Ctlcontrols.stop();
                             axWindowsMediaPlayerVideo.URL = null;
                             axWindowsMediaPlayerVideo.URL = stream;
@@ -166,9 +167,9 @@ namespace UITFLIX
                     }
                     else
                     {
-                        MessageBox.Show("Test");
+                        MessageBox.Show("Lỗi phát video");
                     }
-                    this.Cursor= Cursors.Default;
+                    this.Cursor = Cursors.Default;
                 }
                 catch (Exception ex)
                 {
@@ -328,7 +329,7 @@ namespace UITFLIX
 
         private void StartSyncTimer()
         {
-            playback = new System.Windows.Forms.Timer { Interval = 1000 }; //Gui video moi 1s
+            playback = new System.Windows.Forms.Timer { Interval = 500 }; //Gui video moi 0.5s
             playback.Tick += async (sender, e) =>
             {
                 if (connection.State == HubConnectionState.Connected)
@@ -347,7 +348,6 @@ namespace UITFLIX
                 return;
             }
 
-            this.Cursor = Cursors.WaitCursor;
             await PlayNextVideo();
         }
 
@@ -362,6 +362,7 @@ namespace UITFLIX
             {
                 while (videoqueue.Count > index)
                 {
+                    this.Cursor = Cursors.WaitCursor;
                     var videoid = videoqueue[index].ToString();
                     //MessageBox.Show(videoid);
                     if (videoid != null)

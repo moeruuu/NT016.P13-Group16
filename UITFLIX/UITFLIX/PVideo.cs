@@ -71,6 +71,7 @@ namespace UITFLIX
                 axWindowsMediaPlayer.URL = null;
                 var id = jvideo["id"].ToString();
                 var stream = await videoService.PlayVideo(id, accesstoken);
+                this.Cursor = Cursors.Default;
                 if (stream != null)
                 {
                     temp = stream;
