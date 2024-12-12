@@ -32,8 +32,6 @@
             abovepanel = new Panel();
             logo = new PictureBox();
             label1 = new Label();
-            iconPictureBoxChat = new FontAwesome.Sharp.IconPictureBox();
-            iconPictureBoxHome = new FontAwesome.Sharp.IconPictureBox();
             labelname = new Label();
             labelemail = new Label();
             labelsubject = new Label();
@@ -49,15 +47,12 @@
             progressBar1 = new ProgressBar();
             abovepanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)logo).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)iconPictureBoxChat).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)iconPictureBoxHome).BeginInit();
             SuspendLayout();
             // 
             // abovepanel
             // 
             abovepanel.Controls.Add(logo);
             abovepanel.Controls.Add(label1);
-            abovepanel.Controls.Add(iconPictureBoxChat);
             abovepanel.Location = new Point(-1, -2);
             abovepanel.Name = "abovepanel";
             abovepanel.Size = new Size(585, 63);
@@ -66,7 +61,7 @@
             // logo
             // 
             logo.Image = Properties.Resources.UITFLIX;
-            logo.Location = new Point(524, 2);
+            logo.Location = new Point(0, 2);
             logo.Margin = new Padding(2);
             logo.Name = "logo";
             logo.Size = new Size(59, 61);
@@ -85,40 +80,6 @@
             label1.Size = new Size(121, 27);
             label1.TabIndex = 2;
             label1.Text = "Contact us";
-            // 
-            // iconPictureBoxChat
-            // 
-            iconPictureBoxChat.BackColor = Color.LightBlue;
-            iconPictureBoxChat.BackgroundImage = Properties.Resources._5962463;
-            iconPictureBoxChat.BackgroundImageLayout = ImageLayout.Zoom;
-            iconPictureBoxChat.ForeColor = SystemColors.ControlText;
-            iconPictureBoxChat.IconChar = FontAwesome.Sharp.IconChar.None;
-            iconPictureBoxChat.IconColor = SystemColors.ControlText;
-            iconPictureBoxChat.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            iconPictureBoxChat.IconSize = 51;
-            iconPictureBoxChat.Location = new Point(3, 0);
-            iconPictureBoxChat.Name = "iconPictureBoxChat";
-            iconPictureBoxChat.Size = new Size(51, 63);
-            iconPictureBoxChat.TabIndex = 1;
-            iconPictureBoxChat.TabStop = false;
-            iconPictureBoxChat.Click += iconPictureBoxChat_Click;
-            // 
-            // iconPictureBoxHome
-            // 
-            iconPictureBoxHome.BackColor = Color.LightBlue;
-            iconPictureBoxHome.BackgroundImage = (Image)resources.GetObject("iconPictureBoxHome.BackgroundImage");
-            iconPictureBoxHome.BackgroundImageLayout = ImageLayout.Zoom;
-            iconPictureBoxHome.ForeColor = SystemColors.ControlText;
-            iconPictureBoxHome.IconChar = FontAwesome.Sharp.IconChar.None;
-            iconPictureBoxHome.IconColor = SystemColors.ControlText;
-            iconPictureBoxHome.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            iconPictureBoxHome.IconSize = 48;
-            iconPictureBoxHome.Location = new Point(2, 552);
-            iconPictureBoxHome.Name = "iconPictureBoxHome";
-            iconPictureBoxHome.Size = new Size(48, 50);
-            iconPictureBoxHome.TabIndex = 2;
-            iconPictureBoxHome.TabStop = false;
-            iconPictureBoxHome.Click += iconPictureBoxHome_Click;
             // 
             // labelname
             // 
@@ -252,9 +213,9 @@
             // progressBar1
             // 
             progressBar1.ForeColor = Color.CadetBlue;
-            progressBar1.Location = new Point(56, 573);
+            progressBar1.Location = new Point(-1, 573);
             progressBar1.Name = "progressBar1";
-            progressBar1.Size = new Size(528, 29);
+            progressBar1.Size = new Size(585, 29);
             progressBar1.TabIndex = 16;
             // 
             // Chat
@@ -277,7 +238,6 @@
             Controls.Add(labelsubject);
             Controls.Add(labelemail);
             Controls.Add(labelname);
-            Controls.Add(iconPictureBoxHome);
             Controls.Add(abovepanel);
             FormBorderStyle = FormBorderStyle.None;
             Icon = (Icon)resources.GetObject("$this.Icon");
@@ -287,8 +247,6 @@
             abovepanel.ResumeLayout(false);
             abovepanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)logo).EndInit();
-            ((System.ComponentModel.ISupportInitialize)iconPictureBoxChat).EndInit();
-            ((System.ComponentModel.ISupportInitialize)iconPictureBoxHome).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -296,8 +254,6 @@
         #endregion
 
         private Panel abovepanel;
-        private FontAwesome.Sharp.IconPictureBox iconPictureBoxChat;
-        private FontAwesome.Sharp.IconPictureBox iconPictureBoxHome;
         private Label label1;
         private PictureBox logo;
         private Label labelname;

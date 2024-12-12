@@ -39,7 +39,7 @@
             tbotp.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             tbotp.ForeColor = Color.FromArgb(0, 64, 64);
             tbotp.Location = new Point(83, 68);
-            tbotp.Margin = new Padding(2, 2, 2, 2);
+            tbotp.Margin = new Padding(2);
             tbotp.Name = "tbotp";
             tbotp.Size = new Size(315, 27);
             tbotp.TabIndex = 0;
@@ -61,7 +61,7 @@
             btnverify.Font = new Font("Cambria", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnverify.ForeColor = Color.FromArgb(0, 64, 64);
             btnverify.Location = new Point(156, 105);
-            btnverify.Margin = new Padding(2, 2, 2, 2);
+            btnverify.Margin = new Padding(2);
             btnverify.Name = "btnverify";
             btnverify.Size = new Size(190, 27);
             btnverify.TabIndex = 2;
@@ -79,10 +79,10 @@
             Controls.Add(label1);
             Controls.Add(tbotp);
             Icon = (Icon)resources.GetObject("$this.Icon");
-            Margin = new Padding(2, 2, 2, 2);
+            Margin = new Padding(2);
             Name = "VerifyOTP";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "VerifyOTP";
+            Text = "Verify OTP";
             ResumeLayout(false);
             PerformLayout();
         }

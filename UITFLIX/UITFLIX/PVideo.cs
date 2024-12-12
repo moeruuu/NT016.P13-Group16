@@ -66,18 +66,15 @@ namespace UITFLIX
         {
             try
             {
-                this.Cursor = Cursors.WaitCursor;
                 axWindowsMediaPlayer.Ctlcontrols.stop();
                 axWindowsMediaPlayer.URL = null;
                 var id = jvideo["id"].ToString();
                 var stream = await videoService.PlayVideo(id, accesstoken);
-                this.Cursor = Cursors.Default;
                 if (stream != null)
                 {
                     temp = stream;
                     axWindowsMediaPlayer.URL = stream;
                     axWindowsMediaPlayer.Ctlcontrols.play();
-                    this.Cursor = Cursors.Default;
                 }
                 await videoService.SaveWatchedVideo(jvideo["id"].ToString(), accesstoken);
             }

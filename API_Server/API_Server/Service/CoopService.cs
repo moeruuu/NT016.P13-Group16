@@ -151,7 +151,7 @@ namespace API_Server.Service
                 return false;
             }
         }
-        }
+        
 
         public async Task<List<object>> GetAllRooms()
         {

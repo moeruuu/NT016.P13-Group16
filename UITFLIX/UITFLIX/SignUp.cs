@@ -193,9 +193,7 @@ namespace UITFLIX
             };
             try
             {
-                this.Cursor = Cursors.WaitCursor;
                 var response = await userService.Register(SignUp);
-                this.Cursor = Cursors.Default;
                 //JObject status = JObject.Parse(response);
                 if (response.Contains("thành công!", StringComparison.OrdinalIgnoreCase))
                 {

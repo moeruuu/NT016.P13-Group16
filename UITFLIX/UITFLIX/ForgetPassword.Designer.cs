@@ -46,6 +46,7 @@
             txtCfPass.Location = new Point(231, 105);
             txtCfPass.Margin = new Padding(2);
             txtCfPass.Name = "txtCfPass";
+            txtCfPass.PasswordChar = '*';
             txtCfPass.Size = new Size(368, 27);
             txtCfPass.TabIndex = 25;
             // 
@@ -53,9 +54,10 @@
             // 
             txtNewPass.Font = new Font("Cambria", 10F);
             txtNewPass.ForeColor = Color.CadetBlue;
-            txtNewPass.Location = new Point(231, 68);
+            txtNewPass.Location = new Point(231, 70);
             txtNewPass.Margin = new Padding(2);
             txtNewPass.Name = "txtNewPass";
+            txtNewPass.PasswordChar = '*';
             txtNewPass.Size = new Size(368, 27);
             txtNewPass.TabIndex = 24;
             // 
@@ -63,7 +65,7 @@
             // 
             txtEmail.Font = new Font("Cambria", 10F);
             txtEmail.ForeColor = Color.CadetBlue;
-            txtEmail.Location = new Point(231, 36);
+            txtEmail.Location = new Point(231, 35);
             txtEmail.Margin = new Padding(2);
             txtEmail.Name = "txtEmail";
             txtEmail.Size = new Size(368, 27);
@@ -74,7 +76,7 @@
             lbcfpass.AutoSize = true;
             lbcfpass.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lbcfpass.ForeColor = Color.White;
-            lbcfpass.Location = new Point(36, 107);
+            lbcfpass.Location = new Point(36, 105);
             lbcfpass.Margin = new Padding(2, 0, 2, 0);
             lbcfpass.Name = "lbcfpass";
             lbcfpass.Size = new Size(175, 20);
@@ -98,7 +100,7 @@
             lbEmail.AutoSize = true;
             lbEmail.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lbEmail.ForeColor = Color.White;
-            lbEmail.Location = new Point(36, 38);
+            lbEmail.Location = new Point(36, 35);
             lbEmail.Margin = new Padding(2, 0, 2, 0);
             lbEmail.Name = "lbEmail";
             lbEmail.Size = new Size(51, 20);
@@ -107,6 +109,8 @@
             // 
             // btnSend
             // 
+            btnSend.Font = new Font("Cambria", 10.2F, FontStyle.Bold);
+            btnSend.ForeColor = Color.MidnightBlue;
             btnSend.Location = new Point(505, 143);
             btnSend.Name = "btnSend";
             btnSend.Size = new Size(94, 29);
@@ -117,6 +121,8 @@
             // 
             // btnCancel
             // 
+            btnCancel.Font = new Font("Cambria", 10.2F, FontStyle.Bold);
+            btnCancel.ForeColor = Color.MidnightBlue;
             btnCancel.Location = new Point(390, 143);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(94, 29);
@@ -139,13 +145,13 @@
             Controls.Add(lbcfpass);
             Controls.Add(lbNewpass);
             Controls.Add(lbEmail);
-            FormBorderStyle = FormBorderStyle.FixedDialog;
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "ForgetPassword";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "ForgetPassword";
+            Text = "Forget Password";
             ResumeLayout(false);
             PerformLayout();
         }

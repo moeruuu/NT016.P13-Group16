@@ -99,7 +99,6 @@ namespace UITFLIX
             }
             try
             {
-                this.Cursor = Cursors.WaitCursor;
                 var User = new
                 {
                     username = username,
@@ -110,8 +109,6 @@ namespace UITFLIX
                 var response = await httpClient.PostAsync("/api/User/LogIn", content);
                 var info = await response.Content.ReadAsStringAsync();
                 JObject res = JObject.Parse(info);
-
-                this.Cursor = Cursors.Default;
                 //MessageBox.Show(Userinfo.ToString());
                 //MessageBox.Show(response.ToString());
                 if (response.IsSuccessStatusCode)
@@ -133,6 +130,7 @@ namespace UITFLIX
                 else
                 {
                     MessageBox.Show(info);
+                    return;
                 }
             }
             catch (Exception ex)

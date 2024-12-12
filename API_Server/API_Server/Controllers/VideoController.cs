@@ -217,11 +217,11 @@ namespace API_Server.Controllers
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         [HttpDelete("Delete-Video/{id}")]
-        public async Task<IActionResult> DeleteVideo(string videoID)
+        public async Task<IActionResult> DeleteVideo([FromRoute]string id)
         {
             try
             {
-                var Delete = await videoService.DeleteVideo(videoID);
+                var Delete = await videoService.DeleteVideo(id);
                 if (Delete)
                 {
                     return Ok("Thành công");
