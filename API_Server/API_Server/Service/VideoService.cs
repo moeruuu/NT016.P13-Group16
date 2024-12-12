@@ -170,17 +170,15 @@ namespace API_Server.Service
         public async Task<bool> DeleteVideo(string id)
         {
             var filter = Builders<Video>.Filter.Eq(v => v.id, id);
-            var getfilm = await GetVideoByID(id);
+            var getVideo = await GetVideoByID(id);
 
-            if (getfilm == null)
+            if (getVideo == null)
             {
                 return false;
             }
-            /*Console.WriteLine($"ID hợp lệ: {id}");
-            Console.WriteLine(getfilm.ToString());*/
-            var filefilter = Builders<GridFSFileInfo>.Filter.Eq(info => info.Length, getfilm.Size);
+
+            var filefilter = Builders<GridFSFileInfo>.Filter.Eq(info => info.Length, getVideo.Size);
             var file = await gridFS.Find(filefilter).FirstOrDefaultAsync();
-            //Console.WriteLine(file.ToString());
 
             if (file == null)
             {
@@ -204,7 +202,7 @@ namespace API_Server.Service
                 newVideosList.Add(new
                 {
                     Video = video,
-                    Username = user.Username,
+                    Uploader = (user!=null)?user.Username:"Not found",
                 });
             }
             return newVideosList;
