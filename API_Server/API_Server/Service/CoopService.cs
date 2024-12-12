@@ -10,10 +10,12 @@ namespace API_Server.Service
     public class CoopService
     {
         private readonly IMongoCollection<Room> rooms;
+        private readonly IMongoCollection<User> users;
 
-        public CoopService(IMongoDatabase database)
+        public CoopService(IConfiguration configuration, IMongoDatabase database)
         {
             rooms = database.GetCollection<Room>("Rooms");
+            users = database.GetCollection<User>("Users");
         }
 
         public async Task<Room> CreateRoom(ObjectId Userid)
@@ -148,6 +150,28 @@ namespace API_Server.Service
             {
                 return false;
             }
+        }
+        }
+
+        public async Task<List<object>> GetAllRooms()
+        {
+            var roomsList = await rooms.Find(new BsonDocument()).ToListAsync();
+
+            var newRoomsList = new List<object>();
+            foreach (var room in roomsList)
+            {
+                ObjectId.TryParse(room.HostId, out ObjectId hostID);
+                var filter = Builders<User>.Filter.Eq(u => u.UserId, hostID);
+                var user = await users.Find(filter).FirstOrDefaultAsync();
+                var countPtcp = room.ToBsonDocument()["ParticipantId"].AsBsonArray.Count;
+                newRoomsList.Add(new
+                {
+                    Room = room,
+                    Host = user.Username,
+                    Participants = countPtcp
+                });
+            }
+            return newRoomsList;
         }
     }
 

@@ -21,7 +21,9 @@ namespace UITFLIX
         private readonly string accesstoken;
 
         private readonly UserService userService;
+        private readonly VideoService videoService;
         private readonly MailService mailService;
+        private readonly CoopService coopService;
 
         public static Point? adminLocation;
         public Admin(JObject user, string token)
@@ -40,7 +42,9 @@ namespace UITFLIX
             userinfo = user;
             accesstoken = token;
             userService = new UserService();
+            videoService = new VideoService();
             mailService = new MailService(accesstoken);
+            coopService = new CoopService();
 
             tbSearch.Text = " Search";
             tbSearch.ForeColor = Color.CadetBlue;
@@ -169,13 +173,20 @@ namespace UITFLIX
             progressBar.Style = ProgressBarStyle.Marquee;
             var jArray = await mailService.GetEmails();
 
+            if (jArray == null)
+            {
+                lbNoEmail.Visible = true;
+                progressBar.Visible = false;
+                return;
+            }
+
             try
             {
                 foreach (var email in jArray)
                 {
                     dgvEmails.Rows.Add(email["date"], email["from"], email["subject"], email["body"]);
-                    dgvEmails.Sort(dgvEmails.Columns["Date"], ListSortDirection.Descending);
                 }
+                dgvEmails.Sort(dgvEmails.Columns["Date"], ListSortDirection.Descending);
             }
             catch (Exception ex)
             {
@@ -193,6 +204,13 @@ namespace UITFLIX
             progressBar.Style = ProgressBarStyle.Marquee;
             var jArray = await userService.GetUsers(accesstoken);
             int num = 1;
+
+            if (jArray == null)
+            {
+                lbNoUser.Visible = true;
+                progressBar.Visible = false;
+                return;
+            }
 
             try
             {
@@ -236,15 +254,91 @@ namespace UITFLIX
         }
 
         //Load tab Videos
-        private void VideosLoading()
+        private async void VideosLoading()
         {
+            dgvVideos.Rows.Clear();
+            progressBar.Visible = true;
+            progressBar.Style = ProgressBarStyle.Marquee;
+            var jArray = await videoService.GetVideos(accesstoken);
+            int num = 1;
 
+            if (jArray == null)
+            {
+                lbNoVideo.Visible = true;
+                progressBar.Visible = false;
+                return;
+            }
+
+            try
+            {
+                foreach (var video in jArray)
+                {
+                    string id = "******" + video["video"]["id"].ToString().Substring(video["video"]["id"].ToString().Length - 6);
+
+                    dgvVideos.Rows.Add(num, id, video["username"], video["video"]["uploadedDate"], video["video"]["title"], video["video"]["rating"]);
+                    num++;
+                }
+                dgvVideos.Sort(dgvVideos.Columns["UploadedDate"], ListSortDirection.Descending);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex.Message}\n{ex.StackTrace}");
+            }
+
+            progressBar.Visible = false;
+            dgvVideos.CellFormatting += dgvVideos_CellFormatting;
+        }
+
+        private void dgvVideos_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (dgvVideos.Columns[e.ColumnIndex].Name == "Rating")
+            {
+                var cellValue = double.Parse(e.Value?.ToString());
+                if (cellValue >= 4.0)
+                {
+                    e.CellStyle.ForeColor = Color.Green;
+                }
+                else if (cellValue >= 2.5)
+                {
+                    e.CellStyle.ForeColor = Color.Goldenrod;
+                }
+                else
+                {
+                    e.CellStyle.ForeColor = Color.Red;
+                }    
+            }
         }
 
         //Load tab Rooms
-        private void RoomsLoading()
+        private async void RoomsLoading()
         {
+            dgvRooms.Rows.Clear();
+            progressBar.Visible = true;
+            progressBar.Style = ProgressBarStyle.Marquee;
+            var jArray = await coopService.GetRooms(accesstoken);
+            int num = 1;
 
+            if (jArray == null)
+            {
+                lbNoRoom.Visible = true;
+                progressBar.Visible = false;
+                return;
+            }
+
+            try
+            {
+                foreach (var room in jArray)
+                {
+                    dgvRooms.Rows.Add(num, room["room"]["roomId"], room["host"], room["room"]["startTime"], room["participants"]);
+                    num++;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex.Message}\n{ex.StackTrace}");
+            }
+
+            progressBar.Visible = false;
         }
     }
 

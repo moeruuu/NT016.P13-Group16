@@ -14,7 +14,7 @@ namespace API_Server.Service
     {
         private readonly IMongoCollection<WatchedVideo> watchedList;
         private readonly IMongoCollection<Video> videos;
-        private readonly User user;
+        private readonly IMongoCollection<User> users;
         private readonly ImgurService imgurService;
         private readonly IGridFSBucket gridFS;
 
@@ -25,6 +25,7 @@ namespace API_Server.Service
             videos = database.GetCollection<Video>("Videos");
             gridFS = new GridFSBucket(database);
             watchedList = database.GetCollection<WatchedVideo>("WatchedVideos");
+            users = database.GetCollection<User>("Users");
 
             this.imgurService = imgurService;
         }
@@ -190,9 +191,23 @@ namespace API_Server.Service
             return result.DeletedCount > 0;
         }
 
-        public async Task<List<Video>> GetAllVideos()
+        public async Task<List<object>> GetAllVideos()
         {
-            return await videos.Find(new BsonDocument()).ToListAsync();
+            var videosList = await videos.Find(new BsonDocument()).ToListAsync();
+
+            var newVideosList = new List<object>();
+            foreach (var video in videosList)
+            {
+                var filter = Builders<User>.Filter.Eq(u => u.UserId, video.UploaderID);
+                var user = await users.Find(filter).FirstOrDefaultAsync();
+
+                newVideosList.Add(new
+                {
+                    Video = video,
+                    Username = user.Username,
+                });
+            }
+            return newVideosList;
         }
 
         public async Task<Video> GetVideoByID(string id)
@@ -299,5 +314,6 @@ namespace API_Server.Service
             var filter = Builders<Video>.Filter.Eq(v => v.UploaderID, userID);
             return videos.CountDocuments(filter);
         }
+
     }
 }
