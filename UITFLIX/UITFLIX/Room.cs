@@ -374,6 +374,12 @@ namespace UITFLIX
                         {
                             await connection.InvokeAsync("SendMessage", getmovie["title"].ToString(), roomid, $"is playing.");
                         }
+
+                        while (axWindowsMediaPlayerVideo.playState != WMPPlayState.wmppsMediaEnded)
+                        {
+                            await Task.Delay(1000); 
+                        }
+
                     }
                     index++;
                 }
