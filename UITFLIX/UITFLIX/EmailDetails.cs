@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Web.WebView2.WinForms;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,7 +13,8 @@ namespace UITFLIX
 {
     public partial class EmailDetails : Form
     {
-        public EmailDetails()
+        private readonly WebView2 webView2;
+        public EmailDetails(string subject, string from, string date, string body)
         {
             InitializeComponent();
         }
