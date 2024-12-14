@@ -35,10 +35,14 @@
             lbName = new Label();
             pbLogo = new PictureBox();
             logout = new PictureBox();
+            labelFrom = new Label();
+            labelSubject = new Label();
+            webView21 = new Microsoft.Web.WebView2.WinForms.WebView2();
             panelInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbAvatar).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbLogo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)logout).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)webView21).BeginInit();
             SuspendLayout();
             // 
             // panelInfo
@@ -106,22 +110,63 @@
             logout.BackColor = Color.Transparent;
             logout.Cursor = Cursors.Hand;
             logout.Image = (Image)resources.GetObject("logout.Image");
-            logout.Location = new Point(776, 424);
+            logout.Location = new Point(763, 486);
             logout.Margin = new Padding(2);
             logout.Name = "logout";
-            logout.Size = new Size(24, 24);
+            logout.Size = new Size(37, 39);
             logout.SizeMode = PictureBoxSizeMode.StretchImage;
             logout.TabIndex = 7;
             logout.TabStop = false;
+            // 
+            // labelFrom
+            // 
+            labelFrom.AutoSize = true;
+            labelFrom.BackColor = Color.Transparent;
+            labelFrom.Font = new Font("Cambria", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelFrom.ForeColor = Color.DarkCyan;
+            labelFrom.Location = new Point(38, 102);
+            labelFrom.Name = "labelFrom";
+            labelFrom.Size = new Size(59, 23);
+            labelFrom.TabIndex = 8;
+            labelFrom.Text = "From";
+            // 
+            // labelSubject
+            // 
+            labelSubject.AutoSize = true;
+            labelSubject.BackColor = Color.Transparent;
+            labelSubject.Font = new Font("Cambria", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelSubject.ForeColor = Color.DarkCyan;
+            labelSubject.Location = new Point(38, 139);
+            labelSubject.Name = "labelSubject";
+            labelSubject.Size = new Size(77, 23);
+            labelSubject.TabIndex = 9;
+            labelSubject.Text = "Subject";
+            // 
+            // webView21
+            // 
+            webView21.AllowExternalDrop = true;
+            webView21.CreationProperties = null;
+            webView21.DefaultBackgroundColor = Color.White;
+            webView21.ForeColor = Color.CadetBlue;
+            webView21.Location = new Point(27, 189);
+            webView21.Name = "webView21";
+            webView21.Size = new Size(745, 278);
+            webView21.TabIndex = 11;
+            webView21.ZoomFactor = 1D;
             // 
             // EmailDetails
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            BackColor = Color.LightBlue;
+            ClientSize = new Size(800, 527);
             ControlBox = false;
+            Controls.Add(webView21);
+            Controls.Add(labelSubject);
+            Controls.Add(labelFrom);
             Controls.Add(logout);
             Controls.Add(panelInfo);
+            FormBorderStyle = FormBorderStyle.None;
             Name = "EmailDetails";
             Text = "Email Details";
             TransparencyKey = Color.Transparent;
@@ -130,7 +175,9 @@
             ((System.ComponentModel.ISupportInitialize)pbAvatar).EndInit();
             ((System.ComponentModel.ISupportInitialize)pbLogo).EndInit();
             ((System.ComponentModel.ISupportInitialize)logout).EndInit();
+            ((System.ComponentModel.ISupportInitialize)webView21).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -141,5 +188,8 @@
         private Label lbName;
         private PictureBox pbLogo;
         private PictureBox logout;
+        private Label labelFrom;
+        private Label labelSubject;
+        private Microsoft.Web.WebView2.WinForms.WebView2 webView21;
     }
 }
