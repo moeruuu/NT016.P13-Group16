@@ -216,20 +216,15 @@ namespace API_Server.Controllers
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
-        [HttpDelete("Delete-Video/{IDVideo}")]
-        public async Task<IActionResult> DeleteVideo(string IDVideo)
+        [HttpDelete("Delete-Video/{id}")]
+        public async Task<IActionResult> DeleteVideo([FromRoute]string id)
         {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (string.IsNullOrEmpty(userId) || !ObjectId.TryParse(userId, out ObjectId UserId))
-            {
-                return Unauthorized("Không thể xác thực người dùng.");
-            }
             try
             {
-                var Delete = await videoService.DeleteVideo(IDVideo);
+                var Delete = await videoService.DeleteVideo(id);
                 if (Delete)
                 {
-                    return Ok("Xóa video thành công!");
+                    return Ok("Thành công");
                 }
                 else
                 {

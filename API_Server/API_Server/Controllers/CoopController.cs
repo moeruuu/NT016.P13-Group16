@@ -221,5 +221,27 @@ namespace API_Server.Controllers
                 return Ok(rooms);
             else return NotFound("Không tìm thấy phòng nào cả");
         }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPatch("DeleteVideo")]
+        public async Task<IActionResult> DeleteVideo(AddVideoDTOs deletevideo)
+        {
+            try
+            {
+                var deleted = await coopService.DeleteVideoFromQueue(deletevideo);
+                if (deleted)
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

@@ -26,19 +26,9 @@ namespace UITFLIX
             chatService = new MailService(accessToken);
         }
 
-        private void iconPictureBoxChat_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void iconPictureBoxHome_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
         private void logo_Click(object sender, EventArgs e)
         {
-
+            this.Close();
         }
 
         private async void buttonSend_Click(object sender, EventArgs e)

@@ -26,6 +26,10 @@ namespace UITFLIX
         private readonly CoopService coopService;
 
         public static Point? adminLocation;
+
+        private int selectedIndexUser = -1;
+        private int selectedIndexVideo = -1;
+
         public Admin(JObject user, string token)
         {
             if (adminLocation.HasValue)
@@ -156,13 +160,29 @@ namespace UITFLIX
         {
             int selectedIndex = tcData.SelectedIndex;
             if (selectedIndex == 0 || selectedIndex == -1)
+            {
                 EmailsLoading();
+                iconRemove.Enabled = false;
+                iconRemove.IconColor = Color.Gray;
+            }
             else if (selectedIndex == 1)
+            {
                 UsersLoading();
+                iconRemove.Enabled = true;
+                iconRemove.IconColor = Color.DarkRed;
+            }
             else if (selectedIndex == 2)
+            {
                 VideosLoading();
+                iconRemove.Enabled = true;
+                iconRemove.IconColor = Color.DarkRed;
+            }
             else if (selectedIndex == 3)
+            {
                 RoomsLoading();
+                iconRemove.Enabled = false;
+                iconRemove.IconColor = Color.Gray;
+            }
         }
 
         //Load tab Emails
@@ -200,6 +220,7 @@ namespace UITFLIX
         private async void UsersLoading()
         {
             dgvUsers.Rows.Clear();
+            selectedIndexUser = -1;
             progressBar.Visible = true;
             progressBar.Style = ProgressBarStyle.Marquee;
             var jArray = await userService.GetUsers(accesstoken);
@@ -216,7 +237,8 @@ namespace UITFLIX
             {
                 foreach (var user in jArray)
                 {
-                    string id = "******" + user["id"].ToString().Substring(user["id"].ToString().Length - 6);
+                    string id = user["id"].ToString();
+                    string displayedId = "******" + id.Substring(id.Length - 6);
 
                     string online;
                     if (user["user"]["isOnline"].ToString() == "False")
@@ -224,7 +246,10 @@ namespace UITFLIX
                     else
                         online = "ON";
 
-                    dgvUsers.Rows.Add(num, id, user["user"]["email"], user["user"]["username"], user["user"]["fullname"], online, user["videosCount"] + " videos");
+
+                    int rowIndex = dgvUsers.Rows.Add(num, displayedId, user["user"]["email"], user["user"]["username"], user["user"]["fullname"], online, user["videosCount"] + " videos");
+
+                    dgvUsers.Rows[rowIndex].Cells["UserID"].Tag = id;
                     num++;
                 }
             }
@@ -257,6 +282,7 @@ namespace UITFLIX
         private async void VideosLoading()
         {
             dgvVideos.Rows.Clear();
+            selectedIndexVideo = -1;
             progressBar.Visible = true;
             progressBar.Style = ProgressBarStyle.Marquee;
             var jArray = await videoService.GetVideos(accesstoken);
@@ -273,9 +299,10 @@ namespace UITFLIX
             {
                 foreach (var video in jArray)
                 {
-                    string id = "******" + video["video"]["id"].ToString().Substring(video["video"]["id"].ToString().Length - 6);
-
-                    dgvVideos.Rows.Add(num, id, video["username"], video["video"]["uploadedDate"], video["video"]["title"], video["video"]["rating"]);
+                    string id = video["video"]["id"].ToString();
+                    string displayedId = "******" + id.Substring(id.Length - 6);
+                    int rowIndex = dgvVideos.Rows.Add(num, displayedId, video["uploader"], video["video"]["uploadedDate"], video["video"]["title"], video["video"]["rating"]);
+                    dgvVideos.Rows[rowIndex].Cells["VideoID"].Tag = id;
                     num++;
                 }
                 dgvVideos.Sort(dgvVideos.Columns["UploadedDate"], ListSortDirection.Descending);
@@ -341,14 +368,89 @@ namespace UITFLIX
             progressBar.Visible = false;
         }
 
-        private void btnSearch_Click(object sender, EventArgs e)
+        private void dgvUsers_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-
+            if (e.RowIndex > 0)
+                selectedIndexUser = e.RowIndex;
         }
 
-        private void iconRemove_Click(object sender, EventArgs e)
+        private void dgvVideos_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (e.RowIndex > 0)
+                selectedIndexVideo = e.RowIndex;
+        }
 
+        //Button Remove
+        private async void iconRemove_Click(object sender, EventArgs e)
+        {
+            int selectedTab = tcData.SelectedIndex;
+            if (selectedTab == 0 || selectedTab == 3)    
+                return;
+            if (selectedTab == 1)
+            {
+                if (selectedIndexUser == -1)
+                {
+                    MessageBox.Show("Please choose a user to remove", "Notice", MessageBoxButtons.OK);
+                    return;
+                }
+                else
+                {
+                    if (dgvUsers.Rows[selectedIndexUser].Cells[5].Value.ToString() == "ON")
+                    {
+                        MessageBox.Show("This user is online. You are not able to delete this user now!", "Notice", MessageBoxButtons.OK);
+                        return;
+                    }
+                    else
+                    {
+                        var res = MessageBox.Show("\"Are you sure you want to permanently delete this user?", "Warning!", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        if (res == DialogResult.Yes)
+                        {
+                            var response = await userService.DeleteUser(dgvUsers.Rows[selectedIndexUser].Cells["UserID"].Tag.ToString(), accesstoken);
+                            if(response == "Thành công")
+                            {
+                                MessageBox.Show("Deleted user successfully", "Success", MessageBoxButtons.OK);
+                                dgvUsers.Rows.RemoveAt(selectedIndexUser);
+                                selectedIndexUser = -1;
+                                return;
+                            }   
+                            else
+                            {
+                                MessageBox.Show("Failed to delete this user", "Error", MessageBoxButtons.OKCancel);
+                                return;
+                            }    
+                        }
+                    }
+                }
+            }
+            else if (selectedTab == 2)
+            {
+                if (selectedIndexVideo == -1)
+                {
+                    MessageBox.Show("Please choose a video to remove", "Notice", MessageBoxButtons.OK);
+                    return;
+                }
+                else
+                {
+                    var res = MessageBox.Show("Are you sure you want to permanently delete this video?", "Warning!", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (res == DialogResult.Yes)
+                    {
+                        var response = await videoService.DeleteVideo(dgvVideos.Rows[selectedIndexVideo].Cells["VideoID"].Tag.ToString(), accesstoken);
+                        MessageBox.Show(dgvVideos.Rows[selectedIndexVideo].Cells["VideoID"].Tag.ToString());
+                        if (response == "Thành công")
+                        {
+                            MessageBox.Show("Deleted video successfully", "Success", MessageBoxButtons.OK);
+                            dgvVideos.Rows.RemoveAt(selectedIndexVideo);
+                            selectedIndexVideo = -1;
+                            return;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Failed to delete this video", "Error", MessageBoxButtons.OKCancel);
+                            return;
+                        }
+                    }
+                }
+            }    
         }
     }
 

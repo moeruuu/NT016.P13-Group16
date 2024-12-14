@@ -59,12 +59,11 @@
             panel1.Controls.Add(IDRoom);
             panel1.Controls.Add(label3);
             panel1.Controls.Add(logo);
-            panel1.Dock = DockStyle.Top;
             panel1.Font = new Font("Cambria", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            panel1.Location = new Point(10, 0);
+            panel1.Location = new Point(-1, 0);
             panel1.Margin = new Padding(2);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1480, 53);
+            panel1.Size = new Size(1511, 53);
             panel1.TabIndex = 0;
             // 
             // lbname
@@ -84,7 +83,7 @@
             linkleaveroom.AutoSize = true;
             linkleaveroom.Font = new Font("Cambria", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkleaveroom.LinkColor = Color.White;
-            linkleaveroom.Location = new Point(1376, 28);
+            linkleaveroom.Location = new Point(1386, 28);
             linkleaveroom.Margin = new Padding(2, 0, 2, 0);
             linkleaveroom.Name = "linkleaveroom";
             linkleaveroom.Size = new Size(112, 23);
@@ -161,14 +160,14 @@
             txtChat.Location = new Point(1102, 614);
             txtChat.Margin = new Padding(2);
             txtChat.Name = "txtChat";
-            txtChat.Size = new Size(284, 27);
+            txtChat.Size = new Size(318, 27);
             txtChat.TabIndex = 7;
             // 
             // btnsendmessage
             // 
             btnsendmessage.Font = new Font("Cambria", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnsendmessage.ForeColor = Color.MidnightBlue;
-            btnsendmessage.Location = new Point(1390, 614);
+            btnsendmessage.Location = new Point(1424, 614);
             btnsendmessage.Margin = new Padding(2);
             btnsendmessage.Name = "btnsendmessage";
             btnsendmessage.Size = new Size(60, 27);
@@ -207,7 +206,7 @@
             dgvQueue.Margin = new Padding(2);
             dgvQueue.Name = "dgvQueue";
             dgvQueue.RowHeadersWidth = 62;
-            dgvQueue.Size = new Size(348, 248);
+            dgvQueue.Size = new Size(382, 248);
             dgvQueue.TabIndex = 12;
             // 
             // ColumnNum
@@ -237,13 +236,13 @@
             // listchatgroup
             // 
             listchatgroup.BorderStyle = BorderStyle.FixedSingle;
-            listchatgroup.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            listchatgroup.Font = new Font("Cambria", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             listchatgroup.ForeColor = Color.MidnightBlue;
             listchatgroup.Location = new Point(1101, 79);
             listchatgroup.Name = "listchatgroup";
             listchatgroup.ReadOnly = true;
             listchatgroup.ScrollBars = RichTextBoxScrollBars.Horizontal;
-            listchatgroup.Size = new Size(349, 529);
+            listchatgroup.Size = new Size(383, 529);
             listchatgroup.TabIndex = 13;
             listchatgroup.Text = "";
             // 
@@ -252,7 +251,7 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightBlue;
-            ClientSize = new Size(1490, 1000);
+            ClientSize = new Size(1510, 1000);
             ControlBox = false;
             Controls.Add(listchatgroup);
             Controls.Add(dgvQueue);
