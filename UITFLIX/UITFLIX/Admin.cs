@@ -305,7 +305,7 @@ namespace UITFLIX
                 else
                 {
                     e.CellStyle.ForeColor = Color.Red;
-                }    
+                }
             }
         }
 
@@ -339,6 +339,16 @@ namespace UITFLIX
             }
 
             progressBar.Visible = false;
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void iconRemove_Click(object sender, EventArgs e)
+        {
+
         }
     }
 
