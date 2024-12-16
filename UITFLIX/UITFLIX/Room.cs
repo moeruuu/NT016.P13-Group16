@@ -106,7 +106,6 @@ namespace UITFLIX
                 string messages = $"{user}: {message}";
                 listchatgroup.Invoke(new Action(() =>
                 {
-                    //listchatgroup.Items.Add(messages);
                     listchatgroup.Text += "\n" + messages;
 
                 }));
@@ -145,7 +144,7 @@ namespace UITFLIX
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
+                        MessageBox.Show(ex.Message + '\n' + ex.StackTrace, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 });
 
@@ -167,13 +166,13 @@ namespace UITFLIX
                     }
                     else
                     {
-                        MessageBox.Show("Lỗi phát video");
+                        MessageBox.Show("Error when playing video", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     this.Cursor = Cursors.Default;
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
+                    MessageBox.Show(ex.Message + '\n' + ex.StackTrace, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             });
 
@@ -241,7 +240,7 @@ namespace UITFLIX
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
+                MessageBox.Show(ex.Message + '\n' + ex.StackTrace, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -295,7 +294,7 @@ namespace UITFLIX
                 }
                 else
                 {
-                    MessageBox.Show("Không thể thêm video");
+                    MessageBox.Show("Can't add video", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
@@ -306,7 +305,7 @@ namespace UITFLIX
 
         private async void linkleaveroom_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            var res = MessageBox.Show("Do you wanna leave room?", "Question", MessageBoxButtons.YesNo);
+            var res = MessageBox.Show("Do you wanna leave room?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (res == DialogResult.Yes)
             {
                 axWindowsMediaPlayerVideo.Ctlcontrols.pause();
@@ -386,7 +385,7 @@ namespace UITFLIX
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Không thể phát video! \n" + ex.Message);
+                MessageBox.Show("Không thể phát video! \n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

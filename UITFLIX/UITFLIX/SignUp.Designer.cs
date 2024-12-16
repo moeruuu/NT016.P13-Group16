@@ -68,7 +68,7 @@
             iconPictureBox1.IconFont = FontAwesome.Sharp.IconFont.Auto;
             iconPictureBox1.IconSize = 64;
             iconPictureBox1.Location = new Point(10, 10);
-            iconPictureBox1.Margin = new Padding(2, 2, 2, 2);
+            iconPictureBox1.Margin = new Padding(2);
             iconPictureBox1.Name = "iconPictureBox1";
             iconPictureBox1.Size = new Size(64, 64);
             iconPictureBox1.TabIndex = 0;
@@ -81,7 +81,7 @@
             txtFullname.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txtFullname.ForeColor = Color.CadetBlue;
             txtFullname.Location = new Point(79, 112);
-            txtFullname.Margin = new Padding(2, 2, 2, 2);
+            txtFullname.Margin = new Padding(2);
             txtFullname.Name = "txtFullname";
             txtFullname.Size = new Size(296, 20);
             txtFullname.TabIndex = 1;
@@ -90,7 +90,7 @@
             // 
             panel1.BackColor = Color.Azure;
             panel1.Location = new Point(33, 136);
-            panel1.Margin = new Padding(2, 2, 2, 2);
+            panel1.Margin = new Padding(2);
             panel1.Name = "panel1";
             panel1.Size = new Size(342, 1);
             panel1.TabIndex = 2;
@@ -99,7 +99,7 @@
             // 
             panel2.BackColor = Color.Azure;
             panel2.Location = new Point(33, 200);
-            panel2.Margin = new Padding(2, 2, 2, 2);
+            panel2.Margin = new Padding(2);
             panel2.Name = "panel2";
             panel2.Size = new Size(342, 1);
             panel2.TabIndex = 4;
@@ -111,7 +111,7 @@
             txtPassword.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txtPassword.ForeColor = Color.CadetBlue;
             txtPassword.Location = new Point(79, 304);
-            txtPassword.Margin = new Padding(2, 2, 2, 2);
+            txtPassword.Margin = new Padding(2);
             txtPassword.Name = "txtPassword";
             txtPassword.Size = new Size(296, 20);
             txtPassword.TabIndex = 3;
@@ -120,7 +120,7 @@
             // 
             panel3.BackColor = Color.Azure;
             panel3.Location = new Point(33, 264);
-            panel3.Margin = new Padding(2, 2, 2, 2);
+            panel3.Margin = new Padding(2);
             panel3.Name = "panel3";
             panel3.Size = new Size(342, 1);
             panel3.TabIndex = 4;
@@ -132,7 +132,7 @@
             txtEmail.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txtEmail.ForeColor = Color.CadetBlue;
             txtEmail.Location = new Point(79, 240);
-            txtEmail.Margin = new Padding(2, 2, 2, 2);
+            txtEmail.Margin = new Padding(2);
             txtEmail.Name = "txtEmail";
             txtEmail.Size = new Size(296, 20);
             txtEmail.TabIndex = 3;
@@ -141,7 +141,7 @@
             // 
             panel4.BackColor = Color.Azure;
             panel4.Location = new Point(33, 328);
-            panel4.Margin = new Padding(2, 2, 2, 2);
+            panel4.Margin = new Padding(2);
             panel4.Name = "panel4";
             panel4.Size = new Size(342, 1);
             panel4.TabIndex = 4;
@@ -153,7 +153,7 @@
             txtUsername.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txtUsername.ForeColor = Color.CadetBlue;
             txtUsername.Location = new Point(79, 176);
-            txtUsername.Margin = new Padding(2, 2, 2, 2);
+            txtUsername.Margin = new Padding(2);
             txtUsername.Name = "txtUsername";
             txtUsername.Size = new Size(296, 20);
             txtUsername.TabIndex = 3;
@@ -162,7 +162,7 @@
             // 
             panel5.BackColor = Color.Azure;
             panel5.Location = new Point(33, 392);
-            panel5.Margin = new Padding(2, 2, 2, 2);
+            panel5.Margin = new Padding(2);
             panel5.Name = "panel5";
             panel5.Size = new Size(342, 1);
             panel5.TabIndex = 6;
@@ -174,7 +174,7 @@
             txtCFPassword.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txtCFPassword.ForeColor = Color.CadetBlue;
             txtCFPassword.Location = new Point(79, 368);
-            txtCFPassword.Margin = new Padding(2, 2, 2, 2);
+            txtCFPassword.Margin = new Padding(2);
             txtCFPassword.Name = "txtCFPassword";
             txtCFPassword.Size = new Size(296, 20);
             txtCFPassword.TabIndex = 5;
@@ -187,7 +187,7 @@
             iconPictureBox2.IconFont = FontAwesome.Sharp.IconFont.Auto;
             iconPictureBox2.IconSize = 30;
             iconPictureBox2.Location = new Point(33, 104);
-            iconPictureBox2.Margin = new Padding(2, 2, 2, 2);
+            iconPictureBox2.Margin = new Padding(2);
             iconPictureBox2.Name = "iconPictureBox2";
             iconPictureBox2.Size = new Size(30, 30);
             iconPictureBox2.TabIndex = 7;
@@ -201,7 +201,7 @@
             iconPictureBox3.IconFont = FontAwesome.Sharp.IconFont.Auto;
             iconPictureBox3.IconSize = 30;
             iconPictureBox3.Location = new Point(33, 168);
-            iconPictureBox3.Margin = new Padding(2, 2, 2, 2);
+            iconPictureBox3.Margin = new Padding(2);
             iconPictureBox3.Name = "iconPictureBox3";
             iconPictureBox3.Size = new Size(30, 30);
             iconPictureBox3.TabIndex = 8;
@@ -215,7 +215,7 @@
             iconPictureBox4.IconFont = FontAwesome.Sharp.IconFont.Auto;
             iconPictureBox4.IconSize = 30;
             iconPictureBox4.Location = new Point(33, 232);
-            iconPictureBox4.Margin = new Padding(2, 2, 2, 2);
+            iconPictureBox4.Margin = new Padding(2);
             iconPictureBox4.Name = "iconPictureBox4";
             iconPictureBox4.Size = new Size(30, 30);
             iconPictureBox4.TabIndex = 9;
@@ -229,7 +229,7 @@
             iconPictureBox5.IconFont = FontAwesome.Sharp.IconFont.Auto;
             iconPictureBox5.IconSize = 30;
             iconPictureBox5.Location = new Point(33, 296);
-            iconPictureBox5.Margin = new Padding(2, 2, 2, 2);
+            iconPictureBox5.Margin = new Padding(2);
             iconPictureBox5.Name = "iconPictureBox5";
             iconPictureBox5.Size = new Size(30, 30);
             iconPictureBox5.TabIndex = 10;
@@ -243,7 +243,7 @@
             iconPictureBox6.IconFont = FontAwesome.Sharp.IconFont.Auto;
             iconPictureBox6.IconSize = 30;
             iconPictureBox6.Location = new Point(33, 360);
-            iconPictureBox6.Margin = new Padding(2, 2, 2, 2);
+            iconPictureBox6.Margin = new Padding(2);
             iconPictureBox6.Name = "iconPictureBox6";
             iconPictureBox6.Size = new Size(30, 30);
             iconPictureBox6.TabIndex = 11;
@@ -254,11 +254,11 @@
             btnsignup.Font = new Font("Cambria", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnsignup.ForeColor = Color.CadetBlue;
             btnsignup.Location = new Point(268, 418);
-            btnsignup.Margin = new Padding(2, 2, 2, 2);
+            btnsignup.Margin = new Padding(2);
             btnsignup.Name = "btnsignup";
             btnsignup.Size = new Size(107, 30);
             btnsignup.TabIndex = 13;
-            btnsignup.Text = "Đăng ký";
+            btnsignup.Text = "Sign up";
             btnsignup.UseVisualStyleBackColor = true;
             btnsignup.Click += btnsignup_Click;
             // 
@@ -329,7 +329,7 @@
             Controls.Add(iconPictureBox1);
             FormBorderStyle = FormBorderStyle.None;
             Icon = (Icon)resources.GetObject("$this.Icon");
-            Margin = new Padding(2, 2, 2, 2);
+            Margin = new Padding(2);
             Name = "SignUp";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "SignUp";

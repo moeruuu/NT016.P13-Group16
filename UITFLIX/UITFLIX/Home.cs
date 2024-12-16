@@ -261,7 +261,7 @@ namespace UITFLIX
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"{ex.Message}\n{ex.StackTrace}");
+                MessageBox.Show($"{ex.Message}\n{ex.StackTrace}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -329,7 +329,7 @@ namespace UITFLIX
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"{ex.Message}\n{ex.StackTrace}");
+                MessageBox.Show($"{ex.Message}\n{ex.StackTrace}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -397,7 +397,7 @@ namespace UITFLIX
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"{ex.Message}\n{ex.StackTrace}");
+                MessageBox.Show($"{ex.Message}\n{ex.StackTrace}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -520,14 +520,14 @@ namespace UITFLIX
                 this.Cursor = Cursors.WaitCursor;
                 if (tbnamefilm.Text == null || tbdescription.Text == null || cbtag.SelectedIndex == -1)
                 {
-                    MessageBox.Show("Vui lòng ghi tên phim hoặc mô tả hoặc thể loại!");
+                    MessageBox.Show("Vui lòng ghi tên phim hoặc mô tả hoặc thể loại!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     btnupload.Enabled = true;
                     btnchoosefile.Enabled = true;
                     return;
                 }
                 if (selectedimagefile == null || selectedvideofile == null)
                 {
-                    MessageBox.Show("Vui lòng chọn file!");
+                    MessageBox.Show("Vui lòng chọn file!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     btnupload.Enabled = true;
                     btnchoosefile.Enabled = true;
                     return;
@@ -536,7 +536,7 @@ namespace UITFLIX
                 var size = fileInfo.Length;
                 if (size > 100000000)
                 {
-                    MessageBox.Show("Dung lượng video quá lớn!");
+                    MessageBox.Show("Dung lượng video quá lớn!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     btnupload.Enabled = true;
                     btnchoosefile.Enabled = true;
                     return;
@@ -546,7 +546,7 @@ namespace UITFLIX
                 if (await videoService.UploadVideoAsync(selectedvideofile, selectedimagefile, tbnamefilm.Text.Trim(), tbdescription.Text.Trim(), cbtag.SelectedItem.ToString(), Userinfo["access_token"].ToString()))
                 {
 
-                    MessageBox.Show("Upload video thành công!");
+                    MessageBox.Show("Upload video thành công!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     tbdescription.Clear();
                     tbnamefilm.Clear();
                     fileimage.Text = "";
@@ -557,7 +557,7 @@ namespace UITFLIX
                 }
                 else
                 {
-                    MessageBox.Show("Đã có lỗi xảy ra");
+                    MessageBox.Show("Đã có lỗi xảy ra", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
