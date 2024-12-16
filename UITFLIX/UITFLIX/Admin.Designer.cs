@@ -372,6 +372,7 @@
             dgvEmails.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvEmails.Size = new Size(1103, 549);
             dgvEmails.TabIndex = 2;
+            dgvEmails.CellClick += dgvEmails_CellClick;
             // 
             // Date
             // 

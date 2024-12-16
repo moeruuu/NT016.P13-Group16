@@ -12,6 +12,9 @@ using System.Reflection;
 using UITFLIX.Models;
 using UITFLIX.Services;
 using Microsoft.VisualBasic.ApplicationServices;
+using MimeKit;
+using System.Net.Mail;
+using MailKit.Net.Imap;
 
 namespace UITFLIX
 {
@@ -215,6 +218,60 @@ namespace UITFLIX
 
             progressBar.Visible = false;
         }
+        private void dgvEmails_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+
+            var selectedRow = dgvEmails.Rows[e.RowIndex];
+
+            string emailFrom = selectedRow.Cells["From"].Value?.ToString() ?? "Unknown sender";
+            string emailSubject = selectedRow.Cells["Subject"].Value?.ToString() ?? "No subject";
+            string emailContent = selectedRow.Cells["Content"].Value?.ToString() ?? "No content";
+            string emailDate = selectedRow.Cells["Date"].Value?.ToString() ?? "No date";
+            string htmlContent = $@"
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='UTF-8'>
+    <title>{emailSubject}</title>
+    <style>
+        body {{
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            padding: 10px;
+        }}
+        img {{
+            max-width: 100%;
+            height: auto;
+            margin: 10px 0;
+        }}
+        h1 {{
+            color: #333;
+        }}
+        hr {{
+            margin: 20px 0;
+        }}
+    </style>
+</head>
+<body>
+    <h1>{emailSubject}</h1>
+    <p><strong>From:</strong> {emailFrom}</p>
+    <p><strong>Date:</strong> {emailDate}</p>
+    <hr />
+    {ReplaceImagesInBody(emailContent)}
+</body>
+</html>";
+
+            var emailDetailsForm = new EmailDetails(htmlContent);
+            emailDetailsForm.ShowDialog();
+        }
+        private string ReplaceImagesInBody(string bodyContent)
+        {
+            string pattern = @"\[image:\s*(.*?)\]";
+            string replacement = @"<img src='$1' alt='Image' onerror=""this.onerror=null;this.src='https://example.com/default.jpg';"" />";
+            return System.Text.RegularExpressions.Regex.Replace(bodyContent, pattern, replacement);
+        }
 
         //Load tab Users
         private async void UsersLoading()
@@ -384,7 +441,7 @@ namespace UITFLIX
         private async void iconRemove_Click(object sender, EventArgs e)
         {
             int selectedTab = tcData.SelectedIndex;
-            if (selectedTab == 0 || selectedTab == 3)    
+            if (selectedTab == 0 || selectedTab == 3)
                 return;
             if (selectedTab == 1)
             {
@@ -406,18 +463,18 @@ namespace UITFLIX
                         if (res == DialogResult.Yes)
                         {
                             var response = await userService.DeleteUser(dgvUsers.Rows[selectedIndexUser].Cells["UserID"].Tag.ToString(), accesstoken);
-                            if(response == "Thành công")
+                            if (response == "Thành công")
                             {
                                 MessageBox.Show("Deleted user successfully", "Success", MessageBoxButtons.OK);
                                 dgvUsers.Rows.RemoveAt(selectedIndexUser);
                                 selectedIndexUser = -1;
                                 return;
-                            }   
+                            }
                             else
                             {
                                 MessageBox.Show("Failed to delete this user", "Error", MessageBoxButtons.OKCancel);
                                 return;
-                            }    
+                            }
                         }
                     }
                 }
@@ -450,8 +507,9 @@ namespace UITFLIX
                         }
                     }
                 }
-            }    
+            }
         }
+
     }
 
 }

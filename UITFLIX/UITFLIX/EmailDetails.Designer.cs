@@ -37,12 +37,12 @@
             logout = new PictureBox();
             labelFrom = new Label();
             labelSubject = new Label();
-            webView21 = new Microsoft.Web.WebView2.WinForms.WebView2();
+            webView2Body = new Microsoft.Web.WebView2.WinForms.WebView2();
             panelInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbAvatar).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbLogo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)logout).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)webView21).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)webView2Body).BeginInit();
             SuspendLayout();
             // 
             // panelInfo
@@ -142,17 +142,17 @@
             labelSubject.TabIndex = 9;
             labelSubject.Text = "Subject";
             // 
-            // webView21
+            // webView2Body
             // 
-            webView21.AllowExternalDrop = true;
-            webView21.CreationProperties = null;
-            webView21.DefaultBackgroundColor = Color.White;
-            webView21.ForeColor = Color.CadetBlue;
-            webView21.Location = new Point(27, 189);
-            webView21.Name = "webView21";
-            webView21.Size = new Size(745, 278);
-            webView21.TabIndex = 11;
-            webView21.ZoomFactor = 1D;
+            webView2Body.AllowExternalDrop = true;
+            webView2Body.CreationProperties = null;
+            webView2Body.DefaultBackgroundColor = Color.White;
+            webView2Body.ForeColor = Color.CadetBlue;
+            webView2Body.Location = new Point(27, 189);
+            webView2Body.Name = "webView2Body";
+            webView2Body.Size = new Size(745, 278);
+            webView2Body.TabIndex = 11;
+            webView2Body.ZoomFactor = 1D;
             // 
             // EmailDetails
             // 
@@ -161,7 +161,7 @@
             BackColor = Color.LightBlue;
             ClientSize = new Size(800, 527);
             ControlBox = false;
-            Controls.Add(webView21);
+            Controls.Add(webView2Body);
             Controls.Add(labelSubject);
             Controls.Add(labelFrom);
             Controls.Add(logout);
@@ -170,12 +170,13 @@
             Name = "EmailDetails";
             Text = "Email Details";
             TransparencyKey = Color.Transparent;
+            //Load += EmailDetails_Load;
             panelInfo.ResumeLayout(false);
             panelInfo.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pbAvatar).EndInit();
             ((System.ComponentModel.ISupportInitialize)pbLogo).EndInit();
             ((System.ComponentModel.ISupportInitialize)logout).EndInit();
-            ((System.ComponentModel.ISupportInitialize)webView21).EndInit();
+            ((System.ComponentModel.ISupportInitialize)webView2Body).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -190,6 +191,6 @@
         private PictureBox logout;
         private Label labelFrom;
         private Label labelSubject;
-        private Microsoft.Web.WebView2.WinForms.WebView2 webView21;
+        private Microsoft.Web.WebView2.WinForms.WebView2 webView2Body;
     }
 }
