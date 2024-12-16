@@ -12,6 +12,7 @@ using System.Reflection;
 using UITFLIX.Models;
 using UITFLIX.Services;
 using Microsoft.VisualBasic.ApplicationServices;
+using System.Windows.Controls;
 
 namespace UITFLIX
 {
@@ -95,8 +96,8 @@ namespace UITFLIX
                         if (ms != null && ms.CanRead)
                         {
                             ms.Seek(0, SeekOrigin.Begin);
-                            Image image = Image.FromStream(ms);
-                            pbAvatar.Image = Image.FromStream(ms);
+                            System.Drawing.Image image = System.Drawing.Image.FromStream(ms);
+                            pbAvatar.Image = System.Drawing.Image.FromStream(ms);
                         }
                     }
                 }
@@ -107,7 +108,7 @@ namespace UITFLIX
             }
         }
 
-        private Image LoadDefaultImage()
+        private System.Drawing.Image LoadDefaultImage()
         {
             string defaulturl = "https://i.pinimg.com/736x/62/ee/b3/62eeb37155f0df95a708586aed9165c5.jpg";
             using (var client = new HttpClient())
@@ -115,7 +116,7 @@ namespace UITFLIX
                 var bytes = client.GetByteArrayAsync(defaulturl).Result;
                 using (var ms = new MemoryStream(bytes))
                 {
-                    return Image.FromStream(ms);
+                    return System.Drawing.Image.FromStream(ms);
                 }
             }
         }
@@ -502,6 +503,63 @@ namespace UITFLIX
                 Id = userinfo["user"]["id"].ToString()
             };
             var response = await userService.LogOut(LogOutModel, accesstoken);
+        }
+
+        private void tbSearch_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            SearchInDataGridView();
+        }
+        private void SearchInDataGridView()
+        {
+            string searchValue = tbSearch.Text.ToLower();
+            int selectedTab = tcData.SelectedIndex;
+            
+            switch (selectedTab)
+            {
+                case 0: //Emails
+                    {
+                        foreach (DataGridViewRow row in dgvEmails.Rows)
+                        {
+                            row.Visible = row.Cells.Cast<DataGridViewCell>().Any(cell => cell.Value != null &&
+                                               cell.Value.ToString().ToLower().Contains(searchValue));
+                        }
+                    }
+                break;
+                case 1: //Users
+                    {
+                        foreach (DataGridViewRow row in dgvUsers.Rows)
+                        {
+                            row.Visible = row.Cells.Cast<DataGridViewCell>().Any(cell => cell.Value != null &&
+                                             cell.Value.ToString().ToLower().Contains(searchValue));
+                        }
+                    }
+                break;
+                case 2: //Videos
+                    {
+                        foreach (DataGridViewRow row in dgvVideos.Rows)
+                        {
+                            row.Visible = row.Cells.Cast<DataGridViewCell>().Any(cell => cell.Value != null &&
+                                             cell.Value.ToString().ToLower().Contains(searchValue));
+                        }
+                    }
+                break;
+                default: //Rooms
+                    {
+                        foreach (DataGridViewRow row in dgvRooms.Rows)
+                        {
+                            row.Visible = row.Cells.Cast<DataGridViewCell>().Any(cell => cell.Value != null &&
+                                             cell.Value.ToString().ToLower().Contains(searchValue));
+                        }
+                    }
+                break;
+            }
+
+            
         }
 
     }
