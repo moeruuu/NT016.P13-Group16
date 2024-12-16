@@ -44,7 +44,7 @@
             richTextBoxBody = new RichTextBox();
             buttonBrowse = new Button();
             buttonSend = new Button();
-            progressBar1 = new ProgressBar();
+            progressBar = new ProgressBar();
             abovepanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)logo).BeginInit();
             SuspendLayout();
@@ -60,6 +60,7 @@
             // 
             // logo
             // 
+            logo.Cursor = Cursors.Hand;
             logo.Image = Properties.Resources.UITFLIX;
             logo.Location = new Point(0, 2);
             logo.Margin = new Padding(2);
@@ -210,13 +211,14 @@
             buttonSend.UseVisualStyleBackColor = true;
             buttonSend.Click += buttonSend_Click;
             // 
-            // progressBar1
+            // progressBar
             // 
-            progressBar1.ForeColor = Color.CadetBlue;
-            progressBar1.Location = new Point(-1, 573);
-            progressBar1.Name = "progressBar1";
-            progressBar1.Size = new Size(585, 29);
-            progressBar1.TabIndex = 16;
+            progressBar.ForeColor = Color.CadetBlue;
+            progressBar.Location = new Point(-1, 573);
+            progressBar.Name = "progressBar";
+            progressBar.Size = new Size(585, 29);
+            progressBar.TabIndex = 16;
+            progressBar.Visible = false;
             // 
             // Chat
             // 
@@ -225,7 +227,7 @@
             BackColor = Color.LightBlue;
             ClientSize = new Size(582, 601);
             ControlBox = false;
-            Controls.Add(progressBar1);
+            Controls.Add(progressBar);
             Controls.Add(buttonSend);
             Controls.Add(buttonBrowse);
             Controls.Add(richTextBoxBody);
@@ -268,6 +270,6 @@
         private RichTextBox richTextBoxBody;
         private Button buttonBrowse;
         private Button buttonSend;
-        private ProgressBar progressBar1;
+        private ProgressBar progressBar;
     }
 }

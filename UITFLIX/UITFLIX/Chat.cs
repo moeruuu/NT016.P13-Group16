@@ -57,21 +57,21 @@ namespace UITFLIX
                     chatModel.AttachmentPath = attachmentPath;
                 }
                 buttonSend.Enabled = false;
-                progressBar1.Visible = true;
-                progressBar1.Value = 0;
+                progressBar.Visible = true;
+                progressBar.Value = 0;
                 var sendEmailTask = chatService.SendEmailAsync(chatModel);
                 var progressTask = UpdateProgressBarAsync();
                 await Task.WhenAll(sendEmailTask, progressTask);
                 string jsonData = JsonConvert.SerializeObject(chatModel);
                 //MessageBox.Show(jsonData);
                 MessageBox.Show("Gửi email thành công!", "Kết quả", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                progressBar1.Visible = false;
+                progressBar.Visible = false;
                 buttonSend.Enabled = true;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                progressBar1.Visible = false;
+                progressBar.Visible = false;
                 buttonSend.Enabled = true;
             }
 
@@ -80,7 +80,7 @@ namespace UITFLIX
         {
             for (int i = 0; i <= 100; i++)
             {
-                progressBar1.Value = i;
+                progressBar.Value = i;
                 await Task.Delay(17);
             }
         }
