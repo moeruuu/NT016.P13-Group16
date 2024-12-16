@@ -518,6 +518,7 @@ namespace UITFLIX
         {
             string searchValue = tbSearch.Text.ToLower();
             int selectedTab = tcData.SelectedIndex;
+            bool hasResults = false;
             
             switch (selectedTab)
             {
@@ -525,8 +526,10 @@ namespace UITFLIX
                     {
                         foreach (DataGridViewRow row in dgvEmails.Rows)
                         {
-                            row.Visible = row.Cells.Cast<DataGridViewCell>().Any(cell => cell.Value != null &&
+                            bool isVisible = row.Cells.Cast<DataGridViewCell>().Any(cell => cell.Value != null &&
                                                cell.Value.ToString().ToLower().Contains(searchValue));
+                            row.Visible = isVisible;
+                            if (isVisible) hasResults = true;
                         }
                     }
                 break;
@@ -534,8 +537,10 @@ namespace UITFLIX
                     {
                         foreach (DataGridViewRow row in dgvUsers.Rows)
                         {
-                            row.Visible = row.Cells.Cast<DataGridViewCell>().Any(cell => cell.Value != null &&
+                            bool isVisible = row.Cells.Cast<DataGridViewCell>().Any(cell => cell.Value != null &&
                                              cell.Value.ToString().ToLower().Contains(searchValue));
+                            row.Visible = isVisible;
+                            if (isVisible) hasResults = true;
                         }
                     }
                 break;
@@ -543,8 +548,10 @@ namespace UITFLIX
                     {
                         foreach (DataGridViewRow row in dgvVideos.Rows)
                         {
-                            row.Visible = row.Cells.Cast<DataGridViewCell>().Any(cell => cell.Value != null &&
+                            bool isVisible = row.Cells.Cast<DataGridViewCell>().Any(cell => cell.Value != null &&
                                              cell.Value.ToString().ToLower().Contains(searchValue));
+                            row.Visible = isVisible;
+                            if (isVisible) hasResults = true;
                         }
                     }
                 break;
@@ -552,14 +559,18 @@ namespace UITFLIX
                     {
                         foreach (DataGridViewRow row in dgvRooms.Rows)
                         {
-                            row.Visible = row.Cells.Cast<DataGridViewCell>().Any(cell => cell.Value != null &&
+                            bool isVisible = row.Cells.Cast<DataGridViewCell>().Any(cell => cell.Value != null &&
                                              cell.Value.ToString().ToLower().Contains(searchValue));
+                            row.Visible = isVisible;
+                            if (isVisible) hasResults = true;
                         }
                     }
                 break;
             }
-
-            
+            if (!hasResults)
+            {
+                MessageBox.Show("Không có kết quả nào tương ứng", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
     }
