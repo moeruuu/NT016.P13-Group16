@@ -246,8 +246,16 @@ namespace UITFLIX
                     else
                         online = "ON";
 
-
-                    int rowIndex = dgvUsers.Rows.Add(num, displayedId, user["user"]["email"], user["user"]["username"], user["user"]["fullname"], online, user["videosCount"] + " videos");
+                    string videocount = "";
+                    if (Convert.ToInt32(user["videosCount"].ToString()) <= 1)
+                    {
+                        videocount = user["videosCount"].ToString() + " video";
+                    }
+                    else
+                    {
+                        videocount = user["videosCount"].ToString() + " videos";
+                    }
+                    int rowIndex = dgvUsers.Rows.Add(num, displayedId, user["user"]["email"], user["user"]["username"], user["user"]["fullname"], online, videocount);
 
                     dgvUsers.Rows[rowIndex].Cells["UserID"].Tag = id;
                     num++;
@@ -384,7 +392,7 @@ namespace UITFLIX
         private async void iconRemove_Click(object sender, EventArgs e)
         {
             int selectedTab = tcData.SelectedIndex;
-            if (selectedTab == 0 || selectedTab == 3)    
+            if (selectedTab == 0 || selectedTab == 3)
                 return;
             if (selectedTab == 1)
             {
@@ -406,18 +414,18 @@ namespace UITFLIX
                         if (res == DialogResult.Yes)
                         {
                             var response = await userService.DeleteUser(dgvUsers.Rows[selectedIndexUser].Cells["UserID"].Tag.ToString(), accesstoken);
-                            if(response == "Thành công")
+                            if (response == "Thành công")
                             {
                                 MessageBox.Show("Deleted user successfully", "Success", MessageBoxButtons.OK);
                                 dgvUsers.Rows.RemoveAt(selectedIndexUser);
                                 selectedIndexUser = -1;
                                 return;
-                            }   
+                            }
                             else
                             {
                                 MessageBox.Show("Failed to delete this user", "Error", MessageBoxButtons.OKCancel);
                                 return;
-                            }    
+                            }
                         }
                     }
                 }
@@ -450,7 +458,37 @@ namespace UITFLIX
                         }
                     }
                 }
-            }    
+            }
+        }
+
+        private void iconRefresh_Click(object sender, EventArgs e)
+        {
+            int selectedTab = tcData.SelectedIndex;
+
+            switch (selectedTab)
+            {
+                case 0:
+                    EmailsLoading();
+                    break;
+                case 1:
+                    UsersLoading();
+                    break;
+                case 2:
+                    VideosLoading();
+                    break;
+                default:
+                    RoomsLoading();
+                    break;
+            }
+        }
+
+        private async void Admin_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            var LogOutModel = new
+            {
+                Id = userinfo["user"]["id"].ToString()
+            };
+            var response = await userService.LogOut(LogOutModel, accesstoken);
         }
     }
 

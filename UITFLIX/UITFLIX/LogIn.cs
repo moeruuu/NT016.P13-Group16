@@ -94,7 +94,7 @@ namespace UITFLIX
             string password = txtPassword.Text;
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
             {
-                MessageBox.Show("Vui lòng nhập tên đăng nhập hoặc mật khẩu!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Fill your name or your password, please!", "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
             try
@@ -135,7 +135,7 @@ namespace UITFLIX
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
+                MessageBox.Show(ex.Message + '\n' + ex.StackTrace, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }

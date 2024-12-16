@@ -148,7 +148,7 @@
             btnlogin.Name = "btnlogin";
             btnlogin.Size = new Size(151, 34);
             btnlogin.TabIndex = 9;
-            btnlogin.Text = "Đăng nhập";
+            btnlogin.Text = "Login";
             btnlogin.UseVisualStyleBackColor = true;
             btnlogin.Click += btnlogin_Click;
             // 
@@ -159,10 +159,10 @@
             linksignup.LinkColor = Color.CadetBlue;
             linksignup.Location = new Point(37, 543);
             linksignup.Name = "linksignup";
-            linksignup.Size = new Size(139, 20);
+            linksignup.Size = new Size(57, 20);
             linksignup.TabIndex = 10;
             linksignup.TabStop = true;
-            linksignup.Text = "Tạo tài khoản mới";
+            linksignup.Text = "Signup";
             linksignup.LinkClicked += linksignup_LinkClicked;
             // 
             // linkforgetpass
@@ -172,10 +172,10 @@
             linkforgetpass.LinkColor = Color.CadetBlue;
             linkforgetpass.Location = new Point(37, 583);
             linkforgetpass.Name = "linkforgetpass";
-            linkforgetpass.Size = new Size(124, 20);
+            linkforgetpass.Size = new Size(135, 20);
             linkforgetpass.TabIndex = 12;
             linkforgetpass.TabStop = true;
-            linkforgetpass.Text = "Quên mật khẩu?";
+            linkforgetpass.Text = "Forget password?";
             linkforgetpass.LinkClicked += linkforgetpass_LinkClicked;
             // 
             // LogIn
