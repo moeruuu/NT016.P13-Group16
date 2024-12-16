@@ -12,9 +12,6 @@ using System.Reflection;
 using UITFLIX.Models;
 using UITFLIX.Services;
 using Microsoft.VisualBasic.ApplicationServices;
-using MimeKit;
-using System.Net.Mail;
-using MailKit.Net.Imap;
 
 namespace UITFLIX
 {
@@ -220,57 +217,16 @@ namespace UITFLIX
         }
         private void dgvEmails_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0) return;
+            if (e.RowIndex >= 0)
+            {
+                var emailDate = dgvEmails.Rows[e.RowIndex].Cells["Date"].Value.ToString();
+                var emailFrom = dgvEmails.Rows[e.RowIndex].Cells["From"].Value.ToString();
+                var emailSubject = dgvEmails.Rows[e.RowIndex].Cells["Subject"].Value.ToString();
+                var emailBody = dgvEmails.Rows[e.RowIndex].Cells["Content"].Value.ToString();
 
-
-            var selectedRow = dgvEmails.Rows[e.RowIndex];
-
-            string emailFrom = selectedRow.Cells["From"].Value?.ToString() ?? "Unknown sender";
-            string emailSubject = selectedRow.Cells["Subject"].Value?.ToString() ?? "No subject";
-            string emailContent = selectedRow.Cells["Content"].Value?.ToString() ?? "No content";
-            string emailDate = selectedRow.Cells["Date"].Value?.ToString() ?? "No date";
-            string htmlContent = $@"
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset='UTF-8'>
-    <title>{emailSubject}</title>
-    <style>
-        body {{
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            padding: 10px;
-        }}
-        img {{
-            max-width: 100%;
-            height: auto;
-            margin: 10px 0;
-        }}
-        h1 {{
-            color: #333;
-        }}
-        hr {{
-            margin: 20px 0;
-        }}
-    </style>
-</head>
-<body>
-    <h1>{emailSubject}</h1>
-    <p><strong>From:</strong> {emailFrom}</p>
-    <p><strong>Date:</strong> {emailDate}</p>
-    <hr />
-    {ReplaceImagesInBody(emailContent)}
-</body>
-</html>";
-
-            var emailDetailsForm = new EmailDetails(htmlContent);
-            emailDetailsForm.ShowDialog();
-        }
-        private string ReplaceImagesInBody(string bodyContent)
-        {
-            string pattern = @"\[image:\s*(.*?)\]";
-            string replacement = @"<img src='$1' alt='Image' onerror=""this.onerror=null;this.src='https://example.com/default.jpg';"" />";
-            return System.Text.RegularExpressions.Regex.Replace(bodyContent, pattern, replacement);
+                var emailDetailsForm = new EmailDetails(emailBody, emailDate, emailFrom, emailSubject);
+                emailDetailsForm.ShowDialog();
+            }
         }
 
         //Load tab Users
@@ -303,8 +259,16 @@ namespace UITFLIX
                     else
                         online = "ON";
 
-
-                    int rowIndex = dgvUsers.Rows.Add(num, displayedId, user["user"]["email"], user["user"]["username"], user["user"]["fullname"], online, user["videosCount"] + " videos");
+                    string videocount = "";
+                    if (Convert.ToInt32(user["videosCount"].ToString()) <= 1)
+                    {
+                        videocount = user["videosCount"].ToString() + " video";
+                    }
+                    else
+                    {
+                        videocount = user["videosCount"].ToString() + " videos";
+                    }
+                    int rowIndex = dgvUsers.Rows.Add(num, displayedId, user["user"]["email"], user["user"]["username"], user["user"]["fullname"], online, videocount);
 
                     dgvUsers.Rows[rowIndex].Cells["UserID"].Tag = id;
                     num++;
@@ -508,6 +472,36 @@ namespace UITFLIX
                     }
                 }
             }
+        }
+
+        private void iconRefresh_Click(object sender, EventArgs e)
+        {
+            int selectedTab = tcData.SelectedIndex;
+
+            switch (selectedTab)
+            {
+                case 0:
+                    EmailsLoading();
+                    break;
+                case 1:
+                    UsersLoading();
+                    break;
+                case 2:
+                    VideosLoading();
+                    break;
+                default:
+                    RoomsLoading();
+                    break;
+            }
+        }
+
+        private async void Admin_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            var LogOutModel = new
+            {
+                Id = userinfo["user"]["id"].ToString()
+            };
+            var response = await userService.LogOut(LogOutModel, accesstoken);
         }
 
     }

@@ -185,6 +185,7 @@
             iconRefresh.Size = new Size(24, 24);
             iconRefresh.TabIndex = 6;
             iconRefresh.TabStop = false;
+            iconRefresh.Click += iconRefresh_Click;
             // 
             // progressBar
             // 

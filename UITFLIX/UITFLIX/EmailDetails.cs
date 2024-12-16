@@ -18,40 +18,41 @@ namespace UITFLIX
 {
     public partial class EmailDetails : Form
     {
-        //private readonly string _emailBody;
-        //private MimeMessage emailMessage;
-        //public EmailDetails(string emailContent)
-        //{
-        //    InitializeComponent();
-        //    labelFrom.Text = $"From: {from}";
-        //    labelSubject.Text = $"Subject: {subject}";
-        //    MessageBox.Show(content, "Nội dung kiểm tra");
-        //    webView2Body.CoreWebView2InitializationCompleted += (s, e) =>
-        //    {
-        //        LoadContentIntoWebView(content);
-        //    };
-
-        //    InitializeWebView2Async(content);
-        //}
-        public EmailDetails (string htmlContent)
+        private readonly string emailBody;
+        private readonly string emailDate;
+        private readonly string emailFrom;
+        private readonly string emailSubject;
+        public EmailDetails(string body, string date, string from, string subject)
         {
             InitializeComponent();
-            webView2Body.NavigationCompleted += WebView2Body_NavigationCompleted;
-            LoadHtmlContent(htmlContent);
-        }
-        private async void LoadHtmlContent(string htmlContent)
-        {
-            await webView2Body.EnsureCoreWebView2Async();
-
-            webView2Body.NavigateToString(htmlContent);
+            emailBody = body;
+            emailDate = date;
+            emailSubject = subject;
+            emailFrom = from;
         }
 
-        private void WebView2Body_NavigationCompleted(object sender, CoreWebView2NavigationCompletedEventArgs e)
+        private async void EmailDetails_Load(object sender, EventArgs e)
         {
-            if (!e.IsSuccess)
+            try
             {
-                MessageBox.Show("Không thể tải nội dung email.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                labelFrom.Text = $"From: {emailFrom}";
+                labelSubject.Text = $"Subject: {emailSubject}";
+                labelDate.Text = $"Date: {emailDate}";
+
+                await webView2Body.EnsureCoreWebView2Async(null);
+
+                webView2Body.NavigateToString(emailBody);
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error initializing WebView2: {ex.Message}");
+            }
+        }
+
+
+        private void logout_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

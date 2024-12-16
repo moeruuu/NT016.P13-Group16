@@ -142,7 +142,7 @@ namespace API_Server.Service
                             Date = message.Date.DateTime,
                             From = message.From.ToString(),
                             Subject = message.Subject,
-                            Body = message.TextBody
+                            Body = message.HtmlBody ?? message.TextBody
                         });
                     }
 

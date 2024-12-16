@@ -38,6 +38,7 @@
             labelFrom = new Label();
             labelSubject = new Label();
             webView2Body = new Microsoft.Web.WebView2.WinForms.WebView2();
+            labelDate = new Label();
             panelInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbAvatar).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbLogo).BeginInit();
@@ -55,7 +56,7 @@
             panelInfo.Dock = DockStyle.Top;
             panelInfo.Location = new Point(0, 0);
             panelInfo.Name = "panelInfo";
-            panelInfo.Size = new Size(800, 81);
+            panelInfo.Size = new Size(912, 81);
             panelInfo.TabIndex = 6;
             // 
             // pbAvatar
@@ -110,13 +111,14 @@
             logout.BackColor = Color.Transparent;
             logout.Cursor = Cursors.Hand;
             logout.Image = (Image)resources.GetObject("logout.Image");
-            logout.Location = new Point(763, 486);
+            logout.Location = new Point(882, 571);
             logout.Margin = new Padding(2);
             logout.Name = "logout";
-            logout.Size = new Size(37, 39);
+            logout.Size = new Size(30, 31);
             logout.SizeMode = PictureBoxSizeMode.StretchImage;
             logout.TabIndex = 7;
             logout.TabStop = false;
+            logout.Click += logout_Click;
             // 
             // labelFrom
             // 
@@ -148,19 +150,32 @@
             webView2Body.CreationProperties = null;
             webView2Body.DefaultBackgroundColor = Color.White;
             webView2Body.ForeColor = Color.CadetBlue;
-            webView2Body.Location = new Point(27, 189);
+            webView2Body.Location = new Point(28, 215);
             webView2Body.Name = "webView2Body";
-            webView2Body.Size = new Size(745, 278);
+            webView2Body.Size = new Size(853, 344);
             webView2Body.TabIndex = 11;
             webView2Body.ZoomFactor = 1D;
+            // 
+            // labelDate
+            // 
+            labelDate.AutoSize = true;
+            labelDate.BackColor = Color.Transparent;
+            labelDate.Font = new Font("Cambria", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelDate.ForeColor = Color.DarkCyan;
+            labelDate.Location = new Point(38, 177);
+            labelDate.Name = "labelDate";
+            labelDate.Size = new Size(53, 23);
+            labelDate.TabIndex = 12;
+            labelDate.Text = "Date";
             // 
             // EmailDetails
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightBlue;
-            ClientSize = new Size(800, 527);
+            ClientSize = new Size(912, 604);
             ControlBox = false;
+            Controls.Add(labelDate);
             Controls.Add(webView2Body);
             Controls.Add(labelSubject);
             Controls.Add(labelFrom);
@@ -168,9 +183,10 @@
             Controls.Add(panelInfo);
             FormBorderStyle = FormBorderStyle.None;
             Name = "EmailDetails";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Email Details";
             TransparencyKey = Color.Transparent;
-            //Load += EmailDetails_Load;
+            Load += EmailDetails_Load;
             panelInfo.ResumeLayout(false);
             panelInfo.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pbAvatar).EndInit();
@@ -192,5 +208,6 @@
         private Label labelFrom;
         private Label labelSubject;
         private Microsoft.Web.WebView2.WinForms.WebView2 webView2Body;
+        private Label labelDate;
     }
 }
