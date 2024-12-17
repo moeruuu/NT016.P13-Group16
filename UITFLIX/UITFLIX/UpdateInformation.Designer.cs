@@ -337,7 +337,7 @@
             // 
             // btnUpdateInfo
             // 
-            btnUpdateInfo.Font = new Font("Cambria", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnUpdateInfo.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnUpdateInfo.ForeColor = Color.DarkSlateGray;
             btnUpdateInfo.Location = new Point(453, 301);
             btnUpdateInfo.Margin = new Padding(2);

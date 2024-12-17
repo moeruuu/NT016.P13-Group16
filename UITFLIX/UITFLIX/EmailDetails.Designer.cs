@@ -73,9 +73,9 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.BackColor = Color.Transparent;
+            label1.BackColor = Color.CadetBlue;
             label1.Font = new Font("Palatino Linotype", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.ForeColor = Color.LightCyan;
+            label1.ForeColor = Color.LightBlue;
             label1.Location = new Point(82, 18);
             label1.Name = "label1";
             label1.Size = new Size(130, 46);

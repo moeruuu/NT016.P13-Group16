@@ -153,7 +153,7 @@
             btnwatchedvideo.Padding = new Padding(8, 0, 16, 0);
             btnwatchedvideo.Size = new Size(241, 84);
             btnwatchedvideo.TabIndex = 4;
-            btnwatchedvideo.Text = "Watched Video";
+            btnwatchedvideo.Text = "Watched Videos";
             btnwatchedvideo.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnwatchedvideo.UseVisualStyleBackColor = false;
             btnwatchedvideo.Click += btnwatchedvideo_Click;
@@ -175,7 +175,7 @@
             btntopvideo.Padding = new Padding(8, 0, 16, 0);
             btntopvideo.Size = new Size(241, 84);
             btntopvideo.TabIndex = 3;
-            btntopvideo.Text = "Top Rated Video";
+            btntopvideo.Text = "Top Rated Videos";
             btntopvideo.TextImageRelation = TextImageRelation.ImageBeforeText;
             btntopvideo.UseVisualStyleBackColor = false;
             btntopvideo.Click += btntopvideo_Click;
@@ -197,7 +197,7 @@
             btnnewvideo.Padding = new Padding(8, 0, 16, 0);
             btnnewvideo.Size = new Size(241, 84);
             btnnewvideo.TabIndex = 2;
-            btnnewvideo.Text = "New video";
+            btnnewvideo.Text = "New videos";
             btnnewvideo.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnnewvideo.UseVisualStyleBackColor = false;
             btnnewvideo.Click += btnnewvideo_Click;
@@ -302,7 +302,7 @@
             btnchoosefile.Name = "btnchoosefile";
             btnchoosefile.Size = new Size(134, 36);
             btnchoosefile.TabIndex = 21;
-            btnchoosefile.Text = "Chọn tệp";
+            btnchoosefile.Text = "Selete file";
             btnchoosefile.UseVisualStyleBackColor = true;
             btnchoosefile.Visible = false;
             btnchoosefile.Click += btnchoosefile_Click;
@@ -315,9 +315,9 @@
             fileimage.Location = new Point(835, 141);
             fileimage.Margin = new Padding(2, 0, 2, 0);
             fileimage.Name = "fileimage";
-            fileimage.Size = new Size(62, 23);
+            fileimage.Size = new Size(99, 23);
             fileimage.TabIndex = 22;
-            fileimage.Text = "label1";
+            fileimage.Text = "File Image";
             fileimage.Visible = false;
             // 
             // chat
@@ -341,9 +341,9 @@
             tenphim.Location = new Point(315, 198);
             tenphim.Margin = new Padding(2, 0, 2, 0);
             tenphim.Name = "tenphim";
-            tenphim.Size = new Size(90, 23);
+            tenphim.Size = new Size(50, 23);
             tenphim.TabIndex = 23;
-            tenphim.Text = "Tên phim";
+            tenphim.Text = "Title";
             tenphim.Visible = false;
             // 
             // noidung
@@ -351,12 +351,12 @@
             noidung.AutoSize = true;
             noidung.Font = new Font("Cambria", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             noidung.ForeColor = Color.MidnightBlue;
-            noidung.Location = new Point(315, 252);
+            noidung.Location = new Point(315, 253);
             noidung.Margin = new Padding(2, 0, 2, 0);
             noidung.Name = "noidung";
-            noidung.Size = new Size(88, 23);
+            noidung.Size = new Size(111, 23);
             noidung.TabIndex = 24;
-            noidung.Text = "Nội dung";
+            noidung.Text = "Description";
             noidung.Visible = false;
             // 
             // tbnamefilm
@@ -471,7 +471,7 @@
             btnchooseimage.Name = "btnchooseimage";
             btnchooseimage.Size = new Size(134, 36);
             btnchooseimage.TabIndex = 33;
-            btnchooseimage.Text = "Chọn ảnh";
+            btnchooseimage.Text = "Selete image";
             btnchooseimage.UseVisualStyleBackColor = true;
             btnchooseimage.Visible = false;
             btnchooseimage.Click += btnchooseimage_Click;
@@ -484,9 +484,9 @@
             filevideo.Location = new Point(439, 142);
             filevideo.Margin = new Padding(2, 0, 2, 0);
             filevideo.Name = "filevideo";
-            filevideo.Size = new Size(62, 23);
+            filevideo.Size = new Size(96, 23);
             filevideo.TabIndex = 34;
-            filevideo.Text = "label1";
+            filevideo.Text = "File Video";
             filevideo.Visible = false;
             // 
             // information
@@ -494,12 +494,12 @@
             information.AutoSize = true;
             information.Font = new Font("Cambria", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
             information.ForeColor = SystemColors.ButtonHighlight;
-            information.Location = new Point(490, 338);
+            information.Location = new Point(413, 338);
             information.Margin = new Padding(2, 0, 2, 0);
             information.Name = "information";
-            information.Size = new Size(329, 23);
+            information.Size = new Size(488, 23);
             information.TabIndex = 35;
-            information.Text = "Hiện tại chưa có video bạn cần tìm...";
+            information.Text = "Currently, there are no videos matching your search...";
             information.Visible = false;
             // 
             // bottompanel
@@ -547,12 +547,12 @@
             tag.AutoSize = true;
             tag.Font = new Font("Cambria", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             tag.ForeColor = Color.MidnightBlue;
-            tag.Location = new Point(782, 199);
+            tag.Location = new Point(787, 200);
             tag.Margin = new Padding(2, 0, 2, 0);
             tag.Name = "tag";
-            tag.Size = new Size(79, 23);
+            tag.Size = new Size(61, 23);
             tag.TabIndex = 37;
-            tag.Text = "Thể loại";
+            tag.Text = "Genre";
             tag.Visible = false;
             // 
             // cbtag
@@ -584,6 +584,7 @@
             BackColor = Color.LightBlue;
             ClientSize = new Size(1074, 615);
             ControlBox = false;
+            Controls.Add(btnidroom);
             Controls.Add(cbtag);
             Controls.Add(tag);
             Controls.Add(bottompanel);
@@ -593,7 +594,6 @@
             Controls.Add(linkcreateroom);
             Controls.Add(btnchoosefile);
             Controls.Add(fileimage);
-            Controls.Add(btnidroom);
             Controls.Add(idroom);
             Controls.Add(tbidroom);
             Controls.Add(btnuploadvideo);

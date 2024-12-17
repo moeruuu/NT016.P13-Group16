@@ -151,9 +151,9 @@
             txtnamefilm.Location = new Point(52, 6);
             txtnamefilm.Margin = new Padding(2, 0, 2, 0);
             txtnamefilm.Name = "txtnamefilm";
-            txtnamefilm.Size = new Size(46, 17);
+            txtnamefilm.Size = new Size(37, 17);
             txtnamefilm.TabIndex = 1;
-            txtnamefilm.Text = "label1";
+            txtnamefilm.Text = "Title";
             txtnamefilm.UseWaitCursor = true;
             // 
             // logo
@@ -322,9 +322,9 @@
             txtnamefilm1.Location = new Point(10, 13);
             txtnamefilm1.Margin = new Padding(2, 0, 2, 0);
             txtnamefilm1.Name = "txtnamefilm1";
-            txtnamefilm1.Size = new Size(80, 28);
+            txtnamefilm1.Size = new Size(142, 28);
             txtnamefilm1.TabIndex = 0;
-            txtnamefilm1.Text = "label1";
+            txtnamefilm1.Text = "Description";
             txtnamefilm1.UseWaitCursor = true;
             // 
             // axWindowsMediaPlayer

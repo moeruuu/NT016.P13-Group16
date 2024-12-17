@@ -83,7 +83,7 @@
             linkleaveroom.AutoSize = true;
             linkleaveroom.Font = new Font("Cambria", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkleaveroom.LinkColor = Color.White;
-            linkleaveroom.Location = new Point(1386, 28);
+            linkleaveroom.Location = new Point(1386, 7);
             linkleaveroom.Margin = new Padding(2, 0, 2, 0);
             linkleaveroom.Name = "linkleaveroom";
             linkleaveroom.Size = new Size(112, 23);
@@ -199,6 +199,7 @@
             // 
             // dgvQueue
             // 
+            dgvQueue.BackgroundColor = Color.LightSteelBlue;
             dgvQueue.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvQueue.Columns.AddRange(new DataGridViewColumn[] { ColumnNum, ColumnTitle, ColumnTag });
             dgvQueue.GridColor = Color.MidnightBlue;
@@ -235,6 +236,7 @@
             // 
             // listchatgroup
             // 
+            listchatgroup.BackColor = Color.MintCream;
             listchatgroup.BorderStyle = BorderStyle.FixedSingle;
             listchatgroup.Font = new Font("Cambria", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             listchatgroup.ForeColor = Color.MidnightBlue;

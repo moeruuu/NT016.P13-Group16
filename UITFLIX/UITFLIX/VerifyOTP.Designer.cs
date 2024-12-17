@@ -60,12 +60,12 @@
             // 
             btnverify.Font = new Font("Cambria", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnverify.ForeColor = Color.FromArgb(0, 64, 64);
-            btnverify.Location = new Point(156, 105);
+            btnverify.Location = new Point(164, 105);
             btnverify.Margin = new Padding(2);
             btnverify.Name = "btnverify";
-            btnverify.Size = new Size(190, 27);
+            btnverify.Size = new Size(140, 27);
             btnverify.TabIndex = 2;
-            btnverify.Text = "Xác nhận";
+            btnverify.Text = "Confirm";
             btnverify.UseVisualStyleBackColor = true;
             btnverify.Click += btnverify_Click;
             // 

@@ -62,7 +62,7 @@
             // 
             logo.Cursor = Cursors.Hand;
             logo.Image = Properties.Resources.UITFLIX;
-            logo.Location = new Point(0, 2);
+            logo.Location = new Point(4, 2);
             logo.Margin = new Padding(2);
             logo.Name = "logo";
             logo.Size = new Size(59, 61);
@@ -76,7 +76,7 @@
             label1.AutoSize = true;
             label1.Font = new Font("Cambria", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.MidnightBlue;
-            label1.Location = new Point(78, 21);
+            label1.Location = new Point(68, 19);
             label1.Name = "label1";
             label1.Size = new Size(121, 27);
             label1.TabIndex = 2;
@@ -140,6 +140,7 @@
             // 
             // textBoxName
             // 
+            textBoxName.BackColor = SystemColors.Window;
             textBoxName.Font = new Font("Cambria", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxName.ForeColor = Color.MidnightBlue;
             textBoxName.Location = new Point(158, 98);
@@ -150,6 +151,7 @@
             // 
             // textBoxEmail
             // 
+            textBoxEmail.BackColor = SystemColors.Window;
             textBoxEmail.Font = new Font("Cambria", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxEmail.ForeColor = Color.MidnightBlue;
             textBoxEmail.Location = new Point(158, 150);
