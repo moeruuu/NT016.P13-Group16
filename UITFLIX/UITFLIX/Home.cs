@@ -21,8 +21,6 @@ namespace UITFLIX
         private IconButton currentbtn;
         private Panel leftborderBtn;
         private ToolTip toolTip;
-        private bool MainVisible = true;
-        private bool OtherVisible = false;
         private OpenFileDialog openFileDialog = new OpenFileDialog();
 
         private static long size;        // private string content;
@@ -210,9 +208,9 @@ namespace UITFLIX
         private async void btnnewvideo_Click(object sender, EventArgs e)
         {
             ActiveButton(sender, RGBColors.color1);
-            VisibleCoop(OtherVisible);
-            VisibleUpload(OtherVisible);
-            VisibleTopPanel(MainVisible);
+            VisibleCoop(false);
+            VisibleUpload(false);
+            VisibleTopPanel(true);
             bottompanel.Visible = true;
             progressupload.Visible = true;
             information.Visible = false;
@@ -276,9 +274,9 @@ namespace UITFLIX
         private async void btntopvideo_Click(object sender, EventArgs e)
         {
             ActiveButton(sender, RGBColors.color2);
-            VisibleCoop(OtherVisible);
-            VisibleUpload(OtherVisible);
-            VisibleTopPanel(MainVisible);
+            VisibleCoop(false);
+            VisibleUpload(false);
+            VisibleTopPanel(true);
             bottompanel.Visible = true;
             progressupload.Visible = true;
             information.Visible = false;
@@ -344,9 +342,9 @@ namespace UITFLIX
         private async void btnwatchedvideo_Click(object sender, EventArgs e)
         {
             ActiveButton(sender, RGBColors.color3);
-            VisibleCoop(OtherVisible);
-            VisibleUpload(OtherVisible);
-            VisibleTopPanel(MainVisible);
+            VisibleCoop(false);
+            VisibleUpload(false);
+            VisibleTopPanel(true);
             bottompanel.Visible = true;
             waiting.Visible = false;
             information.Visible = false;
@@ -412,9 +410,9 @@ namespace UITFLIX
         private void btnupload_Click(object sender, EventArgs e)
         {
             ActiveButton(sender, RGBColors.color4);
-            VisibleUpload(MainVisible);
-            VisibleCoop(OtherVisible);
-            VisibleTopPanel(OtherVisible);
+            VisibleUpload(true);
+            VisibleCoop(false);
+            VisibleTopPanel(false);
             filevideo.Text = "";
             fileimage.Text = "";
             bottompanel.Visible = true;
@@ -429,9 +427,9 @@ namespace UITFLIX
         private void btncoop_Click(object sender, EventArgs e)
         {
             ActiveButton(sender, RGBColors.color5);
-            VisibleCoop(MainVisible);
-            VisibleUpload(OtherVisible);
-            VisibleTopPanel(OtherVisible);
+            VisibleCoop(true);
+            VisibleUpload(false);
+            VisibleTopPanel(false);
             bottompanel.Visible = false;
             information.Visible = false;
 
