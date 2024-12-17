@@ -245,15 +245,15 @@ namespace UITFLIX
 
         private void iconEyeCF_Click(object sender, EventArgs e)
         {
-            if (txtPassword.PasswordChar == '*')
+            if (txtCFPassword.PasswordChar == '*')
             {
-                iconEye.IconChar = FontAwesome.Sharp.IconChar.Eye;
-                txtPassword.PasswordChar = '\0';
+                iconEyeCF.IconChar = FontAwesome.Sharp.IconChar.Eye;
+                txtCFPassword.PasswordChar = '\0';
             }
             else
             {
-                iconEye.IconChar = FontAwesome.Sharp.IconChar.EyeSlash;
-                txtPassword.PasswordChar = '*';
+                iconEyeCF.IconChar = FontAwesome.Sharp.IconChar.EyeSlash;
+                txtCFPassword.PasswordChar = '*';
             }
         }
     }
