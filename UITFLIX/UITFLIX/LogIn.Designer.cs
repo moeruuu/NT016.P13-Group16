@@ -185,7 +185,7 @@
             iconEye.BackColor = Color.LightBlue;
             iconEye.Cursor = Cursors.Hand;
             iconEye.ForeColor = SystemColors.ControlLightLight;
-            iconEye.IconChar = FontAwesome.Sharp.IconChar.Eye;
+            iconEye.IconChar = FontAwesome.Sharp.IconChar.EyeSlash;
             iconEye.IconColor = SystemColors.ControlLightLight;
             iconEye.IconFont = FontAwesome.Sharp.IconFont.Auto;
             iconEye.IconSize = 35;

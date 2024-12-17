@@ -32,6 +32,7 @@ namespace UITFLIX
             this.MaximizeBox = false;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             btnlogin.Enabled = true;
+            iconEye.Enabled = false;
         }
 
         private void txtUsername_Enter(object sender, EventArgs e)
@@ -54,6 +55,7 @@ namespace UITFLIX
 
         private void txtPassword_Enter(object sender, EventArgs e)
         {
+            iconEye.Enabled = true;
             if (txtPassword.Text == "Password...")
             {
                 txtPassword.PasswordChar = '*';
@@ -64,6 +66,7 @@ namespace UITFLIX
 
         private void txtPassword_Leave(object sender, EventArgs e)
         {
+            iconEye.Enabled = false;
             if (string.IsNullOrWhiteSpace(txtPassword.Text))
             {
                 txtPassword.PasswordChar = '\0';
@@ -151,9 +154,15 @@ namespace UITFLIX
         private void iconEye_Click(object sender, EventArgs e)
         {
             if (txtPassword.PasswordChar == '*')
+            {
+                iconEye.IconChar = FontAwesome.Sharp.IconChar.Eye;
                 txtPassword.PasswordChar = '\0';
+            }
             else
+            {
+                iconEye.IconChar = FontAwesome.Sharp.IconChar.EyeSlash;
                 txtPassword.PasswordChar = '*';
+            }
         }
     }
 }

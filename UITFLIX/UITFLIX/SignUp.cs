@@ -33,6 +33,9 @@ namespace UITFLIX
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             userService = new UserService();
             btnsignup.Enabled = true;
+
+            iconEye.Enabled = false;
+            iconEyeCF.Enabled = false;
         }
         private void txtFullname_Enter(object sender, EventArgs e)
         {
@@ -89,17 +92,19 @@ namespace UITFLIX
 
         private void txtPassword_Enter(object sender, EventArgs e)
         {
+            iconEye.Enabled = true;
             if (txtPassword.Text == "Password...")
             {
                 txtPassword.PasswordChar = '*';
                 txtPassword.Text = "";
                 txtPassword.ForeColor = Color.White;
             }
-            
+
         }
 
         private void txtPassword_Leave(object sender, EventArgs e)
         {
+            iconEye.Enabled = false;
             if (string.IsNullOrWhiteSpace(txtPassword.Text))
             {
                 txtPassword.PasswordChar = '\0';
@@ -110,6 +115,7 @@ namespace UITFLIX
 
         private void txtCFPassword_Enter(object sender, EventArgs e)
         {
+            iconEyeCF.Enabled = true;
             if (txtCFPassword.Text == "Confirm Password...")
             {
                 txtCFPassword.PasswordChar = '*';
@@ -120,6 +126,7 @@ namespace UITFLIX
 
         private void txtCFPassword_Leave(object sender, EventArgs e)
         {
+            iconEyeCF.Enabled = false;
             if (string.IsNullOrWhiteSpace(txtCFPassword.Text))
             {
                 txtCFPassword.PasswordChar = '\0';
@@ -220,6 +227,34 @@ namespace UITFLIX
             LogIn logIn = new LogIn();
             logIn.ShowDialog();
             this.Close();
+        }
+
+        private void iconEye_Click(object sender, EventArgs e)
+        {
+            if (txtPassword.PasswordChar == '*')
+            {
+                iconEye.IconChar = FontAwesome.Sharp.IconChar.Eye;
+                txtPassword.PasswordChar = '\0';
+            }
+            else
+            {
+                iconEye.IconChar = FontAwesome.Sharp.IconChar.EyeSlash;
+                txtPassword.PasswordChar = '*';
+            }
+        }
+
+        private void iconEyeCF_Click(object sender, EventArgs e)
+        {
+            if (txtPassword.PasswordChar == '*')
+            {
+                iconEye.IconChar = FontAwesome.Sharp.IconChar.Eye;
+                txtPassword.PasswordChar = '\0';
+            }
+            else
+            {
+                iconEye.IconChar = FontAwesome.Sharp.IconChar.EyeSlash;
+                txtPassword.PasswordChar = '*';
+            }
         }
     }
 }

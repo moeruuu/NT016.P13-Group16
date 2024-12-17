@@ -49,12 +49,16 @@
             linklogin = new LinkLabel();
             label2 = new Label();
             lbwait = new Label();
+            iconEye = new FontAwesome.Sharp.IconPictureBox();
+            iconEyeCF = new FontAwesome.Sharp.IconPictureBox();
             ((System.ComponentModel.ISupportInitialize)iconPictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)iconPictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)iconPictureBox3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)iconPictureBox4).BeginInit();
             ((System.ComponentModel.ISupportInitialize)iconPictureBox5).BeginInit();
             ((System.ComponentModel.ISupportInitialize)iconPictureBox6).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)iconEye).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)iconEyeCF).BeginInit();
             SuspendLayout();
             // 
             // iconPictureBox1
@@ -301,12 +305,46 @@
             lbwait.TabIndex = 16;
             lbwait.Text = " ";
             // 
+            // iconEye
+            // 
+            iconEye.BackColor = Color.LightBlue;
+            iconEye.Cursor = Cursors.Hand;
+            iconEye.IconChar = FontAwesome.Sharp.IconChar.EyeSlash;
+            iconEye.IconColor = Color.White;
+            iconEye.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            iconEye.IconSize = 30;
+            iconEye.Location = new Point(345, 294);
+            iconEye.Margin = new Padding(2);
+            iconEye.Name = "iconEye";
+            iconEye.Size = new Size(30, 30);
+            iconEye.TabIndex = 17;
+            iconEye.TabStop = false;
+            iconEye.Click += iconEye_Click;
+            // 
+            // iconEyeCF
+            // 
+            iconEyeCF.BackColor = Color.LightBlue;
+            iconEyeCF.Cursor = Cursors.Hand;
+            iconEyeCF.IconChar = FontAwesome.Sharp.IconChar.EyeSlash;
+            iconEyeCF.IconColor = Color.White;
+            iconEyeCF.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            iconEyeCF.IconSize = 30;
+            iconEyeCF.Location = new Point(345, 358);
+            iconEyeCF.Margin = new Padding(2);
+            iconEyeCF.Name = "iconEyeCF";
+            iconEyeCF.Size = new Size(30, 30);
+            iconEyeCF.TabIndex = 18;
+            iconEyeCF.TabStop = false;
+            iconEyeCF.Click += iconEyeCF_Click;
+            // 
             // SignUp
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightBlue;
             ClientSize = new Size(396, 500);
+            Controls.Add(iconEyeCF);
+            Controls.Add(iconEye);
             Controls.Add(lbwait);
             Controls.Add(label2);
             Controls.Add(linklogin);
@@ -340,6 +378,8 @@
             ((System.ComponentModel.ISupportInitialize)iconPictureBox4).EndInit();
             ((System.ComponentModel.ISupportInitialize)iconPictureBox5).EndInit();
             ((System.ComponentModel.ISupportInitialize)iconPictureBox6).EndInit();
+            ((System.ComponentModel.ISupportInitialize)iconEye).EndInit();
+            ((System.ComponentModel.ISupportInitialize)iconEyeCF).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -366,5 +406,7 @@
         private LinkLabel linklogin;
         private Label label2;
         private Label lbwait;
+        private FontAwesome.Sharp.IconPictureBox iconEye;
+        private FontAwesome.Sharp.IconPictureBox iconEyeCF;
     }
 }
