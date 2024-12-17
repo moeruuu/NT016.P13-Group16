@@ -36,7 +36,7 @@ namespace UITFLIX
 
         private void txtUsername_Enter(object sender, EventArgs e)
         {
-            if (txtUsername.Text == "Username...")
+            if (txtUsername.Text == "Username or Email...")
             {
                 txtUsername.Text = "";
                 txtUsername.ForeColor = Color.White;
@@ -47,7 +47,7 @@ namespace UITFLIX
         {
             if (string.IsNullOrWhiteSpace(txtUsername.Text))
             {
-                txtUsername.Text = "Username...";
+                txtUsername.Text = "Username or Email...";
                 txtUsername.ForeColor = Color.SkyBlue;
             }
         }
@@ -74,7 +74,7 @@ namespace UITFLIX
 
         private void LogIn_Load(object sender, EventArgs e)
         {
-            txtUsername.Text = "Username...";
+            txtUsername.Text = "Username or Email...";
             txtUsername.ForeColor = Color.SkyBlue;
             txtPassword.Text = "Password...";
             txtPassword.ForeColor = Color.SkyBlue;
@@ -127,9 +127,9 @@ namespace UITFLIX
                     }
                     this.Close();
                 }
-                else
-                {
-                    MessageBox.Show(info);
+                else if(response.StatusCode == System.Net.HttpStatusCode.BadRequest) {
+
+                    MessageBox.Show(res["message"].ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
             }
@@ -146,6 +146,14 @@ namespace UITFLIX
             ForgetPassword forgetPassword = new ForgetPassword();
             forgetPassword.ShowDialog();
             this.Close();
+        }
+
+        private void iconEye_Click(object sender, EventArgs e)
+        {
+            if (txtPassword.PasswordChar == '*')
+                txtPassword.PasswordChar = '\0';
+            else
+                txtPassword.PasswordChar = '*';
         }
     }
 }

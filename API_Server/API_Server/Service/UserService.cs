@@ -78,21 +78,31 @@ namespace API_Server.Service
 
         public async Task<User> Login(UserLogInDTOs LoginDTOs)
         {
-            var filter = Builders<User>.Filter.Eq(u => u.Username, LoginDTOs.Username);
-            var existingUser = await users.Find(filter).FirstOrDefaultAsync();
-            if (existingUser == null)
+            try
             {
-                throw new Exception("Tên tài khoản hoặc mật khẩu không trùng khớp!");
+                var filter = Builders<User>.Filter.Or(
+                Builders<User>.Filter.Eq(u => u.Username, LoginDTOs.Username),
+                Builders<User>.Filter.Eq(u => u.Email, LoginDTOs.Username)
+            );
+                var existingUser = await users.Find(filter).FirstOrDefaultAsync();
+                if (existingUser == null)
+                {
+                    return null;
+                }
+                string hash = HashPassword(LoginDTOs.Password);
+                if (hash != existingUser.Password)
+                {
+                    return null;
+                }
+                var update = Builders<User>.Update.Set(u => u.IsOnline, true);
+                await users.UpdateOneAsync(filter, update);
+                //existingUser = GenerateAccessToken(existingUser);
+                return existingUser;
             }
-            string hash = HashPassword(LoginDTOs.Password);
-            if (hash != existingUser.Password)
+            catch (Exception ex)
             {
-                throw new Exception("Tên tài khoản hoặc mật khẩu không trùng khớp!");
+                throw new Exception(ex.Message);
             }
-            var update = Builders<User>.Update.Set(u => u.IsOnline, true);
-            await users.UpdateOneAsync(filter, update);
-            //existingUser = GenerateAccessToken(existingUser);
-            return existingUser;
         }
 
         public async Task LogOut(ObjectId userid)

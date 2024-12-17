@@ -41,9 +41,11 @@
             btnlogin = new Button();
             linksignup = new LinkLabel();
             linkforgetpass = new LinkLabel();
+            iconEye = new FontAwesome.Sharp.IconPictureBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)iconPictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)iconPictureBox2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)iconEye).BeginInit();
             SuspendLayout();
             // 
             // pictureBox1
@@ -178,12 +180,29 @@
             linkforgetpass.Text = "Forget password?";
             linkforgetpass.LinkClicked += linkforgetpass_LinkClicked;
             // 
+            // iconEye
+            // 
+            iconEye.BackColor = Color.LightBlue;
+            iconEye.Cursor = Cursors.Hand;
+            iconEye.ForeColor = SystemColors.ControlLightLight;
+            iconEye.IconChar = FontAwesome.Sharp.IconChar.Eye;
+            iconEye.IconColor = SystemColors.ControlLightLight;
+            iconEye.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            iconEye.IconSize = 35;
+            iconEye.Location = new Point(462, 474);
+            iconEye.Name = "iconEye";
+            iconEye.Size = new Size(35, 35);
+            iconEye.TabIndex = 13;
+            iconEye.TabStop = false;
+            iconEye.Click += iconEye_Click;
+            // 
             // LogIn
             // 
             AutoScaleDimensions = new SizeF(9F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightBlue;
             ClientSize = new Size(540, 659);
+            Controls.Add(iconEye);
             Controls.Add(linkforgetpass);
             Controls.Add(btnlogin);
             Controls.Add(iconPictureBox2);
@@ -206,6 +225,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)iconPictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)iconPictureBox2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)iconEye).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -224,5 +244,6 @@
         private Button btnlogin;
         private LinkLabel linksignup;
         private LinkLabel linkforgetpass;
+        private FontAwesome.Sharp.IconPictureBox iconEye;
     }
 }

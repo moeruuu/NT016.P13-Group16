@@ -69,6 +69,13 @@ namespace API_Server.Controllers
             try
             {
                 var userLogin = await userService.Login(logInDTOs);
+                if (userLogin == null)
+                {
+                    return BadRequest(new
+                    {
+                        message = "Username or Password is not correct"
+                    });
+                }
                 var accessToken = jwtService.GenerateAccessToken(userLogin);
                 var refreshtoken = jwtService.GenerateRefreshToken();
 
@@ -100,6 +107,7 @@ namespace API_Server.Controllers
                         Role = userLogin.Role,
                     }
                 });
+                
             }
             catch (Exception ex)
             {
