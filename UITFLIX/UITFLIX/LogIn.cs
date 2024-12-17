@@ -29,8 +29,10 @@ namespace UITFLIX
             this.txtPassword.Leave += new System.EventHandler(this.txtPassword_Leave);
             this.txtUsername.Enter += new System.EventHandler(this.txtUsername_Enter);
             this.txtUsername.Leave += new System.EventHandler(this.txtUsername_Leave);
+
             this.MaximizeBox = false;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
+
             btnlogin.Enabled = true;
             iconEye.Enabled = false;
         }
@@ -83,18 +85,11 @@ namespace UITFLIX
             txtPassword.ForeColor = Color.SkyBlue;
         }
 
-        private async void linksignup_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            this.Hide();
-            SignUp signUp = new SignUp();
-            signUp.ShowDialog();
-            this.Close();
-        }
-
         private async void btnlogin_Click(object sender, EventArgs e)
         {
             string username = txtUsername.Text;
             string password = txtPassword.Text;
+
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
             {
                 MessageBox.Show("Fill your name or your password, please!", "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -112,8 +107,7 @@ namespace UITFLIX
                 var response = await httpClient.PostAsync("/api/User/LogIn", content);
                 var info = await response.Content.ReadAsStringAsync();
                 JObject res = JObject.Parse(info);
-                //MessageBox.Show(Userinfo.ToString());
-                //MessageBox.Show(response.ToString());
+
                 if (response.IsSuccessStatusCode)
                 {
                     this.Hide();
@@ -125,12 +119,11 @@ namespace UITFLIX
                         home.ShowDialog();
                     }
                     else
-                    {
                         new Admin(res, accesstoken).ShowDialog();
-                    }
                     this.Close();
                 }
-                else if(response.StatusCode == System.Net.HttpStatusCode.BadRequest) {
+                else if(response.StatusCode == System.Net.HttpStatusCode.BadRequest) 
+                {
 
                     MessageBox.Show(res["message"].ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
@@ -138,9 +131,17 @@ namespace UITFLIX
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + '\n' + ex.StackTrace, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
+        }
+
+        private async void linksignup_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            this.Hide();
+            SignUp signUp = new SignUp();
+            signUp.ShowDialog();
+            this.Close();
         }
 
         private void linkforgetpass_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

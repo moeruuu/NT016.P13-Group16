@@ -18,7 +18,6 @@ namespace API_Server.Controllers
 
     public class CoopController : ControllerBase
     {
-
         private readonly CoopService coopService;
 
         public CoopController(CoopService coopService)
@@ -34,17 +33,9 @@ namespace API_Server.Controllers
             {
                 var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                 if (string.IsNullOrEmpty(userId) || !ObjectId.TryParse(userId, out ObjectId UserId))
-                {
-                    return Unauthorized("Không thể xác thực người dùng.");
-                }
-                /* var user = await userService.GetUserByID(UserId);
-                 if (user == null)
-                 {
-                     return NotFound("Không tìm thấy");
-                 }*/
+                    return Unauthorized("Unable to authenticate the user.");
 
                 var createroom = await coopService.CreateRoom(UserId);
-                // await hub.Clients.All.SendAsync("RoomCreated", createroom.RoomId);
                 return Ok(new
                 {
                     Room = new
@@ -58,10 +49,11 @@ namespace API_Server.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message + "\n" + ex.StackTrace);
+                return BadRequest(ex.Message);
             }
 
         }
+
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet("FindRoom/{id}")]
         public async Task<IActionResult> FindRoom([FromRoute] string id)
@@ -70,22 +62,15 @@ namespace API_Server.Controllers
             {
                 var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                 if (string.IsNullOrEmpty(userId) || !ObjectId.TryParse(userId, out ObjectId UserId))
-                {
-                    return Unauthorized("Không thể xác thực người dùng.");
-                }
+                    return Unauthorized("Unable to authenticate the user.");
                 if (string.IsNullOrEmpty(userId))
-                {
-                    return NotFound("Không tìm thấy user");
-                }
+                    return NotFound("User not found!");
+ 
                 var res = await coopService.FindRoom(id, userId);
                 if (res)
-                {
                     return Ok();
-                }
                 else
-                {
-                    return BadRequest("Người dùng đã ở trong phòng");
-                }
+                    return BadRequest("This user is already in the room.");
             }
             catch (Exception ex)
             {
@@ -102,11 +87,8 @@ namespace API_Server.Controllers
             {
                 var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                 if (string.IsNullOrEmpty(userId) || !ObjectId.TryParse(userId, out ObjectId UserId))
-                {
-                    return Unauthorized("Không thể xác thực người dùng.");
-                }
+                    return Unauthorized("Unable to authenticate the user.");
                 await coopService.UserJoined(userJoinedDTOs.roomid, UserId);
-               // await hub.Clients.Group(userJoinedDTOs.roomid).SendAsync("ReceiveNotification", $"{UserId} has joined.");
 
                 return Ok(new
                 {
@@ -117,8 +99,7 @@ namespace API_Server.Controllers
             }
             catch (Exception ex)
             {
-                //Console.WriteLine(ex.Message + "\n" + ex.StackTrace);
-                return BadRequest($"Failed to join room [{userJoinedDTOs.roomid}] {ex.Message} \n {ex.StackTrace}");
+                return BadRequest($"Failed to join room [{userJoinedDTOs.roomid}]: {ex.Message}");
             }
         }
 
@@ -130,14 +111,9 @@ namespace API_Server.Controllers
             {
                 var result = await coopService.AddVideo(videoDTOs);
                 if (result)
-                {
                     return Ok();
-                }
                 else
-                {
-                    return BadRequest("Không có thay đổi nào");
-                }
-
+                    return BadRequest("No change");
             }
             catch(Exception ex) 
             {
@@ -153,9 +129,8 @@ namespace API_Server.Controllers
             {
                 var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                 if (string.IsNullOrEmpty(userId) || !ObjectId.TryParse(userId, out ObjectId UserId))
-                {
-                    return Unauthorized("Không thể xác thực người dùng.");
-                }
+                    return Unauthorized("Unable to authenticate the user.");
+
                 await coopService.UserLeft(leftDTOs.roomid, userId);
                 return Ok(new
                 {
@@ -185,7 +160,7 @@ namespace API_Server.Controllers
                     });
 
                 }
-                return NotFound("Không tìm thấy video");
+                return NotFound("Video not found!");
             }
             catch (Exception ex)
             {
@@ -201,9 +176,7 @@ namespace API_Server.Controllers
             {
                 var checkroom = await coopService.DeleteRoom(roomid);
                 if (checkroom)
-                {
-                    return Ok($"Phòng [{roomid}] đã bị xóa!");
-                }
+                    return Ok($"Room [{roomid}] has been deleted!");
                 return BadRequest();
             }
             catch(Exception ex)
@@ -219,7 +192,8 @@ namespace API_Server.Controllers
             var rooms = await coopService.GetAllRooms();
             if (rooms != null || rooms.Count != 0)
                 return Ok(rooms);
-            else return NotFound("Không tìm thấy phòng nào cả");
+            else 
+                return NotFound("No rooms found!");
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
@@ -230,13 +204,9 @@ namespace API_Server.Controllers
             {
                 var deleted = await coopService.DeleteVideoFromQueue(deletevideo);
                 if (deleted)
-                {
                     return Ok();
-                }
                 else
-                {
                     return BadRequest();
-                }
             }
             catch (Exception ex)
             {

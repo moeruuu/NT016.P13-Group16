@@ -133,7 +133,7 @@ namespace UITFLIX
         //Nút logout
         private async void logout_Click(object sender, EventArgs e)
         {
-            var res = MessageBox.Show("Bạn có muốn thoát?", "Thoát", MessageBoxButtons.YesNo);
+            var res = MessageBox.Show("Do you want to exit?", "LogOut", MessageBoxButtons.YesNo);
             if (res == DialogResult.Yes)
             {
                 var LogOutModel = new
@@ -211,7 +211,7 @@ namespace UITFLIX
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"{ex.Message}\n{ex.StackTrace}");
+                MessageBox.Show(ex.Message);
             }
 
             progressBar.Visible = false;
@@ -277,7 +277,7 @@ namespace UITFLIX
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"{ex.Message}\n{ex.StackTrace}");
+                MessageBox.Show(ex.Message);
             }
 
             progressBar.Visible = false;
@@ -331,7 +331,7 @@ namespace UITFLIX
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"{ex.Message}\n{ex.StackTrace}");
+                MessageBox.Show(ex.Message);
             }
 
             progressBar.Visible = false;
@@ -408,7 +408,7 @@ namespace UITFLIX
             int selectedTab = tcData.SelectedIndex;
             if (selectedTab == 0 || selectedTab == 3)
                 return;
-            if (selectedTab == 1)
+            if (selectedTab == 1) //Users tab
             {
                 if (selectedIndexUser == -1)
                 {
@@ -428,7 +428,7 @@ namespace UITFLIX
                         if (res == DialogResult.Yes)
                         {
                             var response = await userService.DeleteUser(dgvUsers.Rows[selectedIndexUser].Cells["UserID"].Tag.ToString(), accesstoken);
-                            if (response == "Thành công")
+                            if (response == "successfully!")
                             {
                                 MessageBox.Show("Deleted user successfully", "Success", MessageBoxButtons.OK);
                                 dgvUsers.Rows.RemoveAt(selectedIndexUser);
@@ -444,7 +444,7 @@ namespace UITFLIX
                     }
                 }
             }
-            else if (selectedTab == 2)
+            else if (selectedTab == 2) //Videos tab
             {
                 if (selectedIndexVideo == -1)
                 {
@@ -458,7 +458,7 @@ namespace UITFLIX
                     {
                         var response = await videoService.DeleteVideo(dgvVideos.Rows[selectedIndexVideo].Cells["VideoID"].Tag.ToString(), accesstoken);
                         MessageBox.Show(dgvVideos.Rows[selectedIndexVideo].Cells["VideoID"].Tag.ToString());
-                        if (response == "Thành công")
+                        if (response == "successfully!")
                         {
                             MessageBox.Show("Deleted video successfully", "Success", MessageBoxButtons.OK);
                             dgvVideos.Rows.RemoveAt(selectedIndexVideo);
@@ -505,20 +505,15 @@ namespace UITFLIX
             var response = await userService.LogOut(LogOutModel, accesstoken);
         }
 
-        private void tbSearch_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnSearch_Click(object sender, EventArgs e)
         {
             SearchInDataGridView();
         }
+
         private void SearchInDataGridView()
         {
             string searchValue = tbSearch.Text.ToLower();
             int selectedTab = tcData.SelectedIndex;
-            bool hasResults = false;
             
             switch (selectedTab)
             {
@@ -527,9 +522,12 @@ namespace UITFLIX
                         foreach (DataGridViewRow row in dgvEmails.Rows)
                         {
                             bool isVisible = row.Cells.Cast<DataGridViewCell>().Any(cell => cell.Value != null &&
-                                               cell.Value.ToString().ToLower().Contains(searchValue));
+                                             cell.Value.ToString().ToLower().Contains(searchValue));
                             row.Visible = isVisible;
-                            if (isVisible) hasResults = true;
+                            if (isVisible) 
+                                lbNoEmail.Visible = true;
+                            else
+                                lbNoEmail.Visible = false;
                         }
                     }
                 break;
@@ -540,7 +538,10 @@ namespace UITFLIX
                             bool isVisible = row.Cells.Cast<DataGridViewCell>().Any(cell => cell.Value != null &&
                                              cell.Value.ToString().ToLower().Contains(searchValue));
                             row.Visible = isVisible;
-                            if (isVisible) hasResults = true;
+                            if (isVisible) 
+                                lbNoUser.Visible = true;
+                            else
+                                lbNoUser.Visible = false;
                         }
                     }
                 break;
@@ -551,7 +552,10 @@ namespace UITFLIX
                             bool isVisible = row.Cells.Cast<DataGridViewCell>().Any(cell => cell.Value != null &&
                                              cell.Value.ToString().ToLower().Contains(searchValue));
                             row.Visible = isVisible;
-                            if (isVisible) hasResults = true;
+                            if (isVisible)
+                                lbNoVideo.Visible = true;
+                            else
+                                lbNoVideo.Visible = false;
                         }
                     }
                 break;
@@ -562,15 +566,15 @@ namespace UITFLIX
                             bool isVisible = row.Cells.Cast<DataGridViewCell>().Any(cell => cell.Value != null &&
                                              cell.Value.ToString().ToLower().Contains(searchValue));
                             row.Visible = isVisible;
-                            if (isVisible) hasResults = true;
+                            if (isVisible) 
+                                lbNoRoom.Visible = true;
+                            else
+                                lbNoRoom.Visible = false;
                         }
                     }
                 break;
             }
-            if (!hasResults)
-            {
-                MessageBox.Show("Không có kết quả nào tương ứng", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
+
         }
 
     }

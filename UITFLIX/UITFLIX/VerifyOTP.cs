@@ -17,12 +17,14 @@ namespace UITFLIX
         private readonly int code;
         private readonly string email;
         private readonly string password;
+
         public VerifyOTP(int requestCode, string Email, string Password)
         {
             InitializeComponent();
             this.MaximizeBox = false;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             userService = new UserService();
+
             this.code = requestCode;
             this.email = Email;
             this.password = Password;
@@ -31,11 +33,9 @@ namespace UITFLIX
         private async void btnverify_Click(object sender, EventArgs e)
         {
             btnverify.Enabled = false;
-            //btnverify.Text = $"Vui lòng chờ {delay}s...";
-
             if (string.IsNullOrEmpty(tbotp.Text.Trim()))
             {
-                MessageBox.Show("Vui lòng nhập mã OTP!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Please enter the OTP!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
             var OTP = new
@@ -44,16 +44,17 @@ namespace UITFLIX
                 otp = tbotp.Text.Trim(),
             };
             var response = await userService.VerifyOTP(OTP);
-            if (response.Contains("đăng ký thành công!"))
+            if (response.Contains("registration successfully!"))
             {
-                MessageBox.Show("Đăng ký thành công!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Registration successful!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Hide();
                 LogIn logIn = new LogIn();
                 logIn.ShowDialog();
+                this.Close();
             }
-            else if(response.Contains("tạo mật khẩu mới thành công!"))
+            else if(response.Contains("successfully create a new password!"))
             {
-                MessageBox.Show("Đổi mật khẩu thành công!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Password changed successfully!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 var ForgetPwd = new
                 {
                     statusCode = 1,
@@ -61,9 +62,11 @@ namespace UITFLIX
                     Password = password,
                 };
                 await userService.ForgetPassword(ForgetPwd);
+
                 this.Hide();
                 LogIn logIn = new LogIn();
                 logIn.ShowDialog();
+                this.Close();
             }    
             else
             {

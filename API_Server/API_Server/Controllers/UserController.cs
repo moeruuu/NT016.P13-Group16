@@ -25,7 +25,6 @@ namespace API_Server.Controllers
         {
             userService = _userService;
             jwtService = jwt;
-            //Tokencollection = database.GetCollection<Token>("JWTToken");
         }
 
         [AllowAnonymous]
@@ -35,11 +34,11 @@ namespace API_Server.Controllers
             try
             {
                 var userSignUp = await userService.Register(signUpDTOs);
-                return Ok("Đăng ký thành công! Vui lòng kiểm tra OTP.");
+                return Ok("Registration successful! Please check your OTP.");
             }
             catch (Exception ex)
             {
-                return BadRequest($"Lỗi đăng ký: {ex.Message}");
+                return BadRequest(ex.Message);
             }
         }
 
@@ -51,14 +50,14 @@ namespace API_Server.Controllers
             {
                 var userOTP = await userService.CheckOTP(otpDTOs);
                 if (otpDTOs.requestCode == 0)
-                    return Ok("Xác thực OTP để đăng ký thành công!");
+                    return Ok("Verify OTP to complete registration successfully!");
                 if (otpDTOs.requestCode == 1)
-                    return Ok("Xác thực OTP để tạo mật khẩu mới thành công!");
-                return BadRequest("Không xác định được yêu cầu.");
+                    return Ok("Verify OTP to successfully create a new password!");
+                return BadRequest("Request could not be determined.");
             }
             catch (Exception ex)
             {
-                return BadRequest($"Lỗi OTP: {ex.Message}");
+                return BadRequest(ex.Message);
             }
         }
 
@@ -111,7 +110,7 @@ namespace API_Server.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest($"Lỗi login: {ex.Message} \n {ex.StackTrace}");
+                return BadRequest(ex.Message);
             }
         }
 
@@ -129,7 +128,7 @@ namespace API_Server.Controllers
                         HttpOnly = true,
                         Secure = true,
                         SameSite = SameSiteMode.Strict,
-                        Expires = DateTime.UtcNow.AddDays(-1) // Set thời gian hết hạn trong quá khứ để xóa cookie
+                        Expires = DateTime.UtcNow.AddDays(-1) // set thời gian hết hạn trong quá khứ để xóa cookie
                     };
 
                     Response.Cookies.Append("accessToken", "", cookieDelete);
@@ -142,11 +141,11 @@ namespace API_Server.Controllers
                 //set online false
                 userService.LogOut(UserId);
 
-                return Ok("Logout thành công!");
+                return Ok("Logout successfully!");
             }
             catch (Exception ex)
             {
-                return BadRequest($"Lỗi logout: {ex.Message} \n {ex.StackTrace}");
+                return BadRequest(ex.Message);
             }
         }
 
@@ -156,13 +155,9 @@ namespace API_Server.Controllers
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userId) || !ObjectId.TryParse(userId, out ObjectId UserId))
-            {
-                return Unauthorized("Không thể xác thực người dùng.");
-            }
+                return Unauthorized("Unable to authenticate the user.");
             if (request == null)
-            {
-                return BadRequest("Không có thông tin nào được cập nhập.");
-            }
+                return BadRequest("No information has been updated.");
             var userUpdate = await userService.UpdateInformation(UserId, request.FullName, request.Avatar, request.Bio);
             if (userUpdate)
             {
@@ -179,9 +174,7 @@ namespace API_Server.Controllers
                 });
             }
             else
-            {
-                return BadRequest("Không tìm thấy thông tin.");
-            }
+                return BadRequest("Information not found!");
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
@@ -190,21 +183,15 @@ namespace API_Server.Controllers
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userId) || !ObjectId.TryParse(userId, out ObjectId UserId))
-            {
-                return Unauthorized("Không thể xác thực người dùng.");
-            }
+                return Unauthorized("Unable to authenticate the user.");
             if (request == null)
-            {
-                return BadRequest("Người dùng không đổi mật khẩu.");
-            }
+                return BadRequest("The user did not change the password.");
             var userUpdate = await userService.ChangePassword(UserId, request.OldPassword, request.NewPassword);
             if (userUpdate)
-            {
-                return Ok("Thành công!");
-            }
+                return Ok("Success");
             else
             {
-                return BadRequest("Không thể thay đổi mật khẩu.");
+                return BadRequest("Unable to change the password!");
             }
         }
 
@@ -214,25 +201,17 @@ namespace API_Server.Controllers
         {
             var email = User.FindFirst(ClaimTypes.Email)?.Value;
             if (request == null)
-            {
-                return BadRequest("Người dùng không đổi mật khẩu.");
-            }
+                return BadRequest("The user did not change the password.");
             var forgetString = await userService.ForgetPassword(request);
-            if (forgetString == "Đã gửi mã OTP")
-            {
-                return Ok("Đã gửi mã OTP");
-            }
+            if (forgetString == "OTP sent")
+                return Ok("OTP sent");
             else
             {
                 var updatePass = await userService.ChangePassword(request.Email, forgetString, request.Password);
                 if (updatePass)
-                {
-                    return Ok("Thành công!");
-                }
+                    return Ok("Success");
                 else
-                {
-                    return BadRequest("Không thể thay đổi mật khẩu.");
-                }
+                    return BadRequest("Unable to change the password!");
             }
 
         }
@@ -243,9 +222,7 @@ namespace API_Server.Controllers
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userId) || !ObjectId.TryParse(userId, out ObjectId UserId))
-            {
-                return Unauthorized("Không thể xác thực người dùng.");
-            }
+                return Unauthorized("Unable to authenticate the user.");
             try
             {
                 var CurrentUser = await userService.GetUserByID(UserId);
@@ -275,7 +252,8 @@ namespace API_Server.Controllers
             var users = await userService.GetAllUsers();
             if (users != null || users.Count != 0)
                 return Ok(users);
-            else return NotFound("Không có người dùng nào!");
+            else 
+                return NotFound("No users found!");
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
@@ -299,28 +277,8 @@ namespace API_Server.Controllers
                     }
                 });
             }
-            else return NotFound("Không tìm thấy người dùng!");
-        }
-
-
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
-        [HttpDelete("UserID/{UserId}")]
-        public async Task<IActionResult> DeleteUser()
-        {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (string.IsNullOrEmpty(userId) || !ObjectId.TryParse(userId, out ObjectId UserId))
-            {
-                return Unauthorized("Không thể xác thực người dùng.");
-            }
-            var DeleteUser = await userService.DeleteUser(UserId);
-            if (DeleteUser)
-            {
-                return Ok("Xóa người dùng thành công!");
-            }
             else
-            {
-                return NotFound("Không tìm thấy người dùng");
-            }
+                return NotFound("User not found!");
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
@@ -331,10 +289,9 @@ namespace API_Server.Controllers
             {
                 var delete = await userService.DeleteUser(UserID);
                 if (delete == true)
-                {
-                    return Ok("Thành công");
-                }
-                else return NotFound("Không tìm thấy người dùng!");
+                    return Ok("User deleted successfully!");
+                else 
+                    return NotFound("User not found!");
             }
             catch (Exception ex)
             {

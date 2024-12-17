@@ -26,7 +26,6 @@ namespace API_Server.Service
             gridFS = new GridFSBucket(database);
             watchedList = database.GetCollection<WatchedVideo>("WatchedVideos");
             users = database.GetCollection<User>("Users");
-
             this.imgurService = imgurService;
         }
 
@@ -131,9 +130,7 @@ namespace API_Server.Service
 
             // Kiểm tra nếu người dùng không tồn tại hoặc chưa xem video nào
             if (user == null || user.WatchedVideosList == null || !user.WatchedVideosList.Any())
-            {
                 return new List<object>();
-            }
 
             var watchedVideos = new List<object>();
             //lấy video từ cuối danh sách lên
@@ -150,7 +147,7 @@ namespace API_Server.Service
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Lỗi khi lấy video: {ex.Message}");
+                    Console.WriteLine(ex.Message);
                 }
             }
 
@@ -173,17 +170,13 @@ namespace API_Server.Service
             var getVideo = await GetVideoByID(id);
 
             if (getVideo == null)
-            {
                 return false;
-            }
 
             var filefilter = Builders<GridFSFileInfo>.Filter.Eq(info => info.Length, getVideo.Size);
             var file = await gridFS.Find(filefilter).FirstOrDefaultAsync();
 
             if (file == null)
-            {
                 return false; 
-            }
             await gridFS.DeleteAsync(file.Id);
             var result = await videos.DeleteOneAsync(filter);
             return result.DeletedCount > 0;
@@ -221,7 +214,7 @@ namespace API_Server.Service
             var find = Builders<Video>.Filter.Eq(v => v.id, id);
             var video = await videos.Find(find).FirstOrDefaultAsync();
             if (video == null)
-                throw new Exception("Không tồn tại video");
+                throw new Exception("Video not found!");
             var videofile = new ObjectId(video.Url);
             var stream = new MemoryStream();
             await gridFS.DownloadToStreamAsync(videofile, stream);
@@ -255,9 +248,8 @@ namespace API_Server.Service
             var filter = Builders<Video>.Filter.Eq(v => v.id, modelrating.Id);
             var video = await videos.Find(filter).FirstOrDefaultAsync();
             if (video == null)
-            {
-                throw new Exception("Không tìm thấy video");
-            }
+                throw new Exception("Video not found!");
+
             double rating;
             int numrate;
             if (video.NumRate == 0)
@@ -269,7 +261,6 @@ namespace API_Server.Service
             {
                 numrate = video.NumRate + 1;
                 rating = (double)((video.Rating * video.NumRate) + modelrating.rating) / numrate;
-
             }
 
             var update = Builders<Video>.Update.Set(v => v.Rating, rating).Set(v => v.NumRate, numrate);
@@ -285,7 +276,7 @@ namespace API_Server.Service
             var video = await videos.Find(filter).FirstOrDefaultAsync();
 
             if (video == null)
-                throw new FileNotFoundException("Không tìm thấy video.");
+                throw new FileNotFoundException("Video not found!");
 
             var videoFileId = new ObjectId(video.Url);
             var stream = new MemoryStream();
@@ -294,14 +285,13 @@ namespace API_Server.Service
                 await gridFS.DownloadToStreamAsync(videoFileId, stream);
 
                 if (stream.Length == 0)
-                    throw new FileNotFoundException("File stream rỗng.");
+                    throw new FileNotFoundException("Empty file stream");
 
                 stream.Seek(0, SeekOrigin.Begin);
             }
             catch (Exception ex)
             {
-                //Console.WriteLine($"Lỗi xảy ra khi donwload: {ex.Message}");
-                throw;
+                throw new Exception(ex.Message);
             }
 
             return (stream, video);

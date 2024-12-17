@@ -5,45 +5,50 @@ namespace API_Server.DTOs
 {
     public class UserSignUpDTOs
     {
-       
-        [Required(ErrorMessage = "Vui lòng nhập họ và tên!")]
-        [StringLength(150, ErrorMessage = "Họ tên không thể chứa quá 150 kí tự.")]
+        [Required(ErrorMessage = "Please enter your full name!")]
+        [StringLength(150, ErrorMessage = "Full name cannot exceed 150 characters.")]
         public string Fullname { get; set; }
-        [Required(ErrorMessage = "Vui lòng nhập tên tài khoản!")]
-        [RegularExpression("^[a-zA-Z0-9]{4,25}$", ErrorMessage = "Tên tài khoản không chứa kí tự đặt biệt và phải chứa ít nhất 4 kí tự hoặc tối đa 25 kí tự!")]
+
+        [Required(ErrorMessage = "Please enter a username!")]
+        [RegularExpression("^[a-zA-Z0-9]{4,25}$", ErrorMessage = "Username cannot contain special characters and must be at least 4 characters or at most 25 characters long!")]
         public string Username { get; set; }
-        [Required(ErrorMessage = "Vui lòng nhập Email!")]
-        [RegularExpression(@"^[a-zA-Z0-9._%+-]{1,64}@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "Vui lòng nhập đúng định dạng Email!")]
+
+        [Required(ErrorMessage = "Please enter an email!")]
+        [RegularExpression(@"^[a-zA-Z0-9._%+-]{1,64}@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "Please enter a valid email format!")]
         public string Email { get; set; }
-        [Required(ErrorMessage = "Vui lòng nhập mật khẩu!")]
-        [RegularExpression(@"^.{6,20}$", ErrorMessage = "Mật khẩu phải chứa ít nhất 6 kí tự hoặc tối đa 20 kí tự!")]
+
+        [Required(ErrorMessage = "Please enter a password!")]
+        [RegularExpression(@"^.{6,20}$", ErrorMessage = "Password must be at least 6 characters or at most 20 characters long!")]
         public string Password { get; set; }
     }
 
     public class UserLogInDTOs 
     {
-        [Required(ErrorMessage = "Vui lòng nhập tên tài khoản!")]
+        [Required(ErrorMessage = "Please enter a username!")]
         public string Username { get; set; }
-        [Required(ErrorMessage = "Vui lòng nhập mật khẩu!")]
+
+        [Required(ErrorMessage = "Please enter a password!")]
         public string Password { get; set; }
     }
+
     public class LogOutDTOs
     {
-        [Required(ErrorMessage = "UserID không tồn tại")]
+        [Required(ErrorMessage = "UserID does not exist")]
         public string Id { get; set; }
     }
+
     public class ForgetPassDTOs
     {
-        [Required(ErrorMessage = "Không rõ yêu cầu!")]
-        public int statusCode { get; set; } //0 là chưa gửi OTP, 1 là đúng OTP, 2 là sai OTP
-        [Required(ErrorMessage = "Vui lòng nhập email đã đăng ký!")]
-        [RegularExpression(@"^[\w]{4,30}@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "Vui lòng nhập đúng định dạng Email!")]
+        [Required(ErrorMessage = "Request is unclear!")]
+        public int statusCode { get; set; } // 0 là chưa gửi, 1 là đúng OTP, 2 là sai OTP
+
+        [Required(ErrorMessage = "Please enter the registered email!")]
+        [RegularExpression(@"^[\w]{4,30}@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "Please enter a valid email format!")]
         public string Email { get; set; }
-        [Required(ErrorMessage = "Vui lòng nhập mật khẩu!")]
-        [RegularExpression(@"^.{6,20}$", ErrorMessage = "Mật khẩu phải chứa ít nhất 6 kí tự hoặc tối đa 20 kí tự!")]
+
+        [Required(ErrorMessage = "Please enter a password!")]
+        [RegularExpression(@"^.{6,20}$", ErrorMessage = "Password must be at least 6 characters or at most 20 characters long!")]
         public string Password { get; set; }
     }
-
-
     
 }

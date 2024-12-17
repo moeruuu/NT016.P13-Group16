@@ -45,7 +45,7 @@ namespace API_Server.Service
             }
             catch (Exception ex)
             {
-                throw new Exception($"Có lỗi xảy ra khi gửi email: {ex.Message}");
+                throw new Exception(ex.Message);
             }
 
         }
@@ -57,8 +57,7 @@ namespace API_Server.Service
                 var email = new MimeMessage();
                 email.Sender = MailboxAddress.Parse(request.Email);
                 email.To.Add(MailboxAddress.Parse(sender.EmailGroup16));
-                //email.Bcc.Add(MailboxAddress.Parse(request.Email));
-                email.Subject = $"[Liên hệ mới từ {request.Name}] {request.Subject}";
+                email.Subject = $"[New contact from {request.Name}] {request.Subject}";
                 var htmlContent = $@"
                 <!DOCTYPE html>
                 <html lang='en'>
@@ -85,10 +84,10 @@ namespace API_Server.Service
                         <h2>NT106.P13</h2>
                         </div>
                         <div class='content'>
-                            <h1>Liên hệ mới từ: {request.Name}</h1>
+                            <h1>New contact from: {request.Name}</h1>
                             <p><strong>Email:</strong> {request.Email}</p>
-                            <p><strong>Chủ đề:</strong> {request.Subject}</p>
-                            <p><strong>Nội dung:</strong></p>
+                            <p><strong>Subject:</strong> {request.Subject}</p>
+                            <p><strong>Content:</strong></p>
                             <p>{request.Body}</p>
                         </div>
                         <div class='footer'>
@@ -96,26 +95,23 @@ namespace API_Server.Service
                          </div>
                     </div>
                 </body>
-                 </html>";
+                </html>";
                 var builder = new BodyBuilder
                 {
                     HtmlBody = htmlContent
                 };
                 if (!string.IsNullOrEmpty(request.AttachmentPath) && File.Exists(request.AttachmentPath))
-                {
                     builder.Attachments.Add(request.AttachmentPath);
-                }
                 email.Body = builder.ToMessageBody();
                 using var smtp = new SmtpClient();
                 await smtp.ConnectAsync(sender.HostEmail, sender.Port, SecureSocketOptions.StartTls);
                 await smtp.AuthenticateAsync(sender.EmailGroup16, sender.PasswordGroup16);
                 await smtp.SendAsync(email);
                 await smtp.DisconnectAsync(true);
-
             }
             catch (Exception ex)
             {
-                throw new Exception($"Có lỗi xảy ra khi gửi email: {ex.Message}");
+                throw new Exception(ex.Message);
             }
 
         }
@@ -152,7 +148,7 @@ namespace API_Server.Service
             }
             catch(Exception ex)
             {
-                throw new Exception($"Có lỗi xảy ra khi tải email: {ex.Message}");
+                throw new Exception(ex.Message);
             }
         }
     }

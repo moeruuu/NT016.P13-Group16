@@ -47,9 +47,8 @@ namespace UITFLIX
                 this.Location = homeLocation.Value;
             }
             else
-            {
                 this.StartPosition = FormStartPosition.CenterScreen;
-            }
+
             InitializeComponent();
             toolTip = new ToolTip();
             userService = new UserService();
@@ -224,13 +223,9 @@ namespace UITFLIX
                 progressupload.Minimum = 0;
                 var jarray = await videoService.GetNewestVideosAsync(accesstoken);
                 if (jarray != null)
-                {
                     progressupload.Maximum = jarray.Count;
-                }
                 else
-                {
                     progressupload.Maximum = 1;
-                }
                 progressupload.Value = 0;
 
                 if (jarray != null && jarray.Count > 0)
@@ -252,9 +247,7 @@ namespace UITFLIX
                     }
                 }
                 else
-                {
                     information.Visible = true;
-                }
 
             }
             catch (Exception ex)
@@ -291,13 +284,9 @@ namespace UITFLIX
 
                 var jarray = await videoService.GetTopVideos(accesstoken);
                 if (jarray != null)
-                {
                     progressupload.Maximum = jarray.Count;
-                }
                 else
-                {
                     progressupload.Maximum = 1;
-                }
                 progressupload.Value = 0;
 
                 if (jarray != null && jarray.Count > 0)
@@ -320,9 +309,7 @@ namespace UITFLIX
                     }
                 }
                 else
-                {
                     information.Visible = true;
-                }
 
             }
             catch (Exception ex)
@@ -359,13 +346,9 @@ namespace UITFLIX
 
                 var jarray = await videoService.GetWatchedVideos(accesstoken);
                 if (jarray != null)
-                {
                     progressupload.Maximum = jarray.Count;
-                }
                 else
-                {
                     progressupload.Maximum = 1;
-                }
                 progressupload.Value = 0;
 
                 if (jarray != null && jarray.Count > 0)
@@ -388,9 +371,7 @@ namespace UITFLIX
                     }
                 }
                 else
-                {
                     information.Visible = true;
-                }
 
             }
             catch (Exception ex)
@@ -494,38 +475,38 @@ namespace UITFLIX
             FileInfo info = new FileInfo(selectedimagefile);
             size = info.Length;
             fileimage.Text = SetLabelText(getname, 15) + getextensions;
-
         }
 
         private async void btnuploadvideo_Click(object sender, EventArgs e)
         {
             if (tbnamefilm.Text.Length > 100)
             {
-                MessageBox.Show("Tên phim không thể chứa quá 100 kí tự");
+                MessageBox.Show("The movie title cannot exceed 100 characters.");
                 return;
             }
             if (tbdescription.Text.Length > 1000)
             {
-                MessageBox.Show("Mô tả không thể chứa quá 1000 kí tự");
+                MessageBox.Show("The description cannot exceed 1000 characters.");
                 return;
             }
             this.Enabled = false;
             waiting.Visible = false;
             information.Visible = false;
+
             try
             {
                 waiting.Visible = true;
                 this.Cursor = Cursors.WaitCursor;
                 if (tbnamefilm.Text == null || tbdescription.Text == null || cbtag.SelectedIndex == -1)
                 {
-                    MessageBox.Show("Vui lòng ghi tên phim hoặc mô tả hoặc thể loại!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Please enter the movie title, description, or genre!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     btnupload.Enabled = true;
                     btnchoosefile.Enabled = true;
                     return;
                 }
                 if (selectedimagefile == null || selectedvideofile == null)
                 {
-                    MessageBox.Show("Vui lòng chọn file!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Please selete a file!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     btnupload.Enabled = true;
                     btnchoosefile.Enabled = true;
                     return;
@@ -534,7 +515,7 @@ namespace UITFLIX
                 var size = fileInfo.Length;
                 if (size > 100000000)
                 {
-                    MessageBox.Show("Dung lượng video quá lớn!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("The video size is too large!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     btnupload.Enabled = true;
                     btnchoosefile.Enabled = true;
                     return;
@@ -544,7 +525,7 @@ namespace UITFLIX
                 if (await videoService.UploadVideoAsync(selectedvideofile, selectedimagefile, tbnamefilm.Text.Trim(), tbdescription.Text.Trim(), cbtag.SelectedItem.ToString(), Userinfo["access_token"].ToString()))
                 {
 
-                    MessageBox.Show("Upload video thành công!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Uploaded video successfully", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     tbdescription.Clear();
                     tbnamefilm.Clear();
                     fileimage.Text = "";
@@ -554,13 +535,11 @@ namespace UITFLIX
                     cbtag.SelectedIndex = 0;
                 }
                 else
-                {
-                    MessageBox.Show("Đã có lỗi xảy ra", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                    MessageBox.Show("An error has occurred!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
+                MessageBox.Show(ex.Message);
             }
             finally
             {
@@ -596,13 +575,9 @@ namespace UITFLIX
                 var findvideos = await videoService.SearchVideos(searchtb.Text.Trim(), accesstoken);
 
                 if (findvideos != null)
-                {
                     progressupload.Maximum = findvideos.Count;
-                }
                 else
-                {
                     progressupload.Maximum = 1;
-                }
                 progressupload.Value = 0;
 
                 if (findvideos != null && findvideos.Count > 0)
@@ -624,9 +599,7 @@ namespace UITFLIX
                     }
                 }
                 else
-                {
                     information.Visible = true;
-                }
 
             }
             catch (Exception ex)
@@ -659,7 +632,7 @@ namespace UITFLIX
         //Logout
         private async void logout_Click(object sender, EventArgs e)
         {
-            var res = MessageBox.Show("Bạn có muốn thoát?", "Thoát", MessageBoxButtons.YesNo);
+            var res = MessageBox.Show("Do you want to exit?", "LogOut", MessageBoxButtons.YesNo);
             if (res == DialogResult.Yes)
             {
                 var LogOutModel = new
@@ -667,7 +640,7 @@ namespace UITFLIX
                     Id = Userinfo["user"]["id"].ToString()
                 };
                 var response = await userService.LogOut(LogOutModel, accesstoken);
-                if (response.Contains("thành công!", StringComparison.OrdinalIgnoreCase))
+                if (response.Contains("successfully!", StringComparison.OrdinalIgnoreCase))
                 {
                     this.Hide();
                     LogIn login = new LogIn();
@@ -687,16 +660,9 @@ namespace UITFLIX
         {
             var roomid = await coopService.CreateRoom(accesstoken);
             if (roomid != null)
-            {
-                //MessageBox.Show("Your room id: " + roomid["room"]["roomId"].ToString());
-                //this.Hide();
                 new Room(accesstoken, roomid["room"]["roomId"].ToString(), Userinfo).ShowDialog();
-                //this.Close();
-            }
             else
-            {
-                MessageBox.Show("qqjz");
-            }
+                MessageBox.Show("Unable to create a coop room");
         }
 
         //Chat với admin
@@ -716,28 +682,22 @@ namespace UITFLIX
             var response = await userService.LogOut(LogOutModel, accesstoken);
         }
 
-        //Nhập id room c
+        //Nhập id room coop
         private async void btnidroom_Click(object sender, EventArgs e)
         {
-            //MessageBox.Show("Check");
             try
             {
                 if (tbidroom.Text == null)
                 {
-                    MessageBox.Show("Vui lòng nhập ID phòng!");
+                    MessageBox.Show("Please enter the room ID!");
                     return;
                 }
+
                 var res = await coopService.FindRoom(accesstoken, tbidroom.Text.Trim());
                 if (res)
-                {
-                    //this.Hide();
                     new Room(accesstoken, tbidroom.Text.Trim(), Userinfo).ShowDialog();
-                    //this.Close();
-                }
                 else
-                {
-                    MessageBox.Show("Phòng này không tồn tại!");
-                }
+                    MessageBox.Show("This room does not exist!");
             }
             catch(Exception ex)
             {

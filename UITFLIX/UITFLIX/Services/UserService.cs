@@ -15,13 +15,13 @@ namespace UITFLIX.Services
 {
     public class UserService
     {
+        public UserService() { }
+
         public static readonly HttpClient httpClient = new HttpClient
         {
             BaseAddress = new Uri(@"https://localhost:7292/"),
             Timeout = TimeSpan.FromSeconds(60)
         };
-
-        public UserService() { }
 
         public async Task<string> Register(dynamic ModelRegister)
         {
@@ -53,7 +53,6 @@ namespace UITFLIX.Services
             }
         }
 
-
         public async Task<object> UpdateInformation(string fullname, string bio, string file, string accesstoken)
         {
             try
@@ -80,14 +79,12 @@ namespace UITFLIX.Services
                     var response = await httpClient.PatchAsync("/api/User/Update-Information", form);
                     var info = await response.Content.ReadAsStringAsync();
                     JObject res = JObject.Parse(info);
+
                     if (response.IsSuccessStatusCode)
-                    {
                         return res;
-                    }
                     var error = await response.Content.ReadAsStringAsync();
                     MessageBox.Show(error);
                     return false;
-
                 }
 
             }
@@ -158,9 +155,7 @@ namespace UITFLIX.Services
                 var response = await httpClient.GetAsync($"/api/User/GetUserByID/{id}");
                 var res = await response.Content.ReadAsStringAsync();
                 if (response.IsSuccessStatusCode)
-                {
                     return JObject.Parse(res);
-                }
                 MessageBox.Show(response.ToString());
                 return null;
             }

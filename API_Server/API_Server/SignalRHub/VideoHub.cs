@@ -16,6 +16,7 @@ namespace API_Server.SignalRHub
         private static readonly object Lock = new object();
         private static Dictionary<string, List<string>> roommovies = new Dictionary<string, List<string>>();
         private static Dictionary<string, List<string>> roomusers = new Dictionary<string, List<string>>();
+
         public async Task CreateRoom(string roomid)
         {
             await Clients.All.SendAsync("RoomCreated", roomid);

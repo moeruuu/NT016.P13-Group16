@@ -301,7 +301,6 @@
             tbSearch.Size = new Size(305, 35);
             tbSearch.TabIndex = 3;
             tbSearch.Text = "";
-            tbSearch.TextChanged += tbSearch_TextChanged;
             // 
             // tcData
             // 

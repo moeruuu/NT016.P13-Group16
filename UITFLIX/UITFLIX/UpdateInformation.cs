@@ -32,11 +32,10 @@ namespace UITFLIX
             AccessToken = accessToken;
             userService = new UserService();
             txtFullname.Text = userinfo["user"]["fullname"].ToString();
-            if (userinfo["user"]["bio"].ToString() == "< Người dùng này cạn lời rồi ... >" || userinfo["user"]["bio"] == null)
+            if (userinfo["user"]["bio"].ToString() == "< This user is speechless ... >" || userinfo["user"]["bio"] == null)
                 txtBio.Text = string.Empty;
             else
                 txtBio.Text = userinfo["user"]["bio"].ToString();
-            //MessageBox.Show(userinfo.ToString());
         }
 
         public void DrawCircular(PictureBox pictureBox)
@@ -70,9 +69,7 @@ namespace UITFLIX
                     }
                 }
                 else
-                {
                     Avatar.Image = LoadDefaultImage();
-                }
             }
         }
 
@@ -111,9 +108,10 @@ namespace UITFLIX
                 MessageBox.Show(ex.Message + '\n' + ex.StackTrace);
             }
         }
+
         private void txtPass_Enter(object sender, EventArgs e)
         {
-            if (txtPass.Text == "Enter Old Password...")
+            if (txtPass.Text == "Enter your old password...")
             {
                 txtPass.PasswordChar = '*';
                 txtPass.Text = "";
@@ -125,14 +123,14 @@ namespace UITFLIX
             if (string.IsNullOrWhiteSpace(txtPass.Text))
             {
                 txtPass.PasswordChar = '\0';
-                txtPass.Text = "Enter Old Password...";
+                txtPass.Text = "Enter your old password...";
                 txtPass.ForeColor = Color.SkyBlue;
             }
         }
 
         private void txtNewPass_Enter(object sender, EventArgs e)
         {
-            if (txtNewPass.Text == "Enter New Password...")
+            if (txtNewPass.Text == "Enter your new password...")
             {
                 txtNewPass.PasswordChar = '*';
                 txtNewPass.Text = "";
@@ -144,14 +142,14 @@ namespace UITFLIX
             if (string.IsNullOrWhiteSpace(txtNewPass.Text))
             {
                 txtNewPass.PasswordChar = '\0';
-                txtNewPass.Text = "Enter New Password...";
+                txtNewPass.Text = "Enter your new password...";
                 txtNewPass.ForeColor = Color.SkyBlue;
             }
         }
 
         private void txtCfPass_Enter(object sender, EventArgs e)
         {
-            if (txtCfPass.Text == "Confirm Password...")
+            if (txtCfPass.Text == "Confirm your password...")
             {
                 txtCfPass.PasswordChar = '*';
                 txtCfPass.Text = "";
@@ -163,7 +161,7 @@ namespace UITFLIX
             if (string.IsNullOrWhiteSpace(txtCfPass.Text))
             {
                 txtCfPass.PasswordChar = '\0';
-                txtCfPass.Text = "Confirm Password...";
+                txtCfPass.Text = "Confirm your password...";
                 txtCfPass.ForeColor = Color.SkyBlue;
             }
         }
@@ -173,13 +171,13 @@ namespace UITFLIX
             lbNewpass.Visible = Visible;
             lbOldpass.Visible = Visible;
             txtPass.Visible = Visible;
-            txtPass.Text = "Enter Old Password...";
+            txtPass.Text = "Enter your old password...";
             txtPass.ForeColor = Color.SkyBlue;
             txtNewPass.Visible = Visible;
-            txtNewPass.Text = "Enter New Password...";
+            txtNewPass.Text = "Enter your new password...";
             txtNewPass.ForeColor = Color.SkyBlue;
             txtCfPass.Visible = Visible;
-            txtCfPass.Text = "Confirm Password...";
+            txtCfPass.Text = "Confirm your password...";
             txtCfPass.ForeColor = Color.SkyBlue;
             btnSavePwd.Visible = Visible;
             underlinepass.Visible = Visible;
@@ -216,24 +214,25 @@ namespace UITFLIX
 
             if (fullname == string.Empty)
             {
-                MessageBox.Show("Fullname không thể để trống. Vui lòng nhập tên đầy đủ của bạn", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Full name cannot be empty. Please enter your full name.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
             if (bio == string.Empty)
-                bio = "< Người dùng này cạn lời rồi ... >";
+                bio = "< This user is speechless ... >";
+
             try
             {
                 var response = await userService.UpdateInformation(fullname, bio, selectedimagefile, AccessToken);
-
-                var res = MessageBox.Show("Update thông tin thành công. Bạn có muốn quay lại trang home?", "Thành công", MessageBoxButtons.YesNo);
+                var res = MessageBox.Show("Information updated successfully. Would you like to return to the home page?", "Success", MessageBoxButtons.YesNo);
                 JObject obj = JObject.Parse(response.ToString());
+
                 txtFullname.Text = null;
                 txtBio.Text = null;
                 LoadImageFromUrl(userinfo["user"]["profilepicture"].ToString());
                 userinfo["user"]["profilepicture"] = obj["user"]["profilepicture"];
                 userinfo["user"]["fullname"] = obj["user"]["fullname"];
                 userinfo["user"]["bio"] = obj["user"]["bio"];
-                //MessageBox.Show(obj.ToString());
+
                 if (res == System.Windows.Forms.DialogResult.Yes)
                 {
                     this.Hide();
@@ -258,7 +257,6 @@ namespace UITFLIX
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-                //MessageBox.Show("Hệ thống không thể update", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void ReloadForm(JObject obj)
@@ -272,12 +270,12 @@ namespace UITFLIX
         {
             string bio = txtBio.Text.Trim();
             if (txtBio.Text.Trim() == string.Empty)
-                bio = "< Người dùng này cạn lời rồi ... >";
+                bio = "< This user is speechless ... >";
             if (bio == "" && userinfo["user"]["bio"] == null)
                 return;
             if (bio != userinfo["user"]["bio"].ToString() || txtFullname.Text.Trim() != userinfo["user"]["fullname"].ToString() || selectedimagefile != "Not Null")
             {
-                var res = MessageBox.Show("Bạn chưa lưu thay đổi. Bạn vẫn muốn thoát chứ?", "Information", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                var res = MessageBox.Show("You have unsaved changes. Do you still want to exit?", "Information", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (res == DialogResult.Yes)
                 {
                     this.Hide();
@@ -294,9 +292,7 @@ namespace UITFLIX
                     this.Close();
                 }
                 else
-                {
                     return;
-                }
             }
             else
             {
@@ -319,10 +315,12 @@ namespace UITFLIX
         {
             return Regex.IsMatch(password, @"^.{6,20}$");
         }
+
         public bool checkconfirmpassword(string password, string secondpassword)
         {
             return password.Equals(secondpassword);
         }
+
         private async void btnSavePwd_Click(object sender, EventArgs e)
         {
             string oldPassword = txtPass.Text.Trim();
@@ -330,9 +328,10 @@ namespace UITFLIX
             string confirmPassword = txtCfPass.Text.Trim();
             bool checkflag = true;
             string ErrorMsg = "";
+
             if (!checkpassword(oldPassword))
             {
-                ErrorMsg = "Mật khẩu cũ phải dài từ 6 đến 20 kí tự.";
+                ErrorMsg = "The old password must be between 6 and 20 characters long.";
                 lbOldpass.Text = "Old password(*)";
                 checkflag = false;
             }
@@ -342,7 +341,7 @@ namespace UITFLIX
             }
             if (!checkpassword(newPassword))
             {
-                ErrorMsg += "\n\nVui lòng nhập mật khẩu mới ít nhất 6 kí tự đến 20 kí tự.";
+                ErrorMsg += "\n\nPlease enter a new password that is at least 6 characters and no more than 20 characters long.";
                 ErrorMsg.Trim();
                 lbNewpass.Text = "New password(*)";
                 checkflag |= false;
@@ -353,7 +352,7 @@ namespace UITFLIX
             }
             if (!checkconfirmpassword(newPassword, confirmPassword))
             {
-                ErrorMsg += "\n\nMật khẩu bạn nhập lại không khớp, vui lòng nhập lại.";
+                ErrorMsg += "\n\nThe password you entered does not match. Please enter it again.";
                 ErrorMsg.Trim();
                 lbcfpass.Text = "Confirm new password(*)";
                 checkflag &= false;
@@ -365,7 +364,7 @@ namespace UITFLIX
 
             if (checkflag == false)
             {
-                MessageBox.Show(ErrorMsg, "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show(ErrorMsg, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
@@ -376,10 +375,10 @@ namespace UITFLIX
             };
             var response = await userService.ChangePassword(Pass, AccessToken);
 
-            if (response.Contains("Thành công!", StringComparison.OrdinalIgnoreCase))
+            if (response.Contains("Success", StringComparison.OrdinalIgnoreCase))
             {
                 this.Hide();
-                MessageBox.Show("Thay đổi mật khẩu thành công! Vui lòng đăng nhập lại.", "Thành công", MessageBoxButtons.OK);
+                MessageBox.Show("Password changed successfully! Please log in again.", "Success", MessageBoxButtons.OK);
                 LogIn logIn = new LogIn();
                 logIn.ShowDialog();
                 this.Close();

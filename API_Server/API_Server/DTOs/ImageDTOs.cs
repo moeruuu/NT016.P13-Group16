@@ -5,11 +5,8 @@ namespace API_Server.DTOs
 {
     public class ImageDTOs
     {
-        [Required(ErrorMessage = "Vui lòng chọn ảnh!")]
-
+        [Required(ErrorMessage = "Please select an image!")]
         public IFormFile file { get; set; }
-        /*public int type { get; set; } //0=avatar, 1 = ảnh video
-        public string OwnerID { get; set; }*/
 
     }
 }

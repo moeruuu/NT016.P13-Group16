@@ -14,12 +14,13 @@ namespace UITFLIX.Services
 {
     public class VideoService
     {
+        public VideoService() { }
+
         public static readonly HttpClient httpClient = new HttpClient
         {
             BaseAddress = new Uri(@"https://localhost:7292/"),
             Timeout = TimeSpan.FromMinutes(5)
         };
-        public VideoService() { }
 
         public async Task<bool> UploadVideoAsync(string videofile, string imagefile, string title, string description, string tag, string accessToken)
         {
@@ -27,7 +28,7 @@ namespace UITFLIX.Services
             {
                 if (string.IsNullOrEmpty(accessToken))
                 {
-                    MessageBox.Show("Yêu cầu access token!");
+                    MessageBox.Show("Access token is required!", "Error");
                     return false;
                 }
 
@@ -71,9 +72,8 @@ namespace UITFLIX.Services
                     return false;
                 }
                 else
-                {
+
                     return true;
-                }
             }
             catch (Exception ex)
             {
@@ -86,12 +86,12 @@ namespace UITFLIX.Services
         {
             if (string.IsNullOrEmpty(accesstoken))
             {
-                MessageBox.Show("Yêu cầu access token!");
+                MessageBox.Show("Access token is required!","Error");
                 return null;
             }
             if (string.IsNullOrEmpty(id))
             {
-                MessageBox.Show("Yêu cầu id video");
+                MessageBox.Show("Video ID is required!", "Error");
                 return null;
             }
             //authorize bằng token qua header
@@ -111,7 +111,7 @@ namespace UITFLIX.Services
             }
             else
             {
-                MessageBox.Show("Không thể tải video!");
+                MessageBox.Show("Unable to load the video!");
                 return null;
             }
         }        
@@ -155,6 +155,7 @@ namespace UITFLIX.Services
 
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accesstoken);
                 HttpResponseMessage response = await httpClient.GetAsync("/api/Video/GetNewestVideos");
+
                 if (response.IsSuccessStatusCode)
                 {
                     var res = await response.Content.ReadAsStringAsync();
@@ -169,7 +170,7 @@ namespace UITFLIX.Services
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"{ex.Message}\n{ex.StackTrace}");
+                MessageBox.Show(ex.Message);
                 return null;
             }
         }
@@ -185,6 +186,7 @@ namespace UITFLIX.Services
 
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accesstoken);
                 HttpResponseMessage response = await httpClient.GetAsync("/api/Video/GetTopVideos");
+
                 if (response.IsSuccessStatusCode)
                 {
                     var res = await response.Content.ReadAsStringAsync();
@@ -192,12 +194,11 @@ namespace UITFLIX.Services
                     return jarray;
                 }
                 else
-                {
                     return null;
-                }
             }
             catch (Exception ex)
             {
+                MessageBox.Show(ex.Message);
                 return null;
             }
         }
@@ -217,9 +218,7 @@ namespace UITFLIX.Services
                 HttpResponseMessage response = await httpClient.PostAsync(url, content);
 
                 if (response.IsSuccessStatusCode)
-                {
                     return true;
-                }
                 else
                     return false;
             }
@@ -235,12 +234,11 @@ namespace UITFLIX.Services
             try
             {
                 if (string.IsNullOrEmpty(accesstoken))
-                {
                     return null;
-                }
 
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accesstoken);
                 HttpResponseMessage response = await httpClient.GetAsync("/api/Video/GetWatchedVideos");
+
                 if (response.IsSuccessStatusCode)
                 {
                     var res = await response.Content.ReadAsStringAsync();
@@ -248,9 +246,7 @@ namespace UITFLIX.Services
                     return jarray;
                 }
                 else
-                {
                     return null;
-                }
             }
             catch
             {
@@ -263,9 +259,7 @@ namespace UITFLIX.Services
             try
             {
                 if (string.IsNullOrEmpty(tag) || string.IsNullOrEmpty(accesstoken))
-                {
                     return null;
-                }
 
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accesstoken);
                 string url = $"api/Video/GetRelatedVideos?tag={tag}";
@@ -278,9 +272,7 @@ namespace UITFLIX.Services
                     return jarray;
                 }
                 else
-                {
                     return null;
-                }
             }
             catch (Exception ex)
             {
@@ -293,15 +285,14 @@ namespace UITFLIX.Services
         {
             try
             {
-                //MessageBox.Show(id);
                 if (string.IsNullOrEmpty(accesstoken))
                 {
-                    MessageBox.Show("Yêu cầu access token!");
+                    MessageBox.Show("Access token is required!", "Error");
                     return null;
                 }
                 if (string.IsNullOrEmpty(id))
                 {
-                    MessageBox.Show("Yêu cầu id video");
+                    MessageBox.Show("Video ID is required!", "Error");
                     return null;
                 }
                 var rating = new
@@ -327,19 +318,20 @@ namespace UITFLIX.Services
             {
                 if (string.IsNullOrEmpty(accesstoken))
                 {
-                    MessageBox.Show("Yêu cầu access token!");
+                    MessageBox.Show("Access token is required!", "Error");
                     return null;
                 }
                 if (string.IsNullOrEmpty(id))
                 {
-                    MessageBox.Show("Yêu cầu id video");
+                    MessageBox.Show("Video ID is required!", "Error");
                     return null;
                 }
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accesstoken);
                 var response = await httpClient.GetAsync($"api/Video/DownloadVideo/{id}", HttpCompletionOption.ResponseHeadersRead);
+
                 if (!response.IsSuccessStatusCode)
                 {
-                    MessageBox.Show($"Lỗi khi tải video: {response.StatusCode}");
+                    MessageBox.Show($"An error occurred while downloading the video: {response.StatusCode}");
                     return null;
                 }
                 using (var stream = await response.Content.ReadAsStreamAsync())
@@ -356,7 +348,7 @@ namespace UITFLIX.Services
             }
             catch (Exception ex)
             {
-                throw new Exception($"Đã xảy ra lỗi khi tải video: {ex.Message}");
+                throw new Exception($"An error occurred while downloading the video: {ex.Message}");
             }
         }
 
@@ -373,13 +365,12 @@ namespace UITFLIX.Services
                     return JObject.Parse(response);
                 }
                 else
-                {
                     return null;
-                }
 
             }
             catch(Exception ex)
             {
+                MessageBox.Show(ex.Message);
                 return null;
             }
         }
@@ -401,7 +392,7 @@ namespace UITFLIX.Services
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"{ex.Message}");
+                MessageBox.Show(ex.Message);
                 return null;
             }
         }
@@ -417,7 +408,7 @@ namespace UITFLIX.Services
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"{ex.Message}");
+                MessageBox.Show(ex.Message);
                 return null;
             }
         }

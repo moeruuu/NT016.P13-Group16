@@ -18,6 +18,7 @@ namespace API_Server.Controllers
     {
         private readonly VideoService videoService;
         private readonly UserService userService;
+
         public VideoController(VideoService videoService, UserService user)
         {
             this.videoService = videoService;
@@ -32,11 +33,9 @@ namespace API_Server.Controllers
             {
                 var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                 if (string.IsNullOrEmpty(userId) || !ObjectId.TryParse(userId, out ObjectId UserId))
-                {
-                    return Unauthorized("Không thể xác thực người dùng.");
-                }
+                    return Unauthorized("Unable to authenticate the user.");
+
                 var user = await userService.GetUserByID(UserId);
-                //ObjectId UserId = ObjectId.Parse("67337f1bc5297b798496ced9");
                 var addedVideo = await videoService.AddVideo(uploadVideo, UserId);
 
                 return Ok(new
@@ -60,7 +59,7 @@ namespace API_Server.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest($"Lỗi: {ex.Message}");
+                return BadRequest(ex.Message);
             }
         }
 
@@ -71,15 +70,11 @@ namespace API_Server.Controllers
             try
             {
                 if (string.IsNullOrWhiteSpace(title))
-                {
-                    return BadRequest("Vui lòng ghi tên video cần tìm kiếm.");
-                }
+                    return BadRequest("Please enter the name of the video you want to search for.");
 
                 var videos = await videoService.SearchVideos(title);
                 if (videos == null || videos.Count == 0)
-                {
-                    return NotFound("Không tìm thấy video.");
-                }
+                    return NotFound("Video not found!");
                 return Ok(videos);
             }
             catch (Exception ex)
@@ -112,19 +107,17 @@ namespace API_Server.Controllers
             {
                 var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                 if (string.IsNullOrEmpty(userId) || !ObjectId.TryParse(userId, out ObjectId UserId))
-                {
-                    return Unauthorized("Không thể xác thực người dùng.");
-                }
+                    return Unauthorized("Unable to authenticate the user.");
 
                 var res = await videoService.SaveWatchedVideo(UserId, watchedVideoDetailsModel);
                 if (res == true)
                     return Ok();
                 else
-                    return BadRequest("Không thể lưu");
+                    return BadRequest("Unable to save watched videos!");
             }
             catch
             {
-                return BadRequest("Không thể lưu video đã xem");
+                return BadRequest("Unable to save watched videos!");
             }
         }
 
@@ -136,15 +129,14 @@ namespace API_Server.Controllers
             {
                 var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                 if (string.IsNullOrEmpty(userId) || !ObjectId.TryParse(userId, out ObjectId UserId))
-                {
-                    return Unauthorized("Không thể xác thực người dùng.");
-                }
+                    return Unauthorized("Unable to authenticate the user.");
+
                 var videos = await videoService.GetWatchedVideos(UserId);
                 return Ok(videos);
             }
             catch
             {
-                return BadRequest("Không thể load danh sách videos đã xem");
+                return BadRequest("Unable to load watched videos!");
             }
         }
 
@@ -155,7 +147,8 @@ namespace API_Server.Controllers
             var videos = await videoService.GetAllVideos();
             if (videos != null || videos.Count != 0)
                 return Ok(videos);
-            else return NotFound("Không tìm thấy video nào cả");
+            else 
+                return NotFound("No videos found!");
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
@@ -184,13 +177,9 @@ namespace API_Server.Controllers
             {
                 var video = await videoService.GetVideoByID(id);
                 if (video != null)
-                {
                     return Ok(video);
-                }
                 else
-                {
                     return NotFound();
-                }
             }
             catch (Exception ex)
             {
@@ -223,19 +212,16 @@ namespace API_Server.Controllers
             {
                 var Delete = await videoService.DeleteVideo(id);
                 if (Delete)
-                {
-                    return Ok("Thành công");
-                }
+                    return Ok("Video deleted successfully!");
                 else
-                {
-                    return NotFound("Không tìm thấy video");
-                }
+                    return NotFound("Video not found!");
             }
             catch(Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
+
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet("DownloadVideo/{id}")]
         public async Task<IActionResult> DownloadVideo(string id)
@@ -244,21 +230,19 @@ namespace API_Server.Controllers
             {
                 var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                 if (string.IsNullOrEmpty(userId) || !ObjectId.TryParse(userId, out ObjectId UserId))
-                {
-                    return Unauthorized("Không thể xác thực người dùng.");
-                }
+                    return Unauthorized("Unable to authenticate the user.");
+
                 var (stream, video) = await videoService.DownloadVideo(id);
                 var mimeType = videoService.GetMimeType(Path.GetExtension(video.Url));
                 return File(stream, mimeType, $"{video.Title}.mp4");
-
             }
             catch (FileNotFoundException)
             {
-                return NotFound(new { message = "Không tìm thấy video." });
+                return NotFound(new { message = "Video not found!" });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { message = "Lỗi trong quá trình tải video.", error = ex.Message });
+                return StatusCode(500, new { message = "Error during video download.", error = ex.Message });
             }
         }
 

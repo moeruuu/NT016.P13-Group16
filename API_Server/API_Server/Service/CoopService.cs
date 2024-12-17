@@ -24,9 +24,8 @@ namespace API_Server.Service
             var filter = Builders<Room>.Filter.Eq(r => r.RoomId, ID);
             var checkroom = await rooms.Find(filter).FirstOrDefaultAsync();
             if (checkroom != null)
-            {
-                throw new Exception("Mã phòng đã tồn tại!");
-            }
+                throw new Exception("This room id already exists!");
+
             var CreateNewRoom = new Room
             {
                 Id = ObjectId.GenerateNewId(),
@@ -43,9 +42,8 @@ namespace API_Server.Service
         public async Task<bool> FindRoom(string roomid, string userid)
         {
             var filter = Builders<Room>.Filter.And(
-            Builders<Room>.Filter.Eq(r => r.RoomId, roomid),
-            Builders<Room>.Filter.Not(Builders<Room>.Filter.AnyEq(r => r.Participants, userid))
-            );
+                        Builders<Room>.Filter.Eq(r => r.RoomId, roomid),
+                        Builders<Room>.Filter.Not(Builders<Room>.Filter.AnyEq(r => r.Participants, userid)));
             var find = await rooms.Find(filter).FirstOrDefaultAsync();
             return find != null;
         }
@@ -55,13 +53,9 @@ namespace API_Server.Service
             var update = Builders<Room>.Update.AddToSet(r => r.Participants, userid.ToString());
             var result = await rooms.UpdateOneAsync(filter, update);
             if (result.MatchedCount == 0)
-            {
-                throw new Exception("Không tìm thấy phòng");
-            }
+                throw new Exception("Room not found!");
             if (result.ModifiedCount == 0)
-            {
-                throw new Exception("Người dùng này đã tồn tại");
-            }
+                throw new Exception("This user already exists!");
         }
 
         public async Task UserLeft(string roomid, string userid)
@@ -71,13 +65,9 @@ namespace API_Server.Service
 
             var result = await rooms.UpdateOneAsync(filter, update);
             if (result.MatchedCount == 0)
-            {
-                throw new Exception("Không tìm thấy phòng");
-            }
+                throw new Exception("Room not found!");
             if (result.ModifiedCount == 0)
-            {
-                throw new Exception("Người này không có trong phòng");
-            }
+                throw new Exception("This user is not in this room!");
         }
 
         public async Task<bool> DeleteRoom(string roomid)
@@ -85,9 +75,7 @@ namespace API_Server.Service
             var filter = Builders<Room>.Filter.Eq(r => r.RoomId, roomid);
             var room = await rooms.Find(filter).FirstOrDefaultAsync();
             if (room == null)
-            {
-                throw new Exception("Phòng này không tồn tại");
-            }
+                throw new Exception("This room does not exist!");
             if (room.Participants.Count == 0)
             {
                 var res = await rooms.DeleteOneAsync(filter);
@@ -100,9 +88,7 @@ namespace API_Server.Service
             var filter = Builders<Room>.Filter.Eq(r => r.RoomId, id);
             var room = await rooms.Find(filter).FirstOrDefaultAsync();
             if (room == null)
-            {
                 return null;
-            }
             return room;
         }
 
@@ -117,10 +103,8 @@ namespace API_Server.Service
             }
             catch (Exception ex)
             {
-                // Console.WriteLine(ex.Message);
                 return false;
             }
-
         }
 
         public async Task<List<string>> GetListVideo(string roomid)
@@ -131,7 +115,7 @@ namespace API_Server.Service
                 var getroom = await rooms.Find(filter).FirstOrDefaultAsync();
                 return getroom.videoQueues;
             }
-            catch (Exception ex)
+            catch
             {
                 return null;
             }
@@ -146,7 +130,7 @@ namespace API_Server.Service
                 var rs = await rooms.UpdateOneAsync(filter, update);
                 return rs.ModifiedCount > 0;
             }
-            catch (Exception ex)
+            catch
             {
                 return false;
             }

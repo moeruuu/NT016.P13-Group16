@@ -5,19 +5,16 @@ namespace API_Server.DTOs
     public class UploadVideoDTOs
     {
 
-        [Required(ErrorMessage = "Vui lòng nhập tên phim")]
-        [StringLength(100, ErrorMessage = "Tên phim không thể chứa quá 100 kí tự.")]
+        [Required(ErrorMessage = "Please enter the movie title.")]
+        [StringLength(100, ErrorMessage = "The movie title cannot exceed 100 characters.")]
         public string Title { get; set; }
-        [StringLength(1000, ErrorMessage = "Giới thiệu không thể chứa quá 250 kí tự.")]
+        [StringLength(1000, ErrorMessage = "The description cannot exceed 250 characters.")]
         public string Description { get; set; }
-        [Required(ErrorMessage = "Vui lòng chọn ảnh xem trước cho video!")]
-        //[Url(ErrorMessage = "Đường dẫn ảnh không hợp lệ.")]
+        [Required(ErrorMessage = "Please select a preview image for the video.")]
         public IFormFile UrlImage { get; set; }
-        //[Url(ErrorMessage = "Đường dẫn video không hợp lệ.")]
-        [Required(ErrorMessage = "Vui lòng chọn video để update.")]
+        [Required(ErrorMessage = "Please select a video to update.")]
         public IFormFile UrlVideo { get; set; }
-        //public long Size { get; set; }
-        [Required(ErrorMessage ="Vui lòng chọn thể loại")]
+        [Required(ErrorMessage = "Please select a genre.")]
         public string Tag { get; set; }
 
     }

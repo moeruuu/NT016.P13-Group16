@@ -22,13 +22,15 @@ namespace API_Server.Service
         private readonly IMongoCollection<User> users;
         private readonly EmailService emailService;
         private readonly VideoService videoService;
+
         //Dùng static để biến không thay đổi
         private static string currentEmail;
         private static string currentOTP;
-        //private bool isSignUp = false;
+
         //Lưu dữ liệu tạm thời
         private static readonly ConcurrentDictionary<string, User> nguoidung = new ConcurrentDictionary<string, User>();
         private readonly ImgurService imgurService;
+
         public UserService(IMongoDatabase database, EmailService emailService, ImgurService imgurService, VideoService videoService)
         {
             users = database.GetCollection<User>("Users");
@@ -39,20 +41,13 @@ namespace API_Server.Service
 
         public async Task<User> Register(UserSignUpDTOs SignupDTOs)
         {
-            /*if (SignupDTOs.ConfirmPassword != SignupDTOs.Password)
-            {
-                throw new Exception("Mật khẩu và mật khẩu xác nhận không đúng!");
-            }*/
             var filter = Builders<User>.Filter.Or(
-                    Builders<User>.Filter.Eq(u => u.Username, SignupDTOs.Username),
-                    Builders<User>.Filter.Eq(u => u.Email, SignupDTOs.Email));
+                        Builders<User>.Filter.Eq(u => u.Username, SignupDTOs.Username),
+                        Builders<User>.Filter.Eq(u => u.Email, SignupDTOs.Email));
             var existingUser = await users.Find(filter).FirstOrDefaultAsync();
-            if (existingUser != null)
-            {
-                throw new Exception("Tên tài khoản hoặc email đã tồn tại.");
-            }
 
-            var otp = new Random().Next(0, 100000).ToString("D6");
+            if (existingUser != null)
+                throw new Exception("This username or email already exists.");
 
             //Tạo đối tượng lưu dữ liệu
             var user = new User
@@ -65,6 +60,7 @@ namespace API_Server.Service
                 Role = 1,
                 IsOnline = false,
             };
+            var otp = new Random().Next(0, 100000).ToString("D6");
 
             //Lưu tạm user thui
             nguoidung[SignupDTOs.Email] = user;
@@ -73,7 +69,6 @@ namespace API_Server.Service
 
             await SendOTPMail(currentEmail, otp, 0);
             return user;
-
         }
 
         public async Task<User> Login(UserLogInDTOs LoginDTOs)
@@ -81,22 +76,19 @@ namespace API_Server.Service
             try
             {
                 var filter = Builders<User>.Filter.Or(
-                Builders<User>.Filter.Eq(u => u.Username, LoginDTOs.Username),
-                Builders<User>.Filter.Eq(u => u.Email, LoginDTOs.Username)
-            );
+                            Builders<User>.Filter.Eq(u => u.Username, LoginDTOs.Username),
+                            Builders<User>.Filter.Eq(u => u.Email, LoginDTOs.Username)
+                );
                 var existingUser = await users.Find(filter).FirstOrDefaultAsync();
+
                 if (existingUser == null)
-                {
                     return null;
-                }
                 string hash = HashPassword(LoginDTOs.Password);
                 if (hash != existingUser.Password)
-                {
                     return null;
-                }
+
                 var update = Builders<User>.Update.Set(u => u.IsOnline, true);
                 await users.UpdateOneAsync(filter, update);
-                //existingUser = GenerateAccessToken(existingUser);
                 return existingUser;
             }
             catch (Exception ex)
@@ -110,9 +102,8 @@ namespace API_Server.Service
             var filter = Builders<User>.Filter.Eq(u => u.UserId, userid);
             var existingUser = await users.Find(filter).FirstOrDefaultAsync();
             if (existingUser == null)
-            {
-                throw new Exception("Tài khoản này không tồn tại!");
-            }
+                throw new Exception("This account does not exist!");
+
             var update = Builders<User>.Update.Set(u => u.IsOnline, false);
             await users.UpdateOneAsync(filter, update);
         }
@@ -124,9 +115,7 @@ namespace API_Server.Service
             var updates = new List<UpdateDefinition<User>>();
 
             if (!string.IsNullOrEmpty(name))
-            {
                 updates.Add(Builders<User>.Update.Set(u => u.Fullname, name));
-            }
             //Thay đổi ava phải cần đường link
             if (avatarfile != null && avatarfile.Length > 0)
             {
@@ -135,13 +124,9 @@ namespace API_Server.Service
             }
 
             if (!string.IsNullOrEmpty(bio))
-            {
                 updates.Add(Builders<User>.Update.Set(u => u.Bio, bio));
-            }
             if (updates.Count == 0)
-            {
                 return false;
-            }
 
             var updateDefinition = Builders<User>.Update.Combine(updates);
 
@@ -161,14 +146,12 @@ namespace API_Server.Service
             {
                 string hashOldPwd = HashPassword(oldpassword);
                 if (hashOldPwd != existUser.Password)
-                    throw new Exception("Mật khẩu cũ không trùng khớp!");
+                    throw new Exception("The old password does not match!");
             }
 
             string hashNewPwd = HashPassword(newpassword);
             if (hashNewPwd == existUser.Password)
-            {
-                throw new Exception("Không thể đổi thành mật khẩu cũ");
-            }
+                throw new Exception("Cannot change to the old password.");
             var update = Builders<User>.Update.Set(u => u.Password, hashNewPwd);
 
             var result = await users.UpdateOneAsync(filter, update);
@@ -183,14 +166,10 @@ namespace API_Server.Service
             var existUser = await users.Find(Filter).FirstOrDefaultAsync();
 
             if (existUser == null)
-            {
-                throw new Exception("Email này chưa được đăng ký!");
-            }
+                throw new Exception("This email has not been registered!");
             string hashPwd = HashPassword(forgetPassDTOs.Password);
             if (forgetPassDTOs.Password == existUser.Password)
-            {
-                throw new Exception("Mật khẩu mới trùng với mật khẩu cũ!");
-            }
+                throw new Exception("The new password is the same as the old password!");
 
             if (forgetPassDTOs.statusCode == 0)
             {
@@ -199,7 +178,7 @@ namespace API_Server.Service
                 currentOTP = new Random().Next(0, 100000).ToString("D6"); ;
 
                 await SendOTPMail(currentEmail, currentOTP, 1);
-                return "Đã gửi mã OTP";
+                return "OTP sent";
             }
 
             return $"k@1 n@y l@ key $iêµ 7uyệ7 mậ7 dµng để 7ạ0 mộ7 k@1 p@$w0rd mớ1 m@ kH0ng cầN p@$w0rd cũ";
@@ -216,22 +195,16 @@ namespace API_Server.Service
             if (otpDTOs.requestCode == 0)
             {
                 if (String.IsNullOrEmpty(currentEmail))
-                {
-                    throw new Exception("Email này chưa được dùng để đăng ký!");
-                }
+                    throw new Exception("This email has not been used for registration!");
                 //Lấy người dùng tạm ra nè
                 var tempUser = nguoidung[currentEmail];
 
                 var Filter = Builders<User>.Filter.Eq(u => u.Email, tempUser.Email);
                 var existingUser = await users.Find(Filter).FirstOrDefaultAsync();
                 if (existingUser != null)
-                {
-                    throw new Exception("Email đã tồn tại!");
-                }
+                    throw new Exception("This email already exists!");
                 if (currentOTP != otpDTOs.OTP)
-                {
-                    throw new Exception("Mã OTP không trùng khớp!");
-                }
+                    throw new Exception("The OTP does not match!");
 
                 var newUser = new User
                 {
@@ -241,18 +214,16 @@ namespace API_Server.Service
                     Password = tempUser.Password,
                     Email = tempUser.Email,
                     Role = 1,
-                    Bio = "< Người dùng này cạn lời rồi ... >",
+                    Bio = "< This user is speechless ... >",
                 };
                 await users.InsertOneAsync(newUser);
-                /*nguoidung.TryRemove(currentEmail, out _);
-                currentEmail = null;
-                currentOTP = null;*/
+
                 return existingUser;
             }
             if (otpDTOs.requestCode == 1)
             {
                 if (currentOTP != otpDTOs.OTP)
-                    throw new Exception("Mã OTP không trùng khớp");
+                    throw new Exception("The OTP does not match.");
                 return true;
             }
             return null;
@@ -269,13 +240,13 @@ namespace API_Server.Service
             if (code == 0) //đăng ký
             {
                 title = "Welcome to UITFLIX,";
-                message = "Cảm ơn cậu đã trở thành thành viên của UITFLIX!";
+                message = "Thank you for becoming a member of UITflix!";
                 mailrequest.Subject = "CONFIRM YOUR EMAIL ON UITFLIX";
             }
             if (code == 1) //quên mk
             {
-                title = "Bạn quên mật khẩu à?";
-                message = "Đừng quên mật khẩu nữa nhé!";
+                title = "Did you forget your password?";
+                message = "Don't forget your password again!";
                 mailrequest.Subject = "RENEW PASSWORD OF YOUR UITFLIX ACCOUNT";
             }
             mailrequest.Body = BodyEmail(otpText, title, message);
@@ -290,93 +261,91 @@ namespace API_Server.Service
             <head>
             <style>
             body {{
-              font-family: Arial, Helvetica, sans-serif;
-              background-color: #f4f4f4; 
-              margin: 0;
-              padding: 0;
+                  font-family: Arial, Helvetica, sans-serif;
+                  background-color: #f4f4f4; 
+                  margin: 0;
+                  padding: 0;
             }}
 
             .container {{
-              background-color: #5f9ea0;
-              padding: 30px;
-              border-radius: 5px;
-              box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-              text-align: center; 
-              width: 400px;
-              position: relative;
+                  background-color: #5f9ea0;
+                  padding: 30px;
+                  border-radius: 5px;
+                  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                  text-align: center; 
+                  width: 400px;
+                  position: relative;
             }}
 
             .header {{
-              background-color: #5f9ea0; 
-              padding: 20px; 
-              display: flex; 
-              flex-direction: column;
-              align-items: center; 
-              color: #fff; 
-              justify-content: space-between;
+                  background-color: #5f9ea0; 
+                  padding: 20px; 
+                  display: flex; 
+                  flex-direction: column;
+                  align-items: center; 
+                  color: #fff; 
+                  justify-content: space-between;
             }}
 
             .header img {{
-              margin-right: 10px;
+                  margin-right: 10px;
             }}
             h1 {{
-              margin: 0; 
-              font-size: 24px;
-              color: #2c4386
+                  margin: 0; 
+                  font-size: 24px;
+                  color: #2c4386
             }}
             h2 {{
-              margin: 0;
-              font-size: 20px;
-              margin-bottom: 20px;
+                  margin: 0;
+                  font-size: 20px;
+                  margin-bottom: 20px;
             }}
             .middle {{
-              background-color: #add8e6;
-              padding: 20px; 
-              border-radius: 5px; 
+                  background-color: #add8e6;
+                  padding: 20px; 
+                  border-radius: 5px; 
             }}
-
             p {{
-              margin-bottom: 10px;
+                  margin-bottom: 10px;
             }}
-
             .one-time-password {{
-              font-weight: bold;
-              margin-bottom: 20px;
-              color: #445ca2;
+                  font-weight: bold;
+                  margin-bottom: 20px;
+                  color: #445ca2;
             }}
             .huhu{{
-              color: #445ca2;
+                  color: #445ca2;
             }}
             .footer {{
-              margin-top: 20px;
-              font-size: 14px;
-              color: #fff;
+                  margin-top: 20px;
+                  font-size: 14px;
+                  color: #fff;
             }}
+
             </style>
             </head>
             <body>
-              <div class='container'>
-                <div class='header'>
-                  <img src='https://i.imgur.com/DjYrvRL.png' alt='UITFLIX Logo' width='100'>
-                    <h2>NT106.P13</h2>
+                <div class='container'>
+                    <div class='header'>
+                        <img src='https://i.imgur.com/DjYrvRL.png' alt='UITFLIX Logo' width='100'>
+                        <h2>NT106.P13</h2>
+                    </div>
+                    <div class='middle'>
+                        <h1>{title}</h1>
+                        <p class='huhu'>To enjoy great movies time with us, please enter the OTP!</p>
+                        <p class='one-time-password'>{otp}</p>
+                    </div>
+                    <div class='footer'>
+                        <p>{message}</p>
+                        <p>Please do not reply to this email!</p>
+                    </div>
                 </div>
-                <div class='middle'>
-                  <h1>{title}</h1>
-                  <p class='huhu'>Để có những phút giây vui vẻ xem phim với tụi tớ thì cậu hãy nhập OTP nhé!</p>
-                  <p class='one-time-password'>{otp}</p>
-                </div>
-                <div class='footer'>
-                  <p>{message}</p>
-                  <p>Vui lòng không trả lời email này!</p>
-                </div>
-              </div>
             </body>
             </html>";
 
-
-
             return email;
         }
+
         public string HashPassword(string pass)
         {
             HashAlgorithm al = SHA256.Create();
@@ -385,15 +354,14 @@ namespace API_Server.Service
             string hashstring = BitConverter.ToString(hashbyte).Replace("-", "");
             return hashstring;
         }
+
         //Lấy user
         public async Task<User> GetUserByID(ObjectId userid)
         {
             var filter = Builders<User>.Filter.Eq(u => u.UserId, userid);
             var existingUser = await users.Find(filter).FirstOrDefaultAsync();
             if (existingUser == null)
-            {
-                throw new Exception("Không tìm thấy user");
-            }
+                throw new Exception("User not found!");
             return existingUser;
         }
         public async Task<List<object>> GetAllUsers()

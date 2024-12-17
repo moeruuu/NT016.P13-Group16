@@ -18,17 +18,17 @@ namespace UITFLIX.Services
 {
     public class CoopService
     {
+        public CoopService() { }
+
+        private static readonly string huburl = @"https://localhost:7292/videohub";
+
         public static readonly HttpClient httpClient = new HttpClient
         {
             BaseAddress = new Uri(@"https://localhost:7292/"),
             Timeout = TimeSpan.FromSeconds(60)
         };
 
-        private static readonly string huburl = @"https://localhost:7292/videohub";
-
-        public CoopService() { }
-
-        public async Task<JObject> CreateRoom(string accesstoken)
+        public async Task<JObject?> CreateRoom(string accesstoken)
         {
             try
             {
@@ -37,7 +37,6 @@ namespace UITFLIX.Services
                 var res = await response.Content.ReadAsStringAsync();
                 if (response.IsSuccessStatusCode)
                 {
-                    
                     JObject jobject = JObject.Parse(res);
                     return jobject;
                 }
@@ -60,16 +59,16 @@ namespace UITFLIX.Services
             {
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accesstoken);
                 var res = await httpClient.GetAsync($"/api/Coop/FindRoom/{roomid}");
-                //MessageBox.Show(res.ToString());
                 return res.IsSuccessStatusCode;
             }
-            catch(Exception ex) {
+            catch(Exception ex)
+            {
                 MessageBox.Show(ex.Message);
                 return false;
             }
         }
 
-        public async Task<JObject> JoinRoom(string roomid, string accesstoken)
+        public async Task<JObject?> JoinRoom(string roomid, string accesstoken)
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accesstoken);
             var joinroom = new
@@ -83,9 +82,7 @@ namespace UITFLIX.Services
                 var response = await httpClient.PostAsync("/api/Coop/JoinRoom", content);
                 var res = await response.Content.ReadAsStringAsync();
                 if (response.IsSuccessStatusCode)
-                {
                     return JObject.Parse(res); 
-                }
                 return null;
             }
             catch(Exception ex)
@@ -109,7 +106,6 @@ namespace UITFLIX.Services
                 var json = JsonConvert.SerializeObject(ID);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await httpClient.PostAsync("/api/Coop/AddVideo", content);
-               // MessageBox.Show(response.ToString());
                 return response.IsSuccessStatusCode;
             }
             catch(Exception ex)
@@ -131,7 +127,6 @@ namespace UITFLIX.Services
                 var json = JsonConvert.SerializeObject(room);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await httpClient.PostAsync("/api/Coop/LeaveRoom", content);
-                //MessageBox.Show(response.ToString());
                 return response.IsSuccessStatusCode;
             }
             catch(Exception ex)
@@ -156,7 +151,7 @@ namespace UITFLIX.Services
             }
         }
 
-        public async Task<List<string>> GetVideoQueue(string accesstoken, string roomid)
+        public async Task<List<string>?> GetVideoQueue(string accesstoken, string roomid)
         {
             try
             {

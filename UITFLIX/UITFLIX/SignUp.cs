@@ -32,8 +32,8 @@ namespace UITFLIX
             this.MaximizeBox = false;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             userService = new UserService();
-            btnsignup.Enabled = true;
 
+            btnsignup.Enabled = true;
             iconEye.Enabled = false;
             iconEyeCF.Enabled = false;
         }
@@ -72,6 +72,7 @@ namespace UITFLIX
                 txtUsername.ForeColor = Color.SkyBlue;
             }
         }
+
         private void txtEmail_Enter(object sender, EventArgs e)
         {
             if (txtEmail.Text == "Email...")
@@ -149,86 +150,6 @@ namespace UITFLIX
             txtCFPassword.ForeColor = Color.SkyBlue;
         }
 
-        public bool checkusername(string username)
-        {
-            return Regex.IsMatch(username, "^[a-zA-Z0-9]{4,25}$");
-        }
-        public bool checkemail(string email)
-        {
-            return Regex.IsMatch(email, @"^[a-zA-Z0-9._%+-]{1,64}@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}");
-        }
-        public bool checkpassword(string password)
-        {
-            return Regex.IsMatch(password, @"^.{6,20}$");
-        }
-
-        private async void btnsignup_Click(object sender, EventArgs e)
-        {
-            lbwait.Text = "Waiting for sign up...";
-            btnsignup.Enabled = false;
-            string fullname = txtFullname.Text.Trim();
-            string username = txtUsername.Text.Trim();
-            string password = txtPassword.Text.Trim();
-            string confirmPassword = txtCFPassword.Text.Trim();
-            string email = txtEmail.Text.Trim();
-            if (!checkusername(username))
-            {
-                MessageBox.Show("Vui lòng nhập tên đăng nhập không chứa kí tự đặc biệt và dài từ 5 đến 15 chữ", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return;
-            }
-            if (!checkemail(email))
-            {
-                MessageBox.Show("Vui lòng nhập email đúng định dạng!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return;
-            }
-            if (!checkpassword(password))
-            {
-                MessageBox.Show("Vui lòng nhập mật khẩu ít nhất 6 kí tự đến 20 kí tự", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return;
-            }
-            if (password != confirmPassword)
-            {
-                MessageBox.Show("Mật khẩu không khớp!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return;
-            }
-            var SignUp = new
-            {
-                fullname = fullname,
-                username = username,
-                email = email,
-                password = password,
-            };
-            try
-            {
-                var response = await userService.Register(SignUp);
-                //JObject status = JObject.Parse(response);
-                if (response.Contains("thành công!", StringComparison.OrdinalIgnoreCase))
-                {
-                    this.Hide();
-                    VerifyOTP otp = new VerifyOTP(0, null, null);
-                    otp.ShowDialog();
-                    this.Close();
-                }
-                else
-                {
-                    MessageBox.Show(response, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void linklogin_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            this.Hide();
-            LogIn logIn = new LogIn();
-            logIn.ShowDialog();
-            this.Close();
-        }
-
         private void iconEye_Click(object sender, EventArgs e)
         {
             if (txtPassword.PasswordChar == '*')
@@ -255,6 +176,88 @@ namespace UITFLIX
                 iconEyeCF.IconChar = FontAwesome.Sharp.IconChar.EyeSlash;
                 txtCFPassword.PasswordChar = '*';
             }
+        }
+
+        public bool checkusername(string username)
+        {
+            return Regex.IsMatch(username, "^[a-zA-Z0-9]{4,25}$");
+        }
+        public bool checkemail(string email)
+        {
+            return Regex.IsMatch(email, @"^[a-zA-Z0-9._%+-]{1,64}@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}");
+        }
+        public bool checkpassword(string password)
+        {
+            return Regex.IsMatch(password, @"^.{6,20}$");
+        }
+
+        private async void btnsignup_Click(object sender, EventArgs e)
+        {
+            lbwait.Visible = true;
+            lbwait.Text = "Waiting for sign up...";
+            btnsignup.Enabled = false;
+            string fullname = txtFullname.Text.Trim();
+            string username = txtUsername.Text.Trim();
+            string password = txtPassword.Text.Trim();
+            string confirmPassword = txtCFPassword.Text.Trim();
+            string email = txtEmail.Text.Trim();
+            if (!checkusername(username))
+            {
+                MessageBox.Show("Please enter a username without special characters, and ensure it is between 5 and 15 characters long", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+            if (!checkemail(email))
+            {
+                MessageBox.Show("Please enter a valid email address!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+            if (!checkpassword(password))
+            {
+                MessageBox.Show("Please enter a password that has at least 6 characters and no more than 20 characters long", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+            if (password != confirmPassword)
+            {
+                MessageBox.Show("Passwords do not match!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+            var SignUp = new
+            {
+                fullname = fullname,
+                username = username,
+                email = email,
+                password = password,
+            };
+            try
+            {
+                var response = await userService.Register(SignUp);
+                if (response.Contains("successful", StringComparison.OrdinalIgnoreCase))
+                {
+                    this.Hide();
+                    VerifyOTP otp = new VerifyOTP(0, null, null);
+                    otp.ShowDialog();
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show(response, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    lbwait.Visible = false;
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                lbwait.Visible = false;
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void linklogin_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            this.Hide();
+            LogIn logIn = new LogIn();
+            logIn.ShowDialog();
+            this.Close();
         }
     }
 }

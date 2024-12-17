@@ -22,6 +22,7 @@ namespace UITFLIX
         private readonly string emailDate;
         private readonly string emailFrom;
         private readonly string emailSubject;
+
         public EmailDetails(string body, string date, string from, string subject)
         {
             InitializeComponent();
@@ -48,7 +49,6 @@ namespace UITFLIX
                 MessageBox.Show($"Error initializing WebView2: {ex.Message}");
             }
         }
-
 
         private void logout_Click(object sender, EventArgs e)
         {

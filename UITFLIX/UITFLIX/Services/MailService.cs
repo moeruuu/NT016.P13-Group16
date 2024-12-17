@@ -17,12 +17,13 @@ namespace UITFLIX.Services
 {
     public class MailService
     {
+        private readonly string _accessToken;
+
         public static readonly HttpClient httpClient = new HttpClient
         {
             BaseAddress = new Uri(@"https://localhost:7292/"),
             Timeout = TimeSpan.FromSeconds(60)
         };
-        private readonly string _accessToken;
 
         public MailService(string accessToken)
         {
@@ -38,13 +39,9 @@ namespace UITFLIX.Services
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await httpClient.PostAsync("/api/Email/Contact", content);
                 if (response.IsSuccessStatusCode)
-                {
                     return await response.Content.ReadAsStringAsync();
-                }
                 else
-                {
-                    return $"Lỗi: {response.StatusCode} - {response.ReasonPhrase}";
-                }
+                    return $"Error: {response.StatusCode} - {response.ReasonPhrase}";
             }
             catch (Exception ex)
             {

@@ -19,6 +19,7 @@ namespace UITFLIX
         private MailService chatService;
         private JObject _userInfo;
         private string _accessToken;
+
         public Chat(JObject userInfo, string accessToken)
         {
             InitializeComponent();
@@ -40,7 +41,7 @@ namespace UITFLIX
                 string attachmentPath = textBoxAttachmentPath.Text;
                 if (string.IsNullOrWhiteSpace(subject) || string.IsNullOrWhiteSpace(body))
                 {
-                    MessageBox.Show("Vui lòng điền đầy đủ thông tin!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Please fill in all the required information!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
                 string name = _userInfo["user"]["fullname"].ToString();
@@ -53,9 +54,8 @@ namespace UITFLIX
                     Body = body,
                 };
                 if (!string.IsNullOrWhiteSpace(attachmentPath))
-                {
                     chatModel.AttachmentPath = attachmentPath;
-                }
+
                 buttonSend.Enabled = false;
                 progressBar.Visible = true;
                 progressBar.Value = 0;
@@ -63,14 +63,13 @@ namespace UITFLIX
                 var progressTask = UpdateProgressBarAsync();
                 await Task.WhenAll(sendEmailTask, progressTask);
                 string jsonData = JsonConvert.SerializeObject(chatModel);
-                //MessageBox.Show(jsonData);
-                MessageBox.Show("Gửi email thành công!", "Kết quả", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Email sent successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 progressBar.Visible = false;
                 buttonSend.Enabled = true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 progressBar.Visible = false;
                 buttonSend.Enabled = true;
             }
@@ -101,13 +100,13 @@ namespace UITFLIX
                     string selectedFilePath = openFileDialog.FileName;
                     if (!File.Exists(selectedFilePath))
                     {
-                        MessageBox.Show("Tệp không tồn tại. Vui lòng chọn lại!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("The file does not exist. Please select it again!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
                     FileInfo fileInfo = new FileInfo(selectedFilePath);
                     if (fileInfo.Length > 10 * 1024 * 1024)
                     {
-                        MessageBox.Show("Tệp đính kèm không được vượt quá 10 MB!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show("The attached file must not exceed 10MB!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
                     string[] allowedExtensions = { ".txt", ".jpg", ".jpeg", ".png", ".bmp", ".gif", ".doc", ".docx" };
@@ -115,8 +114,8 @@ namespace UITFLIX
 
                     if (!allowedExtensions.Contains(fileExtension))
                     {
-                        MessageBox.Show("Chỉ cho phép tệp văn bản (*.txt), hình ảnh (*.jpg, *.jpeg, *.png, *.bmp, *.gif) hoặc word (*.doc, *.docx)!",
-                                        "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show("Only text files (.txt), images (.jpg, *.jpeg, *.png, *.bmp, .gif), or Word documents (.doc, *.docx) are allowed!",
+                                        "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
                     textBoxAttachmentPath.Text = selectedFilePath;

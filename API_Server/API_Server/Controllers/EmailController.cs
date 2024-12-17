@@ -37,24 +37,18 @@ namespace API_Server.Controllers
                 var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                 var userEmail = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
                 if (string.IsNullOrEmpty(userId) || !ObjectId.TryParse(userId, out ObjectId UserId))
-                {
-                    return Unauthorized("Không thể xác thực người dùng.");
-                }
+                    return Unauthorized("Unable to authenticate the user.");
                 if (string.IsNullOrEmpty(userEmail) || !emailRequest.IsValidEmail(userEmail))
-                {
-                    return Unauthorized("Không thể xác thực email người dùng.");
-                }
+                    return Unauthorized("Unable to authenticate the email.");
                 if (!emailRequest.IsValid())
-                {
-                    return BadRequest("Thông tin email không đầy đủ hoặc không hợp lệ.");
-                }
+                    return BadRequest("The email information is incomplete or invalid.");
                 emailRequest.Email = userEmail;
                 await emailService.SendContactEmail(emailRequest);
-                return Ok("Email đã được gửi thành công!");
+                return Ok("Email sent successfully!");
             }
             catch (Exception ex)
             {
-                return BadRequest($"Lỗi: {ex.Message}");
+                return BadRequest(ex.Message);
             }
         }
 
@@ -69,7 +63,7 @@ namespace API_Server.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest($"Lỗi: {ex.Message}");
+                return BadRequest(ex.Message);
             }
         }
 
