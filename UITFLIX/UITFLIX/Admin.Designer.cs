@@ -281,7 +281,7 @@
             btnSearch.BackgroundImage = Properties.Resources.search;
             btnSearch.BackgroundImageLayout = ImageLayout.Zoom;
             btnSearch.Cursor = Cursors.Hand;
-            btnSearch.Location = new Point(647, 13);
+            btnSearch.Location = new Point(647, 11);
             btnSearch.Margin = new Padding(2);
             btnSearch.Name = "btnSearch";
             btnSearch.Size = new Size(35, 36);
@@ -294,13 +294,15 @@
             tbSearch.BackColor = Color.White;
             tbSearch.Font = new Font("Cambria", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
             tbSearch.ForeColor = Color.CadetBlue;
-            tbSearch.Location = new Point(336, 14);
+            tbSearch.Location = new Point(330, 12);
             tbSearch.Margin = new Padding(2);
             tbSearch.Multiline = false;
             tbSearch.Name = "tbSearch";
             tbSearch.Size = new Size(305, 35);
             tbSearch.TabIndex = 3;
             tbSearch.Text = "";
+            tbSearch.Enter += tbSearch_Enter;
+            tbSearch.Leave += tbSearch_Leave;
             // 
             // tcData
             // 
@@ -751,7 +753,7 @@
             lbNoRoom.AutoSize = true;
             lbNoRoom.Font = new Font("Cambria", 16.2F, FontStyle.Italic, GraphicsUnit.Point, 0);
             lbNoRoom.ForeColor = Color.DarkSlateGray;
-            lbNoRoom.Location = new Point(402, 279);
+            lbNoRoom.Location = new Point(402, 258);
             lbNoRoom.Name = "lbNoRoom";
             lbNoRoom.Size = new Size(307, 33);
             lbNoRoom.TabIndex = 4;

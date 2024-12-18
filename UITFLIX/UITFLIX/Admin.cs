@@ -60,6 +60,15 @@ namespace UITFLIX
             dgvEmails.AutoGenerateColumns = false;
 
             SetInfo();
+
+            //Load tab Emails khi mở lên
+            this.Load += (s, e) =>
+            {
+                tcData.SelectedIndex = 0;
+                EmailsLoading();
+                iconRemove.Enabled = false;
+                iconRemove.IconColor = Color.Gray;
+            };
         }
 
         //Set info
@@ -141,7 +150,7 @@ namespace UITFLIX
                     Id = userinfo["user"]["id"].ToString()
                 };
                 var response = await userService.LogOut(LogOutModel, accesstoken);
-                if (response.Contains("thành công!"))
+                if (response.Contains("successfully!"))
                 {
                     this.Hide();
                     LogIn login = new LogIn();
@@ -208,6 +217,10 @@ namespace UITFLIX
                     dgvEmails.Rows.Add(email["date"], email["from"], email["subject"], email["body"]);
                 }
                 dgvEmails.Sort(dgvEmails.Columns["Date"], ListSortDirection.Descending);
+                if (dgvEmails.Rows.Count > 0)
+                    lbNoEmail.Visible = false;
+                else
+                    lbNoEmail.Visible = true;
             }
             catch (Exception ex)
             {
@@ -274,6 +287,10 @@ namespace UITFLIX
                     dgvUsers.Rows[rowIndex].Cells["UserID"].Tag = id;
                     num++;
                 }
+                if (dgvUsers.Rows.Count > 0)
+                    lbNoUser.Visible = false;
+                else
+                    lbNoUser.Visible = true;
             }
             catch (Exception ex)
             {
@@ -328,6 +345,10 @@ namespace UITFLIX
                     num++;
                 }
                 dgvVideos.Sort(dgvVideos.Columns["UploadedDate"], ListSortDirection.Descending);
+                if (dgvVideos.Rows.Count > 0)
+                    lbNoVideo.Visible = false;
+                else
+                    lbNoVideo.Visible = true;
             }
             catch (Exception ex)
             {
@@ -381,10 +402,14 @@ namespace UITFLIX
                     dgvRooms.Rows.Add(num, room["room"]["roomId"], room["host"], room["room"]["startTime"], room["participants"]);
                     num++;
                 }
+                if (dgvRooms.Rows.Count > 0)
+                    lbNoRoom.Visible = false;
+                else
+                    lbNoRoom.Visible = true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"{ex.Message}\n{ex.StackTrace}");
+                MessageBox.Show(ex.Message);
             }
 
             progressBar.Visible = false;
@@ -514,69 +539,98 @@ namespace UITFLIX
         {
             string searchValue = tbSearch.Text.ToLower();
             int selectedTab = tcData.SelectedIndex;
-            
+
             switch (selectedTab)
             {
                 case 0: //Emails
                     {
+                        int count = 0;
                         foreach (DataGridViewRow row in dgvEmails.Rows)
                         {
                             bool isVisible = row.Cells.Cast<DataGridViewCell>().Any(cell => cell.Value != null &&
                                              cell.Value.ToString().ToLower().Contains(searchValue));
                             row.Visible = isVisible;
-                            if (isVisible) 
-                                lbNoEmail.Visible = true;
-                            else
-                                lbNoEmail.Visible = false;
+                            if (isVisible)
+                                count++;
                         }
+                        if (count > 0)
+                            lbNoEmail.Visible = false;
+                        else
+                            lbNoEmail.Visible = true;
                     }
-                break;
+                    break;
                 case 1: //Users
                     {
+                        int count = 0;
                         foreach (DataGridViewRow row in dgvUsers.Rows)
                         {
                             bool isVisible = row.Cells.Cast<DataGridViewCell>().Any(cell => cell.Value != null &&
                                              cell.Value.ToString().ToLower().Contains(searchValue));
                             row.Visible = isVisible;
-                            if (isVisible) 
-                                lbNoUser.Visible = true;
-                            else
-                                lbNoUser.Visible = false;
+                            if (isVisible)
+                                count++;
                         }
+                        if (count > 0)
+                            lbNoUser.Visible = false;
+                        else
+                            lbNoUser.Visible = true;
                     }
-                break;
+                    break;
                 case 2: //Videos
                     {
+                        int count = 0;
                         foreach (DataGridViewRow row in dgvVideos.Rows)
                         {
                             bool isVisible = row.Cells.Cast<DataGridViewCell>().Any(cell => cell.Value != null &&
                                              cell.Value.ToString().ToLower().Contains(searchValue));
                             row.Visible = isVisible;
                             if (isVisible)
-                                lbNoVideo.Visible = true;
-                            else
-                                lbNoVideo.Visible = false;
+                                count++;
                         }
+                        MessageBox.Show(dgvVideos.Rows.Count.ToString());
+                        if (count > 0)
+                            lbNoVideo.Visible = false;
+                        else
+                            lbNoVideo.Visible = true;
                     }
-                break;
+                    break;
                 default: //Rooms
                     {
+                        int count = 0;
                         foreach (DataGridViewRow row in dgvRooms.Rows)
                         {
                             bool isVisible = row.Cells.Cast<DataGridViewCell>().Any(cell => cell.Value != null &&
                                              cell.Value.ToString().ToLower().Contains(searchValue));
                             row.Visible = isVisible;
-                            if (isVisible) 
-                                lbNoRoom.Visible = true;
-                            else
-                                lbNoRoom.Visible = false;
+                            if (isVisible)
+                                count++;
                         }
+                        if (count > 0)
+                            lbNoRoom.Visible = false;
+                        else
+                            lbNoRoom.Visible = true;
                     }
-                break;
+                    break;
             }
 
         }
 
+        private void tbSearch_Enter(object sender, EventArgs e)
+        {
+            tbSearch.Text = string.Empty;
+            tbSearch.ForeColor = Color.MidnightBlue;
+            tbSearch.Font = new Font(tbSearch.Font, FontStyle.Regular);
+        }
+
+        private void tbSearch_Leave(object sender, EventArgs e)
+        {
+            if (tbSearch.Text == string.Empty)
+            {
+                tbSearch.Text = " Search";
+                tbSearch.ForeColor = Color.CadetBlue;
+                tbSearch.Font = new Font(tbSearch.Font, FontStyle.Italic);
+            }
+        }
     }
 
 }

@@ -26,15 +26,11 @@ builder.Services.AddCors(options =>
     });
 });
 
-
-
-
 builder.Services.AddSignalR();
 // Add services to the container.
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -55,8 +51,6 @@ builder.Services.AddScoped<ImgurService>();
 builder.Services.AddScoped<JWTService>();
 builder.Services.AddScoped<MongoDbContext>();
 builder.Services.AddScoped<CoopService>();
-
-
 
 builder.Services.AddAuthorization();
 
@@ -126,7 +120,6 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-
 
 public class MongoDbContext
 {

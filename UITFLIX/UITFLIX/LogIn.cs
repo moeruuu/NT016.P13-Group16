@@ -124,7 +124,6 @@ namespace UITFLIX
                 }
                 else if(response.StatusCode == System.Net.HttpStatusCode.BadRequest) 
                 {
-
                     MessageBox.Show(res["message"].ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
@@ -133,7 +132,6 @@ namespace UITFLIX
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
         }
 
         private async void linksignup_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
