@@ -161,7 +161,7 @@ namespace UITFLIX.Services
             }
             catch(Exception ex)
             {
-                MessageBox.Show($"{ex.Message}");
+                MessageBox.Show(ex.Message);
                 return null;
             }
         }
@@ -182,7 +182,7 @@ namespace UITFLIX.Services
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"{ex.Message}");
+                MessageBox.Show(ex.Message);
                 return null;
             }
         }
@@ -193,13 +193,12 @@ namespace UITFLIX.Services
             {
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
-                var response = await httpClient.GetAsync($"/api/User/Delete-User/{userID}");
+                var response = await httpClient.DeleteAsync($"/api/User/Delete-User/{userID}");
                 return await response.Content.ReadAsStringAsync();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"{ex.Message}");
-                return null;
+                return ex.Message;
             }
         }
 

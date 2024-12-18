@@ -449,20 +449,20 @@ namespace UITFLIX
                     }
                     else
                     {
-                        var res = MessageBox.Show("\"Are you sure you want to permanently delete this user?", "Warning!", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        var res = MessageBox.Show("Are you sure you want to permanently delete this user?", "Warning!", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                         if (res == DialogResult.Yes)
                         {
                             var response = await userService.DeleteUser(dgvUsers.Rows[selectedIndexUser].Cells["UserID"].Tag.ToString(), accesstoken);
-                            if (response == "successfully!")
+                            if (response.Contains("successfully!"))
                             {
-                                MessageBox.Show("Deleted user successfully", "Success", MessageBoxButtons.OK);
+                                MessageBox.Show("Deleted user successfully!", "Success", MessageBoxButtons.OK);
                                 dgvUsers.Rows.RemoveAt(selectedIndexUser);
                                 selectedIndexUser = -1;
                                 return;
                             }
                             else
                             {
-                                MessageBox.Show("Failed to delete this user", "Error", MessageBoxButtons.OKCancel);
+                                MessageBox.Show("Failed to delete this user!", "Error", MessageBoxButtons.OKCancel);
                                 return;
                             }
                         }
@@ -483,16 +483,16 @@ namespace UITFLIX
                     {
                         var response = await videoService.DeleteVideo(dgvVideos.Rows[selectedIndexVideo].Cells["VideoID"].Tag.ToString(), accesstoken);
                         MessageBox.Show(dgvVideos.Rows[selectedIndexVideo].Cells["VideoID"].Tag.ToString());
-                        if (response == "successfully!")
+                        if (response.Contains("successfully!"))
                         {
-                            MessageBox.Show("Deleted video successfully", "Success", MessageBoxButtons.OK);
+                            MessageBox.Show("Deleted video successfully!", "Success", MessageBoxButtons.OK);
                             dgvVideos.Rows.RemoveAt(selectedIndexVideo);
                             selectedIndexVideo = -1;
                             return;
                         }
                         else
                         {
-                            MessageBox.Show("Failed to delete this video", "Error", MessageBoxButtons.OKCancel);
+                            MessageBox.Show("Failed to delete this video!", "Error", MessageBoxButtons.OKCancel);
                             return;
                         }
                     }
