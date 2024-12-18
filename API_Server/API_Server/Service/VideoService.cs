@@ -303,5 +303,16 @@ namespace API_Server.Service
             return videos.CountDocuments(filter);
         }
 
+        public async Task<bool> RemoveWatchedVideo (ObjectId userID, string videoId)
+        {
+            var filter = Builders<WatchedVideo>.Filter.Eq (u => u.UserId, userID);
+            var update = Builders<WatchedVideo>.Update.PullFilter(
+                u => u.WatchedVideosList,
+                v => v.VideoID == videoId);
+
+            var result = await watchedList.UpdateOneAsync (filter, update);
+            return result.ModifiedCount > 0;
+        }
+
     }
 }
