@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Room));
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             panel1 = new Panel();
             lbname = new Label();
             linkleaveroom = new LinkLabel();
@@ -42,10 +43,10 @@
             label2 = new Label();
             rcmvideopanel = new FlowLayoutPanel();
             dgvQueue = new DataGridView();
+            listchatgroup = new RichTextBox();
             ColumnNum = new DataGridViewTextBoxColumn();
             ColumnTitle = new DataGridViewTextBoxColumn();
             ColumnTag = new DataGridViewTextBoxColumn();
-            listchatgroup = new RichTextBox();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)logo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvQueue).BeginInit();
@@ -200,15 +201,38 @@
             // dgvQueue
             // 
             dgvQueue.BackgroundColor = Color.LightSteelBlue;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = SystemColors.Control;
+            dataGridViewCellStyle1.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvQueue.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvQueue.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvQueue.Columns.AddRange(new DataGridViewColumn[] { ColumnNum, ColumnTitle, ColumnTag });
             dgvQueue.GridColor = Color.MidnightBlue;
             dgvQueue.Location = new Point(1102, 731);
             dgvQueue.Margin = new Padding(2);
             dgvQueue.Name = "dgvQueue";
+            dgvQueue.RowHeadersVisible = false;
             dgvQueue.RowHeadersWidth = 62;
             dgvQueue.Size = new Size(382, 248);
             dgvQueue.TabIndex = 12;
+            // 
+            // listchatgroup
+            // 
+            listchatgroup.BackColor = Color.MintCream;
+            listchatgroup.BorderStyle = BorderStyle.FixedSingle;
+            listchatgroup.Font = new Font("Cambria", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            listchatgroup.ForeColor = Color.MidnightBlue;
+            listchatgroup.Location = new Point(1101, 79);
+            listchatgroup.Name = "listchatgroup";
+            listchatgroup.ReadOnly = true;
+            listchatgroup.ScrollBars = RichTextBoxScrollBars.Horizontal;
+            listchatgroup.Size = new Size(383, 529);
+            listchatgroup.TabIndex = 13;
+            listchatgroup.Text = "";
             // 
             // ColumnNum
             // 
@@ -224,7 +248,7 @@
             ColumnTitle.MinimumWidth = 8;
             ColumnTitle.Name = "ColumnTitle";
             ColumnTitle.ReadOnly = true;
-            ColumnTitle.Width = 250;
+            ColumnTitle.Width = 205;
             // 
             // ColumnTag
             // 
@@ -232,21 +256,7 @@
             ColumnTag.MinimumWidth = 8;
             ColumnTag.Name = "ColumnTag";
             ColumnTag.ReadOnly = true;
-            ColumnTag.Width = 150;
-            // 
-            // listchatgroup
-            // 
-            listchatgroup.BackColor = Color.MintCream;
-            listchatgroup.BorderStyle = BorderStyle.FixedSingle;
-            listchatgroup.Font = new Font("Cambria", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            listchatgroup.ForeColor = Color.MidnightBlue;
-            listchatgroup.Location = new Point(1101, 79);
-            listchatgroup.Name = "listchatgroup";
-            listchatgroup.ReadOnly = true;
-            listchatgroup.ScrollBars = RichTextBoxScrollBars.Horizontal;
-            listchatgroup.Size = new Size(383, 529);
-            listchatgroup.TabIndex = 13;
-            listchatgroup.Text = "";
+            ColumnTag.Width = 94;
             // 
             // Room
             // 
@@ -294,10 +304,10 @@
         private LinkLabel linkleaveroom;
         private FlowLayoutPanel rcmvideopanel;
         private DataGridView dgvQueue;
+        private Label lbname;
+        private RichTextBox listchatgroup;
         private DataGridViewTextBoxColumn ColumnNum;
         private DataGridViewTextBoxColumn ColumnTitle;
         private DataGridViewTextBoxColumn ColumnTag;
-        private Label lbname;
-        private RichTextBox listchatgroup;
     }
 }

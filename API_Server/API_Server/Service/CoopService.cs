@@ -107,7 +107,7 @@ namespace API_Server.Service
             }
         }
 
-        public async Task<List<string>> GetListVideo(string roomid)
+        public async Task<List<string>?> GetListVideo(string roomid)
         {
             try
             {

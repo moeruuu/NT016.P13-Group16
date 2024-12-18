@@ -68,7 +68,28 @@ namespace UITFLIX
 
         public async Task IntializeEvent()
         {
-            connection = new HubConnectionBuilder().WithUrl(huburl).Build();
+            connection = new HubConnectionBuilder()
+                .WithUrl(huburl)
+                .WithAutomaticReconnect()
+                .Build();
+
+            connection.Reconnecting += (error) =>
+            {
+                listchatgroup.Invoke(new Action(() =>
+                {
+                    listchatgroup.Text += "\nReconnecting...";
+                }));
+                return Task.CompletedTask;
+            };
+
+            connection.Reconnected += (connectionId) =>
+            {
+                listchatgroup.Invoke(new Action(() =>
+                {
+                    listchatgroup.Text += "\nReconnected.";
+                }));
+                return Task.CompletedTask;
+            };
 
             await StartConnection();
             await UserJoined(roomid);
@@ -87,11 +108,17 @@ namespace UITFLIX
             try
             {
                 await connection.StartAsync();
-                listchatgroup.Text = "Connection Started";
+                listchatgroup.Invoke(new Action(() =>
+                {
+                    listchatgroup.Text = "Connection Started";
+                }));
             }
             catch (Exception ex)
             {
-                listchatgroup.Text = $"{ex.Message}";
+                listchatgroup.Invoke(new Action(() =>
+                {
+                    listchatgroup.Text = $"Connection error: {ex.Message}";
+                }));
             }
         }
 
@@ -119,10 +146,10 @@ namespace UITFLIX
                 {
                     try
                     {
-                        dgvQueue.Rows.Clear();
-                        for (int i = 0; i < movies.Count(); i++)
+                        dgvQueue.Invoke(new Action(() => dgvQueue.Rows.Clear()));
+                        foreach (var movieId in movies)
                         {
-                            var getmovie = await videoService.GetVideoByID(accesstoken, movies[i]);
+                            var getmovie = await videoService.GetVideoByID(accesstoken, movieId);
                             if (getmovie != null)
                             {
                                 dgvQueue.Invoke(new Action(() =>
@@ -155,7 +182,7 @@ namespace UITFLIX
                         {
                             axWindowsMediaPlayerVideo.uiMode = "none";
                             axWindowsMediaPlayerVideo.Ctlcontrols.stop();
-                            axWindowsMediaPlayerVideo.URL = null;
+                            //axWindowsMediaPlayerVideo.URL = null;
                             axWindowsMediaPlayerVideo.URL = stream;
                             axWindowsMediaPlayerVideo.Ctlcontrols.play();
                         }));
@@ -164,7 +191,6 @@ namespace UITFLIX
                     {
                         MessageBox.Show("Error when playing video", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
-                    this.Cursor = Cursors.Default;
                 }
                 catch (Exception ex)
                 {
@@ -174,7 +200,7 @@ namespace UITFLIX
 
             connection.On<double>("ReceivePlaybackPosition", position =>
             {
-                if (Math.Abs(axWindowsMediaPlayerVideo.Ctlcontrols.currentPosition - position) > 1)
+                if (Math.Abs(axWindowsMediaPlayerVideo.Ctlcontrols.currentPosition - position) > 0.5)
                 {
                     axWindowsMediaPlayerVideo.Ctlcontrols.currentPosition = position;
                 }
@@ -183,7 +209,7 @@ namespace UITFLIX
 
         private void OnPlayStateChange(object sender, AxWMPLib._WMPOCXEvents_PlayStateChangeEvent e)
         {
-            if (e.newState == (int)WMPLib.WMPPlayState.wmppsMediaEnded || axWindowsMediaPlayerVideo.playState == WMPLib.WMPPlayState.wmppsStopped)
+            if (e.newState == (int)WMPLib.WMPPlayState.wmppsMediaEnded || e.newState == (int)WMPLib.WMPPlayState.wmppsStopped)
                 PlayVideo();
             if (e.newState == (int)WMPLib.WMPPlayState.wmppsPlaying)
                 StartSyncTimer();
@@ -273,7 +299,7 @@ namespace UITFLIX
                     await connection.InvokeAsync("AddMovie", roomid, videoid);
                     await connection.InvokeAsync("SendMessage", userinfo["user"]["fullname"].ToString(), roomid, "has added a video!");
                     if (dgvQueue.Rows.Count == 1)
-                        PlayVideo();
+                        await PlayVideo();
                 }
                 else
                     MessageBox.Show("Can't add video", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -305,7 +331,7 @@ namespace UITFLIX
 
         private void StartSyncTimer()
         {
-            playback = new System.Windows.Forms.Timer { Interval = 500 }; //Gửi video mới 0.5s
+            playback = new System.Windows.Forms.Timer { Interval = 1000 }; //Gửi video mới 0.5s
             playback.Tick += async (sender, e) =>
             {
                 if (connection.State == HubConnectionState.Connected)
@@ -320,7 +346,7 @@ namespace UITFLIX
         private async Task PlayVideo()
         {
             videoqueue = await coopService.GetVideoQueue(accesstoken, roomid);
-            if (videoqueue == null) return;
+            if (videoqueue == null || videoqueue.Count <= index) return;
             await PlayNextVideo();
         }
 
@@ -332,7 +358,6 @@ namespace UITFLIX
             {
                 while (videoqueue.Count > index)
                 {
-                    this.Cursor = Cursors.WaitCursor;
                     var videoid = videoqueue[index].ToString();
 
                     if (videoid != null)

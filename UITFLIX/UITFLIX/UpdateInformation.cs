@@ -203,8 +203,15 @@ namespace UITFLIX
             openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;*.tiff;*.webp;*.svg";
             openFileDialog.ShowDialog();
             selectedimagefile = openFileDialog.FileName;
-            if (selectedimagefile != null)
-                Avatar.Image = System.Drawing.Image.FromFile(selectedimagefile);
+            try
+            {
+                if (selectedimagefile != null)
+                    Avatar.Image = System.Drawing.Image.FromFile(selectedimagefile);
+            }
+            catch
+            {
+                MessageBox.Show("This image exceeds our allowed size limit", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
         }
 
         private async void btnUpdateInfo_Click(object sender, EventArgs e)
