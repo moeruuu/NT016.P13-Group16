@@ -200,6 +200,9 @@ namespace UITFLIX
         {
             dgvEmails.Rows.Clear();
             progressBar.Visible = true;
+            //dùng để cho giá trị của thanh progress bar ở style Marquee luôn bắt đầu từ 0
+            progressBar.Style = ProgressBarStyle.Blocks;
+            progressBar.Value = 0;
             progressBar.Style = ProgressBarStyle.Marquee;
             var jArray = await mailService.GetEmails();
 
@@ -249,6 +252,8 @@ namespace UITFLIX
             dgvUsers.Rows.Clear();
             selectedIndexUser = -1;
             progressBar.Visible = true;
+            progressBar.Style = ProgressBarStyle.Blocks;
+            progressBar.Value = 0;
             progressBar.Style = ProgressBarStyle.Marquee;
             var jArray = await userService.GetUsers(accesstoken);
             int num = 1;
@@ -323,6 +328,8 @@ namespace UITFLIX
             dgvVideos.Rows.Clear();
             selectedIndexVideo = -1;
             progressBar.Visible = true;
+            progressBar.Style = ProgressBarStyle.Blocks;
+            progressBar.Value = 0;
             progressBar.Style = ProgressBarStyle.Marquee;
             var jArray = await videoService.GetVideos(accesstoken);
             int num = 1;
@@ -384,6 +391,8 @@ namespace UITFLIX
         {
             dgvRooms.Rows.Clear();
             progressBar.Visible = true;
+            progressBar.Style = ProgressBarStyle.Blocks;
+            progressBar.Value = 0;
             progressBar.Style = ProgressBarStyle.Marquee;
             var jArray = await coopService.GetRooms(accesstoken);
             int num = 1;
@@ -586,7 +595,6 @@ namespace UITFLIX
                             if (isVisible)
                                 count++;
                         }
-                        MessageBox.Show(dgvVideos.Rows.Count.ToString());
                         if (count > 0)
                             lbNoVideo.Visible = false;
                         else

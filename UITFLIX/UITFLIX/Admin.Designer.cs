@@ -338,7 +338,7 @@
             lbNoEmail.AutoSize = true;
             lbNoEmail.Font = new Font("Cambria", 16.2F, FontStyle.Italic, GraphicsUnit.Point, 0);
             lbNoEmail.ForeColor = Color.DarkSlateGray;
-            lbNoEmail.Location = new Point(398, 258);
+            lbNoEmail.Location = new Point(404, 258);
             lbNoEmail.Name = "lbNoEmail";
             lbNoEmail.Size = new Size(312, 33);
             lbNoEmail.TabIndex = 5;
@@ -447,7 +447,7 @@
             lbNoUser.AutoSize = true;
             lbNoUser.Font = new Font("Cambria", 16.2F, FontStyle.Italic, GraphicsUnit.Point, 0);
             lbNoUser.ForeColor = Color.DarkSlateGray;
-            lbNoUser.Location = new Point(398, 258);
+            lbNoUser.Location = new Point(404, 258);
             lbNoUser.Name = "lbNoUser";
             lbNoUser.Size = new Size(298, 33);
             lbNoUser.TabIndex = 5;
@@ -594,7 +594,7 @@
             lbNoVideo.AutoSize = true;
             lbNoVideo.Font = new Font("Cambria", 16.2F, FontStyle.Italic, GraphicsUnit.Point, 0);
             lbNoVideo.ForeColor = Color.DarkSlateGray;
-            lbNoVideo.Location = new Point(398, 258);
+            lbNoVideo.Location = new Point(404, 258);
             lbNoVideo.Name = "lbNoVideo";
             lbNoVideo.Size = new Size(310, 33);
             lbNoVideo.TabIndex = 5;
@@ -753,7 +753,7 @@
             lbNoRoom.AutoSize = true;
             lbNoRoom.Font = new Font("Cambria", 16.2F, FontStyle.Italic, GraphicsUnit.Point, 0);
             lbNoRoom.ForeColor = Color.DarkSlateGray;
-            lbNoRoom.Location = new Point(402, 258);
+            lbNoRoom.Location = new Point(404, 258);
             lbNoRoom.Name = "lbNoRoom";
             lbNoRoom.Size = new Size(307, 33);
             lbNoRoom.TabIndex = 4;
