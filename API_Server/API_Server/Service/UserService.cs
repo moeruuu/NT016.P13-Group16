@@ -186,7 +186,12 @@ namespace API_Server.Service
 
         public async Task<bool> DeleteUser(ObjectId userid)
         {
-            var delete = await users.DeleteOneAsync(u => u.UserId == userid);
+            var filter = Builders<User>.Filter.Eq(u => u.UserId, userid);
+            var existUser = await users.Find(filter).FirstOrDefaultAsync();
+            if (existUser == null)
+                return false;
+
+            var delete = await users.DeleteOneAsync(filter);
             return delete.DeletedCount > 0;
         }
 
@@ -327,7 +332,7 @@ namespace API_Server.Service
             <body>
                 <div class='container'>
                     <div class='header'>
-                        <img src='https://i.imgur.com/DjYrvRL.png' alt='UITFLIX Logo' width='100'>
+                        <img src='https://i.imgur.com/DjYrvRL.png' alt='UITFLIX Logo' width='100'; height: auto;>
                         <h2>NT106.P13</h2>
                     </div>
                     <div class='middle'>

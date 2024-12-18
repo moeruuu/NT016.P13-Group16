@@ -242,6 +242,7 @@ namespace UITFLIX
                 {
                     MessageBox.Show(response, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     lbwait.Visible = false;
+                    btnsignup.Enabled = true;
                     return;
                 }
             }

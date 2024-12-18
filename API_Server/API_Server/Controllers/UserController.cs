@@ -283,11 +283,14 @@ namespace API_Server.Controllers
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         [HttpDelete("Delete-User/{id}")]
-        public async Task<IActionResult> DeleteUser([FromRoute] ObjectId UserID)
+        public async Task<IActionResult> DeleteUser([FromRoute] string id)
         {
             try
             {
-                var delete = await userService.DeleteUser(UserID);
+                if (!ObjectId.TryParse(id, out ObjectId userId))
+                    return BadRequest("Invalid User ID format.");
+
+                var delete = await userService.DeleteUser(userId);
                 if (delete == true)
                     return Ok("User deleted successfully!");
                 else 
