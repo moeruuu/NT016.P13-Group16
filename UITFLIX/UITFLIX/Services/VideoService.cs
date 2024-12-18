@@ -403,7 +403,7 @@ namespace UITFLIX.Services
             {
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
-                var response = await httpClient.GetAsync($"/api/Video/Delete-Video/{videoID}");
+                var response = await httpClient.DeleteAsync($"/api/Video/Delete-Video/{videoID}");
                 return await response.Content.ReadAsStringAsync();
             }
             catch (Exception ex)

@@ -482,7 +482,6 @@ namespace UITFLIX
                     if (res == DialogResult.Yes)
                     {
                         var response = await videoService.DeleteVideo(dgvVideos.Rows[selectedIndexVideo].Cells["VideoID"].Tag.ToString(), accesstoken);
-                        MessageBox.Show(dgvVideos.Rows[selectedIndexVideo].Cells["VideoID"].Tag.ToString());
                         if (response.Contains("successfully!"))
                         {
                             MessageBox.Show("Deleted video successfully!", "Success", MessageBoxButtons.OK);
