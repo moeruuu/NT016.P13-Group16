@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using MongoDB.Bson;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Diagnostics.CodeAnalysis;
 
 namespace API_Server.Controllers
 {
@@ -243,6 +244,34 @@ namespace API_Server.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, new { message = "Error during video download.", error = ex.Message });
+            }
+        }
+
+        [Authorize (AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpDelete ("RemoveWatchedVideo/{videoId}")]
+
+        public async Task<IActionResult> RemoveWatchedVideo([FromRoute] string videoId)
+        {
+            try
+            {
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userId) || !ObjectId.TryParse (userId, out ObjectId UserId))
+                {
+                    return Unauthorized("Không thể xác thực người dùng");
+                }
+                var result = await videoService.RemoveWatchedVideo(UserId, videoId);
+                if (result)
+                {
+                    return Ok("Video đã bị xóa khỏi lịch sử xem thành công.");
+                }
+                else
+                {
+                    return NotFound("Không tìm thấy video trong lịch sử xem.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Lỗi: {ex.Message}");
             }
         }
 
