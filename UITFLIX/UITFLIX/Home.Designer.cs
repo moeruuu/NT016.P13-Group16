@@ -560,7 +560,7 @@
             cbtag.Font = new Font("Cambria", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             cbtag.ForeColor = Color.MidnightBlue;
             cbtag.FormattingEnabled = true;
-            cbtag.Items.AddRange(new object[] { "Âm nhạc", "Ẩm thực", "Công nghệ", "Điện ảnh", "Giải trí", "Hoạt hình", "Học tập", "Làm đẹp", "Thể thao", "Tin tức", "Trò Chơi", "Vlog" });
+            cbtag.Items.AddRange(new object[] { "Animation", "Beauty", "Cinema", "Education", "Entertainment", "Food", "Gaming", "Music", "News", "Sports", "Technology", "Vlog" });
             cbtag.Location = new Point(863, 198);
             cbtag.Margin = new Padding(2);
             cbtag.Name = "cbtag";
