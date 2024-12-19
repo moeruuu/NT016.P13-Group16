@@ -280,6 +280,7 @@
             searchtb.TabIndex = 1;
             searchtb.Text = "";
             searchtb.Enter += searchtb_Enter;
+            searchtb.KeyDown += searchtb_KeyDown;
             searchtb.Leave += searchtb_Leave;
             // 
             // logo

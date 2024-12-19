@@ -82,7 +82,7 @@ namespace UITFLIX
         private void setUserinfo()
         {
             Username.Text = Userinfo["user"]["fullname"].ToString();
-            Username.Location = new Point((avatarpanel.Width-Username.Width)/2, Username.Location.Y);
+            Username.Location = new Point((avatarpanel.Width - Username.Width) / 2, Username.Location.Y);
             LoadImageFromUrl(Userinfo["user"]["profilepicture"].ToString());
         }
 
@@ -620,6 +620,11 @@ namespace UITFLIX
         //Button search
         private async void btnSearch_Click(object sender, EventArgs e)
         {
+            Search();
+        }
+
+        private async Task Search()
+        {
             progressupload.Visible = true;
             DisableButton();
             leftborderBtn.Visible = false;
@@ -767,11 +772,20 @@ namespace UITFLIX
                 else
                     MessageBox.Show("This room does not exist!");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
 
+        }
+
+        private void searchtb_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true;
+                Search();
+            }
         }
     }
 

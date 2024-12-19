@@ -624,6 +624,7 @@ namespace UITFLIX
 
         private void tbSearch_Enter(object sender, EventArgs e)
         {
+            if (tbSearch.Text == " Search")
             tbSearch.Text = string.Empty;
             tbSearch.ForeColor = Color.MidnightBlue;
             tbSearch.Font = new Font(tbSearch.Font, FontStyle.Regular);
@@ -636,6 +637,15 @@ namespace UITFLIX
                 tbSearch.Text = " Search";
                 tbSearch.ForeColor = Color.CadetBlue;
                 tbSearch.Font = new Font(tbSearch.Font, FontStyle.Italic);
+            }
+        }
+
+        private void tbSearch_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true;
+                SearchInDataGridView();
             }
         }
     }
