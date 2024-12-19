@@ -45,8 +45,10 @@
             buttonBrowse = new Button();
             buttonSend = new Button();
             progressBar = new ProgressBar();
+            logout = new PictureBox();
             abovepanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)logo).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)logout).BeginInit();
             SuspendLayout();
             // 
             // abovepanel
@@ -222,6 +224,19 @@
             progressBar.TabIndex = 16;
             progressBar.Visible = false;
             // 
+            // logout
+            // 
+            logout.Cursor = Cursors.Hand;
+            logout.Image = (Image)resources.GetObject("logout.Image");
+            logout.Location = new Point(538, 532);
+            logout.Margin = new Padding(2);
+            logout.Name = "logout";
+            logout.Size = new Size(46, 46);
+            logout.SizeMode = PictureBoxSizeMode.StretchImage;
+            logout.TabIndex = 32;
+            logout.TabStop = false;
+            logout.Click += logout_Click;
+            // 
             // Chat
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -229,6 +244,7 @@
             BackColor = Color.LightBlue;
             ClientSize = new Size(582, 601);
             ControlBox = false;
+            Controls.Add(logout);
             Controls.Add(progressBar);
             Controls.Add(buttonSend);
             Controls.Add(buttonBrowse);
@@ -251,6 +267,7 @@
             abovepanel.ResumeLayout(false);
             abovepanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)logo).EndInit();
+            ((System.ComponentModel.ISupportInitialize)logout).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -273,5 +290,6 @@
         private Button buttonBrowse;
         private Button buttonSend;
         private ProgressBar progressBar;
+        private PictureBox logout;
     }
 }

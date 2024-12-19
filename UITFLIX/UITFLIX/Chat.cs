@@ -23,7 +23,7 @@ namespace UITFLIX
         public Chat(JObject userInfo, string accessToken)
         {
             InitializeComponent();
-            _userInfo = userInfo;;
+            _userInfo = userInfo; ;
             chatService = new MailService(accessToken);
         }
 
@@ -121,6 +121,11 @@ namespace UITFLIX
                     textBoxAttachmentPath.Text = selectedFilePath;
                 }
             }
+        }
+
+        private void logout_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
