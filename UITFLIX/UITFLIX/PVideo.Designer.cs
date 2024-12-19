@@ -337,7 +337,6 @@
             axWindowsMediaPlayer.OcxState = (AxHost.State)resources.GetObject("axWindowsMediaPlayer.OcxState");
             axWindowsMediaPlayer.Size = new Size(986, 570);
             axWindowsMediaPlayer.TabIndex = 3;
-            axWindowsMediaPlayer.UseWaitCursor = true;
             // 
             // flpRelatedVideos
             // 

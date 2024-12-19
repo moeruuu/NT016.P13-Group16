@@ -311,28 +311,6 @@ namespace UITFLIX
             }
         }
 
-        private async void linkleaveroom_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            var res = MessageBox.Show("Do you wanna leave room?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (res == DialogResult.Yes)
-            {
-                leaveroom = true;
-                canleave = true;
-                var response = await coopService.LeaveRoom(accesstoken, roomid);
-                if (response)
-                {
-                    await connection.InvokeAsync("SendMessage", userinfo["user"]["fullname"].ToString(), roomid, "has left room");
-                    await connection.InvokeAsync("LeaveRoom", roomid);
-                    this.Close();
-                    var checkroom = await coopService.DeleteRoom(accesstoken, roomid);
-                    if (checkroom)
-                        await connection.InvokeAsync("DeleteRoom", roomid);
-
-                    axWindowsMediaPlayerVideo.Ctlcontrols.pause();
-                }
-            }
-        }
-
         private void StartSyncTimer()
         {
             if (!leaveroom)
@@ -421,10 +399,32 @@ namespace UITFLIX
             //Ngan cho form dong bang alt + f4 hoac dong cach kahc
             if (!leaveroom)
             {
-                MessageBox.Show("Please click leave room!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+                MessageBox.Show("Please click leave room!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 e.Cancel = true;
             }
-            
+
+        }
+
+        private async void iconleaveroom_Click(object sender, EventArgs e)
+        {
+            var res = MessageBox.Show("Do you wanna leave room?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (res == DialogResult.Yes)
+            {
+                leaveroom = true;
+                canleave = true;
+                var response = await coopService.LeaveRoom(accesstoken, roomid);
+                if (response)
+                {
+                    await connection.InvokeAsync("SendMessage", userinfo["user"]["fullname"].ToString(), roomid, "has left room");
+                    await connection.InvokeAsync("LeaveRoom", roomid);
+                    this.Close();
+                    var checkroom = await coopService.DeleteRoom(accesstoken, roomid);
+                    if (checkroom)
+                        await connection.InvokeAsync("DeleteRoom", roomid);
+
+                    axWindowsMediaPlayerVideo.Ctlcontrols.pause();
+                }
+            }
         }
     }
 }

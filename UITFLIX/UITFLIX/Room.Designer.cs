@@ -31,8 +31,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Room));
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             panel1 = new Panel();
+            iconleaveroom = new PictureBox();
+            iconMember = new FontAwesome.Sharp.IconPictureBox();
             lbname = new Label();
-            linkleaveroom = new LinkLabel();
             IDRoom = new Label();
             label3 = new Label();
             logo = new PictureBox();
@@ -48,6 +49,8 @@
             listchatgroup = new RichTextBox();
             iconSend = new FontAwesome.Sharp.IconPictureBox();
             panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)iconleaveroom).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)iconMember).BeginInit();
             ((System.ComponentModel.ISupportInitialize)logo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvQueue).BeginInit();
             ((System.ComponentModel.ISupportInitialize)iconSend).BeginInit();
@@ -56,8 +59,9 @@
             // panel1
             // 
             panel1.BackColor = Color.PowderBlue;
+            panel1.Controls.Add(iconleaveroom);
+            panel1.Controls.Add(iconMember);
             panel1.Controls.Add(lbname);
-            panel1.Controls.Add(linkleaveroom);
             panel1.Controls.Add(IDRoom);
             panel1.Controls.Add(label3);
             panel1.Controls.Add(logo);
@@ -67,6 +71,20 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(1511, 53);
             panel1.TabIndex = 0;
+            // 
+            // iconleaveroom
+            // 
+            iconleaveroom.BackColor = Color.PowderBlue;
+            iconleaveroom.Cursor = Cursors.Hand;
+            iconleaveroom.Image = (Image)resources.GetObject("iconleaveroom.Image");
+            iconleaveroom.Location = new Point(1458, 10);
+            iconleaveroom.Margin = new Padding(2);
+            iconleaveroom.Name = "iconleaveroom";
+            iconleaveroom.Size = new Size(35, 35);
+            iconleaveroom.SizeMode = PictureBoxSizeMode.StretchImage;
+            iconleaveroom.TabIndex = 7;
+            iconleaveroom.TabStop = false;
+            iconleaveroom.Click += iconleaveroom_Click;
             // 
             // lbname
             // 
@@ -78,21 +96,6 @@
             lbname.Name = "lbname";
             lbname.Size = new Size(0, 17);
             lbname.TabIndex = 5;
-            // 
-            // linkleaveroom
-            // 
-            linkleaveroom.ActiveLinkColor = Color.MidnightBlue;
-            linkleaveroom.AutoSize = true;
-            linkleaveroom.Font = new Font("Cambria", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            linkleaveroom.LinkColor = Color.White;
-            linkleaveroom.Location = new Point(1386, 7);
-            linkleaveroom.Margin = new Padding(2, 0, 2, 0);
-            linkleaveroom.Name = "linkleaveroom";
-            linkleaveroom.Size = new Size(112, 23);
-            linkleaveroom.TabIndex = 4;
-            linkleaveroom.TabStop = true;
-            linkleaveroom.Text = "Leave room";
-            linkleaveroom.LinkClicked += linkleaveroom_LinkClicked;
             // 
             // IDRoom
             // 
@@ -288,6 +291,8 @@
             Text = "CreateRoom";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)iconleaveroom).EndInit();
+            ((System.ComponentModel.ISupportInitialize)iconMember).EndInit();
             ((System.ComponentModel.ISupportInitialize)logo).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvQueue).EndInit();
             ((System.ComponentModel.ISupportInitialize)iconSend).EndInit();
@@ -305,7 +310,6 @@
         private Label label2;
         private Label IDRoom;
         private Label label3;
-        private LinkLabel linkleaveroom;
         private FlowLayoutPanel rcmvideopanel;
         private DataGridView dgvQueue;
         private Label lbname;
@@ -314,5 +318,7 @@
         private DataGridViewTextBoxColumn ColumnTitle;
         private DataGridViewTextBoxColumn ColumnTag;
         private FontAwesome.Sharp.IconPictureBox iconSend;
+        private FontAwesome.Sharp.IconPictureBox iconMember;
+        private PictureBox iconleaveroom;
     }
 }
