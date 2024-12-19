@@ -64,6 +64,7 @@
             tag = new Label();
             cbtag = new ComboBox();
             fpnVideos = new FlowLayoutPanel();
+            deleteButton = new Button();
             leftside.SuspendLayout();
             avatarpanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)Avatar).BeginInit();
@@ -572,10 +573,22 @@
             // fpnVideos
             // 
             fpnVideos.AutoScroll = true;
-            fpnVideos.Location = new Point(288, 119);
+            fpnVideos.Location = new Point(288, 113);
             fpnVideos.Name = "fpnVideos";
             fpnVideos.Size = new Size(786, 462);
             fpnVideos.TabIndex = 39;
+            // 
+            // deleteButton
+            // 
+            deleteButton.AutoSize = true;
+            deleteButton.Font = new Font("Cambria", 11F, FontStyle.Bold);
+            deleteButton.ForeColor = Color.MidnightBlue;
+            deleteButton.Location = new Point(951, 525);
+            deleteButton.Name = "deleteButton";
+            deleteButton.Size = new Size(105, 32);
+            deleteButton.TabIndex = 0;
+            deleteButton.Text = "Xóa video";
+            deleteButton.UseVisualStyleBackColor = true;
             // 
             // Home
             // 
@@ -584,6 +597,7 @@
             BackColor = Color.LightBlue;
             ClientSize = new Size(1074, 615);
             ControlBox = false;
+            Controls.Add(deleteButton);
             Controls.Add(btnidroom);
             Controls.Add(cbtag);
             Controls.Add(tag);
@@ -665,5 +679,6 @@
         private ComboBox cbtag;
         private PictureBox logout;
         private FlowLayoutPanel fpnVideos;
+        private Button deleteButton;
     }
 }

@@ -412,6 +412,20 @@ namespace UITFLIX.Services
                 return null;
             }
         }
+        public async Task<bool> RemoveWatchedVideo (string videoID, string accessToken)
+        {
+            try
+            {
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+                    var response = await httpClient.DeleteAsync($"/api/Video/RemoveWatchedVideo/{videoID}");
+                    return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return false;
+            }
+        }
 
     }
 }

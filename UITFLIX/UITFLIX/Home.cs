@@ -31,9 +31,12 @@ namespace UITFLIX
         private readonly VideoService videoService;
         private readonly CoopService coopService;
         private readonly MailService chatService;
+        private VideoControl selectedVideoItem;
+
 
         private static string selectedvideofile;
         private static string selectedimagefile;
+           
 
         private string accesstoken;
 
@@ -213,6 +216,7 @@ namespace UITFLIX
             bottompanel.Visible = true;
             progressupload.Visible = true;
             information.Visible = false;
+            deleteButton.Visible = false;
 
             fpnVideos.Controls.Clear();
             fpnVideos.Visible = true;
@@ -273,6 +277,7 @@ namespace UITFLIX
             bottompanel.Visible = true;
             progressupload.Visible = true;
             information.Visible = false;
+            deleteButton.Visible = false;
 
             fpnVideos.Controls.Clear();
             fpnVideos.Visible = true;
@@ -335,6 +340,8 @@ namespace UITFLIX
             bottompanel.Visible = true;
             waiting.Visible = false;
             information.Visible = false;
+            deleteButton.Visible = true;
+            deleteButton.Enabled = false;
 
             fpnVideos.Controls.Clear();
             fpnVideos.Visible = true;
@@ -361,13 +368,16 @@ namespace UITFLIX
                         {
                             Title = SetLabelText(video["video"]["title"].ToString(), 14),
                             Sub = "Watched on: " + video["watchedTime"].ToObject<DateTime>().ToUniversalTime().ToString("dd/MM/yyyy"),
-                            ImageUrl = video["video"]["urlImage"].ToString()
+                            ImageUrl = video["video"]["urlImage"].ToString(),
+                            Tag = video["id"]
                         };
 
                         JToken reVid = video["video"];
-                        item.Click += (sender, e) => OpenPlayVIdeoForm(reVid);
+                        item.DoubleClick += (sender, e) => OpenPlayVIdeoForm(reVid);
                         toolTip.SetToolTip(item, $"[{video["video"]["tag"].ToString()}] {video["video"]["title"].ToString()}");
+                        item.Click += (sender, e) => HighlightVideo(item, reVid);
                         fpnVideos.Controls.Add(item);
+
                     }
                 }
                 else
@@ -386,6 +396,62 @@ namespace UITFLIX
                 this.Cursor = Cursors.Default;
             }
         }
+        private void HighlightVideo(VideoControl item, JToken video)
+        {
+            if (selectedVideoItem != null)
+            {
+                selectedVideoItem.BackColor = Color.CadetBlue;
+                selectedVideoItem.ForeColor = Color.White; //thêm
+                selectedVideoItem.BorderStyle = BorderStyle.None;
+            }
+
+            selectedVideoItem = item;
+            selectedVideoItem.BackColor = Color.LightBlue;
+            selectedVideoItem.BorderStyle = BorderStyle.FixedSingle;
+            selectedVideoItem.Padding = new Padding(5);
+            deleteButton.Visible = true;
+            deleteButton.Enabled = true;
+            if (selectedVideoItem.Tag == null)
+            {
+                selectedVideoItem.Tag = video["id"]?.ToString();
+            }
+            deleteButton.Click -= DeleteButton_Click;
+            deleteButton.Click += DeleteButton_Click;
+
+        }
+
+        private async void DeleteButton_Click(object sender, EventArgs e)
+        {
+            if (selectedVideoItem != null && selectedVideoItem.Tag != null)
+            {
+                string videoId = selectedVideoItem.Tag.ToString();
+                await DeleteWatchedVideo(videoId);
+            }
+            else
+            {
+                MessageBox.Show("Unable to find the video to remove!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private async Task DeleteWatchedVideo(string videoId)
+        {
+            try
+            {
+                var result = await videoService.RemoveWatchedVideo(videoId, accesstoken);
+                if (result)
+                {
+                    btnwatchedvideo_Click(null, null);
+                    MessageBox.Show("The selected video was removed successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Unable to remove the selected video!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex.Message}\n{ex.StackTrace}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
         //Tab Upload Video
         private void btnupload_Click(object sender, EventArgs e)
@@ -399,6 +465,7 @@ namespace UITFLIX
             bottompanel.Visible = true;
             progressupload.Visible = false;
             information.Visible = false;
+            deleteButton.Visible = false;
 
             fpnVideos.Visible = false;
             fpnVideos.Controls.Clear();
@@ -413,6 +480,7 @@ namespace UITFLIX
             VisibleTopPanel(false);
             bottompanel.Visible = false;
             information.Visible = false;
+            deleteButton.Visible = false;
 
             fpnVideos.Visible = false;
             fpnVideos.Controls.Clear();
