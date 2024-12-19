@@ -302,6 +302,7 @@
             tbSearch.TabIndex = 3;
             tbSearch.Text = "";
             tbSearch.Enter += tbSearch_Enter;
+            tbSearch.KeyDown += tbSearch_KeyDown;
             tbSearch.Leave += tbSearch_Leave;
             // 
             // tcData

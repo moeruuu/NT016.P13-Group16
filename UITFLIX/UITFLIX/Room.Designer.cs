@@ -39,17 +39,18 @@
             namefilm = new Label();
             label1 = new Label();
             txtChat = new TextBox();
-            btnsendmessage = new Button();
             label2 = new Label();
             rcmvideopanel = new FlowLayoutPanel();
             dgvQueue = new DataGridView();
-            listchatgroup = new RichTextBox();
             ColumnNum = new DataGridViewTextBoxColumn();
             ColumnTitle = new DataGridViewTextBoxColumn();
             ColumnTag = new DataGridViewTextBoxColumn();
+            listchatgroup = new RichTextBox();
+            iconSend = new FontAwesome.Sharp.IconPictureBox();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)logo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvQueue).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)iconSend).BeginInit();
             SuspendLayout();
             // 
             // panel1
@@ -161,21 +162,9 @@
             txtChat.Location = new Point(1102, 614);
             txtChat.Margin = new Padding(2);
             txtChat.Name = "txtChat";
-            txtChat.Size = new Size(318, 27);
+            txtChat.Size = new Size(357, 27);
             txtChat.TabIndex = 7;
-            // 
-            // btnsendmessage
-            // 
-            btnsendmessage.Font = new Font("Cambria", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnsendmessage.ForeColor = Color.MidnightBlue;
-            btnsendmessage.Location = new Point(1424, 614);
-            btnsendmessage.Margin = new Padding(2);
-            btnsendmessage.Name = "btnsendmessage";
-            btnsendmessage.Size = new Size(60, 27);
-            btnsendmessage.TabIndex = 8;
-            btnsendmessage.Text = "SEND";
-            btnsendmessage.UseVisualStyleBackColor = true;
-            btnsendmessage.Click += btnsendmessage_Click;
+            txtChat.KeyDown += txtChat_KeyDown;
             // 
             // label2
             // 
@@ -220,20 +209,6 @@
             dgvQueue.Size = new Size(382, 248);
             dgvQueue.TabIndex = 12;
             // 
-            // listchatgroup
-            // 
-            listchatgroup.BackColor = Color.MintCream;
-            listchatgroup.BorderStyle = BorderStyle.FixedSingle;
-            listchatgroup.Font = new Font("Cambria", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            listchatgroup.ForeColor = Color.MidnightBlue;
-            listchatgroup.Location = new Point(1101, 79);
-            listchatgroup.Name = "listchatgroup";
-            listchatgroup.ReadOnly = true;
-            listchatgroup.ScrollBars = RichTextBoxScrollBars.Horizontal;
-            listchatgroup.Size = new Size(383, 529);
-            listchatgroup.TabIndex = 13;
-            listchatgroup.Text = "";
-            // 
             // ColumnNum
             // 
             ColumnNum.HeaderText = "No.";
@@ -258,6 +233,35 @@
             ColumnTag.ReadOnly = true;
             ColumnTag.Width = 94;
             // 
+            // listchatgroup
+            // 
+            listchatgroup.BackColor = Color.MintCream;
+            listchatgroup.BorderStyle = BorderStyle.FixedSingle;
+            listchatgroup.Font = new Font("Cambria", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            listchatgroup.ForeColor = Color.MidnightBlue;
+            listchatgroup.Location = new Point(1101, 79);
+            listchatgroup.Name = "listchatgroup";
+            listchatgroup.ReadOnly = true;
+            listchatgroup.ScrollBars = RichTextBoxScrollBars.Vertical;
+            listchatgroup.Size = new Size(383, 529);
+            listchatgroup.TabIndex = 13;
+            listchatgroup.Text = "";
+            // 
+            // iconSend
+            // 
+            iconSend.BackColor = Color.Transparent;
+            iconSend.ForeColor = Color.DarkSlateGray;
+            iconSend.IconChar = FontAwesome.Sharp.IconChar.ArrowRight;
+            iconSend.IconColor = Color.DarkSlateGray;
+            iconSend.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            iconSend.IconSize = 27;
+            iconSend.Location = new Point(1457, 614);
+            iconSend.Name = "iconSend";
+            iconSend.Size = new Size(27, 27);
+            iconSend.TabIndex = 14;
+            iconSend.TabStop = false;
+            iconSend.Click += iconSend_Click;
+            // 
             // Room
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -265,11 +269,11 @@
             BackColor = Color.LightBlue;
             ClientSize = new Size(1510, 1000);
             ControlBox = false;
+            Controls.Add(iconSend);
             Controls.Add(listchatgroup);
             Controls.Add(dgvQueue);
             Controls.Add(rcmvideopanel);
             Controls.Add(label2);
-            Controls.Add(btnsendmessage);
             Controls.Add(txtChat);
             Controls.Add(label1);
             Controls.Add(namefilm);
@@ -286,6 +290,7 @@
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)logo).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvQueue).EndInit();
+            ((System.ComponentModel.ISupportInitialize)iconSend).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -297,7 +302,6 @@
         private Label namefilm;
         private Label label1;
         private TextBox txtChat;
-        private Button btnsendmessage;
         private Label label2;
         private Label IDRoom;
         private Label label3;
@@ -309,5 +313,6 @@
         private DataGridViewTextBoxColumn ColumnNum;
         private DataGridViewTextBoxColumn ColumnTitle;
         private DataGridViewTextBoxColumn ColumnTag;
+        private FontAwesome.Sharp.IconPictureBox iconSend;
     }
 }

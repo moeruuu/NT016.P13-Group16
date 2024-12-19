@@ -32,6 +32,7 @@ namespace UITFLIX
         private readonly UserService userService;
 
         private bool leaveroom = false;
+        private bool canleave = false;
 
         private static JToken getvideo;
         private int index = 0;
@@ -63,9 +64,12 @@ namespace UITFLIX
             axWindowsMediaPlayerVideo.Size = new Size(1060, 562);
             axWindowsMediaPlayerVideo.Location = new Point(12, 79);
 
+            txtChat.AllowDrop = true;
+
             IntializeEvent();
             namefilm.Text = "";
             axWindowsMediaPlayerVideo.PlayStateChange += OnPlayStateChange;
+            this.FormClosing += LRoom_FormClosing;
         }
 
         public async Task IntializeEvent()
@@ -283,11 +287,6 @@ namespace UITFLIX
                 return text;
         }
 
-        private async void btnsendmessage_Click(object sender, EventArgs e)
-        {
-            await connection.InvokeAsync("SendMessage", userinfo["user"]["fullname"].ToString(), roomid, txtChat.Text);
-            txtChat.Clear();
-        }
 
         private async void AddVideo(string videoid)
         {
@@ -318,6 +317,7 @@ namespace UITFLIX
             if (res == DialogResult.Yes)
             {
                 leaveroom = true;
+                canleave = true;
                 var response = await coopService.LeaveRoom(accesstoken, roomid);
                 if (response)
                 {
@@ -374,11 +374,11 @@ namespace UITFLIX
 
                         if (getmovie != null)
                             await connection.InvokeAsync("SendMessage", getmovie["title"].ToString(), roomid, $"is playing.");
-/*
-                        while (axWindowsMediaPlayerVideo.playState != WMPPlayState.wmppsMediaEnded)
-                        {
-                            await Task.Delay(1000); 
-                        }*/
+                        /*
+                                                while (axWindowsMediaPlayerVideo.playState != WMPPlayState.wmppsMediaEnded)
+                                                {
+                                                    await Task.Delay(1000); 
+                                                }*/
 
                     }
                     index++;
@@ -388,6 +388,43 @@ namespace UITFLIX
             {
                 MessageBox.Show("Unable to play the video!\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+        private async Task SendMesssage()
+        {
+            if (!string.IsNullOrEmpty(txtChat.Text))
+            {
+                await connection.InvokeAsync("SendMessage", userinfo["user"]["fullname"].ToString(), roomid, txtChat.Text);
+                txtChat.Clear();
+            }
+            else
+            {
+                MessageBox.Show("Please fill a message!", "Warining", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private async void iconSend_Click(object sender, EventArgs e)
+        {
+            SendMesssage();
+        }
+
+        private async void txtChat_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true;
+                SendMesssage();
+            }
+        }
+
+        private async void LRoom_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            //Ngan cho form dong bang alt + f4 hoac dong cach kahc
+            if (!leaveroom)
+            {
+                MessageBox.Show("Please click leave room!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning );
+                e.Cancel = true;
+            }
+            
         }
     }
 }
