@@ -220,7 +220,7 @@
             progressBar.ForeColor = Color.CadetBlue;
             progressBar.Location = new Point(-1, 573);
             progressBar.Name = "progressBar";
-            progressBar.Size = new Size(585, 29);
+            progressBar.Size = new Size(534, 29);
             progressBar.TabIndex = 16;
             progressBar.Visible = false;
             // 
@@ -228,7 +228,7 @@
             // 
             logout.Cursor = Cursors.Hand;
             logout.Image = (Image)resources.GetObject("logout.Image");
-            logout.Location = new Point(538, 532);
+            logout.Location = new Point(538, 556);
             logout.Margin = new Padding(2);
             logout.Name = "logout";
             logout.Size = new Size(46, 46);
