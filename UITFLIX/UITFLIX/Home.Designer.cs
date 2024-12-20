@@ -576,7 +576,7 @@
             fpnVideos.AutoScroll = true;
             fpnVideos.Location = new Point(288, 113);
             fpnVideos.Name = "fpnVideos";
-            fpnVideos.Size = new Size(786, 462);
+            fpnVideos.Size = new Size(786, 467);
             fpnVideos.TabIndex = 39;
             // 
             // deleteButton
@@ -584,11 +584,11 @@
             deleteButton.AutoSize = true;
             deleteButton.Font = new Font("Cambria", 11F, FontStyle.Bold);
             deleteButton.ForeColor = Color.MidnightBlue;
-            deleteButton.Location = new Point(951, 525);
+            deleteButton.Location = new Point(923, 521);
             deleteButton.Name = "deleteButton";
-            deleteButton.Size = new Size(105, 32);
+            deleteButton.Size = new Size(128, 32);
             deleteButton.TabIndex = 0;
-            deleteButton.Text = "Xóa video";
+            deleteButton.Text = "Delete video";
             deleteButton.UseVisualStyleBackColor = true;
             // 
             // Home
