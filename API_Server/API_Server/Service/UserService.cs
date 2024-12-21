@@ -393,12 +393,6 @@ namespace API_Server.Service
 
             return newUsersList;
         }
-        //public async Task SaveEncryptedPasswordAsync(string email, string hashedPassword)
-        //{
-        //    var filter = Builders<User>.Filter.Eq(u => u.Email, email);
-        //    var update = Builders<User>.Update.Set(u => u.EncryptedEmailPassword, hashedPassword);
-        //    await users.UpdateOneAsync(filter, update);
-        //}
         public async Task SaveEncryptedPasswordAsync(string plaintextPassword, ObjectId userId)
         {
             var encryptionService = new EncryptionService();

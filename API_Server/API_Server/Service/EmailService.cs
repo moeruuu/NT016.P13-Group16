@@ -21,7 +21,6 @@ namespace API_Server.Service
     {
 
         private readonly EmailSender sender;
-        //private readonly UserService userService;
         public EmailService(IOptions<EmailSender> options)
         {
             this.sender = options.Value;

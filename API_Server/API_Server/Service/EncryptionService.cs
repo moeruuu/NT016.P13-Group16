@@ -33,7 +33,6 @@ namespace API_Server
                 throw;
             }
         }
-
         public string Decrypt(string encryptedText)
         {
             try

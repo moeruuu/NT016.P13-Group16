@@ -56,55 +56,14 @@ namespace API_Server.Controllers
                     return BadRequest("Invalid email password.");
                 }
                 emailRequest.EmailPassword = plaintextPassword;
-                //string hashedEmailPassword = userService.HashPassword(emailRequest.EmailPassword);
-                //if (string.IsNullOrEmpty(user.HashedEmailPassword))
-                //{
-                //    // Lưu mật khẩu mới nếu chưa có
-                //    user.HashedEmailPassword = userService.HashPassword(emailRequest.EmailPassword);
-                //    await userService.UpdateUser(user);
-                //}
-                //else
-                //{
-                //// So sánh mật khẩu đã lưu với mật khẩu nhận từ client
-                //if (emailRequest.EmailPassword.Length < 50)
-                //    {
-                //        if (!userService.VerifyPassword(user.HashedEmailPassword, emailRequest.EmailPassword))
-                //        {
-                //            return BadRequest("Invalid email password.");
-                //        }
-                //    }
-                //    else // Nếu nhận được mật khẩu đã mã hóa
-                //    {
-                //        if (emailRequest.EmailPassword != user.HashedEmailPassword)
-                //        {
-                //            return BadRequest("Invalid email password.");
-                //        }
-                //    }
-                //}
-                    //else
-                    //{
-                    //    user.HashedEmailPassword = userService.HashPassword(emailRequest.EmailPassword);
-                    //    await userService.UpdateUser(user);
-                    //}
-
-
-                    if (string.IsNullOrEmpty(userEmail) || !emailRequest.IsValidEmail(userEmail))
+                if (string.IsNullOrEmpty(userEmail) || !emailRequest.IsValidEmail(userEmail))
+                {
                     return Unauthorized("Unable to authenticate the email.");
-                //if (string.IsNullOrEmpty(emailRequest.EmailPassword))
-                //{
-                //    user.HashedEmailPassword = hashedEmailPassword;
-                //    await userService.UpdateUser(user);
-                //}
-                //else
-                //{
-                //    if (!userService.VerifyPassword(user.HashedEmailPassword, emailRequest.EmailPassword))
-                //    {
-                //        return BadRequest("Invalid email password.");
-                //    }
-                //}
+                }
                 if (!emailRequest.IsValid())
+                {
                     return BadRequest("The email information is incomplete or invalid.");
-
+                }
                 emailRequest.Email = userEmail;
                 await emailService.SendContactEmail(emailRequest, userService);
                 return Ok("Email sent successfully!");
@@ -138,23 +97,18 @@ namespace API_Server.Controllers
             {
                 var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                 if (string.IsNullOrEmpty(userId) || !ObjectId.TryParse(userId, out ObjectId UserId))
+                {
                     return Unauthorized("Unable to authenticate the user.");
-
+                }
                 var user = await userService.GetUserByID(UserId);
                 if (user == null)
                 {
                     return Unauthorized("User not found.");
                 }
-
                 if (!string.IsNullOrEmpty(user.EncryptedEmailPassword))
                 {
                     return Ok("Password already exists.");
                 }
-                //var encrytionService = new EncryptionService();
-                //user.EncryptedEmailPassword = encrytionService.Encrypt(request.EmailPassword);
-                //Debug.WriteLine(user.EncryptedEmailPassword);
-                ////Console.ReadKey (true);
-                //await userService.UpdateUser(user);
                 await userService.SaveEncryptedPasswordAsync(request.EmailPassword, UserId);
 
                 return Ok("Email password saved successfully.");
@@ -174,39 +128,27 @@ namespace API_Server.Controllers
             {
                 var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                 if (string.IsNullOrEmpty(userId) || !ObjectId.TryParse(userId, out ObjectId UserId))
+                {
                     return Unauthorized("Unable to authenticate the user.");
-
+                }
                 var user = await userService.GetUserByID(UserId);
                 if (user == null)
+                {
                     return Unauthorized("User not found.");
-                //if (includePlaintextPassword && !string.IsNullOrEmpty(user.EncryptedEmailPassword))
-                //{
-                //    var encryptionService = new EncryptionService();
-                //    var plaintextPassword = encryptionService.Decrypt(user.EncryptedEmailPassword);
-                //    return Ok(plaintextPassword);
-                // bool includeDecryptedPassword = false
-                //}
-                //if (includeDecryptedPassword)
-                //{
-                    // Giải mã mật khẩu được lưu
-                    var decryptedPassword = await userService.GetDecryptedPasswordAsync(UserId);
-                    if (decryptedPassword != null)
-                        return Ok(decryptedPassword);
+                }
+                // Giải mã mật khẩu
+                var decryptedPassword = await userService.GetDecryptedPasswordAsync(UserId);
+                if (decryptedPassword != null)
+                {
+                    return Ok(decryptedPassword);
 
-                    return Ok(string.Empty);
-                //}
-
-                //return Ok(!string.IsNullOrEmpty(user.EncryptedEmailPassword) ? "*****" : string.Empty);
-
+                }
+                return Ok(string.Empty);
             }
             catch (Exception ex)
             {
                 return BadRequest($"Failed to retrieve email password: {ex.Message}");
             }
         }
-
-
-
-
     }
 }
