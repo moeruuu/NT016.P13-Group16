@@ -390,6 +390,13 @@ namespace API_Server.Service
 
             return newUsersList;
         }
+        public async Task UpdateUser(User user)
+        {
+            var filter = Builders<User>.Filter.Eq(u => u.UserId, user.UserId);
+            var update = Builders<User>.Update
+                .Set(u => u.HashedEmailPassword, user.HashedEmailPassword);
+            await users.UpdateOneAsync(filter, update);
+        }
 
     }
 }
