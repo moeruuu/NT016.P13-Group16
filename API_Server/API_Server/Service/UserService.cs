@@ -84,9 +84,11 @@ namespace API_Server.Service
 
                 if (existingUser == null)
                     return null;
-                string hash = HashPassword(LoginDTOs.Password);
-                if (hash != existingUser.Password)
-                    return null;
+                //string hash = HashPassword(LoginDTOs.Password);
+                //if (hash != existingUser.Password)
+                //    return null;
+                if (!VerifyPassword(existingUser.Password, LoginDTOs.Password))
+                    throw new Exception("Invalid password!");
 
                 var update = Builders<User>.Update.Set(u => u.IsOnline, true);
                 await users.UpdateOneAsync(filter, update);
@@ -391,11 +393,31 @@ namespace API_Server.Service
 
             return newUsersList;
         }
-        public async Task SaveAppPasswordAsync(string email, string hashedPassword)
+        //public async Task SaveEncryptedPasswordAsync(string email, string hashedPassword)
+        //{
+        //    var filter = Builders<User>.Filter.Eq(u => u.Email, email);
+        //    var update = Builders<User>.Update.Set(u => u.EncryptedEmailPassword, hashedPassword);
+        //    await users.UpdateOneAsync(filter, update);
+        //}
+        public async Task SaveEncryptedPasswordAsync(string plaintextPassword, ObjectId userId)
         {
-            var filter = Builders<User>.Filter.Eq(u => u.Email, email);
-            var update = Builders<User>.Update.Set(u => u.HashedEmailPassword, hashedPassword);
+            var encryptionService = new EncryptionService();
+            var encryptedPassword = encryptionService.Encrypt(plaintextPassword);
+
+            var filter = Builders<User>.Filter.Eq(u => u.UserId, userId);
+            var update = Builders<User>.Update.Set(u => u.EncryptedEmailPassword, encryptedPassword);
+
             await users.UpdateOneAsync(filter, update);
+        }
+        public async Task<string?> GetDecryptedPasswordAsync(ObjectId userId)
+        {
+            var encryptionService = new EncryptionService();
+
+            var user = await GetUserByID(userId);
+            if (user == null || string.IsNullOrEmpty(user.EncryptedEmailPassword))
+                return null;
+
+            return encryptionService.Decrypt(user.EncryptedEmailPassword);
         }
         public async Task<User> GetUserByEmailAsync(string email)
         {

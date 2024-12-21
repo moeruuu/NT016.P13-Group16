@@ -17,7 +17,7 @@ namespace API_Server.Data
         [BsonElement("Email")]
         public string Email { get; set; }
         [BsonElement("EmailPassword")]
-        public string HashedEmailPassword { get; set; }
+        public string EncryptedEmailPassword { get; set; }
 
         [BsonElement("Role")]   //0 là Admin, 1 là User
         public int Role { get; set; } 
