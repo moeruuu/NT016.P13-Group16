@@ -48,9 +48,11 @@
             logout = new PictureBox();
             textBoxEmailPassword = new TextBox();
             label2 = new Label();
+            iconEye = new FontAwesome.Sharp.IconPictureBox();
             abovepanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)logo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)logout).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)iconEye).BeginInit();
             SuspendLayout();
             // 
             // abovepanel
@@ -262,6 +264,22 @@
             label2.Text = "Your email password";
             label2.Click += label2_Click;
             // 
+            // iconEye
+            // 
+            iconEye.BackColor = SystemColors.Window;
+            iconEye.Cursor = Cursors.Hand;
+            iconEye.ForeColor = Color.MidnightBlue;
+            iconEye.IconChar = FontAwesome.Sharp.IconChar.EyeSlash;
+            iconEye.IconColor = Color.MidnightBlue;
+            iconEye.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            iconEye.IconSize = 24;
+            iconEye.Location = new Point(471, 193);
+            iconEye.Name = "iconEye";
+            iconEye.Size = new Size(33, 24);
+            iconEye.TabIndex = 35;
+            iconEye.TabStop = false;
+            iconEye.Click += iconEye_Click;
+            // 
             // Chat
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -269,6 +287,7 @@
             BackColor = Color.LightBlue;
             ClientSize = new Size(633, 639);
             ControlBox = false;
+            Controls.Add(iconEye);
             Controls.Add(textBoxEmailPassword);
             Controls.Add(label2);
             Controls.Add(logout);
@@ -295,6 +314,7 @@
             abovepanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)logo).EndInit();
             ((System.ComponentModel.ISupportInitialize)logout).EndInit();
+            ((System.ComponentModel.ISupportInitialize)iconEye).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -320,5 +340,6 @@
         private PictureBox logout;
         private TextBox textBoxEmailPassword;
         private Label label2;
+        private FontAwesome.Sharp.IconPictureBox iconEye;
     }
 }

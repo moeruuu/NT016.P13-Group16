@@ -22,6 +22,7 @@ namespace UITFLIX
         private JObject _userInfo;
         private string _accessToken;
         private string _plaintextEmailPassword;
+        private bool isPasswordVisible = false;
 
         public Chat(JObject userInfo, string accessToken)
         {
@@ -40,6 +41,7 @@ namespace UITFLIX
             textBoxEmail.Text = _userInfo["user"]["email"].ToString();
 
             LoadUserEmailPasswordAsync();
+            iconEye.BringToFront();
         }
         public async Task LoadUserEmailPasswordAsync()
         {
@@ -49,7 +51,7 @@ namespace UITFLIX
 
                 if (!string.IsNullOrEmpty(encryptedPassword))
                 {
-                    textBoxEmailPassword.Text = "*****";
+                    textBoxEmailPassword.Text = "*******************";
                     textBoxEmailPassword.Tag = encryptedPassword;
                 }
                 else
@@ -77,7 +79,7 @@ namespace UITFLIX
                     MessageBox.Show("Please fill in all the required information!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                if (emailPassword == "*****")
+                if (emailPassword == "*******************")
                 {
                     if (textBoxEmailPassword.Tag != null)
                     {
@@ -85,8 +87,8 @@ namespace UITFLIX
                     }
                     else
                     {
-                            MessageBox.Show("Password is required.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return;
+                        MessageBox.Show("Password is required.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
                     }
                 }
                 else
@@ -94,7 +96,7 @@ namespace UITFLIX
                     try
                     {
                         await chatService.SaveEmailPasswordAsync(emailPassword);
-                        textBoxEmailPassword.Text = "*****";
+                        textBoxEmailPassword.Text = "*******************";
                         textBoxEmailPassword.Tag = emailPassword;
                     }
                     catch (Exception ex)
@@ -203,7 +205,43 @@ namespace UITFLIX
 
         private void textBoxEmailPassword_TextChanged(object sender, EventArgs e)
         {
+            if (textBoxEmailPassword.Text != "*******************")
+            { 
+                isPasswordVisible = false;
+                iconEye.IconChar = FontAwesome.Sharp.IconChar.EyeSlash;
 
+                if (textBoxEmailPassword.PasswordChar == '\0')
+                {
+                    textBoxEmailPassword.PasswordChar = '*';
+                }
+                textBoxEmailPassword.Tag = null;
+            }
+        }
+
+
+        private void iconEye_Click(object sender, EventArgs e)
+        {
+            if (!isPasswordVisible)
+            {
+
+                if (textBoxEmailPassword.Tag != null)
+                {
+                    textBoxEmailPassword.Text = textBoxEmailPassword.Tag.ToString();
+                }
+                textBoxEmailPassword.PasswordChar = '\0';
+                iconEye.IconChar = FontAwesome.Sharp.IconChar.Eye;
+                isPasswordVisible = true;
+            }
+            else 
+            {
+                if (textBoxEmailPassword.Tag != null)
+                {
+                    textBoxEmailPassword.Text = new string('*', textBoxEmailPassword.Tag.ToString().Length);
+                }
+                textBoxEmailPassword.PasswordChar = '*';
+                iconEye.IconChar = FontAwesome.Sharp.IconChar.EyeSlash;
+                isPasswordVisible = false;
+            }
         }
     }
 }
