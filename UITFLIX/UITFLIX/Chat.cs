@@ -45,12 +45,12 @@ namespace UITFLIX
         {
             try
             {
-                var hashedPassword = await chatService.GetEmailPasswordAsync(true);
+                var encryptedPassword = await chatService.GetEmailPasswordAsync();
 
-                if (!string.IsNullOrEmpty(hashedPassword))
+                if (!string.IsNullOrEmpty(encryptedPassword))
                 {
                     textBoxEmailPassword.Text = "*****";
-                    textBoxEmailPassword.Tag = hashedPassword;
+                    textBoxEmailPassword.Tag = encryptedPassword;
                 }
                 else
                 {
@@ -60,7 +60,7 @@ namespace UITFLIX
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error loading user data: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error loading email password: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -94,6 +94,7 @@ namespace UITFLIX
                     try
                     {
                         await chatService.SaveEmailPasswordAsync(emailPassword);
+                        MessageBox.Show(emailPassword);
                         textBoxEmailPassword.Text = "*****";
                         textBoxEmailPassword.Tag = emailPassword;
                     }

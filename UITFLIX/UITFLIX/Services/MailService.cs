@@ -49,11 +49,11 @@ namespace UITFLIX.Services
             }
         }
 
-        public async Task SaveEmailPasswordAsync(string hashedEmailPassword)
+        public async Task SaveEmailPasswordAsync(string emailPassword)
         {
             var payload = new
             {
-                EmailPassword = hashedEmailPassword,
+                EmailPassword = emailPassword,
                 Name = "",
                 Email = "",
                 Subject = "",
@@ -77,8 +77,9 @@ namespace UITFLIX.Services
                     var errorContent = await response.Content.ReadAsStringAsync();
                     throw new Exception($"Failed to retrieve email password: {response.ReasonPhrase}");
                 }
+                var responseContent = await response.Content.ReadAsStringAsync();
 
-                return await response.Content.ReadAsStringAsync();
+                return !string.IsNullOrWhiteSpace(responseContent) ? responseContent : null;
             }
             //    if (response.IsSuccessStatusCode)
             //    {
