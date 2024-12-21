@@ -21,6 +21,7 @@ namespace API_Server.Service
     {
 
         private readonly EmailSender sender;
+        //private readonly UserService userService;
         public EmailService(IOptions<EmailSender> options)
         {
             this.sender = options.Value;
@@ -50,13 +51,20 @@ namespace API_Server.Service
 
         }
 
-        public async Task SendContactEmail(EmailRequest request)
+        public async Task SendContactEmail(EmailRequest request, UserService userService)
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(request.EmailPassword))
+                {
+                    var user = await userService.GetUserByEmailAsync(request.Email);
+                    if (user == null || string.IsNullOrEmpty(user.HashedEmailPassword))
+                        throw new Exception("Email password not found for this user.");
+                    request.EmailPassword = userService.HashPassword(user.HashedEmailPassword);
+                }
                 var email = new MimeMessage();
                 email.From.Add(MailboxAddress.Parse(request.Email));
-                email.Sender = MailboxAddress.Parse(sender.EmailGroup16);
+                email.Sender = MailboxAddress.Parse(request.Email);
                 email.To.Add(MailboxAddress.Parse(sender.EmailGroup16));
                 email.Subject = $"[New contact from {request.Name}] {request.Subject}";
                 var htmlContent = $@"
@@ -106,7 +114,7 @@ namespace API_Server.Service
                 email.Body = builder.ToMessageBody();
                 using var smtp = new SmtpClient();
                 await smtp.ConnectAsync(sender.HostEmail, sender.Port, SecureSocketOptions.StartTls);
-                await smtp.AuthenticateAsync(sender.EmailGroup16, sender.PasswordGroup16);
+                await smtp.AuthenticateAsync(request.Email, request.EmailPassword);
                 await smtp.SendAsync(email);
                 await smtp.DisconnectAsync(true);
             }

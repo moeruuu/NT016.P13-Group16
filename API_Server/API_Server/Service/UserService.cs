@@ -390,13 +390,21 @@ namespace API_Server.Service
 
             return newUsersList;
         }
+        public async Task SaveAppPasswordAsync(string email, string hashedPassword)
+        {
+            var filter = Builders<User>.Filter.Eq(u => u.Email, email);
+            var update = Builders<User>.Update.Set(u => u.HashedEmailPassword, hashedPassword);
+            await users.UpdateOneAsync(filter, update);
+        }
+        public async Task<User> GetUserByEmailAsync(string email)
+        {
+            var filter = Builders<User>.Filter.Eq(u => u.Email, email);
+            return await users.Find(filter).FirstOrDefaultAsync();
+        }
         public async Task UpdateUser(User user)
         {
             var filter = Builders<User>.Filter.Eq(u => u.UserId, user.UserId);
-            var update = Builders<User>.Update
-                .Set(u => u.HashedEmailPassword, user.HashedEmailPassword);
-            await users.UpdateOneAsync(filter, update);
+            await users.ReplaceOneAsync(filter, user);
         }
-
     }
 }
