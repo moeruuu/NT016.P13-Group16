@@ -38,12 +38,28 @@ namespace API_Server.Controllers
                 var userEmail = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
                 if (string.IsNullOrEmpty(userId) || !ObjectId.TryParse(userId, out ObjectId UserId))
                     return Unauthorized("Unable to authenticate the user.");
+                var user = await userService.GetUserByID(UserId);
+                if (user == null)
+                    return Unauthorized("User not found.");
+                string hashedEmailPassword = userService.HashPassword(emailRequest.EmailPassword);
                 if (string.IsNullOrEmpty(userEmail) || !emailRequest.IsValidEmail(userEmail))
                     return Unauthorized("Unable to authenticate the email.");
+                if (string.IsNullOrEmpty(user.HashedEmailPassword))
+                {
+                    user.HashedEmailPassword = hashedEmailPassword;
+                    await userService.UpdateUser(user);
+                }
+                else
+                {
+                    if (!user.HashedEmailPassword.Equals(hashedEmailPassword))
+                    {
+                        return BadRequest("Invalid email password.");
+                    }
+                }
                 if (!emailRequest.IsValid())
                     return BadRequest("The email information is incomplete or invalid.");
                 emailRequest.Email = userEmail;
-                await emailService.SendContactEmail(emailRequest);
+                await emailService.SendContactEmail(emailRequest, userService);
                 return Ok("Email sent successfully!");
             }
             catch (Exception ex)
@@ -66,6 +82,61 @@ namespace API_Server.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPost("SaveEmailPassword")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> SaveEmailPassword([FromBody] EmailRequest request)
+        {
+            try
+            {
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userId) || !ObjectId.TryParse(userId, out ObjectId UserId))
+                    return Unauthorized("Unable to authenticate the user.");
+
+                var user = await userService.GetUserByID(UserId);
+                if (user == null)
+                {
+                    return Unauthorized("User not found.");
+                }
+
+                if (!string.IsNullOrEmpty(user.HashedEmailPassword))
+                {
+                    return Ok("Password already exists.");
+                }
+                user.HashedEmailPassword = userService.HashPassword(request.EmailPassword);
+                await userService.UpdateUser(user);
+
+                return Ok("App password saved successfully.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Failed to save app password: {ex.Message}");
+            }
+        }
+
+        [HttpGet("GetEmailPassword")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> GetEmailPassword()
+        {
+            try
+            {
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userId) || !ObjectId.TryParse(userId, out ObjectId parsedUserId))
+                    return Unauthorized("Unable to authenticate the user.");
+
+                var user = await userService.GetUserByID(parsedUserId);
+                if (user == null)
+                    return Unauthorized("User not found.");
+
+                return Ok(user.HashedEmailPassword ?? string.Empty);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Failed to retrieve email password: {ex.Message}");
+            }
+        }
+
+
 
 
     }
