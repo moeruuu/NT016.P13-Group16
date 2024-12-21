@@ -49,6 +49,48 @@ namespace UITFLIX.Services
             }
         }
 
+        public async Task SaveEmailPasswordAsync(string hashedEmailPassword)
+        {
+            var payload = new
+            {
+                EmailPassword = hashedEmailPassword,
+                Name = "",
+                Email = "",
+                Subject = "",
+                Body = "",
+                AttachmentPath = ""
+            };
+            var json = JsonConvert.SerializeObject(payload);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await httpClient.PostAsync("/api/Email/SaveEmailPassword", content);
+            response.EnsureSuccessStatusCode();
+        }
+        public async Task<string?> GetEmailPasswordAsync(bool includeHashedPassword = false)
+        {
+            try
+            {
+                var response = await httpClient.GetAsync($"/api/Email/GetEmailPassword?includeHashedPassword={includeHashedPassword}");
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    throw new Exception($"Failed to retrieve email password: {response.ReasonPhrase}");
+                }
+
+                return await response.Content.ReadAsStringAsync();
+            }
+            //    if (response.IsSuccessStatusCode)
+            //    {
+            //        return await response.Content.ReadAsStringAsync();
+            //    }
+            //    return null;
+            //}
+            catch (Exception ex)
+            {
+                throw new Exception($"Failed to get email password: {ex.Message}");
+            }
+        }
         public async Task<JArray?> GetEmails()
         {
             try
@@ -69,6 +111,7 @@ namespace UITFLIX.Services
                 return null;
             }
         }
+
 
     }
 }

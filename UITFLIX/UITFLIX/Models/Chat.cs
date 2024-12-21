@@ -10,6 +10,7 @@ namespace UITFLIX.Models
     {
         public string Name { get; set; }
         public string Email { get; set; }
+        public string EmailPassword { get; set; }
         public string Subject { get; set; }
         public string Body { get; set; }
         public string AttachmentPath { get; set; }

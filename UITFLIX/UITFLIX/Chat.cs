@@ -12,13 +12,16 @@ using System.Xml.Linq;
 using UITFLIX.Models;
 using UITFLIX.Services;
 using Newtonsoft.Json;
+using System.Security.Cryptography;
 namespace UITFLIX
+    
 {
     public partial class Chat : Form
     {
         private MailService chatService;
         private JObject _userInfo;
         private string _accessToken;
+        private string _plaintextEmailPassword;
 
         public Chat(JObject userInfo, string accessToken)
         {
@@ -31,6 +34,35 @@ namespace UITFLIX
         {
             this.Close();
         }
+        private void Chat_Load(object sender, EventArgs e)
+        {
+            textBoxName.Text = _userInfo["user"]["fullname"].ToString();
+            textBoxEmail.Text = _userInfo["user"]["email"].ToString();
+
+            LoadUserEmailPasswordAsync();
+        }
+        public async Task LoadUserEmailPasswordAsync()
+        {
+            try
+            {
+                var hashedPassword = await chatService.GetEmailPasswordAsync(true);
+
+                if (!string.IsNullOrEmpty(hashedPassword))
+                {
+                    textBoxEmailPassword.Text = "*****";
+                    textBoxEmailPassword.Tag = hashedPassword;
+                }
+                else
+                {
+                    textBoxEmailPassword.Text = string.Empty;
+                    textBoxEmailPassword.Tag = null;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading user data: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
         private async void buttonSend_Click(object sender, EventArgs e)
         {
@@ -39,10 +71,38 @@ namespace UITFLIX
                 string subject = textBoxSubject.Text;
                 string body = richTextBoxBody.Text;
                 string attachmentPath = textBoxAttachmentPath.Text;
+                string emailPassword = textBoxEmailPassword.Text.Trim();
                 if (string.IsNullOrWhiteSpace(subject) || string.IsNullOrWhiteSpace(body))
                 {
                     MessageBox.Show("Please fill in all the required information!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
+                }
+                if (emailPassword == "*****")
+                {
+                    if (textBoxEmailPassword.Tag != null)
+                    {
+                        emailPassword = textBoxEmailPassword.Tag.ToString();
+                    }
+                    else
+                    {
+                            MessageBox.Show("Password is required.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        await chatService.SaveEmailPasswordAsync(emailPassword);
+                        textBoxEmailPassword.Text = "*****";
+                        textBoxEmailPassword.Tag = emailPassword;
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error saving email password: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
                 }
                 string name = _userInfo["user"]["fullname"].ToString();
                 string email = _userInfo["user"]["email"].ToString();
@@ -52,7 +112,9 @@ namespace UITFLIX
                     Email = email,
                     Subject = subject,
                     Body = body,
+                    EmailPassword = emailPassword
                 };
+
                 if (!string.IsNullOrWhiteSpace(attachmentPath))
                     chatModel.AttachmentPath = attachmentPath;
 
@@ -63,6 +125,7 @@ namespace UITFLIX
                 var progressTask = UpdateProgressBarAsync();
                 await Task.WhenAll(sendEmailTask, progressTask);
                 string jsonData = JsonConvert.SerializeObject(chatModel);
+                MessageBox.Show(jsonData);
                 MessageBox.Show("Email sent successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 progressBar.Visible = false;
                 buttonSend.Enabled = true;
@@ -70,6 +133,11 @@ namespace UITFLIX
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                progressBar.Visible = false;
+                buttonSend.Enabled = true;
+            }
+            finally
+            {
                 progressBar.Visible = false;
                 buttonSend.Enabled = true;
             }
@@ -84,11 +152,7 @@ namespace UITFLIX
             }
         }
 
-        private void Chat_Load(object sender, EventArgs e)
-        {
-            textBoxName.Text = _userInfo["user"]["fullname"].ToString();
-            textBoxEmail.Text = _userInfo["user"]["email"].ToString();
-        }
+        
 
         private void buttonBrowse_Click(object sender, EventArgs e)
         {
@@ -122,10 +186,30 @@ namespace UITFLIX
                 }
             }
         }
-
+        public string HashPassword(string pass)
+        {
+            HashAlgorithm al = SHA256.Create();
+            byte[] inputbyte = Encoding.UTF8.GetBytes(pass);
+            byte[] hashbyte = al.ComputeHash(inputbyte);
+            string hashstring = BitConverter.ToString(hashbyte).Replace("-", "");
+            return hashstring;
+        }
         private void logout_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBoxEmailPassword_TextChanged(object sender, EventArgs e)
+        {
+            //if (textBoxEmailPassword.Text != "*****")
+            //{
+            //    _plaintextEmailPassword = textBoxEmailPassword.Text;
+            //}
         }
     }
 }

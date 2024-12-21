@@ -46,6 +46,8 @@
             buttonSend = new Button();
             progressBar = new ProgressBar();
             logout = new PictureBox();
+            textBoxEmailPassword = new TextBox();
+            label2 = new Label();
             abovepanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)logo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)logout).BeginInit();
@@ -57,7 +59,7 @@
             abovepanel.Controls.Add(label1);
             abovepanel.Location = new Point(-1, -2);
             abovepanel.Name = "abovepanel";
-            abovepanel.Size = new Size(585, 63);
+            abovepanel.Size = new Size(633, 63);
             abovepanel.TabIndex = 0;
             // 
             // logo
@@ -90,7 +92,7 @@
             labelname.BackColor = Color.Transparent;
             labelname.Font = new Font("Cambria", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             labelname.ForeColor = Color.MidnightBlue;
-            labelname.Location = new Point(29, 98);
+            labelname.Location = new Point(29, 91);
             labelname.Name = "labelname";
             labelname.Size = new Size(101, 23);
             labelname.TabIndex = 3;
@@ -101,7 +103,7 @@
             labelemail.AutoSize = true;
             labelemail.Font = new Font("Cambria", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             labelemail.ForeColor = Color.MidnightBlue;
-            labelemail.Location = new Point(29, 150);
+            labelemail.Location = new Point(29, 143);
             labelemail.Name = "labelemail";
             labelemail.Size = new Size(101, 23);
             labelemail.TabIndex = 4;
@@ -112,7 +114,7 @@
             labelsubject.AutoSize = true;
             labelsubject.Font = new Font("Cambria", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             labelsubject.ForeColor = Color.MidnightBlue;
-            labelsubject.Location = new Point(29, 205);
+            labelsubject.Location = new Point(29, 241);
             labelsubject.Name = "labelsubject";
             labelsubject.Size = new Size(73, 23);
             labelsubject.TabIndex = 5;
@@ -123,7 +125,7 @@
             labelmessage.AutoSize = true;
             labelmessage.Font = new Font("Cambria", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             labelmessage.ForeColor = Color.MidnightBlue;
-            labelmessage.Location = new Point(29, 259);
+            labelmessage.Location = new Point(29, 295);
             labelmessage.Name = "labelmessage";
             labelmessage.Size = new Size(54, 23);
             labelmessage.TabIndex = 6;
@@ -134,7 +136,7 @@
             labelattachment.AutoSize = true;
             labelattachment.Font = new Font("Cambria", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             labelattachment.ForeColor = Color.MidnightBlue;
-            labelattachment.Location = new Point(34, 456);
+            labelattachment.Location = new Point(34, 492);
             labelattachment.Name = "labelattachment";
             labelattachment.Size = new Size(111, 23);
             labelattachment.TabIndex = 7;
@@ -145,7 +147,7 @@
             textBoxName.BackColor = SystemColors.Window;
             textBoxName.Font = new Font("Cambria", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxName.ForeColor = Color.MidnightBlue;
-            textBoxName.Location = new Point(158, 98);
+            textBoxName.Location = new Point(225, 90);
             textBoxName.Name = "textBoxName";
             textBoxName.ReadOnly = true;
             textBoxName.Size = new Size(279, 29);
@@ -156,7 +158,7 @@
             textBoxEmail.BackColor = SystemColors.Window;
             textBoxEmail.Font = new Font("Cambria", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxEmail.ForeColor = Color.MidnightBlue;
-            textBoxEmail.Location = new Point(158, 150);
+            textBoxEmail.Location = new Point(225, 142);
             textBoxEmail.Name = "textBoxEmail";
             textBoxEmail.ReadOnly = true;
             textBoxEmail.Size = new Size(279, 29);
@@ -166,7 +168,7 @@
             // 
             textBoxSubject.Font = new Font("Cambria", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxSubject.ForeColor = Color.MidnightBlue;
-            textBoxSubject.Location = new Point(158, 204);
+            textBoxSubject.Location = new Point(225, 239);
             textBoxSubject.Name = "textBoxSubject";
             textBoxSubject.Size = new Size(279, 29);
             textBoxSubject.TabIndex = 10;
@@ -175,7 +177,7 @@
             // 
             textBoxAttachmentPath.Font = new Font("Cambria", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxAttachmentPath.ForeColor = Color.MidnightBlue;
-            textBoxAttachmentPath.Location = new Point(158, 456);
+            textBoxAttachmentPath.Location = new Point(225, 491);
             textBoxAttachmentPath.Name = "textBoxAttachmentPath";
             textBoxAttachmentPath.ReadOnly = true;
             textBoxAttachmentPath.Size = new Size(279, 29);
@@ -185,7 +187,7 @@
             // 
             richTextBoxBody.Font = new Font("Cambria", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             richTextBoxBody.ForeColor = Color.MidnightBlue;
-            richTextBoxBody.Location = new Point(158, 258);
+            richTextBoxBody.Location = new Point(225, 293);
             richTextBoxBody.Name = "richTextBoxBody";
             richTextBoxBody.Size = new Size(279, 166);
             richTextBoxBody.TabIndex = 13;
@@ -195,7 +197,7 @@
             // 
             buttonBrowse.Font = new Font("Cambria", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             buttonBrowse.ForeColor = Color.MidnightBlue;
-            buttonBrowse.Location = new Point(459, 458);
+            buttonBrowse.Location = new Point(527, 492);
             buttonBrowse.Name = "buttonBrowse";
             buttonBrowse.Size = new Size(94, 29);
             buttonBrowse.TabIndex = 14;
@@ -207,7 +209,7 @@
             // 
             buttonSend.Font = new Font("Cambria", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             buttonSend.ForeColor = Color.MidnightBlue;
-            buttonSend.Location = new Point(158, 510);
+            buttonSend.Location = new Point(225, 546);
             buttonSend.Name = "buttonSend";
             buttonSend.Size = new Size(94, 29);
             buttonSend.TabIndex = 15;
@@ -218,9 +220,9 @@
             // progressBar
             // 
             progressBar.ForeColor = Color.CadetBlue;
-            progressBar.Location = new Point(-1, 573);
+            progressBar.Location = new Point(-1, 609);
             progressBar.Name = "progressBar";
-            progressBar.Size = new Size(534, 29);
+            progressBar.Size = new Size(585, 29);
             progressBar.TabIndex = 16;
             progressBar.Visible = false;
             // 
@@ -228,7 +230,7 @@
             // 
             logout.Cursor = Cursors.Hand;
             logout.Image = (Image)resources.GetObject("logout.Image");
-            logout.Location = new Point(538, 556);
+            logout.Location = new Point(586, 592);
             logout.Margin = new Padding(2);
             logout.Name = "logout";
             logout.Size = new Size(46, 46);
@@ -237,13 +239,38 @@
             logout.TabStop = false;
             logout.Click += logout_Click;
             // 
+            // textBoxEmailPassword
+            // 
+            textBoxEmailPassword.BackColor = SystemColors.Window;
+            textBoxEmailPassword.Font = new Font("Cambria", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxEmailPassword.ForeColor = Color.MidnightBlue;
+            textBoxEmailPassword.Location = new Point(225, 193);
+            textBoxEmailPassword.Name = "textBoxEmailPassword";
+            textBoxEmailPassword.Size = new Size(279, 29);
+            textBoxEmailPassword.TabIndex = 34;
+            textBoxEmailPassword.TextChanged += textBoxEmailPassword_TextChanged;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Cambria", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label2.ForeColor = Color.MidnightBlue;
+            label2.Location = new Point(29, 194);
+            label2.Name = "label2";
+            label2.Size = new Size(189, 23);
+            label2.TabIndex = 33;
+            label2.Text = "Your email password";
+            label2.Click += label2_Click;
+            // 
             // Chat
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightBlue;
-            ClientSize = new Size(582, 601);
+            ClientSize = new Size(633, 639);
             ControlBox = false;
+            Controls.Add(textBoxEmailPassword);
+            Controls.Add(label2);
             Controls.Add(logout);
             Controls.Add(progressBar);
             Controls.Add(buttonSend);
@@ -291,5 +318,7 @@
         private Button buttonSend;
         private ProgressBar progressBar;
         private PictureBox logout;
+        private TextBox textBoxEmailPassword;
+        private Label label2;
     }
 }
