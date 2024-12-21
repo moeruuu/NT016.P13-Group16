@@ -12,6 +12,7 @@ using System.Net.Mail;
 using System.Net;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Org.BouncyCastle.Crypto.Generators;
 
 namespace API_Server.Controllers
 {
@@ -41,23 +42,55 @@ namespace API_Server.Controllers
                 var user = await userService.GetUserByID(UserId);
                 if (user == null)
                     return Unauthorized("User not found.");
-                string hashedEmailPassword = userService.HashPassword(emailRequest.EmailPassword);
-                if (string.IsNullOrEmpty(userEmail) || !emailRequest.IsValidEmail(userEmail))
-                    return Unauthorized("Unable to authenticate the email.");
-                if (string.IsNullOrEmpty(user.HashedEmailPassword))
-                {
-                    user.HashedEmailPassword = hashedEmailPassword;
-                    await userService.UpdateUser(user);
-                }
-                else
-                {
-                    if (!user.HashedEmailPassword.Equals(hashedEmailPassword))
+                //string hashedEmailPassword = userService.HashPassword(emailRequest.EmailPassword);
+                //if (string.IsNullOrEmpty(user.HashedEmailPassword))
+                //{
+                //    // Lưu mật khẩu mới nếu chưa có
+                //    user.HashedEmailPassword = userService.HashPassword(emailRequest.EmailPassword);
+                //    await userService.UpdateUser(user);
+                //}
+                //else
+                //{
+                    // So sánh mật khẩu đã lưu với mật khẩu nhận từ client
+                    if (emailRequest.EmailPassword.Length < 50)
                     {
-                        return BadRequest("Invalid email password.");
+                        if (!userService.VerifyPassword(user.HashedEmailPassword, emailRequest.EmailPassword))
+                        {
+                            return BadRequest("Invalid email password.");
+                        }
                     }
-                }
+                    else // Nếu nhận được mật khẩu đã mã hóa
+                    {
+                        if (emailRequest.EmailPassword != user.HashedEmailPassword)
+                        {
+                            return BadRequest("Invalid email password.");
+                        }
+                    }
+                //}
+                    //else
+                    //{
+                    //    user.HashedEmailPassword = userService.HashPassword(emailRequest.EmailPassword);
+                    //    await userService.UpdateUser(user);
+                    //}
+
+
+                    if (string.IsNullOrEmpty(userEmail) || !emailRequest.IsValidEmail(userEmail))
+                    return Unauthorized("Unable to authenticate the email.");
+                //if (string.IsNullOrEmpty(emailRequest.EmailPassword))
+                //{
+                //    user.HashedEmailPassword = hashedEmailPassword;
+                //    await userService.UpdateUser(user);
+                //}
+                //else
+                //{
+                //    if (!userService.VerifyPassword(user.HashedEmailPassword, emailRequest.EmailPassword))
+                //    {
+                //        return BadRequest("Invalid email password.");
+                //    }
+                //}
                 if (!emailRequest.IsValid())
                     return BadRequest("The email information is incomplete or invalid.");
+
                 emailRequest.Email = userEmail;
                 await emailService.SendContactEmail(emailRequest, userService);
                 return Ok("Email sent successfully!");
@@ -83,8 +116,8 @@ namespace API_Server.Controllers
             }
         }
 
-        [HttpPost("SaveEmailPassword")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPost("SaveEmailPassword")]
         public async Task<IActionResult> SaveEmailPassword([FromBody] EmailRequest request)
         {
             try
@@ -106,17 +139,18 @@ namespace API_Server.Controllers
                 user.HashedEmailPassword = userService.HashPassword(request.EmailPassword);
                 await userService.UpdateUser(user);
 
-                return Ok("App password saved successfully.");
+                return Ok("Email password saved successfully.");
             }
             catch (Exception ex)
             {
-                return BadRequest($"Failed to save app password: {ex.Message}");
+                return BadRequest($"Failed to save email password: {ex.Message}");
             }
         }
 
-        [HttpGet("GetEmailPassword")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> GetEmailPassword()
+        [HttpGet("GetEmailPassword")]
+
+        public async Task<IActionResult> GetEmailPassword(bool includeHashedPassword = false)
         {
             try
             {
@@ -127,8 +161,10 @@ namespace API_Server.Controllers
                 var user = await userService.GetUserByID(parsedUserId);
                 if (user == null)
                     return Unauthorized("User not found.");
+                if (includeHashedPassword)
+                    return Ok(user.HashedEmailPassword ?? string.Empty);
 
-                return Ok(user.HashedEmailPassword ?? string.Empty);
+                return Ok(!string.IsNullOrEmpty(user.HashedEmailPassword) ? "*****" : string.Empty);
             }
             catch (Exception ex)
             {

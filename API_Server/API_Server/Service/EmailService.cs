@@ -60,7 +60,8 @@ namespace API_Server.Service
                     var user = await userService.GetUserByEmailAsync(request.Email);
                     if (user == null || string.IsNullOrEmpty(user.HashedEmailPassword))
                         throw new Exception("Email password not found for this user.");
-                    request.EmailPassword = userService.HashPassword(user.HashedEmailPassword);
+
+                    throw new Exception("Plaintext password is required but not provided.");
                 }
                 var email = new MimeMessage();
                 email.From.Add(MailboxAddress.Parse(request.Email));
@@ -117,6 +118,14 @@ namespace API_Server.Service
                 await smtp.AuthenticateAsync(request.Email, request.EmailPassword);
                 await smtp.SendAsync(email);
                 await smtp.DisconnectAsync(true);
+            }
+            catch (SmtpCommandException ex)
+            {
+                throw new Exception($"SMTP command error: {ex.Message}, StatusCode: {ex.StatusCode}");
+            }
+            catch (SmtpProtocolException ex)
+            {
+                throw new Exception($"SMTP protocol error: {ex.Message}");
             }
             catch (Exception ex)
             {

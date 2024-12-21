@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System;
 using API_Server.Service;
+using Org.BouncyCastle.Crypto.Generators;
 
 namespace API_Server.Service
 {
@@ -405,6 +406,11 @@ namespace API_Server.Service
         {
             var filter = Builders<User>.Filter.Eq(u => u.UserId, user.UserId);
             await users.ReplaceOneAsync(filter, user);
+        }
+        public bool VerifyPassword(string hashedPassword, string plainPassword)
+        {
+            string computedHash = HashPassword(plainPassword);
+            return string.Equals(hashedPassword, computedHash, StringComparison.OrdinalIgnoreCase);
         }
     }
 }
