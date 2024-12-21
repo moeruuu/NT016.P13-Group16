@@ -94,7 +94,6 @@ namespace UITFLIX
                     try
                     {
                         await chatService.SaveEmailPasswordAsync(emailPassword);
-                        MessageBox.Show(emailPassword);
                         textBoxEmailPassword.Text = "*****";
                         textBoxEmailPassword.Tag = emailPassword;
                     }
@@ -126,7 +125,6 @@ namespace UITFLIX
                 var progressTask = UpdateProgressBarAsync();
                 await Task.WhenAll(sendEmailTask, progressTask);
                 string jsonData = JsonConvert.SerializeObject(chatModel);
-                MessageBox.Show(jsonData);
                 MessageBox.Show("Email sent successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 progressBar.Visible = false;
                 buttonSend.Enabled = true;
@@ -152,8 +150,6 @@ namespace UITFLIX
                 await Task.Delay(17);
             }
         }
-
-        
 
         private void buttonBrowse_Click(object sender, EventArgs e)
         {
@@ -207,10 +203,7 @@ namespace UITFLIX
 
         private void textBoxEmailPassword_TextChanged(object sender, EventArgs e)
         {
-            //if (textBoxEmailPassword.Text != "*****")
-            //{
-            //    _plaintextEmailPassword = textBoxEmailPassword.Text;
-            //}
+
         }
     }
 }

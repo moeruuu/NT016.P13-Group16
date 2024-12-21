@@ -66,11 +66,11 @@ namespace UITFLIX.Services
             var response = await httpClient.PostAsync("/api/Email/SaveEmailPassword", content);
             response.EnsureSuccessStatusCode();
         }
-        public async Task<string?> GetEmailPasswordAsync(bool includeHashedPassword = false)
+        public async Task<string?> GetEmailPasswordAsync()
         {
             try
             {
-                var response = await httpClient.GetAsync($"/api/Email/GetEmailPassword?includeHashedPassword={includeHashedPassword}");
+                var response = await httpClient.GetAsync($"/api/Email/GetEmailPassword");
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -81,12 +81,6 @@ namespace UITFLIX.Services
 
                 return !string.IsNullOrWhiteSpace(responseContent) ? responseContent : null;
             }
-            //    if (response.IsSuccessStatusCode)
-            //    {
-            //        return await response.Content.ReadAsStringAsync();
-            //    }
-            //    return null;
-            //}
             catch (Exception ex)
             {
                 throw new Exception($"Failed to get email password: {ex.Message}");
@@ -112,7 +106,5 @@ namespace UITFLIX.Services
                 return null;
             }
         }
-
-
     }
 }
