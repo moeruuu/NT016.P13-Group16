@@ -70,8 +70,8 @@ namespace UITFLIX
 
             searchtb.Text = " Search";
             searchtb.ForeColor = Color.CadetBlue;
-            searchtb.Font = new Font(searchtb.Font, FontStyle.Italic);
             searchtb.Font = new Font(searchtb.Font.FontFamily, 14);
+            searchtb.Font = new Font(searchtb.Font, FontStyle.Italic);
             searchtb.ScrollBars = RichTextBoxScrollBars.None;
 
             //Mở new videos ngay khi mở form
@@ -611,11 +611,18 @@ namespace UITFLIX
         //Button search
         private async void btnSearch_Click(object sender, EventArgs e)
         {
-            Search();
-        }
+            this.ActiveControl = null;
 
-        private async Task Search()
-        {
+            if (String.IsNullOrEmpty(searchtb.Text) || searchtb.Text == " Search")
+            {
+                searchtb.Text = " Search";
+                searchtb.ForeColor = Color.CadetBlue;
+                searchtb.Font = new Font(searchtb.Font, FontStyle.Italic);
+                information.Visible = true;
+                progressupload.Visible = false;
+                return;
+            }
+
             progressupload.Visible = true;
             DisableButton();
             leftborderBtn.Visible = false;
@@ -626,13 +633,6 @@ namespace UITFLIX
             fpnVideos.Controls.Clear();
             fpnVideos.Visible = true;
 
-            if (String.IsNullOrEmpty(searchtb.Text) || searchtb.Text == " Search")
-            {
-                searchtb.Text = " Search";
-                searchtb.ForeColor = Color.CadetBlue;
-                searchtb.Font = new Font(searchtb.Font, FontStyle.Italic);
-                return;
-            }
             try
             {
                 this.Enabled = false;
@@ -668,7 +668,7 @@ namespace UITFLIX
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"{ex.Message}\n{ex.StackTrace}");
+                MessageBox.Show(ex.Message);
             }
             finally
             {
@@ -774,8 +774,9 @@ namespace UITFLIX
         {
             if (e.KeyCode == Keys.Enter)
             {
+                this.ActiveControl = null;
                 e.SuppressKeyPress = true;
-                Search();
+                btnSearch_Click(btnSearch, EventArgs.Empty);
             }
         }
 
