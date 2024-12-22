@@ -77,7 +77,6 @@
             panel2.Name = "panel2";
             panel2.Size = new Size(986, 31);
             panel2.TabIndex = 1;
-            panel2.UseWaitCursor = true;
             // 
             // btnShowRelatedVideos
             // 
@@ -98,7 +97,6 @@
             btnShowRelatedVideos.Text = "Related videos";
             btnShowRelatedVideos.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnShowRelatedVideos.UseVisualStyleBackColor = true;
-            btnShowRelatedVideos.UseWaitCursor = true;
             btnShowRelatedVideos.Click += btnShowRelatedVideos_Click;
             // 
             // panel3
@@ -109,7 +107,6 @@
             panel3.Name = "panel3";
             panel3.Size = new Size(2, 24);
             panel3.TabIndex = 4;
-            panel3.UseWaitCursor = true;
             // 
             // iconPictureBox1
             // 
@@ -125,7 +122,6 @@
             iconPictureBox1.Size = new Size(24, 24);
             iconPictureBox1.TabIndex = 3;
             iconPictureBox1.TabStop = false;
-            iconPictureBox1.UseWaitCursor = true;
             // 
             // linkLabel1
             // 
@@ -140,7 +136,6 @@
             linkLabel1.TabIndex = 2;
             linkLabel1.TabStop = true;
             linkLabel1.Text = "Download video";
-            linkLabel1.UseWaitCursor = true;
             linkLabel1.LinkClicked += linkLabel1_LinkClicked;
             // 
             // txtnamefilm
@@ -154,7 +149,6 @@
             txtnamefilm.Size = new Size(37, 17);
             txtnamefilm.TabIndex = 1;
             txtnamefilm.Text = "Title";
-            txtnamefilm.UseWaitCursor = true;
             // 
             // logo
             // 
@@ -167,7 +161,6 @@
             logo.SizeMode = PictureBoxSizeMode.StretchImage;
             logo.TabIndex = 0;
             logo.TabStop = false;
-            logo.UseWaitCursor = true;
             logo.Click += logo_Click;
             // 
             // bottompanel
@@ -189,7 +182,6 @@
             bottompanel.Name = "bottompanel";
             bottompanel.Size = new Size(986, 132);
             bottompanel.TabIndex = 2;
-            bottompanel.UseWaitCursor = true;
             // 
             // panel1
             // 
@@ -199,7 +191,6 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(2, 120);
             panel1.TabIndex = 2;
-            panel1.UseWaitCursor = true;
             // 
             // star5
             // 
@@ -211,7 +202,6 @@
             star5.SizeMode = PictureBoxSizeMode.StretchImage;
             star5.TabIndex = 7;
             star5.TabStop = false;
-            star5.UseWaitCursor = true;
             star5.Click += star5_Click;
             // 
             // star4
@@ -224,7 +214,6 @@
             star4.SizeMode = PictureBoxSizeMode.StretchImage;
             star4.TabIndex = 6;
             star4.TabStop = false;
-            star4.UseWaitCursor = true;
             star4.Click += star4_Click;
             // 
             // star3
@@ -237,7 +226,6 @@
             star3.SizeMode = PictureBoxSizeMode.StretchImage;
             star3.TabIndex = 5;
             star3.TabStop = false;
-            star3.UseWaitCursor = true;
             star3.Click += star3_Click;
             // 
             // star2
@@ -250,7 +238,6 @@
             star2.SizeMode = PictureBoxSizeMode.StretchImage;
             star2.TabIndex = 4;
             star2.TabStop = false;
-            star2.UseWaitCursor = true;
             star2.Click += star2_Click;
             // 
             // star1
@@ -263,7 +250,6 @@
             star1.SizeMode = PictureBoxSizeMode.StretchImage;
             star1.TabIndex = 3;
             star1.TabStop = false;
-            star1.UseWaitCursor = true;
             star1.Click += star1_Click;
             // 
             // total
@@ -275,7 +261,6 @@
             total.Size = new Size(77, 20);
             total.TabIndex = 2;
             total.Text = "Based on ";
-            total.UseWaitCursor = true;
             // 
             // averrate
             // 
@@ -287,7 +272,6 @@
             averrate.Size = new Size(79, 52);
             averrate.TabIndex = 1;
             averrate.Text = "0.0";
-            averrate.UseWaitCursor = true;
             // 
             // leftbottm
             // 
@@ -301,7 +285,6 @@
             leftbottm.Name = "leftbottm";
             leftbottm.Size = new Size(627, 132);
             leftbottm.TabIndex = 0;
-            leftbottm.UseWaitCursor = true;
             // 
             // tbdes
             // 
@@ -312,7 +295,6 @@
             tbdes.Size = new Size(610, 75);
             tbdes.TabIndex = 1;
             tbdes.Text = "";
-            tbdes.UseWaitCursor = true;
             // 
             // txtnamefilm1
             // 
@@ -325,7 +307,6 @@
             txtnamefilm1.Size = new Size(142, 28);
             txtnamefilm1.TabIndex = 0;
             txtnamefilm1.Text = "Description";
-            txtnamefilm1.UseWaitCursor = true;
             // 
             // axWindowsMediaPlayer
             // 
@@ -348,7 +329,6 @@
             flpRelatedVideos.Name = "flpRelatedVideos";
             flpRelatedVideos.Size = new Size(355, 570);
             flpRelatedVideos.TabIndex = 3;
-            flpRelatedVideos.UseWaitCursor = true;
             flpRelatedVideos.Visible = false;
             // 
             // PVideo
@@ -367,7 +347,6 @@
             Name = "PVideo";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "PVideo";
-            UseWaitCursor = true;
             FormClosing += PVideo_FormClosing_1;
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
