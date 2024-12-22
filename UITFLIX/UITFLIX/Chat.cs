@@ -122,7 +122,12 @@ namespace UITFLIX
                 await Task.WhenAll(sendEmailTask, progressTask);
                 string jsonData = JsonConvert.SerializeObject(chatModel);
                 if (sendEmailTask != null)
+                {
                     MessageBox.Show("Email sent successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    textBoxAttachmentPath.Clear();
+                    textBoxSubject.Clear();
+                    richTextBoxBody.Clear();
+                }
                 progressBar.Visible = false;
                 buttonSend.Enabled = true;
             }
