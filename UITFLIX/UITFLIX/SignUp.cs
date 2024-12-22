@@ -234,13 +234,13 @@ namespace UITFLIX
                 if (response.Contains("successful", StringComparison.OrdinalIgnoreCase))
                 {
                     this.Hide();
-                    VerifyOTP otp = new VerifyOTP(0, null, null);
+                    VerifyOTP otp = new VerifyOTP(0, email, null);
                     otp.ShowDialog();
                     this.Close();
                 }
                 else
                 {
-                    MessageBox.Show(response, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(response, "Errorrrr", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     lbwait.Visible = false;
                     btnsignup.Enabled = true;
                     return;

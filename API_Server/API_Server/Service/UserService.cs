@@ -24,14 +24,9 @@ namespace API_Server.Service
         private readonly EmailService emailService;
         private readonly VideoService videoService;
 
-        //Dùng static để biến không thay đổi
-        private static string currentEmail;
-        private static string currentOTP;
-
         //Lưu dữ liệu tạm thời
-        private static readonly ConcurrentDictionary<string, User> nguoidung = new ConcurrentDictionary<string, User>();
+        private static Dictionary<string, TempUserData> otpStorage = new Dictionary<string, TempUserData>();
         private readonly ImgurService imgurService;
-
         public UserService(IMongoDatabase database, EmailService emailService, ImgurService imgurService, VideoService videoService)
         {
             users = database.GetCollection<User>("Users");
@@ -63,12 +58,15 @@ namespace API_Server.Service
             };
             var otp = new Random().Next(0, 100000).ToString("D6");
 
-            //Lưu tạm user thui
-            nguoidung[SignupDTOs.Email] = user;
-            currentEmail = user.Email;
-            currentOTP = otp;
+            //Thêm, cập nhật thông tin otp của user vào dictionary
+            otpStorage[SignupDTOs.Email] = new TempUserData
+            {
+                User = user,
+                OTP = otp,
+                Expiration = DateTime.UtcNow.AddMinutes(5),
+            };
 
-            await SendOTPMail(currentEmail, otp, 0);
+            await SendOTPMail(SignupDTOs.Email, otp, 0);
             return user;
         }
 
@@ -154,9 +152,9 @@ namespace API_Server.Service
 
             string hashNewPwd = HashPassword(newpassword);
             if (hashNewPwd == existUser.Password)
-                throw new Exception("Cannot change to the old password.");
-            var update = Builders<User>.Update.Set(u => u.Password, hashNewPwd);
+                throw new Exception("The new password is the same as the old password!");
 
+            var update = Builders<User>.Update.Set(u => u.Password, hashNewPwd);
             var result = await users.UpdateOneAsync(filter, update);
 
             return result.ModifiedCount > 0;
@@ -176,14 +174,22 @@ namespace API_Server.Service
 
             if (forgetPassDTOs.statusCode == 0)
             {
-                //gửi OTP đến email để confirm
-                currentEmail = existUser.Email;
-                currentOTP = new Random().Next(0, 100000).ToString("D6"); ;
+                var otp = new Random().Next(0, 100000).ToString("D6");
+                var tempData = new TempUserData
+                {
+                    User = existUser,
+                    OTP = otp,
+                    Expiration = DateTime.UtcNow.AddMinutes(5)
+                };
 
-                await SendOTPMail(currentEmail, currentOTP, 1);
+                // Lưu vào otpStorage
+                otpStorage[forgetPassDTOs.Email] = tempData;
+
+                await SendOTPMail(forgetPassDTOs.Email, otp, 1);
                 return "OTP sent";
             }
 
+            otpStorage.Remove(forgetPassDTOs.Email);
             return $"k@1 n@y l@ key $iêµ 7uyệ7 mậ7 dµng để 7ạ0 mộ7 k@1 p@$w0rd mớ1 m@ kH0ng cầN p@$w0rd cũ";
         }
 
@@ -198,40 +204,60 @@ namespace API_Server.Service
             return delete.DeletedCount > 0;
         }
 
-        public async Task<Object> CheckOTP(VerifyOTPDTOs otpDTOs)
+        public async Task<Object?> CheckOTP(VerifyOTPDTOs otpDTOs)
         {
             if (otpDTOs.requestCode == 0)
             {
-                if (String.IsNullOrEmpty(currentEmail))
+                if (!otpStorage.TryGetValue(otpDTOs.Email, out var tempData))
                     throw new Exception("This email has not been used for registration!");
-                //Lấy người dùng tạm ra nè
-                var tempUser = nguoidung[currentEmail];
 
-                var Filter = Builders<User>.Filter.Eq(u => u.Email, tempUser.Email);
+                //Check OTP còn hạn không
+                if (tempData.Expiration < DateTime.UtcNow)
+                {
+                    otpStorage.Remove(otpDTOs.Email); // Xóa dữ liệu tạm
+                    throw new Exception("The OTP has expired!");
+                }
+
+                // Kiểm tra OTP có khớp không
+                if (tempData.OTP != otpDTOs.OTP)
+                    throw new Exception("The OTP does not match!");
+
+                var Filter = Builders<User>.Filter.Eq(u => u.Email, tempData.User.Email);
                 var existingUser = await users.Find(Filter).FirstOrDefaultAsync();
                 if (existingUser != null)
                     throw new Exception("This email already exists!");
-                if (currentOTP != otpDTOs.OTP)
-                    throw new Exception("The OTP does not match!");
 
                 var newUser = new User
                 {
-                    UserId = tempUser.UserId,
-                    Fullname = tempUser.Fullname,
-                    Username = tempUser.Username,
-                    Password = tempUser.Password,
-                    Email = tempUser.Email,
+                    UserId = tempData.User.UserId,
+                    Fullname = tempData.User.Fullname,
+                    Username = tempData.User.Username,
+                    Password = tempData.User.Password,
+                    Email = tempData.User.Email,
                     Role = 1,
                     Bio = "< This user is speechless ... >",
                 };
                 await users.InsertOneAsync(newUser);
 
+                // Xóa dữ liệu tạm sau khi thành công
+                otpStorage.Remove(otpDTOs.Email);
+
                 return existingUser;
             }
             if (otpDTOs.requestCode == 1)
             {
-                if (currentOTP != otpDTOs.OTP)
-                    throw new Exception("The OTP does not match.");
+                if (!otpStorage.TryGetValue(otpDTOs.Email, out var tempData))
+                    throw new Exception("This email has not been used for registration!");
+
+                if (tempData.Expiration < DateTime.UtcNow)
+                {
+                    otpStorage.Remove(otpDTOs.Email);
+                    throw new Exception("The OTP has expired!");
+                }
+
+                if (tempData.OTP != otpDTOs.OTP)
+                    throw new Exception("The OTP does not match!");
+
                 return true;
             }
             return null;

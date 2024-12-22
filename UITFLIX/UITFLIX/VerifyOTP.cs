@@ -42,6 +42,7 @@ namespace UITFLIX
             {
                 requestCode = code,
                 otp = tbotp.Text.Trim(),
+                Email = email,
             };
             var response = await userService.VerifyOTP(OTP);
             if (response.Contains("registration successfully!"))
