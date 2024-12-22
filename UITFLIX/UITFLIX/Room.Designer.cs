@@ -32,7 +32,6 @@
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             panel1 = new Panel();
             iconleaveroom = new PictureBox();
-            iconMember = new FontAwesome.Sharp.IconPictureBox();
             lbname = new Label();
             IDRoom = new Label();
             label3 = new Label();
@@ -50,7 +49,6 @@
             iconSend = new FontAwesome.Sharp.IconPictureBox();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)iconleaveroom).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)iconMember).BeginInit();
             ((System.ComponentModel.ISupportInitialize)logo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvQueue).BeginInit();
             ((System.ComponentModel.ISupportInitialize)iconSend).BeginInit();
@@ -60,7 +58,6 @@
             // 
             panel1.BackColor = Color.PowderBlue;
             panel1.Controls.Add(iconleaveroom);
-            panel1.Controls.Add(iconMember);
             panel1.Controls.Add(lbname);
             panel1.Controls.Add(IDRoom);
             panel1.Controls.Add(label3);
@@ -292,7 +289,6 @@
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)iconleaveroom).EndInit();
-            ((System.ComponentModel.ISupportInitialize)iconMember).EndInit();
             ((System.ComponentModel.ISupportInitialize)logo).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvQueue).EndInit();
             ((System.ComponentModel.ISupportInitialize)iconSend).EndInit();
@@ -318,7 +314,6 @@
         private DataGridViewTextBoxColumn ColumnTitle;
         private DataGridViewTextBoxColumn ColumnTag;
         private FontAwesome.Sharp.IconPictureBox iconSend;
-        private FontAwesome.Sharp.IconPictureBox iconMember;
         private PictureBox iconleaveroom;
     }
 }
