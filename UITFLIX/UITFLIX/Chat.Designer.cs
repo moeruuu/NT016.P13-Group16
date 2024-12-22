@@ -309,6 +309,7 @@
             Controls.Add(abovepanel);
             FormBorderStyle = FormBorderStyle.None;
             Icon = (Icon)resources.GetObject("$this.Icon");
+            MaximizeBox = false;
             Name = "Chat";
             Text = "Chat";
             Load += Chat_Load;

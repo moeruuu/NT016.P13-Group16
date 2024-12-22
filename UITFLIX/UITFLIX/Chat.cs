@@ -219,7 +219,7 @@ namespace UITFLIX
 
         private void linkinstruction_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-
+            new Instruction().Show();
         }
     }
 }
