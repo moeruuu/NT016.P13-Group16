@@ -41,11 +41,12 @@ namespace UITFLIX.Services
                 if (response.IsSuccessStatusCode)
                     return await response.Content.ReadAsStringAsync();
                 else
-                    return $"Error: {response.StatusCode} - {response.ReasonPhrase}";
+                    return null;
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                MessageBox.Show(ex.Message);
+                return null;
             }
         }
 

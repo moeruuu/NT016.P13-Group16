@@ -57,7 +57,7 @@ namespace API_Server.Service
                 if (string.IsNullOrWhiteSpace(request.EmailPassword))
                 {
                     var user = await userService.GetUserByEmailAsync(request.Email);
-                    if (user == null || string.IsNullOrEmpty(user.EncryptedEmailPassword))
+                    if (user == null || string.IsNullOrEmpty(user.EmailPassword))
                         throw new Exception("Email password not found for this user.");
 
                     throw new Exception("Plaintext password is required but not provided.");

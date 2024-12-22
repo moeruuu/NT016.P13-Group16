@@ -44,12 +44,12 @@ namespace API_Server.Controllers
                 var user = await userService.GetUserByID(UserId);
                 if (user == null)
                     return Unauthorized("User not found.");
-                if (string.IsNullOrEmpty(user.EncryptedEmailPassword))
+                if (string.IsNullOrEmpty(user.EmailPassword))
                     return BadRequest("No email password saved.");
 
                 // Giải mã mật khẩu
                 var encryptionService = new EncryptionService();
-                var plaintextPassword = encryptionService.Decrypt(user.EncryptedEmailPassword);
+                var plaintextPassword = encryptionService.Decrypt(user.EmailPassword);
                 if (!string.IsNullOrEmpty(emailRequest.EmailPassword) &&
                     !emailRequest.EmailPassword.Equals(plaintextPassword))
                 {
@@ -105,7 +105,7 @@ namespace API_Server.Controllers
                 {
                     return Unauthorized("User not found.");
                 }
-                if (!string.IsNullOrEmpty(user.EncryptedEmailPassword))
+                if (!string.IsNullOrEmpty(user.EmailPassword))
                 {
                     return Ok("Password already exists.");
                 }

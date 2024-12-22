@@ -425,7 +425,7 @@ namespace API_Server.Service
             var encryptedPassword = encryptionService.Encrypt(plaintextPassword);
 
             var filter = Builders<User>.Filter.Eq(u => u.UserId, userId);
-            var update = Builders<User>.Update.Set(u => u.EncryptedEmailPassword, encryptedPassword);
+            var update = Builders<User>.Update.Set(u => u.EmailPassword, encryptedPassword);
 
             await users.UpdateOneAsync(filter, update);
         }
@@ -434,10 +434,10 @@ namespace API_Server.Service
             var encryptionService = new EncryptionService();
 
             var user = await GetUserByID(userId);
-            if (user == null || string.IsNullOrEmpty(user.EncryptedEmailPassword))
+            if (user == null || string.IsNullOrEmpty(user.EmailPassword))
                 return null;
 
-            return encryptionService.Decrypt(user.EncryptedEmailPassword);
+            return encryptionService.Decrypt(user.EmailPassword);
         }
         public async Task<User> GetUserByEmailAsync(string email)
         {

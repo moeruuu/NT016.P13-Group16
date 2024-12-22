@@ -40,19 +40,19 @@
             textBoxName = new TextBox();
             textBoxEmail = new TextBox();
             textBoxSubject = new TextBox();
-            textBoxAttachmentPath = new TextBox();
             richTextBoxBody = new RichTextBox();
-            buttonBrowse = new Button();
             buttonSend = new Button();
             progressBar = new ProgressBar();
-            logout = new PictureBox();
             textBoxEmailPassword = new TextBox();
             label2 = new Label();
             iconEye = new FontAwesome.Sharp.IconPictureBox();
+            iconUpload = new FontAwesome.Sharp.IconPictureBox();
+            linkinstruction = new LinkLabel();
+            textBoxAttachmentPath = new TextBox();
             abovepanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)logo).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)logout).BeginInit();
             ((System.ComponentModel.ISupportInitialize)iconEye).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)iconUpload).BeginInit();
             SuspendLayout();
             // 
             // abovepanel
@@ -152,7 +152,7 @@
             textBoxName.Location = new Point(225, 90);
             textBoxName.Name = "textBoxName";
             textBoxName.ReadOnly = true;
-            textBoxName.Size = new Size(279, 29);
+            textBoxName.Size = new Size(346, 29);
             textBoxName.TabIndex = 8;
             // 
             // textBoxEmail
@@ -163,7 +163,7 @@
             textBoxEmail.Location = new Point(225, 142);
             textBoxEmail.Name = "textBoxEmail";
             textBoxEmail.ReadOnly = true;
-            textBoxEmail.Size = new Size(279, 29);
+            textBoxEmail.Size = new Size(346, 29);
             textBoxEmail.TabIndex = 9;
             // 
             // textBoxSubject
@@ -172,18 +172,8 @@
             textBoxSubject.ForeColor = Color.MidnightBlue;
             textBoxSubject.Location = new Point(225, 239);
             textBoxSubject.Name = "textBoxSubject";
-            textBoxSubject.Size = new Size(279, 29);
+            textBoxSubject.Size = new Size(346, 29);
             textBoxSubject.TabIndex = 10;
-            // 
-            // textBoxAttachmentPath
-            // 
-            textBoxAttachmentPath.Font = new Font("Cambria", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBoxAttachmentPath.ForeColor = Color.MidnightBlue;
-            textBoxAttachmentPath.Location = new Point(225, 491);
-            textBoxAttachmentPath.Name = "textBoxAttachmentPath";
-            textBoxAttachmentPath.ReadOnly = true;
-            textBoxAttachmentPath.Size = new Size(279, 29);
-            textBoxAttachmentPath.TabIndex = 12;
             // 
             // richTextBoxBody
             // 
@@ -191,29 +181,17 @@
             richTextBoxBody.ForeColor = Color.MidnightBlue;
             richTextBoxBody.Location = new Point(225, 293);
             richTextBoxBody.Name = "richTextBoxBody";
-            richTextBoxBody.Size = new Size(279, 166);
+            richTextBoxBody.Size = new Size(346, 166);
             richTextBoxBody.TabIndex = 13;
             richTextBoxBody.Text = "";
             // 
-            // buttonBrowse
-            // 
-            buttonBrowse.Font = new Font("Cambria", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            buttonBrowse.ForeColor = Color.MidnightBlue;
-            buttonBrowse.Location = new Point(527, 492);
-            buttonBrowse.Name = "buttonBrowse";
-            buttonBrowse.Size = new Size(94, 29);
-            buttonBrowse.TabIndex = 14;
-            buttonBrowse.Text = "Browse";
-            buttonBrowse.UseVisualStyleBackColor = true;
-            buttonBrowse.Click += buttonBrowse_Click;
-            // 
             // buttonSend
             // 
-            buttonSend.Font = new Font("Cambria", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            buttonSend.Font = new Font("Cambria", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             buttonSend.ForeColor = Color.MidnightBlue;
-            buttonSend.Location = new Point(225, 546);
+            buttonSend.Location = new Point(427, 538);
             buttonSend.Name = "buttonSend";
-            buttonSend.Size = new Size(94, 29);
+            buttonSend.Size = new Size(144, 32);
             buttonSend.TabIndex = 15;
             buttonSend.Text = "Send";
             buttonSend.UseVisualStyleBackColor = true;
@@ -222,24 +200,11 @@
             // progressBar
             // 
             progressBar.ForeColor = Color.CadetBlue;
-            progressBar.Location = new Point(-1, 609);
+            progressBar.Location = new Point(3, 598);
             progressBar.Name = "progressBar";
-            progressBar.Size = new Size(585, 29);
+            progressBar.Size = new Size(633, 29);
             progressBar.TabIndex = 16;
             progressBar.Visible = false;
-            // 
-            // logout
-            // 
-            logout.Cursor = Cursors.Hand;
-            logout.Image = (Image)resources.GetObject("logout.Image");
-            logout.Location = new Point(586, 592);
-            logout.Margin = new Padding(2);
-            logout.Name = "logout";
-            logout.Size = new Size(46, 46);
-            logout.SizeMode = PictureBoxSizeMode.StretchImage;
-            logout.TabIndex = 32;
-            logout.TabStop = false;
-            logout.Click += logout_Click;
             // 
             // textBoxEmailPassword
             // 
@@ -249,9 +214,8 @@
             textBoxEmailPassword.Location = new Point(225, 193);
             textBoxEmailPassword.Name = "textBoxEmailPassword";
             textBoxEmailPassword.PasswordChar = '*';
-            textBoxEmailPassword.Size = new Size(279, 29);
+            textBoxEmailPassword.Size = new Size(346, 29);
             textBoxEmailPassword.TabIndex = 34;
-            textBoxEmailPassword.TextChanged += textBoxEmailPassword_TextChanged;
             // 
             // label2
             // 
@@ -263,7 +227,6 @@
             label2.Size = new Size(189, 23);
             label2.TabIndex = 33;
             label2.Text = "Your email password";
-            label2.Click += label2_Click;
             // 
             // iconEye
             // 
@@ -273,30 +236,68 @@
             iconEye.IconChar = FontAwesome.Sharp.IconChar.EyeSlash;
             iconEye.IconColor = Color.MidnightBlue;
             iconEye.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            iconEye.IconSize = 24;
-            iconEye.Location = new Point(471, 193);
+            iconEye.IconSize = 27;
+            iconEye.Location = new Point(544, 193);
             iconEye.Name = "iconEye";
-            iconEye.Size = new Size(33, 24);
+            iconEye.Size = new Size(27, 27);
             iconEye.TabIndex = 35;
             iconEye.TabStop = false;
             iconEye.Click += iconEye_Click;
+            // 
+            // iconUpload
+            // 
+            iconUpload.BackColor = Color.LightBlue;
+            iconUpload.Cursor = Cursors.Hand;
+            iconUpload.ForeColor = Color.MidnightBlue;
+            iconUpload.IconChar = FontAwesome.Sharp.IconChar.Upload;
+            iconUpload.IconColor = Color.MidnightBlue;
+            iconUpload.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            iconUpload.IconSize = 28;
+            iconUpload.Location = new Point(577, 492);
+            iconUpload.Name = "iconUpload";
+            iconUpload.Size = new Size(28, 28);
+            iconUpload.TabIndex = 36;
+            iconUpload.TabStop = false;
+            iconUpload.Click += iconUpload_Click;
+            // 
+            // linkinstruction
+            // 
+            linkinstruction.AutoSize = true;
+            linkinstruction.Font = new Font("Cambria", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            linkinstruction.LinkColor = Color.MidnightBlue;
+            linkinstruction.Location = new Point(225, 545);
+            linkinstruction.Name = "linkinstruction";
+            linkinstruction.Size = new Size(188, 21);
+            linkinstruction.TabIndex = 37;
+            linkinstruction.TabStop = true;
+            linkinstruction.Text = "How to get pass email?";
+            linkinstruction.LinkClicked += linkinstruction_LinkClicked;
+            // 
+            // textBoxAttachmentPath
+            // 
+            textBoxAttachmentPath.BackColor = SystemColors.Control;
+            textBoxAttachmentPath.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxAttachmentPath.Location = new Point(225, 492);
+            textBoxAttachmentPath.Name = "textBoxAttachmentPath";
+            textBoxAttachmentPath.Size = new Size(346, 27);
+            textBoxAttachmentPath.TabIndex = 38;
             // 
             // Chat
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightBlue;
-            ClientSize = new Size(633, 639);
+            ClientSize = new Size(633, 629);
             ControlBox = false;
+            Controls.Add(textBoxAttachmentPath);
+            Controls.Add(linkinstruction);
+            Controls.Add(iconUpload);
             Controls.Add(iconEye);
             Controls.Add(textBoxEmailPassword);
             Controls.Add(label2);
-            Controls.Add(logout);
             Controls.Add(progressBar);
             Controls.Add(buttonSend);
-            Controls.Add(buttonBrowse);
             Controls.Add(richTextBoxBody);
-            Controls.Add(textBoxAttachmentPath);
             Controls.Add(textBoxSubject);
             Controls.Add(textBoxEmail);
             Controls.Add(textBoxName);
@@ -314,8 +315,8 @@
             abovepanel.ResumeLayout(false);
             abovepanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)logo).EndInit();
-            ((System.ComponentModel.ISupportInitialize)logout).EndInit();
             ((System.ComponentModel.ISupportInitialize)iconEye).EndInit();
+            ((System.ComponentModel.ISupportInitialize)iconUpload).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -333,14 +334,14 @@
         private TextBox textBoxName;
         private TextBox textBoxEmail;
         private TextBox textBoxSubject;
-        private TextBox textBoxAttachmentPath;
         private RichTextBox richTextBoxBody;
-        private Button buttonBrowse;
         private Button buttonSend;
         private ProgressBar progressBar;
-        private PictureBox logout;
         private TextBox textBoxEmailPassword;
         private Label label2;
         private FontAwesome.Sharp.IconPictureBox iconEye;
+        private FontAwesome.Sharp.IconPictureBox iconUpload;
+        private LinkLabel linkinstruction;
+        private TextBox textBoxAttachmentPath;
     }
 }

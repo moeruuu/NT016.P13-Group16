@@ -59,12 +59,12 @@
             filevideo = new Label();
             information = new Label();
             bottompanel = new Panel();
+            iconDeleteVideo = new FontAwesome.Sharp.IconPictureBox();
             logout = new PictureBox();
             waiting = new Label();
             tag = new Label();
             cbtag = new ComboBox();
             fpnVideos = new FlowLayoutPanel();
-            deleteButton = new Button();
             leftside.SuspendLayout();
             avatarpanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)Avatar).BeginInit();
@@ -73,6 +73,7 @@
             ((System.ComponentModel.ISupportInitialize)logo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)chat).BeginInit();
             bottompanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)iconDeleteVideo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)logout).BeginInit();
             SuspendLayout();
             // 
@@ -404,7 +405,7 @@
             progressupload.Location = new Point(5, 7);
             progressupload.Margin = new Padding(2);
             progressupload.Name = "progressupload";
-            progressupload.Size = new Size(748, 23);
+            progressupload.Size = new Size(703, 23);
             progressupload.TabIndex = 28;
             // 
             // tbidroom
@@ -507,6 +508,7 @@
             // bottompanel
             // 
             bottompanel.BackColor = Color.PowderBlue;
+            bottompanel.Controls.Add(iconDeleteVideo);
             bottompanel.Controls.Add(logout);
             bottompanel.Controls.Add(waiting);
             bottompanel.Controls.Add(progressupload);
@@ -517,6 +519,23 @@
             bottompanel.Name = "bottompanel";
             bottompanel.Size = new Size(834, 35);
             bottompanel.TabIndex = 36;
+            // 
+            // iconDeleteVideo
+            // 
+            iconDeleteVideo.BackColor = Color.PowderBlue;
+            iconDeleteVideo.Cursor = Cursors.Hand;
+            iconDeleteVideo.ForeColor = Color.DarkRed;
+            iconDeleteVideo.IconChar = FontAwesome.Sharp.IconChar.X;
+            iconDeleteVideo.IconColor = Color.DarkRed;
+            iconDeleteVideo.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            iconDeleteVideo.IconSize = 25;
+            iconDeleteVideo.Location = new Point(727, 5);
+            iconDeleteVideo.Name = "iconDeleteVideo";
+            iconDeleteVideo.Size = new Size(25, 25);
+            iconDeleteVideo.TabIndex = 32;
+            iconDeleteVideo.TabStop = false;
+            iconDeleteVideo.Visible = false;
+            iconDeleteVideo.Click += iconDeleteVideo_Click;
             // 
             // logout
             // 
@@ -574,22 +593,10 @@
             // fpnVideos
             // 
             fpnVideos.AutoScroll = true;
-            fpnVideos.Location = new Point(288, 113);
+            fpnVideos.Location = new Point(288, 123);
             fpnVideos.Name = "fpnVideos";
-            fpnVideos.Size = new Size(786, 467);
+            fpnVideos.Size = new Size(786, 457);
             fpnVideos.TabIndex = 39;
-            // 
-            // deleteButton
-            // 
-            deleteButton.AutoSize = true;
-            deleteButton.Font = new Font("Cambria", 11F, FontStyle.Bold);
-            deleteButton.ForeColor = Color.MidnightBlue;
-            deleteButton.Location = new Point(923, 521);
-            deleteButton.Name = "deleteButton";
-            deleteButton.Size = new Size(128, 32);
-            deleteButton.TabIndex = 0;
-            deleteButton.Text = "Delete video";
-            deleteButton.UseVisualStyleBackColor = true;
             // 
             // Home
             // 
@@ -598,7 +605,6 @@
             BackColor = Color.LightBlue;
             ClientSize = new Size(1074, 615);
             ControlBox = false;
-            Controls.Add(deleteButton);
             Controls.Add(btnidroom);
             Controls.Add(cbtag);
             Controls.Add(tag);
@@ -638,6 +644,7 @@
             ((System.ComponentModel.ISupportInitialize)chat).EndInit();
             bottompanel.ResumeLayout(false);
             bottompanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)iconDeleteVideo).EndInit();
             ((System.ComponentModel.ISupportInitialize)logout).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -680,6 +687,6 @@
         private ComboBox cbtag;
         private PictureBox logout;
         private FlowLayoutPanel fpnVideos;
-        private Button deleteButton;
+        private FontAwesome.Sharp.IconPictureBox iconDeleteVideo;
     }
 }
