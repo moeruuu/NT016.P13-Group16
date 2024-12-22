@@ -57,6 +57,7 @@
             // 
             // abovepanel
             // 
+            abovepanel.BackColor = Color.PowderBlue;
             abovepanel.Controls.Add(logo);
             abovepanel.Controls.Add(label1);
             abovepanel.Location = new Point(-1, -2);
@@ -288,7 +289,6 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightBlue;
             ClientSize = new Size(633, 629);
-            ControlBox = false;
             Controls.Add(textBoxAttachmentPath);
             Controls.Add(linkinstruction);
             Controls.Add(iconUpload);
@@ -307,7 +307,7 @@
             Controls.Add(labelemail);
             Controls.Add(labelname);
             Controls.Add(abovepanel);
-            FormBorderStyle = FormBorderStyle.None;
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             Name = "Chat";
