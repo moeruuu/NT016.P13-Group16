@@ -13,6 +13,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using API_Server.SignalRHub;
+using API_Server;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,6 +52,7 @@ builder.Services.AddScoped<ImgurService>();
 builder.Services.AddScoped<JWTService>();
 builder.Services.AddScoped<MongoDbContext>();
 builder.Services.AddScoped<CoopService>();
+builder.Services.AddScoped<EncryptionService>();
 
 builder.Services.AddAuthorization();
 

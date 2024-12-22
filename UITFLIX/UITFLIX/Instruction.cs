@@ -30,5 +30,10 @@ namespace UITFLIX
                 UseShellExecute = true
             });
         }
+
+        private void richTextBox3_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

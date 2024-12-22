@@ -123,7 +123,8 @@
             richTextBox3.ReadOnly = true;
             richTextBox3.Size = new Size(847, 33);
             richTextBox3.TabIndex = 7;
-            richTextBox3.Text = "*Lưu ý: Đừng tiết lộ pass appword cho bất cứ ai!";
+            richTextBox3.Text = "*Lưu ý: Đừng tiết lộ app password cho bất cứ ai!";
+            richTextBox3.TextChanged += richTextBox3_TextChanged;
             // 
             // Instruction
             // 
