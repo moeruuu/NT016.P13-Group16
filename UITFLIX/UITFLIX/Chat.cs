@@ -51,7 +51,8 @@ namespace UITFLIX
 
                 if (!string.IsNullOrEmpty(encryptedPassword))
                 {
-                    textBoxEmailPassword.Text = "*******************";
+                    textBoxEmailPassword.PasswordChar = '*';
+                    textBoxEmailPassword.Text = encryptedPassword;
                     textBoxEmailPassword.Tag = encryptedPassword;
                 }
                 else

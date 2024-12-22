@@ -248,6 +248,7 @@
             textBoxEmailPassword.ForeColor = Color.MidnightBlue;
             textBoxEmailPassword.Location = new Point(225, 193);
             textBoxEmailPassword.Name = "textBoxEmailPassword";
+            textBoxEmailPassword.PasswordChar = '*';
             textBoxEmailPassword.Size = new Size(279, 29);
             textBoxEmailPassword.TabIndex = 34;
             textBoxEmailPassword.TextChanged += textBoxEmailPassword_TextChanged;
