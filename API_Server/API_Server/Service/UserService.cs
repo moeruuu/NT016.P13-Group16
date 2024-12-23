@@ -294,87 +294,128 @@ namespace API_Server.Service
         {
             string email = $@"
             <!DOCTYPE html>
-            <html>
+            <html lang='en'>
             <head>
-            <style>
-            body {{
-                  font-family: Arial, Helvetica, sans-serif;
-                  background-color: #f4f4f4; 
-                  margin: 0;
-                  padding: 0;
-            }}
+                <meta charset='UTF-8'>
+                <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+                <title>OTP Email</title>
+                <style>
+                    body {{
+                        font-family: Arial, Helvetica, sans-serif;
+                        background-color: #f4f4f4;
+                        margin: 0;
+                        padding: 0;
+                        color: #333;
+                    }}
 
-            .container {{
-                  background-color: #5f9ea0;
-                  padding: 30px;
-                  border-radius: 5px;
-                  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-                  text-align: center; 
-                  width: 400px;
-                  position: relative;
-            }}
+                    .container {{
+                        background-color: #5f9ea0;
+                        padding: 30px;
+                        border-radius: 10px;
+                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                        text-align: center;
+                        width: 100%;
+                        max-width: 600px;
+                        margin: 40px auto;
+                    }}
 
-            .header {{
-                  background-color: #5f9ea0; 
-                  padding: 20px; 
-                  display: flex; 
-                  flex-direction: column;
-                  align-items: center; 
-                  color: #fff; 
-                  justify-content: space-between;
-            }}
+                    .header {{
+                        background-color: #5f9ea0;
+                        padding: 20px;
+                        border-radius: 10px 10px 0 0;
+                        color: #fff;
+                    }}
 
-            .header img {{
-                  margin-right: 10px;
-            }}
-            h1 {{
-                  margin: 0; 
-                  font-size: 24px;
-                  color: #2c4386
-            }}
-            h2 {{
-                  margin: 0;
-                  font-size: 20px;
-                  margin-bottom: 20px;
-            }}
-            .middle {{
-                  background-color: #add8e6;
-                  padding: 20px; 
-                  border-radius: 5px; 
-            }}
-            p {{
-                  margin-bottom: 10px;
-            }}
-            .one-time-password {{
-                  font-weight: bold;
-                  margin-bottom: 20px;
-                  color: #445ca2;
-            }}
-            .huhu{{
-                  color: #445ca2;
-            }}
-            .footer {{
-                  margin-top: 20px;
-                  font-size: 14px;
-                  color: #fff;
-            }}
+                    .header img {{
+                        width: 100px;
+                        height: auto;
+                        margin-bottom: 10px;
+                    }}
 
-            </style>
+                    .header h2 {{
+                        font-size: 24px;
+                        margin: 0;
+                        color: #fff;
+                    }}
+
+                    .middle {{
+                        background-color: #add8e6;
+                        padding: 30px;
+                        border-radius: 10px;
+                        margin-top: 20px;
+                    }}
+
+                    .middle h1 {{
+                        font-size: 28px;
+                        color: #445ca2;
+                        margin-bottom: 15px;
+                    }}
+
+                    .middle p {{
+                        font-size: 16px;
+                        color: #445ca2;
+                    }}
+
+                    .one-time-password {{
+                        font-size: 32px;
+                        font-weight: bold;
+                        color: #445ca2;
+                        margin: 20px 0;
+                        letter-spacing: 3px;
+                    }}
+
+                    .footer {{
+                        margin-top: 30px;
+                        font-size: 14px;
+                        color: #fff;
+                        border-top: 1px solid #fff;
+                        padding-top: 10px;
+                    }}
+
+                    .footer p {{
+                        margin: 5px 0;
+                    }}
+
+                    .footer a {{
+                        color: #fff;
+                        text-decoration: none;
+                    }}
+
+                    /* Responsive Design */
+                    @media (max-width: 600px) {{
+                        .container {{
+                            padding: 15px;
+                            width: 100%;
+                        }}
+
+                        .header h2 {{
+                            font-size: 22px;
+                        }}
+
+                        .middle h1 {{
+                            font-size: 24px;
+                        }}
+
+                        .one-time-password {{
+                            font-size: 28px;
+                        }}
+                    }}
+                </style>
             </head>
             <body>
                 <div class='container'>
                     <div class='header'>
-                        <img src='https://i.imgur.com/DjYrvRL.png' alt='UITflix Logo' style='width: 100px; height: auto;'>
-                        <h2>NT106.P13</h2>
+                        <img src='https://i.imgur.com/DjYrvRL.png' alt='UITFLIX Logo'>
+                        <h2>UITFlix - NT106.P13</h2>
                     </div>
                     <div class='middle'>
                         <h1>{title}</h1>
-                        <p class='huhu'>To enjoy great movies time with us, please enter the OTP!</p>
+                        <p>To enjoy great movies time with us, please enter the OTP below!</p>
                         <p class='one-time-password'>{otp}</p>
                     </div>
                     <div class='footer'>
                         <p>{message}</p>
-                        <p>Please do not reply to this email!</p>
+                        <p>Please do not reply to this email.</p>
                     </div>
                 </div>
             </body>
