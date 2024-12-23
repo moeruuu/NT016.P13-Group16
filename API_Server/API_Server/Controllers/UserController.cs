@@ -190,9 +190,7 @@ namespace API_Server.Controllers
             if (userUpdate)
                 return Ok("Success");
             else
-            {
                 return BadRequest("Unable to change the password!");
-            }
         }
 
         [AllowAnonymous]
@@ -213,7 +211,6 @@ namespace API_Server.Controllers
                 else
                     return BadRequest("Unable to change the password!");
             }
-
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]

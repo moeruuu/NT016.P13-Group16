@@ -139,12 +139,14 @@ namespace API_Server.Service
         public async Task<bool> ChangePassword(Object user, string oldpassword, string newpassword)
         {
             var filter = Builders<User>.Filter.Or(
-                    Builders<User>.Filter.Eq(u => u.Username, user),
+                    Builders<User>.Filter.Eq(u => u.UserId, user),
                     Builders<User>.Filter.Eq(u => u.Email, user));
             var existUser = await users.Find(filter).FirstOrDefaultAsync();
 
+            // oldpassword được thay bằng forgetstring dùng để đổi pass mà không cần pass cũ
             if (oldpassword != $"k@1 n@y l@ key $iêµ 7uyệ7 mậ7 dµng để 7ạ0 mộ7 k@1 p@$w0rd mớ1 m@ kH0ng cầN p@$w0rd cũ")
             {
+                //nếu không phải đổi pass do quên pass cũ thì phải kiểm tra pass cũ có đúng không
                 string hashOldPwd = HashPassword(oldpassword);
                 if (hashOldPwd != existUser.Password)
                     throw new Exception("The old password does not match!");
@@ -189,8 +191,9 @@ namespace API_Server.Service
                 return "OTP sent";
             }
 
+            // User đã xác nhận otp thành công
             otpStorage.Remove(forgetPassDTOs.Email);
-            return $"k@1 n@y l@ key $iêµ 7uyệ7 mậ7 dµng để 7ạ0 mộ7 k@1 p@$w0rd mớ1 m@ kH0ng cầN p@$w0rd cũ";
+            return $"k@1 n@y l@ key $iêµ 7uyệ7 mậ7 dµng để 7ạ0 mộ7 k@1 p@$w0rd mớ1 m@ kH0ng cầN p@$w0rd cũ"; // Key này response về cho user cùng otp, sau khi user xác nhận otp thì key này sẽ được gửi ngược lại lên server
         }
 
         public async Task<bool> DeleteUser(ObjectId userid)
