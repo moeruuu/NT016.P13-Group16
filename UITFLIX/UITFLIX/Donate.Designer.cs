@@ -35,82 +35,96 @@
             textBoxAccountNum = new TextBox();
             textBoxAccountName = new TextBox();
             textBoxAmount = new TextBox();
-            textBoxNote = new TextBox();
             buttonGenerate = new Button();
             pictureBoxQRCode = new PictureBox();
             progressBarDonate = new ProgressBar();
+            richTextBoxNote = new RichTextBox();
+            panelQR = new Panel();
+            labelQRCode = new Label();
+            labelThank = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBoxQRCode).BeginInit();
+            panelQR.SuspendLayout();
             SuspendLayout();
             // 
             // labelAccountNum
             // 
             labelAccountNum.AutoSize = true;
-            labelAccountNum.Location = new Point(32, 41);
+            labelAccountNum.Font = new Font("Cambria", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelAccountNum.ForeColor = Color.MidnightBlue;
+            labelAccountNum.Location = new Point(15, 91);
             labelAccountNum.Name = "labelAccountNum";
-            labelAccountNum.Size = new Size(121, 20);
+            labelAccountNum.Size = new Size(148, 21);
             labelAccountNum.TabIndex = 0;
-            labelAccountNum.Text = "Account Number";
+            labelAccountNum.Text = "Account number";
             // 
             // labelAccountName
             // 
             labelAccountName.AutoSize = true;
-            labelAccountName.Location = new Point(32, 96);
+            labelAccountName.Font = new Font("Cambria", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelAccountName.ForeColor = Color.MidnightBlue;
+            labelAccountName.Location = new Point(15, 148);
             labelAccountName.Name = "labelAccountName";
-            labelAccountName.Size = new Size(107, 20);
+            labelAccountName.Size = new Size(128, 21);
             labelAccountName.TabIndex = 1;
-            labelAccountName.Text = "Account Name";
+            labelAccountName.Text = "Account name";
             // 
             // labelAmount
             // 
             labelAmount.AutoSize = true;
-            labelAmount.Location = new Point(36, 148);
+            labelAmount.Font = new Font("Cambria", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelAmount.ForeColor = Color.MidnightBlue;
+            labelAmount.Location = new Point(15, 210);
             labelAmount.Name = "labelAmount";
-            labelAmount.Size = new Size(62, 20);
+            labelAmount.Size = new Size(77, 21);
             labelAmount.TabIndex = 2;
             labelAmount.Text = "Amount";
+            labelAmount.Click += labelAmount_Click;
             // 
             // labelNote
             // 
             labelNote.AutoSize = true;
-            labelNote.Location = new Point(38, 192);
+            labelNote.Font = new Font("Cambria", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelNote.ForeColor = Color.MidnightBlue;
+            labelNote.Location = new Point(15, 270);
             labelNote.Name = "labelNote";
-            labelNote.Size = new Size(42, 20);
+            labelNote.Size = new Size(124, 21);
             labelNote.TabIndex = 3;
-            labelNote.Text = "Note";
+            labelNote.Text = "Transfer note";
             // 
             // textBoxAccountNum
             // 
-            textBoxAccountNum.Location = new Point(204, 36);
+            textBoxAccountNum.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxAccountNum.ForeColor = Color.MidnightBlue;
+            textBoxAccountNum.Location = new Point(170, 91);
             textBoxAccountNum.Name = "textBoxAccountNum";
-            textBoxAccountNum.Size = new Size(125, 27);
+            textBoxAccountNum.Size = new Size(255, 27);
             textBoxAccountNum.TabIndex = 4;
             // 
             // textBoxAccountName
             // 
-            textBoxAccountName.Location = new Point(204, 97);
+            textBoxAccountName.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxAccountName.ForeColor = Color.MidnightBlue;
+            textBoxAccountName.Location = new Point(170, 146);
             textBoxAccountName.Name = "textBoxAccountName";
-            textBoxAccountName.Size = new Size(125, 27);
+            textBoxAccountName.Size = new Size(255, 27);
             textBoxAccountName.TabIndex = 5;
             // 
             // textBoxAmount
             // 
-            textBoxAmount.Location = new Point(204, 148);
+            textBoxAmount.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBoxAmount.ForeColor = Color.MidnightBlue;
+            textBoxAmount.Location = new Point(170, 204);
             textBoxAmount.Name = "textBoxAmount";
-            textBoxAmount.Size = new Size(125, 27);
+            textBoxAmount.Size = new Size(255, 27);
             textBoxAmount.TabIndex = 6;
-            // 
-            // textBoxNote
-            // 
-            textBoxNote.Location = new Point(204, 207);
-            textBoxNote.Name = "textBoxNote";
-            textBoxNote.Size = new Size(125, 27);
-            textBoxNote.TabIndex = 7;
             // 
             // buttonGenerate
             // 
-            buttonGenerate.Location = new Point(163, 289);
+            buttonGenerate.Font = new Font("Cambria", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            buttonGenerate.ForeColor = Color.MidnightBlue;
+            buttonGenerate.Location = new Point(170, 415);
             buttonGenerate.Name = "buttonGenerate";
-            buttonGenerate.Size = new Size(150, 29);
+            buttonGenerate.Size = new Size(176, 29);
             buttonGenerate.TabIndex = 8;
             buttonGenerate.Text = "Generate QR Code";
             buttonGenerate.UseVisualStyleBackColor = true;
@@ -119,7 +133,7 @@
             // pictureBoxQRCode
             // 
             pictureBoxQRCode.BackgroundImageLayout = ImageLayout.Zoom;
-            pictureBoxQRCode.Location = new Point(456, 36);
+            pictureBoxQRCode.Location = new Point(18, 36);
             pictureBoxQRCode.Name = "pictureBoxQRCode";
             pictureBoxQRCode.Size = new Size(295, 324);
             pictureBoxQRCode.TabIndex = 9;
@@ -127,21 +141,64 @@
             // 
             // progressBarDonate
             // 
-            progressBarDonate.Location = new Point(-9, 431);
+            progressBarDonate.Location = new Point(-6, 460);
             progressBarDonate.Name = "progressBarDonate";
             progressBarDonate.Size = new Size(817, 29);
             progressBarDonate.TabIndex = 10;
+            // 
+            // richTextBoxNote
+            // 
+            richTextBoxNote.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            richTextBoxNote.ForeColor = Color.MidnightBlue;
+            richTextBoxNote.Location = new Point(170, 268);
+            richTextBoxNote.Name = "richTextBoxNote";
+            richTextBoxNote.Size = new Size(255, 120);
+            richTextBoxNote.TabIndex = 7;
+            richTextBoxNote.Text = "";
+            // 
+            // panelQR
+            // 
+            panelQR.BorderStyle = BorderStyle.FixedSingle;
+            panelQR.Controls.Add(labelQRCode);
+            panelQR.Controls.Add(pictureBoxQRCode);
+            panelQR.ForeColor = Color.White;
+            panelQR.Location = new Point(457, 64);
+            panelQR.Name = "panelQR";
+            panelQR.Size = new Size(331, 380);
+            panelQR.TabIndex = 12;
+            // 
+            // labelQRCode
+            // 
+            labelQRCode.AutoSize = true;
+            labelQRCode.Font = new Font("Cambria", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelQRCode.ForeColor = Color.MidnightBlue;
+            labelQRCode.Location = new Point(-1, -1);
+            labelQRCode.Name = "labelQRCode";
+            labelQRCode.Size = new Size(86, 23);
+            labelQRCode.TabIndex = 0;
+            labelQRCode.Text = "QR Code";
+            // 
+            // labelThank
+            // 
+            labelThank.AutoSize = true;
+            labelThank.Font = new Font("Cambria", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelThank.ForeColor = Color.MidnightBlue;
+            labelThank.Location = new Point(81, 22);
+            labelThank.Name = "labelThank";
+            labelThank.Size = new Size(612, 21);
+            labelThank.TabIndex = 13;
+            labelThank.Text = "Support us by scanning this qr code. We deeply appreciate your support.";
             // 
             // Donate
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightBlue;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(800, 490);
+            Controls.Add(labelThank);
+            Controls.Add(richTextBoxNote);
             Controls.Add(progressBarDonate);
-            Controls.Add(pictureBoxQRCode);
             Controls.Add(buttonGenerate);
-            Controls.Add(textBoxNote);
             Controls.Add(textBoxAmount);
             Controls.Add(textBoxAccountName);
             Controls.Add(textBoxAccountNum);
@@ -149,9 +206,14 @@
             Controls.Add(labelAmount);
             Controls.Add(labelAccountName);
             Controls.Add(labelAccountNum);
+            Controls.Add(panelQR);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
             Name = "Donate";
             Text = "Donate";
+            Load += Donate_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBoxQRCode).EndInit();
+            panelQR.ResumeLayout(false);
+            panelQR.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -165,9 +227,12 @@
         private TextBox textBoxAccountNum;
         private TextBox textBoxAccountName;
         private TextBox textBoxAmount;
-        private TextBox textBoxNote;
         private Button buttonGenerate;
         private PictureBox pictureBoxQRCode;
         private ProgressBar progressBarDonate;
+        private RichTextBox richTextBoxNote;
+        private Panel panelQR;
+        private Label labelQRCode;
+        private Label labelThank;
     }
 }

@@ -13,6 +13,7 @@ using UITFLIX.Services;
 using Newtonsoft.Json;
 using RestSharp;
 using System.Windows.Documents;
+using System.Net;
 
 namespace UITFLIX
 {
@@ -30,7 +31,7 @@ namespace UITFLIX
         {
             string accountNumber = textBoxAccountNum.Text.Trim();
             string accountName = textBoxAccountName.Text.Trim();
-            string transferNote = textBoxNote.Text.Trim();
+            string transferNote = richTextBoxNote.Text.Trim();
             var amount = Convert.ToInt32(textBoxAmount.Text.Trim());
             if (string.IsNullOrEmpty(accountNumber) || string.IsNullOrEmpty(accountName) || amount <= 0)
             {
@@ -38,39 +39,83 @@ namespace UITFLIX
                 return;
             }
             buttonGenerate.Enabled = false;
+            progressBarDonate.Style = ProgressBarStyle.Marquee;
+            progressBarDonate.Visible = true;
 
-            var donateRequest = new DonateRequest();
-            donateRequest.acqId = 970416;
-            donateRequest.accountNo = accountNumber;
-            donateRequest.accountName = accountName;
-            donateRequest.amount = amount;
-            donateRequest.addInfo = transferNote;
-            donateRequest.format = "text";
-            donateRequest.template = "compact";
-            donateRequest.theme = "compact";
+            try
+            {
+                var donateRequest = new DonateRequest();
+                donateRequest.acqId = 970416;
+                donateRequest.accountNo = accountNumber;
+                donateRequest.accountName = accountName;
+                donateRequest.amount = amount;
+                donateRequest.addInfo = transferNote;
+                donateRequest.format = "text";
+                donateRequest.template = "compact";
+                donateRequest.theme = "compact";
 
-            var jsonRequest = JsonConvert.SerializeObject(donateRequest);
-            // use restsharp for request api.
-            var client = new RestClient("https://api.vietqr.io/v2/generate");
-            var request = new RestRequest();
+                var jsonRequest = JsonConvert.SerializeObject(donateRequest);
 
-            request.Method = Method.Post;
-            request.AddHeader("Accept", "application/json");
-            request.AddParameter("application/json", jsonRequest, ParameterType.RequestBody);
+                var client = new RestClient("https://api.vietqr.io/v2/generate");
+                var request = new RestRequest();
 
-            var response = client.Execute(request, Method.Post);
+                request.Method = Method.Post;
+                request.AddHeader("Accept", "application/json");
+                request.AddParameter("application/json", jsonRequest, ParameterType.RequestBody);
 
-            var content = response.Content;
-            var dataResult = JsonConvert.DeserializeObject<DonateResponse>(content);
-            var image = DonateService.Base64ToImage(dataResult.data.qrDataURL.Replace("data:image/png;base64,", ""));
-            var resizedImage = ResizeImage(image, 300, 300);
-            pictureBoxQRCode.Image = resizedImage;
+                var fullUrl = client.BuildUri(request).ToString();
+                var webRequest = (HttpWebRequest)WebRequest.Create(fullUrl);
+                webRequest.Method = "POST";
+                webRequest.ContentType = "application/json";
+                using (var streamWriter = new StreamWriter(await webRequest.GetRequestStreamAsync()))
+                {
+                    streamWriter.Write(jsonRequest);
+                }
 
-            buttonGenerate.Enabled = true;
+                using (var response = (HttpWebResponse)await webRequest.GetResponseAsync())
+                {
+                    var totalBytes = response.ContentLength;
+                    var bytesRead = 0L;
 
-        }
-        private void buttonBrowse_Click(object sender, EventArgs e)
-        {
+                    using (var responseStream = response.GetResponseStream())
+
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        var buffer = new byte[8192];
+                        int read;
+
+                        while ((read = await responseStream.ReadAsync(buffer, 0, buffer.Length)) > 0)
+                        {
+                            memoryStream.Write(buffer, 0, read);
+                            bytesRead += read;
+
+                            Invoke(new Action(() =>
+                            {
+                                if (totalBytes > 0)
+                                {
+                                    progressBarDonate.Value = (int)((bytesRead * 100L) / totalBytes);
+                                }
+                            }));
+                        }
+                        var content = Encoding.UTF8.GetString(memoryStream.ToArray());
+                        var dataResult = JsonConvert.DeserializeObject<DonateResponse>(content);
+                        var image = DonateService.Base64ToImage(dataResult.data.qrDataURL.Replace("data:image/png;base64,", ""));
+                        var resizedImage = ResizeImage(image, 300, 300);
+                        pictureBoxQRCode.Image = resizedImage;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                buttonGenerate.Enabled = true;
+                progressBarDonate.Style = ProgressBarStyle.Blocks;
+                progressBarDonate.Visible = false;
+                progressBarDonate.Value = 0;
+            }
 
         }
         private Image ResizeImage(Image image, int width, int height)
@@ -84,6 +129,20 @@ namespace UITFLIX
                 graphics.DrawImage(image, 0, 0, width, height);
             }
             return resized;
+        }
+
+        private void labelAmount_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Donate_Load(object sender, EventArgs e)
+        {
+            labelQRCode.BringToFront();
+            textBoxAccountName.Text = "LE NGUYEN PHUONG GIANG";
+            textBoxAccountNum.Text = "36510167";
+            textBoxAccountName.ReadOnly = true;
+            textBoxAccountNum.ReadOnly = true;
         }
     }
 }
