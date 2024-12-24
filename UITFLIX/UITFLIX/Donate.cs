@@ -63,8 +63,8 @@ namespace UITFLIX
             var content = response.Content;
             var dataResult = JsonConvert.DeserializeObject<DonateResponse>(content);
             var image = DonateService.Base64ToImage(dataResult.data.qrDataURL.Replace("data:image/png;base64,", ""));
-
-            pictureBoxQRCode.Image = image;
+            var resizedImage = ResizeImage(image, 300, 300);
+            pictureBoxQRCode.Image = resizedImage;
 
             buttonGenerate.Enabled = true;
 
@@ -72,6 +72,18 @@ namespace UITFLIX
         private void buttonBrowse_Click(object sender, EventArgs e)
         {
 
+        }
+        private Image ResizeImage(Image image, int width, int height)
+        {
+            var resized = new Bitmap(width, height);
+            using (var graphics = Graphics.FromImage(resized))
+            {
+                graphics.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
+                graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+                graphics.DrawImage(image, 0, 0, width, height);
+            }
+            return resized;
         }
     }
 }

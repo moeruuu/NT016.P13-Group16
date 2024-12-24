@@ -59,13 +59,13 @@
             filevideo = new Label();
             information = new Label();
             bottompanel = new Panel();
+            pictureBoxDonate = new PictureBox();
             iconDeleteVideo = new FontAwesome.Sharp.IconPictureBox();
             logout = new PictureBox();
             waiting = new Label();
             tag = new Label();
             cbtag = new ComboBox();
             fpnVideos = new FlowLayoutPanel();
-            pictureBox1 = new PictureBox();
             leftside.SuspendLayout();
             avatarpanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)Avatar).BeginInit();
@@ -74,9 +74,9 @@
             ((System.ComponentModel.ISupportInitialize)logo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)chat).BeginInit();
             bottompanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxDonate).BeginInit();
             ((System.ComponentModel.ISupportInitialize)iconDeleteVideo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)logout).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // leftside
@@ -510,7 +510,7 @@
             // bottompanel
             // 
             bottompanel.BackColor = Color.PowderBlue;
-            bottompanel.Controls.Add(pictureBox1);
+            bottompanel.Controls.Add(pictureBoxDonate);
             bottompanel.Controls.Add(iconDeleteVideo);
             bottompanel.Controls.Add(logout);
             bottompanel.Controls.Add(waiting);
@@ -522,6 +522,18 @@
             bottompanel.Name = "bottompanel";
             bottompanel.Size = new Size(834, 35);
             bottompanel.TabIndex = 36;
+            // 
+            // pictureBoxDonate
+            // 
+            pictureBoxDonate.BackgroundImage = Properties.Resources.charity;
+            pictureBoxDonate.BackgroundImageLayout = ImageLayout.Zoom;
+            pictureBoxDonate.Image = Properties.Resources.donate;
+            pictureBoxDonate.Location = new Point(687, 5);
+            pictureBoxDonate.Name = "pictureBoxDonate";
+            pictureBoxDonate.Size = new Size(34, 27);
+            pictureBoxDonate.TabIndex = 33;
+            pictureBoxDonate.TabStop = false;
+            pictureBoxDonate.Click += pictureBox1_Click;
             // 
             // iconDeleteVideo
             // 
@@ -601,18 +613,6 @@
             fpnVideos.Size = new Size(786, 457);
             fpnVideos.TabIndex = 39;
             // 
-            // pictureBox1
-            // 
-            pictureBox1.BackgroundImage = Properties.Resources.charity;
-            pictureBox1.BackgroundImageLayout = ImageLayout.Zoom;
-            pictureBox1.Image = Properties.Resources.charity;
-            pictureBox1.Location = new Point(687, 5);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(34, 27);
-            pictureBox1.TabIndex = 33;
-            pictureBox1.TabStop = false;
-            pictureBox1.Click += pictureBox1_Click;
-            // 
             // Home
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -659,9 +659,9 @@
             ((System.ComponentModel.ISupportInitialize)chat).EndInit();
             bottompanel.ResumeLayout(false);
             bottompanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxDonate).EndInit();
             ((System.ComponentModel.ISupportInitialize)iconDeleteVideo).EndInit();
             ((System.ComponentModel.ISupportInitialize)logout).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -704,6 +704,6 @@
         private PictureBox logout;
         private FlowLayoutPanel fpnVideos;
         private FontAwesome.Sharp.IconPictureBox iconDeleteVideo;
-        private PictureBox pictureBox1;
+        private PictureBox pictureBoxDonate;
     }
 }
