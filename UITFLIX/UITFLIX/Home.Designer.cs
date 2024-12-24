@@ -528,7 +528,7 @@
             pictureBoxDonate.BackgroundImage = Properties.Resources.charity;
             pictureBoxDonate.BackgroundImageLayout = ImageLayout.Zoom;
             pictureBoxDonate.Image = Properties.Resources.donate;
-            pictureBoxDonate.Location = new Point(687, 5);
+            pictureBoxDonate.Location = new Point(718, 5);
             pictureBoxDonate.Name = "pictureBoxDonate";
             pictureBoxDonate.Size = new Size(34, 27);
             pictureBoxDonate.TabIndex = 33;
@@ -544,7 +544,7 @@
             iconDeleteVideo.IconColor = Color.DarkRed;
             iconDeleteVideo.IconFont = FontAwesome.Sharp.IconFont.Auto;
             iconDeleteVideo.IconSize = 25;
-            iconDeleteVideo.Location = new Point(727, 5);
+            iconDeleteVideo.Location = new Point(685, 6);
             iconDeleteVideo.Name = "iconDeleteVideo";
             iconDeleteVideo.Size = new Size(25, 25);
             iconDeleteVideo.TabIndex = 32;

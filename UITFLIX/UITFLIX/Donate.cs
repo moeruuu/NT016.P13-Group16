@@ -32,12 +32,18 @@ namespace UITFLIX
             string accountNumber = textBoxAccountNum.Text.Trim();
             string accountName = textBoxAccountName.Text.Trim();
             string transferNote = richTextBoxNote.Text.Trim();
-            var amount = Convert.ToInt32(textBoxAmount.Text.Trim());
-            if (string.IsNullOrEmpty(accountNumber) || string.IsNullOrEmpty(accountName) || amount <= 0)
+            var amountText = textBoxAmount.Text.Trim();
+            if (!int.TryParse(amountText, out var amount) || amount <= 0 || amountText.Length > 13)
             {
-                MessageBox.Show("Please enter valid account information and amount.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Số tiền phải là số nguyên dương không quá 13 ký tự.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+            if (transferNote.Length > 25 || transferNote.Any(c => !char.IsLetterOrDigit(c) && c != ' '))
+            {
+                MessageBox.Show("Nội dung chuyển tiền không được vượt quá 25 ký tự và không chứa ký tự đặc biệt.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             buttonGenerate.Enabled = false;
             progressBarDonate.Style = ProgressBarStyle.Marquee;
             progressBarDonate.Visible = true;

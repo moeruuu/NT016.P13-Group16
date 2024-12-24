@@ -73,7 +73,7 @@
             labelAmount.AutoSize = true;
             labelAmount.Font = new Font("Cambria", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             labelAmount.ForeColor = Color.MidnightBlue;
-            labelAmount.Location = new Point(15, 210);
+            labelAmount.Location = new Point(15, 206);
             labelAmount.Name = "labelAmount";
             labelAmount.Size = new Size(77, 21);
             labelAmount.TabIndex = 2;
@@ -164,7 +164,7 @@
             panelQR.ForeColor = Color.White;
             panelQR.Location = new Point(457, 64);
             panelQR.Name = "panelQR";
-            panelQR.Size = new Size(331, 380);
+            panelQR.Size = new Size(331, 367);
             panelQR.TabIndex = 12;
             // 
             // labelQRCode
