@@ -347,8 +347,8 @@ namespace UITFLIX
             selectedVideoItem = item;
             item.BackColor = Color.MidnightBlue;
             item.ForeColor = Color.MidnightBlue;
-            item.BorderStyle = BorderStyle.FixedSingle; 
-            item.Padding = new Padding(5); 
+            item.BorderStyle = BorderStyle.FixedSingle;
+            item.Padding = new Padding(5);
             Color paddingColor = Color.MidnightBlue;
             if (item.Tag == null)
             {
@@ -383,7 +383,7 @@ namespace UITFLIX
         private async Task RefreshWatchedVideos()
         {
             ActiveButton(btnwatchedvideo, RGBColors.color3);
-            VisibleCoop(false); 
+            VisibleCoop(false);
             VisibleUpload(false);
             VisibleTopPanel(true);
             bottompanel.Visible = true;
@@ -791,6 +791,12 @@ namespace UITFLIX
             {
                 MessageBox.Show("Unable to find the video to remove!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            Donate donate = new Donate(accesstoken);
+            donate.ShowDialog();
         }
     }
 

@@ -65,6 +65,7 @@
             tag = new Label();
             cbtag = new ComboBox();
             fpnVideos = new FlowLayoutPanel();
+            pictureBox1 = new PictureBox();
             leftside.SuspendLayout();
             avatarpanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)Avatar).BeginInit();
@@ -75,6 +76,7 @@
             bottompanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)iconDeleteVideo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)logout).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // leftside
@@ -405,7 +407,7 @@
             progressupload.Location = new Point(5, 7);
             progressupload.Margin = new Padding(2);
             progressupload.Name = "progressupload";
-            progressupload.Size = new Size(703, 23);
+            progressupload.Size = new Size(675, 23);
             progressupload.TabIndex = 28;
             // 
             // tbidroom
@@ -508,6 +510,7 @@
             // bottompanel
             // 
             bottompanel.BackColor = Color.PowderBlue;
+            bottompanel.Controls.Add(pictureBox1);
             bottompanel.Controls.Add(iconDeleteVideo);
             bottompanel.Controls.Add(logout);
             bottompanel.Controls.Add(waiting);
@@ -598,6 +601,18 @@
             fpnVideos.Size = new Size(786, 457);
             fpnVideos.TabIndex = 39;
             // 
+            // pictureBox1
+            // 
+            pictureBox1.BackgroundImage = Properties.Resources.charity;
+            pictureBox1.BackgroundImageLayout = ImageLayout.Zoom;
+            pictureBox1.Image = Properties.Resources.charity;
+            pictureBox1.Location = new Point(687, 5);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(34, 27);
+            pictureBox1.TabIndex = 33;
+            pictureBox1.TabStop = false;
+            pictureBox1.Click += pictureBox1_Click;
+            // 
             // Home
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -646,6 +661,7 @@
             bottompanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)iconDeleteVideo).EndInit();
             ((System.ComponentModel.ISupportInitialize)logout).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -688,5 +704,6 @@
         private PictureBox logout;
         private FlowLayoutPanel fpnVideos;
         private FontAwesome.Sharp.IconPictureBox iconDeleteVideo;
+        private PictureBox pictureBox1;
     }
 }
