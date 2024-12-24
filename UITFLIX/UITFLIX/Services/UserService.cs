@@ -86,13 +86,11 @@ namespace UITFLIX.Services
                     MessageBox.Show(error);
                     return false;
                 }
-
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
                 return false;
-
             }
         }
 
@@ -106,7 +104,6 @@ namespace UITFLIX.Services
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await httpClient.PatchAsync("/api/User/Change-Password", content);
                 return await response.Content.ReadAsStringAsync();
-
             }
             catch (Exception ex)
             {
