@@ -75,10 +75,9 @@
             labelAmount.ForeColor = Color.MidnightBlue;
             labelAmount.Location = new Point(15, 206);
             labelAmount.Name = "labelAmount";
-            labelAmount.Size = new Size(77, 21);
+            labelAmount.Size = new Size(151, 21);
             labelAmount.TabIndex = 2;
-            labelAmount.Text = "Amount";
-            labelAmount.Click += labelAmount_Click;
+            labelAmount.Text = "Transfer amount";
             // 
             // labelNote
             // 
@@ -93,24 +92,29 @@
             // 
             // textBoxAccountNum
             // 
+            textBoxAccountNum.Enabled = false;
             textBoxAccountNum.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxAccountNum.ForeColor = Color.MidnightBlue;
             textBoxAccountNum.Location = new Point(170, 91);
             textBoxAccountNum.Name = "textBoxAccountNum";
+            textBoxAccountNum.ReadOnly = true;
             textBoxAccountNum.Size = new Size(255, 27);
             textBoxAccountNum.TabIndex = 4;
             // 
             // textBoxAccountName
             // 
+            textBoxAccountName.Enabled = false;
             textBoxAccountName.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxAccountName.ForeColor = Color.MidnightBlue;
             textBoxAccountName.Location = new Point(170, 146);
             textBoxAccountName.Name = "textBoxAccountName";
+            textBoxAccountName.ReadOnly = true;
             textBoxAccountName.Size = new Size(255, 27);
             textBoxAccountName.TabIndex = 5;
             // 
             // textBoxAmount
             // 
+            textBoxAmount.Cursor = Cursors.IBeam;
             textBoxAmount.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxAmount.ForeColor = Color.MidnightBlue;
             textBoxAmount.Location = new Point(170, 204);
@@ -120,6 +124,7 @@
             // 
             // buttonGenerate
             // 
+            buttonGenerate.Cursor = Cursors.Hand;
             buttonGenerate.Font = new Font("Cambria", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             buttonGenerate.ForeColor = Color.MidnightBlue;
             buttonGenerate.Location = new Point(170, 415);
@@ -132,10 +137,11 @@
             // 
             // pictureBoxQRCode
             // 
+            pictureBoxQRCode.BackColor = Color.LightBlue;
             pictureBoxQRCode.BackgroundImageLayout = ImageLayout.Zoom;
             pictureBoxQRCode.Location = new Point(18, 36);
             pictureBoxQRCode.Name = "pictureBoxQRCode";
-            pictureBoxQRCode.Size = new Size(295, 324);
+            pictureBoxQRCode.Size = new Size(295, 302);
             pictureBoxQRCode.TabIndex = 9;
             pictureBoxQRCode.TabStop = false;
             // 
@@ -145,9 +151,11 @@
             progressBarDonate.Name = "progressBarDonate";
             progressBarDonate.Size = new Size(817, 29);
             progressBarDonate.TabIndex = 10;
+            progressBarDonate.Visible = false;
             // 
             // richTextBoxNote
             // 
+            richTextBoxNote.Cursor = Cursors.IBeam;
             richTextBoxNote.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             richTextBoxNote.ForeColor = Color.MidnightBlue;
             richTextBoxNote.Location = new Point(170, 268);
@@ -158,6 +166,7 @@
             // 
             // panelQR
             // 
+            panelQR.BackColor = Color.LightBlue;
             panelQR.BorderStyle = BorderStyle.FixedSingle;
             panelQR.Controls.Add(labelQRCode);
             panelQR.Controls.Add(pictureBoxQRCode);
@@ -181,13 +190,13 @@
             // labelThank
             // 
             labelThank.AutoSize = true;
-            labelThank.Font = new Font("Cambria", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            labelThank.ForeColor = Color.MidnightBlue;
-            labelThank.Location = new Point(81, 22);
+            labelThank.Font = new Font("Cambria", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelThank.ForeColor = Color.Teal;
+            labelThank.Location = new Point(66, 16);
             labelThank.Name = "labelThank";
-            labelThank.Size = new Size(612, 21);
+            labelThank.Size = new Size(685, 23);
             labelThank.TabIndex = 13;
-            labelThank.Text = "Support us by scanning this qr code. We deeply appreciate your support.";
+            labelThank.Text = "Support us by scanning the QR code. We deeply appreciate your support<3";
             // 
             // Donate
             // 
@@ -208,6 +217,9 @@
             Controls.Add(labelAccountNum);
             Controls.Add(panelQR);
             FormBorderStyle = FormBorderStyle.FixedDialog;
+            MaximizeBox = false;
+            MdiChildrenMinimizedAnchorBottom = false;
+            MinimizeBox = false;
             Name = "Donate";
             Text = "Donate";
             Load += Donate_Load;

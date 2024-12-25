@@ -187,14 +187,14 @@ namespace UITFLIX
 
         private void btninformation_Click(object sender, EventArgs e)
         {
-            SettingInformation(true);
             SettingPassword(false);
+            SettingInformation(true);
         }
 
         private void btnpass_Click(object sender, EventArgs e)
         {
-            SettingPassword(true);
             SettingInformation(false);
+            SettingPassword(true);
         }
 
         private void btnChangeAva_Click(object sender, EventArgs e)

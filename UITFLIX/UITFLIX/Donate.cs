@@ -27,6 +27,15 @@ namespace UITFLIX
             this.accessToken = accessToken;
         }
 
+        private void Donate_Load(object sender, EventArgs e)
+        {
+            labelQRCode.BringToFront();
+            textBoxAccountName.Text = "LE NGUYEN PHUONG GIANG";
+            textBoxAccountNum.Text = "36510167";
+            textBoxAmount.Focus();
+            textBoxAmount.SelectAll();
+        }
+
         private async void buttonGenerate_Click(object sender, EventArgs e)
         {
             string accountNumber = textBoxAccountNum.Text.Trim();
@@ -35,12 +44,12 @@ namespace UITFLIX
             var amountText = textBoxAmount.Text.Trim();
             if (!int.TryParse(amountText, out var amount) || amount <= 0 || amountText.Length > 13)
             {
-                MessageBox.Show("Số tiền phải là số nguyên dương không quá 13 ký tự.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("The amount must be a positive integer with no more than 13 digits.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             if (transferNote.Length > 25 || transferNote.Any(c => !char.IsLetterOrDigit(c) && c != ' '))
             {
-                MessageBox.Show("Nội dung chuyển tiền không được vượt quá 25 ký tự và không chứa ký tự đặc biệt.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("The transfer description must not exceed 25 characters and must not contain special characters.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -119,8 +128,8 @@ namespace UITFLIX
             {
                 buttonGenerate.Enabled = true;
                 progressBarDonate.Style = ProgressBarStyle.Blocks;
-                progressBarDonate.Visible = false;
                 progressBarDonate.Value = 0;
+                progressBarDonate.Visible = false;
             }
 
         }
@@ -135,20 +144,6 @@ namespace UITFLIX
                 graphics.DrawImage(image, 0, 0, width, height);
             }
             return resized;
-        }
-
-        private void labelAmount_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Donate_Load(object sender, EventArgs e)
-        {
-            labelQRCode.BringToFront();
-            textBoxAccountName.Text = "LE NGUYEN PHUONG GIANG";
-            textBoxAccountNum.Text = "36510167";
-            textBoxAccountName.ReadOnly = true;
-            textBoxAccountNum.ReadOnly = true;
         }
     }
 }

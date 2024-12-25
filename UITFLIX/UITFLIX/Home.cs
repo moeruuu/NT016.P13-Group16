@@ -335,50 +335,6 @@ namespace UITFLIX
         {
             await RefreshWatchedVideos();
         }
-        private void HighlightVideo(VideoControl item, JToken video)
-        {
-            if (selectedVideoItem != null)
-            {
-                selectedVideoItem.BackColor = Color.LightBlue;
-                //selectedVideoItem.ForeColor = Color.White; //thêm
-                selectedVideoItem.BorderStyle = BorderStyle.None;
-                selectedVideoItem.Padding = new Padding(0);
-            }
-            selectedVideoItem = item;
-            item.BackColor = Color.MidnightBlue;
-            item.ForeColor = Color.MidnightBlue;
-            item.BorderStyle = BorderStyle.FixedSingle;
-            item.Padding = new Padding(5);
-            Color paddingColor = Color.MidnightBlue;
-            if (item.Tag == null)
-            {
-                item.Tag = video["id"]?.ToString();
-            }
-            iconDeleteVideo.Click -= iconDeleteVideo_Click;
-            iconDeleteVideo.Click += iconDeleteVideo_Click;
-
-        }
-
-        private async Task DeleteWatchedVideo(string videoId)
-        {
-            try
-            {
-                var result = await videoService.RemoveWatchedVideo(videoId, accesstoken);
-                if (result)
-                {
-                    await RefreshWatchedVideos();
-                    MessageBox.Show("The selected video was removed successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    MessageBox.Show("Unable to remove the selected video!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"{ex.Message}\n{ex.StackTrace}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
 
         private async Task RefreshWatchedVideos()
         {
@@ -433,12 +389,65 @@ namespace UITFLIX
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"{ex.Message}\n{ex.StackTrace}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
                 progressupload.Visible = false;
                 this.Enabled = true;
+            }
+        }
+
+        private void HighlightVideo(VideoControl item, JToken video)
+        {
+            if (selectedVideoItem != null)
+            {
+                selectedVideoItem.BackColor = Color.LightBlue;
+                selectedVideoItem.BorderStyle = BorderStyle.None;
+                selectedVideoItem.Padding = new Padding(0);
+            }
+            selectedVideoItem = item;
+            item.BackColor = Color.Teal;
+            item.ForeColor = Color.LightBlue;
+            item.BorderStyle = BorderStyle.FixedSingle;
+            item.Padding = new Padding(5);
+            Color paddingColor = Color.LightBlue;
+            if (item.Tag == null)
+                item.Tag = video["id"]?.ToString();
+        }
+
+        //Xóa watched video
+        private async void iconDeleteVideo_Click(object sender, EventArgs e)
+        {
+            if (selectedVideoItem != null && selectedVideoItem.Tag != null)
+            {
+                var res = MessageBox.Show("Would you like to remove this video from your watched videos?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (res == DialogResult.Yes)
+                {
+                    string videoId = selectedVideoItem.Tag.ToString();
+                    await DeleteWatchedVideo(videoId);
+                }
+            }
+            else
+                MessageBox.Show("Unable to find the video to remove!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        private async Task DeleteWatchedVideo(string videoId)
+        {
+            try
+            {
+                var result = await videoService.RemoveWatchedVideo(videoId, accesstoken);
+                if (result)
+                {
+                    await RefreshWatchedVideos();
+                    MessageBox.Show("The selected video was removed successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                    MessageBox.Show("Unable to remove the selected video!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -693,6 +702,16 @@ namespace UITFLIX
             }
         }
 
+        private void searchtb_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                this.ActiveControl = null;
+                e.SuppressKeyPress = true;
+                btnSearch_Click(btnSearch, EventArgs.Empty);
+            }
+        }
+
         //Logout
         private async void logout_Click(object sender, EventArgs e)
         {
@@ -770,30 +789,8 @@ namespace UITFLIX
 
         }
 
-        private void searchtb_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                this.ActiveControl = null;
-                e.SuppressKeyPress = true;
-                btnSearch_Click(btnSearch, EventArgs.Empty);
-            }
-        }
-
-        private async void iconDeleteVideo_Click(object sender, EventArgs e)
-        {
-            if (selectedVideoItem != null && selectedVideoItem.Tag != null)
-            {
-                string videoId = selectedVideoItem.Tag.ToString();
-                await DeleteWatchedVideo(videoId);
-            }
-            else
-            {
-                MessageBox.Show("Unable to find the video to remove!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
+        //Donate
+        private void pictureBoxDonate_Click(object sender, EventArgs e)
         {
             Donate donate = new Donate(accesstoken);
             donate.ShowDialog();

@@ -407,7 +407,7 @@
             progressupload.Location = new Point(5, 7);
             progressupload.Margin = new Padding(2);
             progressupload.Name = "progressupload";
-            progressupload.Size = new Size(675, 23);
+            progressupload.Size = new Size(683, 23);
             progressupload.TabIndex = 28;
             // 
             // tbidroom
@@ -528,12 +528,12 @@
             pictureBoxDonate.BackgroundImage = Properties.Resources.charity;
             pictureBoxDonate.BackgroundImageLayout = ImageLayout.Zoom;
             pictureBoxDonate.Image = Properties.Resources.donate;
-            pictureBoxDonate.Location = new Point(718, 5);
+            pictureBoxDonate.Location = new Point(722, 4);
             pictureBoxDonate.Name = "pictureBoxDonate";
             pictureBoxDonate.Size = new Size(34, 27);
             pictureBoxDonate.TabIndex = 33;
             pictureBoxDonate.TabStop = false;
-            pictureBoxDonate.Click += pictureBox1_Click;
+            pictureBoxDonate.Click += pictureBoxDonate_Click;
             // 
             // iconDeleteVideo
             // 
@@ -544,7 +544,7 @@
             iconDeleteVideo.IconColor = Color.DarkRed;
             iconDeleteVideo.IconFont = FontAwesome.Sharp.IconFont.Auto;
             iconDeleteVideo.IconSize = 25;
-            iconDeleteVideo.Location = new Point(685, 6);
+            iconDeleteVideo.Location = new Point(693, 6);
             iconDeleteVideo.Name = "iconDeleteVideo";
             iconDeleteVideo.Size = new Size(25, 25);
             iconDeleteVideo.TabIndex = 32;

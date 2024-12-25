@@ -106,6 +106,8 @@ namespace UITFLIX.Controllers
 
         private void VideoControl_MouseLeave(object sender, EventArgs e)
         {
+            if(this.BackColor == Color.Teal)
+                return;
             this.BackColor = Color.LightBlue;
         }
     }
