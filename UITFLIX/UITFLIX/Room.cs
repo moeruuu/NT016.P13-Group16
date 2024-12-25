@@ -45,6 +45,7 @@ namespace UITFLIX
 
         private HubConnection connection;
         private static readonly string huburl = @"https://localhost:7292/videohub";
+        private int syncInterval = 1000;
 
         public Room(string token, string roomid, JObject in4)
         {
@@ -54,7 +55,6 @@ namespace UITFLIX
             toolTip = new System.Windows.Forms.ToolTip();
             coopService = new CoopService();
             userService = new UserService();
-
             userinfo = in4;
             this.roomid = roomid;
             IDRoom.Text = roomid;
@@ -63,8 +63,6 @@ namespace UITFLIX
             this.Controls.Add(axWindowsMediaPlayerVideo);
             axWindowsMediaPlayerVideo.Size = new Size(1060, 562);
             axWindowsMediaPlayerVideo.Location = new Point(12, 79);
-
-            txtChat.AllowDrop = true;
 
             IntializeEvent();
             namefilm.Text = "";
@@ -107,6 +105,14 @@ namespace UITFLIX
             await RegisterEvent();
             await ShowRCMVideo();
             await connection.InvokeAsync("SendMessage", userinfo["user"]["fullname"].ToString(), roomid, "has joined room!");
+        }
+
+        private string SetLabelText(string text, int max)
+        {
+            if (text.Length > max)
+                return text.Substring(0, max) + "...";
+            else
+                return text;
         }
 
         private async Task StartConnection()
@@ -160,7 +166,6 @@ namespace UITFLIX
                             {
                                 dgvQueue.Invoke(new Action(() =>
                                 {
-
                                     dgvQueue.ForeColor = Color.MidnightBlue;
                                     dgvQueue.Rows.Add(
                                         dgvQueue.Rows.Count,
@@ -188,7 +193,6 @@ namespace UITFLIX
                         {
                             axWindowsMediaPlayerVideo.uiMode = "none";
                             axWindowsMediaPlayerVideo.Ctlcontrols.stop();
-                            //axWindowsMediaPlayerVideo.URL = null;
                             axWindowsMediaPlayerVideo.URL = stream;
                             axWindowsMediaPlayerVideo.Ctlcontrols.play();
                         }));
@@ -206,7 +210,7 @@ namespace UITFLIX
 
             connection.On<double>("ReceivePlaybackPosition", position =>
             {
-                if (Math.Abs(axWindowsMediaPlayerVideo.Ctlcontrols.currentPosition - position) > 0.5)
+                if (Math.Abs(axWindowsMediaPlayerVideo.Ctlcontrols.currentPosition - position) > 1.0)
                 {
                     axWindowsMediaPlayerVideo.Ctlcontrols.currentPosition = position;
                 }
@@ -215,17 +219,33 @@ namespace UITFLIX
 
         private void OnPlayStateChange(object sender, AxWMPLib._WMPOCXEvents_PlayStateChangeEvent e)
         {
-            if (e.newState == (int)WMPLib.WMPPlayState.wmppsMediaEnded || e.newState == (int)WMPLib.WMPPlayState.wmppsStopped)
-                PlayVideo();
             if (e.newState == (int)WMPLib.WMPPlayState.wmppsPlaying)
                 StartSyncTimer();
-            else if (e.newState == (int)WMPLib.WMPPlayState.wmppsStopped)
+            else if (e.newState == (int)WMPLib.WMPPlayState.wmppsMediaEnded || e.newState == (int)WMPLib.WMPPlayState.wmppsStopped || e.newState == (int)WMPPlayState.wmppsPaused)
                 StopSyncTimer();
         }
 
         private void StopSyncTimer()
         {
             playback?.Stop();
+        }
+
+        private void StartSyncTimer()
+        {
+            if (!leaveroom)
+            {
+                playback?.Stop();
+                playback = new System.Windows.Forms.Timer { Interval = syncInterval };
+                playback.Tick += async (sender, e) =>
+                {
+                    if (connection.State == HubConnectionState.Connected)
+                    {
+                        var currentPosition = axWindowsMediaPlayerVideo.Ctlcontrols.currentPosition;
+                        await connection.InvokeAsync("SyncPlaybackPosition", roomid, currentPosition);
+                    }
+                };
+                playback.Start();
+            }
         }
 
         public async Task ShowRCMVideo()
@@ -279,15 +299,6 @@ namespace UITFLIX
             }
         }
 
-        private string SetLabelText(string text, int max)
-        {
-            if (text.Length > max)
-                return text.Substring(0, max) + "...";
-            else
-                return text;
-        }
-
-
         private async void AddVideo(string videoid)
         {
             try
@@ -303,7 +314,7 @@ namespace UITFLIX
                         await PlayVideo();
                 }
                 else
-                    MessageBox.Show("Can't add video", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Cannot add video", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception ex)
             {
@@ -311,28 +322,11 @@ namespace UITFLIX
             }
         }
 
-        private void StartSyncTimer()
-        {
-            if (!leaveroom)
-            {
-                playback = new System.Windows.Forms.Timer { Interval = 500 }; //Gửi video mới 0.5s
-                playback.Tick += async (sender, e) =>
-                {
-                    if (connection.State == HubConnectionState.Connected)
-                    {
-                        double currentposition = axWindowsMediaPlayerVideo.Ctlcontrols.currentPosition;
-                        await connection.InvokeAsync("SyncPlaybackPosition", roomid, currentposition);
-                    }
-                };
-                playback.Start();
-            }
-        }
-
         private async Task PlayVideo()
         {
             videoqueue = await coopService.GetVideoQueue(accesstoken, roomid);
             if (videoqueue == null || videoqueue.Count <= index) return;
-            await PlayNextVideo();
+                await PlayNextVideo();
         }
 
         private async Task PlayNextVideo()
@@ -352,12 +346,6 @@ namespace UITFLIX
 
                         if (getmovie != null)
                             await connection.InvokeAsync("SendMessage", getmovie["title"].ToString(), roomid, $"is playing.");
-                        /*
-                                                while (axWindowsMediaPlayerVideo.playState != WMPPlayState.wmppsMediaEnded)
-                                                {
-                                                    await Task.Delay(1000); 
-                                                }*/
-
                     }
                     index++;
                 }

@@ -462,7 +462,7 @@ namespace UITFLIX
             iconDeleteVideo.Visible = false;
             filevideo.Text = "";
             fileimage.Text = "";
-            bottompanel.Visible = true;
+            bottompanel.Visible = false;
             progressupload.Visible = false;
             information.Visible = false;
 
@@ -778,7 +778,10 @@ namespace UITFLIX
 
                 var res = await coopService.FindRoom(accesstoken, tbidroom.Text.Trim());
                 if (res)
+                {
                     new Room(accesstoken, tbidroom.Text.Trim(), Userinfo).ShowDialog();
+                    tbidroom.Text = null;
+                }
                 else
                     MessageBox.Show("This room does not exist!");
             }

@@ -640,7 +640,7 @@
             Controls.Add(leftside);
             Controls.Add(tbdescription);
             Controls.Add(fpnVideos);
-            FormBorderStyle = FormBorderStyle.None;
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(2);
             MaximizeBox = false;

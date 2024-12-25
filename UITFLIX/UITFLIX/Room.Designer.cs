@@ -157,6 +157,7 @@
             // 
             // txtChat
             // 
+            txtChat.AllowDrop = true;
             txtChat.Font = new Font("Cambria", 10F);
             txtChat.ForeColor = Color.MidnightBlue;
             txtChat.Location = new Point(1102, 614);
@@ -203,9 +204,12 @@
             dgvQueue.GridColor = Color.MidnightBlue;
             dgvQueue.Location = new Point(1102, 731);
             dgvQueue.Margin = new Padding(2);
+            dgvQueue.MultiSelect = false;
             dgvQueue.Name = "dgvQueue";
+            dgvQueue.ReadOnly = true;
             dgvQueue.RowHeadersVisible = false;
             dgvQueue.RowHeadersWidth = 62;
+            dgvQueue.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvQueue.Size = new Size(382, 248);
             dgvQueue.TabIndex = 12;
             // 
@@ -279,7 +283,7 @@
             Controls.Add(namefilm);
             Controls.Add(panel1);
             ForeColor = Color.LightBlue;
-            FormBorderStyle = FormBorderStyle.None;
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(2);
             Name = "Room";
