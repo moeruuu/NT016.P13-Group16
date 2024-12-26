@@ -1,46 +1,4 @@
-//using Newtonsoft.Json;
-//using System.Text;
-//using UITFLIX.Models;
-
-//namespace UITFLIX.Services
-//{
-//    public class DonateService
-//    {
-//        private readonly string _accessToken;
-
-//        public static readonly HttpClient httpClient = new HttpClient
-//        {
-//            BaseAddress = new Uri("https://localhost:7292/"),
-//            Timeout = TimeSpan.FromSeconds(60)
-//        };
-
-//        public DonateService(string accessToken)
-//        {
-//            _accessToken = accessToken;
-//            httpClient.DefaultRequestHeaders.Authorization =
-//                new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", _accessToken);
-//        }
-
-//        public async Task<DonateResponse?> GenerateQRCodeAsync(DonateRequest request)
-//        {
-//            var json = JsonConvert.SerializeObject(request);
-//            var content = new StringContent(json, Encoding.UTF8, "application/json");
-//            var response = await httpClient.PostAsync("/api/Donate/GenerateQRCode", content);
-
-//            if (response.IsSuccessStatusCode)
-//            {
-//                var responseContent = await response.Content.ReadAsStringAsync();
-//                return JsonConvert.DeserializeObject<DonateResponse>(responseContent);
-//            }
-//            else
-//            {
-//                throw new Exception($"Error generating QR Code: {response.ReasonPhrase}");
-//            }
-//        }
-//    }
-//}
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -62,17 +20,14 @@ namespace UITFLIX.Services
         {
             using (MemoryStream ms = new MemoryStream())
             {
-                // Convert Image to byte[]
+                //Đổi hình ảnh sang chuỗi byte[]
                 image.Save(ms, format);
                 byte[] imageBytes = ms.ToArray();
 
-                // Convert byte[] to Base64 string
                 string base64String = Convert.ToBase64String(imageBytes);
 
-                // Get the appropriate MIME type
                 string mimeType = GetMimeType(format);
 
-                // Return the Base64 string with the MIME type prefix
                 return $"data:{mimeType};base64,{base64String}";
             }
         }
