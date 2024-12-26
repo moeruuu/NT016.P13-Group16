@@ -254,6 +254,7 @@
             // iconSend
             // 
             iconSend.BackColor = Color.Transparent;
+            iconSend.Cursor = Cursors.Hand;
             iconSend.ForeColor = Color.DarkSlateGray;
             iconSend.IconChar = FontAwesome.Sharp.IconChar.ArrowRight;
             iconSend.IconColor = Color.DarkSlateGray;

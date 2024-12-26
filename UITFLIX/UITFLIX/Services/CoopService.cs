@@ -199,5 +199,72 @@ namespace UITFLIX.Services
                 return null;
             }
         }
+
+        public async Task<bool> DeleteVideo(string accesstoken, string roomid, string videoid)
+        {
+            try
+            {
+                var delete = new
+                {
+                    roomid = roomid,
+                    videoid = videoid
+                };
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accesstoken);
+                var json = JsonConvert.SerializeObject(delete);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await httpClient.PatchAsync("/api/Coop/DeleteVideo", content);
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return false;
+            }
+        }
+
+        public async Task<string> PlayingVideo(string accesstoken, string roomid, string videoid)
+        {
+            try
+            {
+                var video = new
+                {
+                    roomid = roomid,
+                    videoid = videoid
+                };
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accesstoken);
+                var json = JsonConvert.SerializeObject(video);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await httpClient.PatchAsync("/api/Coop/PlayVideo", content);
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadAsStringAsync();
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return null;
+            }
+        }
+
+        public async Task<string> GetVideoPlaying(string accesstoken, string roomid)
+        {
+            try
+            {
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accesstoken);
+                var response = await httpClient.GetAsync($"/api/Coop/GetVideoPlaying/{roomid}");
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadAsStringAsync();
+                }
+                return null;
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return null;
+            }
+        }
     }
 }
