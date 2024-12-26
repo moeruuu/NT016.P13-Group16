@@ -193,11 +193,11 @@
             labelThank.AutoSize = true;
             labelThank.Font = new Font("Cambria", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             labelThank.ForeColor = Color.Teal;
-            labelThank.Location = new Point(66, 16);
+            labelThank.Location = new Point(54, 9);
             labelThank.Name = "labelThank";
-            labelThank.Size = new Size(685, 23);
+            labelThank.Size = new Size(689, 23);
             labelThank.TabIndex = 13;
-            labelThank.Text = "Support us by scanning the QR code. We deeply appreciate your support<3";
+            labelThank.Text = "Support us by scanning the QR code. We deeply appreciate your support <3";
             // 
             // Donate
             // 
