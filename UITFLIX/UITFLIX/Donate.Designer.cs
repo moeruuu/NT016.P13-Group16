@@ -223,6 +223,7 @@
             MdiChildrenMinimizedAnchorBottom = false;
             MinimizeBox = false;
             Name = "Donate";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Donate";
             Load += Donate_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBoxQRCode).EndInit();
