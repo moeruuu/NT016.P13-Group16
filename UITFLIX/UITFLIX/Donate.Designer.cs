@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Donate));
             labelAccountNum = new Label();
             labelAccountName = new Label();
             labelAmount = new Label();
@@ -129,7 +130,7 @@
             buttonGenerate.ForeColor = Color.MidnightBlue;
             buttonGenerate.Location = new Point(170, 415);
             buttonGenerate.Name = "buttonGenerate";
-            buttonGenerate.Size = new Size(176, 29);
+            buttonGenerate.Size = new Size(255, 29);
             buttonGenerate.TabIndex = 8;
             buttonGenerate.Text = "Generate QR Code";
             buttonGenerate.UseVisualStyleBackColor = true;
@@ -139,7 +140,7 @@
             // 
             pictureBoxQRCode.BackColor = Color.LightBlue;
             pictureBoxQRCode.BackgroundImageLayout = ImageLayout.Zoom;
-            pictureBoxQRCode.Location = new Point(18, 36);
+            pictureBoxQRCode.Location = new Point(18, 21);
             pictureBoxQRCode.Name = "pictureBoxQRCode";
             pictureBoxQRCode.Size = new Size(295, 302);
             pictureBoxQRCode.TabIndex = 9;
@@ -173,7 +174,7 @@
             panelQR.ForeColor = Color.White;
             panelQR.Location = new Point(457, 64);
             panelQR.Name = "panelQR";
-            panelQR.Size = new Size(331, 367);
+            panelQR.Size = new Size(331, 380);
             panelQR.TabIndex = 12;
             // 
             // labelQRCode
@@ -181,7 +182,7 @@
             labelQRCode.AutoSize = true;
             labelQRCode.Font = new Font("Cambria", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             labelQRCode.ForeColor = Color.MidnightBlue;
-            labelQRCode.Location = new Point(-1, -1);
+            labelQRCode.Location = new Point(124, 341);
             labelQRCode.Name = "labelQRCode";
             labelQRCode.Size = new Size(86, 23);
             labelQRCode.TabIndex = 0;
@@ -217,6 +218,7 @@
             Controls.Add(labelAccountNum);
             Controls.Add(panelQR);
             FormBorderStyle = FormBorderStyle.FixedDialog;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             MdiChildrenMinimizedAnchorBottom = false;
             MinimizeBox = false;
