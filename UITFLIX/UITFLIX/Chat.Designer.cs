@@ -139,7 +139,7 @@
             labelattachment.AutoSize = true;
             labelattachment.Font = new Font("Cambria", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             labelattachment.ForeColor = Color.MidnightBlue;
-            labelattachment.Location = new Point(34, 492);
+            labelattachment.Location = new Point(29, 492);
             labelattachment.Name = "labelattachment";
             labelattachment.Size = new Size(111, 23);
             labelattachment.TabIndex = 7;
@@ -148,6 +148,8 @@
             // textBoxName
             // 
             textBoxName.BackColor = SystemColors.Window;
+            textBoxName.CausesValidation = false;
+            textBoxName.Enabled = false;
             textBoxName.Font = new Font("Cambria", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxName.ForeColor = Color.MidnightBlue;
             textBoxName.Location = new Point(225, 90);
@@ -159,6 +161,8 @@
             // textBoxEmail
             // 
             textBoxEmail.BackColor = SystemColors.Window;
+            textBoxEmail.CausesValidation = false;
+            textBoxEmail.Enabled = false;
             textBoxEmail.Font = new Font("Cambria", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxEmail.ForeColor = Color.MidnightBlue;
             textBoxEmail.Location = new Point(225, 142);
@@ -169,6 +173,7 @@
             // 
             // textBoxSubject
             // 
+            textBoxSubject.CausesValidation = false;
             textBoxSubject.Font = new Font("Cambria", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxSubject.ForeColor = Color.MidnightBlue;
             textBoxSubject.Location = new Point(225, 239);
@@ -178,6 +183,7 @@
             // 
             // richTextBoxBody
             // 
+            richTextBoxBody.CausesValidation = false;
             richTextBoxBody.Font = new Font("Cambria", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             richTextBoxBody.ForeColor = Color.MidnightBlue;
             richTextBoxBody.Location = new Point(225, 293);
@@ -201,15 +207,16 @@
             // progressBar
             // 
             progressBar.ForeColor = Color.CadetBlue;
-            progressBar.Location = new Point(3, 598);
+            progressBar.Location = new Point(-1, 598);
             progressBar.Name = "progressBar";
-            progressBar.Size = new Size(633, 29);
+            progressBar.Size = new Size(637, 29);
             progressBar.TabIndex = 16;
             progressBar.Visible = false;
             // 
             // textBoxEmailPassword
             // 
             textBoxEmailPassword.BackColor = SystemColors.Window;
+            textBoxEmailPassword.CausesValidation = false;
             textBoxEmailPassword.Font = new Font("Cambria", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxEmailPassword.ForeColor = Color.MidnightBlue;
             textBoxEmailPassword.Location = new Point(225, 193);
@@ -237,10 +244,10 @@
             iconEye.IconChar = FontAwesome.Sharp.IconChar.EyeSlash;
             iconEye.IconColor = Color.MidnightBlue;
             iconEye.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            iconEye.IconSize = 27;
-            iconEye.Location = new Point(544, 193);
+            iconEye.IconSize = 24;
+            iconEye.Location = new Point(544, 195);
             iconEye.Name = "iconEye";
-            iconEye.Size = new Size(27, 27);
+            iconEye.Size = new Size(24, 24);
             iconEye.TabIndex = 35;
             iconEye.TabStop = false;
             iconEye.Click += iconEye_Click;
@@ -277,9 +284,12 @@
             // textBoxAttachmentPath
             // 
             textBoxAttachmentPath.BackColor = SystemColors.Control;
+            textBoxAttachmentPath.CausesValidation = false;
+            textBoxAttachmentPath.Enabled = false;
             textBoxAttachmentPath.Font = new Font("Cambria", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxAttachmentPath.Location = new Point(225, 492);
             textBoxAttachmentPath.Name = "textBoxAttachmentPath";
+            textBoxAttachmentPath.ReadOnly = true;
             textBoxAttachmentPath.Size = new Size(346, 27);
             textBoxAttachmentPath.TabIndex = 38;
             // 

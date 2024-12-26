@@ -527,6 +527,7 @@
             // 
             pictureBoxDonate.BackgroundImage = Properties.Resources.charity;
             pictureBoxDonate.BackgroundImageLayout = ImageLayout.Zoom;
+            pictureBoxDonate.Cursor = Cursors.Hand;
             pictureBoxDonate.Image = Properties.Resources.donate;
             pictureBoxDonate.Location = new Point(722, 4);
             pictureBoxDonate.Name = "pictureBoxDonate";

@@ -210,7 +210,7 @@ namespace UITFLIX
             }
             catch
             {
-                MessageBox.Show("This image exceeds our allowed size limit", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("No valid image found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
 

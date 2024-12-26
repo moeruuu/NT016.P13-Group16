@@ -327,8 +327,8 @@ namespace UITFLIX
         {
             this.Hide();
             PVideo videos = new PVideo(video, accesstoken, videoService, Userinfo);
-            videos.ShowDialog();
             this.Close();
+            videos.ShowDialog();
         }
 
         private async void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

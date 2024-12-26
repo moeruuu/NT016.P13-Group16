@@ -42,6 +42,7 @@ namespace UITFLIX
 
             LoadUserEmailPasswordAsync();
             iconEye.BringToFront();
+            textBoxEmailPassword.Focus();
         }
         public async Task LoadUserEmailPasswordAsync()
         {

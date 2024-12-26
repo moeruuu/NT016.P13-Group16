@@ -60,6 +60,7 @@
             // 
             richTextBox1.BackColor = Color.LightBlue;
             richTextBox1.BorderStyle = BorderStyle.None;
+            richTextBox1.CausesValidation = false;
             richTextBox1.Font = new Font("Cambria", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             richTextBox1.ForeColor = Color.MidnightBlue;
             richTextBox1.Location = new Point(3, 3);
@@ -93,6 +94,7 @@
             // 
             richTextBox2.BackColor = Color.LightBlue;
             richTextBox2.BorderStyle = BorderStyle.None;
+            richTextBox2.CausesValidation = false;
             richTextBox2.Font = new Font("Cambria", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             richTextBox2.ForeColor = Color.MidnightBlue;
             richTextBox2.Location = new Point(3, 1027);
@@ -100,7 +102,7 @@
             richTextBox2.ReadOnly = true;
             richTextBox2.Size = new Size(847, 79);
             richTextBox2.TabIndex = 5;
-            richTextBox2.Text = "- B2: Truy cập: https://myaccount.google.com/apppasswords\n- B3: Tạo một app password và lưu lại để sử dụng cho việc xác thực với gmail server\n*Lưu ý: Cần xóa dấu cách";
+            richTextBox2.Text = "- B2: Truy cập: https://myaccount.google.com/apppasswords\n- B3: Tạo một app password và lưu lại để sử dụng cho việc xác thực với gmail server\n*Lưu ý: Cần xóa các khoảng cách";
             // 
             // pictureBox3
             // 
@@ -136,7 +138,7 @@
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             Name = "Instruction";
-            Text = "Instruction";
+            Text = "Instruction (Vietnamese ver)";
             Load += Instruction_Load;
             flowLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
