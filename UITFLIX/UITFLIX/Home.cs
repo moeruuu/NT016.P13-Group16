@@ -74,6 +74,12 @@ namespace UITFLIX
             searchtb.Font = new Font(searchtb.Font, FontStyle.Italic);
             searchtb.ScrollBars = RichTextBoxScrollBars.None;
 
+            toolTip.SetToolTip(btnSearch, "Search");
+            toolTip.SetToolTip(logout, "Exit");
+            toolTip.SetToolTip(chat, "Chat to admin");
+            toolTip.SetToolTip(pictureBoxDonate, "Donate");
+            toolTip.SetToolTip(iconDeleteVideo, "Remove");
+
             //Mở new videos ngay khi mở form
             this.Load += (s, e) => btnnewvideo.PerformClick();
         }

@@ -25,6 +25,7 @@ namespace UITFLIX
         private readonly VideoService videoService;
         private readonly MailService mailService;
         private readonly CoopService coopService;
+        private System.Windows.Forms.ToolTip toolTip;
 
         public static Point? adminLocation;
 
@@ -50,6 +51,7 @@ namespace UITFLIX
             videoService = new VideoService();
             mailService = new MailService(accesstoken);
             coopService = new CoopService();
+            toolTip = new System.Windows.Forms.ToolTip();
 
             tbSearch.Text = " Search";
             tbSearch.ForeColor = Color.CadetBlue;
@@ -60,6 +62,10 @@ namespace UITFLIX
             dgvEmails.AutoGenerateColumns = false;
 
             SetInfo();
+            toolTip.SetToolTip(btnSearch, "Search");
+            toolTip.SetToolTip(logout, "Exit");
+            toolTip.SetToolTip(iconRemove, "Remove");
+            toolTip.SetToolTip(iconRefresh, "Refresh");
 
             //Load tab Emails khi mở lên
             this.Load += (s, e) =>
