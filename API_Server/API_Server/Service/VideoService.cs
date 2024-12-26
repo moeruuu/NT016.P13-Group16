@@ -260,7 +260,7 @@ namespace API_Server.Service
             else
             {
                 numrate = video.NumRate + 1;
-                rating = (double)((video.Rating * video.NumRate) + modelrating.rating) / numrate;
+                rating = Math.Round((double)((video.Rating * video.NumRate) + modelrating.rating) / numrate, 1);
             }
 
             var update = Builders<Video>.Update.Set(v => v.Rating, rating).Set(v => v.NumRate, numrate);
