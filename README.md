@@ -37,7 +37,7 @@ Link database:
 
 ## Tổng quan về ứng dụng
 ### Kiến trúc hệ thống
-<img src="https://i.imgur.com/tBPSnvm.png" width="700" />
+<img src="https://i.imgur.com/tBPSnvm.png" width="900" />
 
 ### Các tính năng chính của ứng dụng
 Client được chia làm 2 đối tượng chính:
