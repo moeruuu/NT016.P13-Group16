@@ -599,7 +599,7 @@ namespace UITFLIX
                 if (await videoService.UploadVideoAsync(selectedvideofile, selectedimagefile, tbnamefilm.Text.Trim(), tbdescription.Text.Trim(), cbtag.SelectedItem.ToString(), Userinfo["access_token"].ToString()))
                 {
 
-                    MessageBox.Show("Uploaded video successfully", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Uploaded video successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     tbdescription.Clear();
                     tbnamefilm.Clear();
                     fileimage.Text = "";
