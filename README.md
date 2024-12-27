@@ -1,5 +1,4 @@
-<img src="https://i.imgur.com/DjYrvRL.png" width="100" />
-
+<img src="https://i.imgur.com/DjYrvRL.png" width="70" />
 # HỆ THỐNG UPLOAD VÀ PHÁT VIDEO
 Lớp lý thuyết môn lập trình mạng căn bản NT106.P13
 
