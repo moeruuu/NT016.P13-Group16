@@ -40,7 +40,7 @@ Link database:
 <img src="https://i.imgur.com/tBPSnvm.png" width="900" />
 
 ### Các tính năng chính của ứng dụng
-*Lưu ý: Chạy web api server trước khi chạy client winform!
+*Lưu ý: Chạy web api server trước khi chạy client winform!*
 Client được chia làm 2 đối tượng chính:
  - User (Người dùng thông thường) có thể thực hiện các tác vụ cơ bản như upload, tải và xem video.
  
