@@ -1,7 +1,9 @@
 
 # HỆ THỐNG UPLOAD VÀ PHÁT VIDEO
 Lớp lý thuyết môn lập trình mạng căn bản NT106.P13
+
 GVHD: Lê Minh Khánh Hội
+
 Nhóm 16
 
 Thành viên :
@@ -14,7 +16,9 @@ Thành viên :
 Ứng dụng dùng để hiện thực đồ án ***Hệ thống upload và phát video*** được xây dựng theo mô hình client-server. Sản phẩm được áp dụng các kiến thức đã học trong môn Lập trình mạng căn bản bao gồm: giao tiếp API, sockets, điều khiển đa luồng, bảo mật dữ liệu, ... Điểm nổi bật của ứng dụng là giao diện thân thiện, dễ nhìn và tính năng xem coop cho phép nhiều user cùng xem video với nhau. 
 
 Server folder: API_Server
+
 Client folder: UITFLIX
+
 Link database: 
 
     mongodb+srv://tester:10dltm@clusteruyenthy.wttnb.mongodb.net/
