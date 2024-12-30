@@ -6,8 +6,19 @@ namespace API_Server
 {
     public class EncryptionService
     {
-        private readonly string Key = "AAAAAAAAAAAAAAAA"; //16
-        private readonly string IV = "BBBBBBBBBBBBBBBB";
+        private readonly string Key;
+        private readonly string IV;
+
+        public EncryptionService(IConfiguration configuration)
+        {
+            Key = configuration["Encryption:Key"];
+            IV = configuration["Encryption:IV"];
+
+            if (string.IsNullOrEmpty(Key) || string.IsNullOrEmpty(IV))
+            {
+                throw new ArgumentException("Encryption key or IV is not configured properly.");
+            }
+        }
 
         public string Encrypt(string plaintext)
         {

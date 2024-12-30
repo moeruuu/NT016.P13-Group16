@@ -179,7 +179,7 @@
             textBoxSubject.Location = new Point(225, 239);
             textBoxSubject.Name = "textBoxSubject";
             textBoxSubject.Size = new Size(346, 29);
-            textBoxSubject.TabIndex = 10;
+            textBoxSubject.TabIndex = 11;
             // 
             // richTextBoxBody
             // 
@@ -189,7 +189,7 @@
             richTextBoxBody.Location = new Point(225, 293);
             richTextBoxBody.Name = "richTextBoxBody";
             richTextBoxBody.Size = new Size(346, 166);
-            richTextBoxBody.TabIndex = 13;
+            richTextBoxBody.TabIndex = 12;
             richTextBoxBody.Text = "";
             // 
             // buttonSend
@@ -223,7 +223,7 @@
             textBoxEmailPassword.Name = "textBoxEmailPassword";
             textBoxEmailPassword.PasswordChar = '*';
             textBoxEmailPassword.Size = new Size(346, 29);
-            textBoxEmailPassword.TabIndex = 34;
+            textBoxEmailPassword.TabIndex = 10;
             // 
             // label2
             // 
@@ -291,7 +291,7 @@
             textBoxAttachmentPath.Name = "textBoxAttachmentPath";
             textBoxAttachmentPath.ReadOnly = true;
             textBoxAttachmentPath.Size = new Size(346, 27);
-            textBoxAttachmentPath.TabIndex = 38;
+            textBoxAttachmentPath.TabIndex = 13;
             // 
             // Chat
             // 

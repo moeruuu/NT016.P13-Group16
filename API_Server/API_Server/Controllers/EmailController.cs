@@ -25,10 +25,11 @@ namespace API_Server.Controllers
         private readonly UserService userService;
         private readonly EncryptionService encryptionService;
 
-        public EmailController(EmailService emailService, UserService userService)
+        public EmailController(EmailService emailService, UserService userService, EncryptionService encryptionService)
         {
             this.emailService = emailService;
             this.userService = userService;
+            this.encryptionService = encryptionService;
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
@@ -48,7 +49,6 @@ namespace API_Server.Controllers
                     return BadRequest("No email password saved.");
 
                 // Giải mã mật khẩu
-                var encryptionService = new EncryptionService();
                 var plaintextPassword = encryptionService.Decrypt(user.EmailPassword);
                 if (!string.IsNullOrEmpty(emailRequest.EmailPassword) &&
                     !emailRequest.EmailPassword.Equals(plaintextPassword))

@@ -23,16 +23,18 @@ namespace API_Server.Service
         private readonly IMongoCollection<User> users;
         private readonly EmailService emailService;
         private readonly VideoService videoService;
+        private readonly EncryptionService encryptionService;
 
         //Lưu dữ liệu tạm thời
         private static Dictionary<string, TempUserData> otpStorage = new Dictionary<string, TempUserData>();
         private readonly ImgurService imgurService;
-        public UserService(IMongoDatabase database, EmailService emailService, ImgurService imgurService, VideoService videoService)
+        public UserService(IMongoDatabase database, EmailService emailService, ImgurService imgurService, VideoService videoService, EncryptionService encryptionService)
         {
             users = database.GetCollection<User>("Users");
             this.emailService = emailService;
             this.imgurService = imgurService;
             this.videoService = videoService;
+            this.encryptionService = encryptionService;
         }
 
         public async Task<User> Register(UserSignUpDTOs SignupDTOs)
@@ -465,7 +467,6 @@ namespace API_Server.Service
         }
         public async Task SaveEncryptedPasswordAsync(string plaintextPassword, ObjectId userId)
         {
-            var encryptionService = new EncryptionService();
             var encryptedPassword = encryptionService.Encrypt(plaintextPassword);
 
             var filter = Builders<User>.Filter.Eq(u => u.UserId, userId);
@@ -475,8 +476,6 @@ namespace API_Server.Service
         }
         public async Task<string?> GetDecryptedPasswordAsync(ObjectId userId)
         {
-            var encryptionService = new EncryptionService();
-
             var user = await GetUserByID(userId);
             if (user == null || string.IsNullOrEmpty(user.EmailPassword))
                 return null;
