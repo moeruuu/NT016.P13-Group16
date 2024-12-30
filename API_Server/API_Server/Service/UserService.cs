@@ -84,11 +84,9 @@ namespace API_Server.Service
 
                 if (existingUser == null)
                     return null;
-                //string hash = HashPassword(LoginDTOs.Password);
-                //if (hash != existingUser.Password)
-                //    return null;
+                string hash = HashPassword(LoginDTOs.Password);
                 if (!VerifyPassword(existingUser.Password, LoginDTOs.Password))
-                    throw new Exception("Invalid password!");
+                    return null;
 
                 var update = Builders<User>.Update.Set(u => u.IsOnline, true);
                 await users.UpdateOneAsync(filter, update);

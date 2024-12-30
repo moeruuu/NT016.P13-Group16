@@ -127,6 +127,7 @@ namespace API_Server.Service
             {
                 var filter = Builders<Room>.Filter.Eq(r => r.RoomId, videos.roomid);
                 var update = Builders<Room>.Update.Pull(r => r.videoQueues, videos.videoid);
+
                 var rs = await rooms.UpdateOneAsync(filter, update);
                 return rs.ModifiedCount > 0;
             }
@@ -156,6 +157,43 @@ namespace API_Server.Service
                 });
             }
             return newRoomsList;
+        }
+
+        public async Task<string> PlayVideo(AddVideoDTOs playingvideo)
+        {
+            try
+            {
+                var room = Builders<Room>.Filter.Eq(r => r.RoomId, playingvideo.roomid);
+                var existroom = await rooms.Find(room).FirstOrDefaultAsync();
+                if (existroom == null)
+                {
+                    return null;
+                }
+                var update = Builders<Room>.Update.Set(r => r.VideoPlaying, playingvideo.videoid);
+                await rooms.UpdateOneAsync(room, update);
+                return playingvideo.videoid;
+            }
+            catch (Exception ex) {
+                return null;
+            }
+        }
+
+        public async Task<string> GetPlayingVideo(string roomid)
+        {
+            try
+            {
+                var room = Builders<Room>.Filter.Eq(r => r.RoomId, roomid);
+                var existroom = await rooms.Find(room).FirstOrDefaultAsync();
+                if (existroom == null)
+                {
+                    return null;
+                }
+                return existroom.VideoPlaying;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
     }
 

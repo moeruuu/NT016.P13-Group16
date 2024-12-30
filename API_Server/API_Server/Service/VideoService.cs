@@ -82,7 +82,7 @@ namespace API_Server.Service
 
         public async Task<List<Video>> GetTopVideos()
         {
-            var topvideos = await videos.Find(new BsonDocument()).Sort(Builders<Video>.Sort.Descending(v => v.Rating)).ToListAsync();
+            var topvideos = await videos.Find(new BsonDocument()).Sort(Builders<Video>.Sort.Descending(v => v.Rating)).Limit(8).ToListAsync();
             return topvideos;
         }
 

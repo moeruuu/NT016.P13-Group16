@@ -213,5 +213,43 @@ namespace API_Server.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPatch("PlayVideo")]
+        public async Task<IActionResult> PlayVideo(AddVideoDTOs playvideo)
+        {
+            try
+            {
+                var playing = await coopService.PlayVideo(playvideo);
+                if (playing != null)
+                    return Ok(playing);
+                else
+                    return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet("GetVideoPlaying/{roomid}")]
+        public async Task<IActionResult> GetVideoPlaying([FromRoute] string roomid)
+        {
+            try
+            {
+                var res = await coopService.GetPlayingVideo(roomid);
+                if (res == null)
+                {
+                    return BadRequest();
+                }
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
     }
 }
